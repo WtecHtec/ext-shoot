@@ -1,10 +1,10 @@
 import cssText from "data-text:~style.css"
 import type { PlasmoCSConfig } from "plasmo"
 
-import { CountButton } from "~features/count-button"
-
+import { CountButton } from "~component/count-button"
+import SwitchDemo from "~component/switch/switch"
 export const config: PlasmoCSConfig = {
-  matches: ["https://www.plasmo.com/*"]
+  matches: ["<all_urls>"]
 }
 
 export const getStyle = () => {
@@ -15,8 +15,8 @@ export const getStyle = () => {
 
 const PlasmoOverlay = () => {
   return (
-    <div className="plasmo-z-50 plasmo-flex plasmo-fixed plasmo-top-32 plasmo-right-8">
-      <CountButton />
+    <div className="fixed z-50 flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+      <SwitchDemo />
     </div>
   )
 }

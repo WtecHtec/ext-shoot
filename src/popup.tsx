@@ -1,4 +1,4 @@
-import { CountButton } from "~features/count-button"
+import { CountButton } from "~component/count-button"
 
 import "~style.css"
 

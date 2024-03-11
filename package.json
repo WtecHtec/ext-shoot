@@ -14,7 +14,10 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-switch": "^1.0.3",
+    "cmdk": "^1.0.0",
+    "framer-motion": "^11.0.8",
     "plasmo": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",

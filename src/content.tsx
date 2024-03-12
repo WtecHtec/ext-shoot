@@ -20,6 +20,10 @@ const PlasmoOverlay = () => {
   const [open, setOpen] = React.useState(false)
   React.useEffect(() => {
     function listener(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        e.preventDefault()
+        setOpen(false)
+      }
       if (e.key === "f") {
         e.preventDefault()
         setOpen((o) => !o)

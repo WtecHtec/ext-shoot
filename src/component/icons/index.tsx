@@ -1,4 +1,4 @@
-import styles from "./icons.module.scss"
+import React from "react"
 
 export function Logo({
   children,

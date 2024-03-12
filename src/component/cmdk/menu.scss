@@ -45,6 +45,7 @@
   --blue10: hsl(208, 100%, 47.3%);
   --blue11: hsl(211, 100%, 43.2%);
   --blue12: hsl(211, 100%, 15%);
+
   .dark {
     --app-bg: var(--gray1);
 
@@ -303,6 +304,13 @@
     height: 28px;
     letter-spacing: -0.25px;
     margin-right: 8px;
+    &:hover {
+      background: var(--gray4);
+
+      kbd {
+        background: var(--gray7);
+      }
+    }
   }
 
   [cmdk-raycast-clipboard-icon],

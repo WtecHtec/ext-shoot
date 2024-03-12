@@ -5,7 +5,7 @@ module.exports = {
   content: ["./src/**/*.{tsx,html}"],
   darkMode: "media",
   corePlugins: {
-    preflight: false
+    preflight: true,
   },
   theme: {
     extend: {

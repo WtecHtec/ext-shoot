@@ -2,28 +2,21 @@ import * as Popover from "@radix-ui/react-popover"
 import { Command } from "cmdk"
 import React from "react"
 
-import {
-  FigmaIcon,
-  LinearIcon,
-  Logo,
-  RaycastIcon,
-  SlackIcon,
-  YouTubeIcon
-} from "../icons"
+import { getExtensionAll, handleOpenExtensionDetails } from "~utils/management"
 
-import { getExtensionAll, handleOpenOtions, handleOpenExtensionDetails } from "~utils/management"
+import { Logo } from "../icons"
 
 export function RaycastCMDK() {
   const [value, setValue] = React.useState("linear")
   const [extDatas, setExtDatas] = React.useState([])
   const inputRef = React.useRef<HTMLInputElement | null>(null)
   const listRef = React.useRef(null)
-  const getExtensionDatas = async () =>  {
-    const [err, res ] = await getExtensionAll()
-    if (err ||　!Array.isArray(res)) {
+  const getExtensionDatas = async () => {
+    const [err, res] = await getExtensionAll()
+    if (err || !Array.isArray(res)) {
       return
     }
-    console.log('ext-datas===', res)
+    console.log("ext-datas===", res)
     setExtDatas(res)
   }
   React.useEffect(() => {
@@ -33,8 +26,8 @@ export function RaycastCMDK() {
 
   React.useEffect(() => {
     function listener(e: KeyboardEvent) {
-      console.log('e.key---', e.key, value)
-      if (e.key === 'Enter' ) {
+      console.log("e.key---", e.key, value)
+      if (e.key === "Enter") {
         e.preventDefault()
         // handleOpenOtions(value)
         handleOpenExtensionDetails(value)
@@ -50,7 +43,7 @@ export function RaycastCMDK() {
 
   return (
     <div className="ext-shoot">
-      <Command value={value} onValueChange={(v) => setValue(v) }>
+      <Command value={value} onValueChange={(v) => setValue(v)}>
         <div cmdk-raycast-top-shine="" />
         <Command.Input
           ref={inputRef}
@@ -61,17 +54,18 @@ export function RaycastCMDK() {
         <Command.List ref={listRef}>
           <Command.Empty>No results found.</Command.Empty>
           <Command.Group heading="Suggestions">
-            {
-              extDatas.length > 0 ? extDatas?.map(({ id, name, icon}) => {
-                return <Item value={id} keywords={["issue", "sprint"]}>
-                  <Logo>
-                    <img src={icon} crossOrigin="anonymous"></img>
-                  </Logo>
-                  { name }
-                </Item>
-              }) : null
-            }
-
+            {extDatas.length > 0
+              ? extDatas?.map(({ id, name, icon }) => {
+                  return (
+                    <Item value={id} keywords={["issue", "sprint"]}>
+                      <Logo>
+                        <img src={icon} crossOrigin="anonymous"></img>
+                      </Logo>
+                      {name}
+                    </Item>
+                  )
+                })
+              : null}
           </Command.Group>
           <Command.Group heading="Commands">
             <Item
@@ -101,7 +95,7 @@ export function RaycastCMDK() {
         </Command.List>
 
         <div cmdk-raycast-footer="">
-          <RaycastDarkIcon />
+          <ShootIcon />
 
           <button cmdk-raycast-open-trigger="">
             Open Application
@@ -133,7 +127,12 @@ function Item({
   isCommand?: boolean
 }) {
   return (
-    <Command.Item value={value} keywords={keywords} onSelect={(value) => {  console.log('Selected', value)}}>
+    <Command.Item
+      value={value}
+      keywords={keywords}
+      onSelect={(value) => {
+        console.log("Selected", value)
+      }}>
       {children}
       <span cmdk-raycast-meta="">{isCommand ? "Command" : "Extension"}</span>
     </Command.Item>
@@ -245,7 +244,7 @@ function SubItem({
   )
 }
 
-function RaycastDarkIcon() {
+function ShootIcon() {
   return (
     <svg
       width="1024"
@@ -254,10 +253,12 @@ function RaycastDarkIcon() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg">
       <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M301.144 634.799V722.856L90 511.712L134.244 467.804L301.144 634.799ZM389.201 722.856H301.144L512.288 934L556.34 889.996L389.201 722.856ZM889.996 555.956L934 511.904L512.096 90L468.092 134.052L634.799 300.952H534.026L417.657 184.679L373.605 228.683L446.065 301.144H395.631V628.561H723.048V577.934L795.509 650.395L839.561 606.391L723.048 489.878V389.105L889.996 555.956ZM323.17 278.926L279.166 322.978L326.385 370.198L370.39 326.145L323.17 278.926ZM697.855 653.61L653.994 697.615L701.214 744.834L745.218 700.782L697.855 653.61ZM228.731 373.413L184.679 417.465L301.144 533.93V445.826L228.731 373.413ZM578.174 722.856H490.07L606.535 839.321L650.587 795.269L578.174 722.856Z"
-        fill="#FF6363"
+        d="M224 288.002L800 192.002V304.002L224 400.002V288.002ZM224 512.002L800 416.002V528.002L224 624.002V512.002ZM224 736.002L800 640.002V752.002L224 848.002V736.002Z"
+        fill="#888888"
+        stroke="#888888"
+        stroke-width="64"
+        stroke-linecap="round"
+        stroke-linejoin="round"
       />
     </svg>
   )

@@ -1,4 +1,4 @@
-import { useReducer } from "react"
+import React, { useReducer } from "react"
 
 export const CountButton = () => {
   const [count, increase] = useReducer((c) => c + 1, 0)

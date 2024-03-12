@@ -33,11 +33,16 @@
     "postcss": "8.4.33",
     "prettier": "3.2.4",
     "typescript": "5.3.3",
+    "webextension-polyfill": "^0.10.0",
     "windy-radix-palette": "0.6.1"
   },
   "manifest": {
     "host_permissions": [
       "https://*/*"
+    ],
+    "permissions": [
+      "tabs",
+      "management"
     ]
   }
 }

@@ -11,18 +11,46 @@ import {
   YouTubeIcon
 } from "../icons"
 
+import { getExtensionAll, handleOpenOtions, handleOpenExtensionDetails } from "~utils/management"
+
 export function RaycastCMDK() {
   const [value, setValue] = React.useState("linear")
+  const [extDatas, setExtDatas] = React.useState([])
   const inputRef = React.useRef<HTMLInputElement | null>(null)
   const listRef = React.useRef(null)
-
+  const getExtensionDatas = async () =>  {
+    const [err, res ] = await getExtensionAll()
+    if (err ||　!Array.isArray(res)) {
+      return
+    }
+    console.log('ext-datas===', res)
+    setExtDatas(res)
+  }
   React.useEffect(() => {
     inputRef?.current?.focus()
+    getExtensionDatas()
   }, [])
+
+  React.useEffect(() => {
+    function listener(e: KeyboardEvent) {
+      console.log('e.key---', e.key, value)
+      if (e.key === 'Enter' ) {
+        e.preventDefault()
+        // handleOpenOtions(value)
+        handleOpenExtensionDetails(value)
+      }
+    }
+
+    document.addEventListener("keydown", listener)
+
+    return () => {
+      document.removeEventListener("keydown", listener)
+    }
+  }, [value])
 
   return (
     <div className="ext-shoot">
-      <Command value={value} onValueChange={(v) => setValue(v)}>
+      <Command value={value} onValueChange={(v) => setValue(v) }>
         <div cmdk-raycast-top-shine="" />
         <Command.Input
           ref={inputRef}
@@ -33,6 +61,16 @@ export function RaycastCMDK() {
         <Command.List ref={listRef}>
           <Command.Empty>No results found.</Command.Empty>
           <Command.Group heading="Suggestions">
+            {
+              extDatas.length > 0 ? extDatas?.map(({ id, name, icon}) => {
+                return <Item value={id} keywords={["issue", "sprint"]}>
+                  <Logo>
+                    <img src={icon} crossOrigin="anonymous"></img>
+                  </Logo>
+                  { name }
+                </Item>
+              }) : null
+            }
             <Item value="Linear" keywords={["issue", "sprint"]}>
               <Logo>
                 <LinearIcon
@@ -129,7 +167,7 @@ function Item({
   isCommand?: boolean
 }) {
   return (
-    <Command.Item value={value} keywords={keywords} onSelect={() => {}}>
+    <Command.Item value={value} keywords={keywords} onSelect={(value) => {  console.log('Selected', value)}}>
       {children}
       <span cmdk-raycast-meta="">{isCommand ? "Command" : "Application"}</span>
     </Command.Item>

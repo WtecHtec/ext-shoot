@@ -1,7 +1,7 @@
 import componentStyles from "data-text:~style.all.scss"
 import cssText from "data-text:~style.css"
 import type { PlasmoCSConfig } from "plasmo"
-
+import React from "react"
 import { RaycastCMDK } from "~component/cmdk/menu"
 import { CMDKWrapper } from "~component/common"
 
@@ -16,8 +16,23 @@ export const getStyle = () => {
 }
 
 const PlasmoOverlay = () => {
+  const [open, setOpen] = React.useState(false)
+  React.useEffect(() => {
+    function listener(e: KeyboardEvent) {
+      if (e.key === "f") {
+        e.preventDefault()
+        setOpen((o) => !o)
+      }
+    }
+
+    document.addEventListener("keydown", listener)
+
+    return () => {
+      document.removeEventListener("keydown", listener)
+    }
+  }, [])
   return (
-    <div className="fixed z-50 flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+    <div style={{ display: open ? 'block' : 'none' }} className="fixed z-50 flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
       
       <CMDKWrapper>
         <RaycastCMDK />

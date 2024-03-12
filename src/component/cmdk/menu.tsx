@@ -71,41 +71,7 @@ export function RaycastCMDK() {
                 </Item>
               }) : null
             }
-            <Item value="Linear" keywords={["issue", "sprint"]}>
-              <Logo>
-                <LinearIcon
-                  style={{
-                    width: 12,
-                    height: 12
-                  }}
-                />
-              </Logo>
-              Linear
-            </Item>
-            <Item value="Figma" keywords={["design", "ui", "ux"]}>
-              <Logo>
-                <FigmaIcon />
-              </Logo>
-              Figma
-            </Item>
-            <Item value="Slack" keywords={["chat", "team", "communication"]}>
-              <Logo>
-                <SlackIcon />
-              </Logo>
-              Slack
-            </Item>
-            <Item value="YouTube" keywords={["video", "watch", "stream"]}>
-              <Logo>
-                <YouTubeIcon />
-              </Logo>
-              YouTube
-            </Item>
-            <Item value="Raycast" keywords={["productivity", "tools", "apps"]}>
-              <Logo>
-                <RaycastIcon />
-              </Logo>
-              Raycast
-            </Item>
+
           </Command.Group>
           <Command.Group heading="Commands">
             <Item
@@ -169,7 +135,7 @@ function Item({
   return (
     <Command.Item value={value} keywords={keywords} onSelect={(value) => {  console.log('Selected', value)}}>
       {children}
-      <span cmdk-raycast-meta="">{isCommand ? "Command" : "Application"}</span>
+      <span cmdk-raycast-meta="">{isCommand ? "Command" : "Extension"}</span>
     </Command.Item>
   )
 }

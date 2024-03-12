@@ -33,7 +33,7 @@ const PlasmoOverlay = () => {
   }, [])
   return (
     <div style={{ display: open ? 'block' : 'none' }} className="fixed z-50 flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-      
+
       <CMDKWrapper>
         <RaycastCMDK />
       </CMDKWrapper>

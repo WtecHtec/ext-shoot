@@ -1,4 +1,5 @@
 import { CountButton } from "~component/count-button"
+
 import "~style.css"
 
 function IndexPopup() {

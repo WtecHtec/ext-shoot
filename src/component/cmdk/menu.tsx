@@ -48,7 +48,7 @@ export function RaycastCMDK() {
         <Command.Input
           ref={inputRef}
           autoFocus
-          placeholder="Search for apps and commands..."
+          placeholder="Search for extensions and commands..."
         />
         <hr cmdk-raycast-loader="" />
         <Command.List ref={listRef}>

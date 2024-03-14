@@ -1,3 +1,4 @@
+import { EXT_UPDATE_DONE } from '~config/actions';
 interface ExtItem {
   id: string
   name: string,
@@ -71,3 +72,19 @@ export const handleGetExtensionIcon = (extensionId: string, iconSize: string): P
         });
     });
 };
+
+/**
+ * 触发更新icon
+ * @returns 
+ */
+export const handleExtUpdateDone = () => {
+  return new Promise(resolve => {
+    chrome.runtime.sendMessage(
+        { action: EXT_UPDATE_DONE, },
+    ).then(async (response) => {
+        resolve([null, response]);
+    }).catch(err => {
+        resolve([err, null]);
+    });
+});
+}

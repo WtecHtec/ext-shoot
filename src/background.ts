@@ -1,9 +1,22 @@
-import {getIcon} from './utils/util';
-
+import { getIcon } from './utils/util';
+import { Storage } from "@plasmohq/storage"
+import { ICON_CACHE, HAS_CRX_UPDATE } from "~config/cache.config";
+import { EXT_UPDATE, EXT_UPDATE_DONE } from '~config/actions';
 console.log(
     'Live now; make now always the most precious time. Now will never come again.',
 );
 
+const storage = new Storage({
+  area: "local"
+})
+
+// 当插件安装时，开始计时
+chrome.runtime.onInstalled.addListener(() => {
+	console.log('installed ---')
+  chrome.tabs.create({
+    url: chrome.runtime.getURL("/tabs/welcome.html"),
+  });
+});
 interface ExtItem {
     id: string
     name: string,
@@ -18,14 +31,14 @@ interface ExtItem {
 const getExtensions = ({ sendResponse }) => {
     chrome.management.getAll().then(async (extensions) => {
         const result: ExtItem[] = [];
+        const iconData = await storage.get(ICON_CACHE) || {}
         for (let i = 0; i < extensions.length; i++) {
             const { id, name, description, icons } = extensions[i];
-            const icon = getIcon(icons);
             result.push({
                 id,
                 name,
                 description,
-                icon,
+                icon:  iconData[id] || '',
             });
         }
         sendResponse({ extensions: result });
@@ -143,6 +156,12 @@ function handleGetExtensionIcon({ request, sendResponse }) {
     return true; // 保持消息通道打开
 }
 
+const handleUpdateExtIcon = ({ request, sendResponse }) => {
+  storage.set(HAS_CRX_UPDATE, '')
+  chrome.tabs.create({
+    url: chrome.runtime.getURL("/tabs/update.html"),
+  });
+}
 const ACTICON_MAP = {
     'get_extensions': getExtensions,
     'enable_extension': handleEnableExtension,
@@ -150,12 +169,33 @@ const ACTICON_MAP = {
     'open_options_page': handleOpenOptionsPage,
     'open_extension_details': handleOpenExtensionDetails,
     'get_extension_icon': handleGetExtensionIcon,
+    [EXT_UPDATE_DONE]: handleUpdateExtIcon,
 };
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // 获取插件列表
     const { action } = request;
     if (typeof ACTICON_MAP[action] === 'function') {
         ACTICON_MAP[action]({ request, sender, sendResponse });
+    } else {
+      console.log('action---->', action)
     }
     return true; // 表示我们将异步发送响应
 });
+
+/**
+ * 监听此插件的更新,通知更新
+ */
+// chrome.runtime.onInstalled.addListener(function (details) {
+//   const { reason } = details
+//   if (['install', 'update'].includes(reason)) {
+//     // 通知更新
+//     storage.set(HAS_CRX_UPDATE, 'YES')
+//     // 获取当前活动选项卡
+//     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+//       // 向content.js发送消息
+//       chrome.tabs.sendMessage(tabs[0].id, { action: EXT_UPDATE }, function (response) {
+//         console.log(response.result);
+//       });
+//     });
+//   }
+// });

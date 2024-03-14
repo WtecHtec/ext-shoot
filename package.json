@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@plasmohq/messaging": "^0.6.2",
+    "@plasmohq/storage": "^1.9.3",
     "@radix-ui/react-popover": "^1.0.7",
     "cmdk": "^1.0.0",
     "framer-motion": "^11.0.8",
@@ -42,7 +43,8 @@
     ],
     "permissions": [
       "tabs",
-      "management"
+      "management",
+      "unlimitedStorage"
     ],
     "web_accessible_resources": [
       {

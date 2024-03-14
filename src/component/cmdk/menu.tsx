@@ -2,13 +2,20 @@ import * as Popover from '@radix-ui/react-popover';
 import {Command} from 'cmdk';
 import React, {useEffect, useState} from 'react';
 
-import {getExtensionAll, handleGetExtensionIcon} from '~utils/management';
+import {getExtensionAll } from '~utils/management';
 
-import {Logo} from '../icons';
+import {Logo, RaycastIcon} from '../icons';
+import { Storage } from "@plasmohq/storage"
+import { HAS_CRX_UPDATE } from "~config/cache.config";
+import { EXT_UPDATE } from '~config/actions';
+const storage = new Storage({
+  area: "local"
+})
 
 export function RaycastCMDK() {
     const [value, setValue] = React.useState('linear');
     const [extDatas, setExtDatas] = React.useState([]);
+    const [hasUpdate, setHasUpdate] = React.useState(false)
     const inputRef = React.useRef<HTMLInputElement | null>(null);
     const listRef = React.useRef(null);
     const getExtensionDatas = async () => {
@@ -16,12 +23,31 @@ export function RaycastCMDK() {
         if (err || !Array.isArray(res)) {
             return;
         }
-        console.log('ext-datas===', res);
         setExtDatas(res);
     };
+    
+    // 检测是否有更新
+    const checkExtUpdate =  async () => {
+      const isUpdate = await storage.get(HAS_CRX_UPDATE)
+      setHasUpdate(isUpdate === 'YES')
+    }
+
     React.useEffect(() => {
         inputRef?.current?.focus();
         getExtensionDatas();
+        checkExtUpdate();
+        const handelMsgBybg = (request, sender, sendResponse) => {
+          if (request.action === EXT_UPDATE) {
+            // 在这里处理接收到的消息
+            setHasUpdate(true)
+            // 发送响应
+            sendResponse({ result: 'Message processed in content.js' });
+          }
+        }
+        chrome.runtime.onMessage.addListener(handelMsgBybg);
+        return () => {
+          chrome.runtime.onMessage.removeListener(handelMsgBybg)
+        }
     }, []);
 
     React.useEffect(() => {
@@ -59,7 +85,7 @@ export function RaycastCMDK() {
                             ? extDatas?.map(({ id, name, icon }) => {
                                 return (
                                     <Item value={ id } keywords={ ['issue', 'sprint'] }>
-                                        <ExtensionIcon extensionId={ id }/>
+                                        { icon ? <ExtensionIcon base64={icon} /> : <RaycastIcon></RaycastIcon>} 
                                         { name }
                                     </Item>
                                 );
@@ -95,7 +121,15 @@ export function RaycastCMDK() {
 
                 <div cmdk-raycast-footer="">
                     <ShootIcon/>
-
+                    
+                   
+                    <button cmdk-raycast-open-trigger="">
+                      { hasUpdate ? <UpdateInfoIcon></UpdateInfoIcon> : null }
+                      Update
+                      <kbd>U</kbd>
+                    </button>
+                    <hr/>
+                  
                     <button cmdk-raycast-open-trigger="">
                         Open Application
                         <kbd>↵</kbd>
@@ -341,6 +375,12 @@ function ClipboardIcon() {
     );
 }
 
+function UpdateInfoIcon() {
+  return (
+    <svg width="32" height="32" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4425"><path d="M512 64a448 448 0 1 1 0 896A448 448 0 0 1 512 64z m0 640a64 64 0 1 0 0 128 64 64 0 0 0 0-128z m0-512a64 64 0 0 0-64 64v320a64 64 0 1 0 128 0V256a64 64 0 0 0-64-64z" fill="#d81e06" ></path></svg>
+  )
+}
+
 function HammerIcon() {
     return (
         <div cmdk-raycast-hammer-icon="">
@@ -362,22 +402,26 @@ function HammerIcon() {
     );
 }
 
-function ExtensionIcon({ extensionId, iconSize = '128' }) {
+function ExtensionIcon({ base64 = '' }) {
     const [iconUrl, setIconUrl] = useState('');
 
+    // useEffect(() => {
+    //     handleGetExtensionIcon(extensionId, iconSize).then(([err, response]) => {
+    //         if (err) {
+    //             console.error('Error fetching extension icon:', err);
+    //             return;
+    //         }
+    //         if (response && response.status === 'Icon fetched') {
+    //             setIconUrl(response.iconDataUrl);
+    //         } else {
+    //             console.error('Failed to fetch extension icon:', response.status);
+    //         }
+    //     });
+    // }, [extensionId, iconSize]);
+
     useEffect(() => {
-        handleGetExtensionIcon(extensionId, iconSize).then(([err, response]) => {
-            if (err) {
-                console.error('Error fetching extension icon:', err);
-                return;
-            }
-            if (response && response.status === 'Icon fetched') {
-                setIconUrl(response.iconDataUrl);
-            } else {
-                console.error('Failed to fetch extension icon:', response.status);
-            }
-        });
-    }, [extensionId, iconSize]);
+      setIconUrl(base64)
+    }, [base64])
 
     return (
         <Logo>

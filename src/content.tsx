@@ -19,7 +19,7 @@ export const getStyle = () => {
 }
 
 const PlasmoOverlay = () => {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(true)
   React.useEffect(() => {
     function listener(e: KeyboardEvent) {
       if (e.key === "Escape") {

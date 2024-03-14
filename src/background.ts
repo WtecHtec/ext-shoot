@@ -11,11 +11,12 @@ const storage = new Storage({
 })
 
 // 当插件安装时，开始计时
+// dev 先注释掉
 chrome.runtime.onInstalled.addListener(() => {
 	console.log('installed ---')
-  chrome.tabs.create({
-    url: chrome.runtime.getURL("/tabs/welcome.html"),
-  });
+  // chrome.tabs.create({
+  //   url: chrome.runtime.getURL("/tabs/welcome.html"),
+  // });
 });
 interface ExtItem {
     id: string

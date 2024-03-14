@@ -2,7 +2,7 @@ import * as Popover from '@radix-ui/react-popover';
 import {Command} from 'cmdk';
 import React, {useEffect, useState} from 'react';
 
-import {getExtensionAll } from '~utils/management';
+import {getExtensionAll, handleOpenExtensionDetails } from '~utils/management';
 
 import {Logo, RaycastIcon} from '../icons';
 import { Storage } from "@plasmohq/storage"
@@ -54,11 +54,11 @@ export function RaycastCMDK() {
         function listener(e: KeyboardEvent) {
             console.log('e.key---', e.key, value);
 
-            // if (e.key === 'Enter') {
-            //     e.preventDefault();
-            //     // handleOpenOtions(value)
-            //     handleOpenExtensionDetails(value);
-            // }
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                // handleOpenOtions(value)
+                handleOpenExtensionDetails(value);
+            }
         }
 
         document.addEventListener('keydown', listener);

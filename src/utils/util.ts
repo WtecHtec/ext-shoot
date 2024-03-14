@@ -36,24 +36,37 @@ function getIcon(icons) {
   return icons[maxIndex].url
 }
 
-function getBase64FromImageUrl(url): Promise<(string | ArrayBuffer)> {
-  return new Promise(resolve => {
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.src = url;
-    img.onload = function () {
-      const canvas = document.createElement("canvas");
-      canvas.width = 128;
-      canvas.height = 128;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
-      const base64 = canvas.toDataURL("image/png");
-      resolve(base64);
-    };
-  })
+// 创建一个函数，接收 icon url 返回 base64 对象
+function getBase64FromIconUrl(iconUrl: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', iconUrl, true);
+      xhr.responseType = 'blob';
+      xhr.onload = () => {
+          if (xhr.status === 200) {
+              const blob = xhr.response;
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                  const base64data = reader.result;
+                  resolve(base64data as string);
+              };
+              reader.onerror = (error) => {
+                  reject(new Error('Failed to convert blob to base64'));
+              };
+              reader.readAsDataURL(blob);
+          } else {
+              reject(new Error(`Failed to fetch icon: ${xhr.statusText}`));
+          }
+      };
+      xhr.onerror = () => {
+          reject(new Error('Network error'));
+      };
+      xhr.send();
+  });
 }
+
 export {
   getMutliLevelProperty,
   getIcon,
-  getBase64FromImageUrl,
+  getBase64FromIconUrl,
 }

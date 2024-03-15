@@ -6,6 +6,7 @@ import { Storage } from "@plasmohq/storage"
 
 import { EXT_UPDATE } from "~config/actions"
 import { HAS_CRX_UPDATE } from "~config/cache.config"
+import { ActionMeta } from "~utils/actions"
 import { getExtensionAll, handleOpenExtensionDetails } from "~utils/management"
 
 import {
@@ -109,29 +110,19 @@ export function RaycastCMDK() {
               : null}
           </Command.Group>
           <Command.Group heading="Commands">
-            <Item
-              isCommand
-              value="Clipboard History"
-              keywords={["copy", "paste", "clipboard"]}>
-              <Logo>
-                <ClipboardIcon />
-              </Logo>
-              Clipboard History
-            </Item>
-            <Item
-              isCommand
-              value="Import Extension"
-              keywords={["import", "extension"]}>
-              <HammerIcon />
-              Import Extension
-            </Item>
-            <Item
-              isCommand
-              value="Manage Extensions"
-              keywords={["manage", "extension"]}>
-              <HammerIcon />
-              Manage Extensions
-            </Item>
+            {ActionMeta.map(({ value, keywords, icon, name, handle }) => {
+              return (
+                <Item
+                  key={value}
+                  isCommand
+                  value={value}
+                  keywords={keywords}
+                  commandHandle={handle}>
+                  <Logo>{icon}</Logo>
+                  {name}
+                </Item>
+              )
+            })}
           </Command.Group>
         </Command.List>
 
@@ -169,12 +160,14 @@ function Item({
   value,
   keywords,
   id,
+  commandHandle,
   isCommand = false
 }: {
   children: React.ReactNode
   value: string
   keywords?: string[]
   isCommand?: boolean
+  commandHandle?: any
   id?: string
 }) {
   return (
@@ -182,7 +175,7 @@ function Item({
       value={value}
       keywords={keywords}
       onSelect={() => {
-        handleOpenExtensionDetails(id)
+        isCommand ? commandHandle?.() : handleOpenExtensionDetails(id)
       }}>
       {children}
       <span cmdk-raycast-meta="">{isCommand ? "Command" : "Extension"}</span>

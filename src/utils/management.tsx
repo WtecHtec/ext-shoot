@@ -7,7 +7,7 @@ interface ExtItem {
 }
 
 /**
- * 获取插件列表¡
+ * 获取插件列表
  * @returns
  */
 export const getExtensionAll = (): Promise<[null | Error, ExtItem[] | null]> => {
@@ -88,3 +88,5 @@ export const handleExtUpdateDone = () => {
     });
 });
 }
+
+

@@ -1,12 +1,12 @@
-import * as Popover from '@radix-ui/react-popover';
-import {Command} from 'cmdk';
-import React, {useEffect, useState} from 'react';
+import * as Popover from "@radix-ui/react-popover"
+import { Command } from "cmdk"
+import React, { useEffect, useState } from "react"
 
-import {Storage} from '@plasmohq/storage';
+import { Storage } from "@plasmohq/storage"
 
-import {EXT_UPDATE} from '~config/actions';
-import {HAS_CRX_UPDATE} from '~config/cache.config';
-import {getExtensionAll, handleOpenExtensionDetails} from '~utils/management';
+import { EXT_UPDATE } from "~config/actions"
+import { HAS_CRX_UPDATE } from "~config/cache.config"
+import { getExtensionAll, handleOpenExtensionDetails } from "~utils/management"
 
 import {
   ClipboardIcon,
@@ -18,20 +18,21 @@ import {
   ShootIcon,
   StarIcon,
   UpdateInfoIcon,
-  WindowIcon,
-} from '../icons';
+  WindowIcon
+} from "../icons"
 
 const storage = new Storage({
   area: "local"
 })
 
 export function RaycastCMDK() {
-  const [value, setValue] = React.useState("shoot")
+  const [value, setValue] = React.useState("")
   const [extDatas, setExtDatas] = React.useState([])
   const [hasUpdate, setHasUpdate] = React.useState(false)
   const inputRef = React.useRef<HTMLInputElement | null>(null)
   const listRef = React.useRef(null)
   const [search, setSearch] = useState(null)
+
   // const inputRef = React.useRef<HTMLInputElement | null>(null)
   const getExtensionDatas = async () => {
     const [err, res] = await getExtensionAll()
@@ -74,6 +75,10 @@ export function RaycastCMDK() {
     console.log("listRef", listRef)
   }, [search]) // 依赖search，当search变化时，执行effect
 
+  const getExtensionDeatilById = (id: string) => {
+    return extDatas.find((ext) => ext.id === id)
+  }
+
   return (
     <div className="ext-shoot">
       <Command value={value} onValueChange={(v) => setValue(v)}>
@@ -88,11 +93,11 @@ export function RaycastCMDK() {
         <hr cmdk-raycast-loader="" />
         <Command.List ref={listRef}>
           <Command.Empty>No results found.</Command.Empty>
-          <Command.Group heading="Suggestions">
+          <Command.Group heading="Results">
             {extDatas.length > 0
               ? extDatas?.map(({ id, name, icon }) => {
                   return (
-                    <Item value={name} keywords={[name]} id={id} key={id} >
+                    <Item value={id} keywords={[name]} id={id} key={id}>
                       {icon ? (
                         <ExtensionIcon base64={icon} />
                       ) : (
@@ -142,7 +147,7 @@ export function RaycastCMDK() {
           <hr />
 
           <button cmdk-raycast-open-trigger="">
-            Open Application
+            Open Extension Page
             <kbd>↵</kbd>
           </button>
 
@@ -151,6 +156,7 @@ export function RaycastCMDK() {
           <SubCommand
             listRef={listRef}
             selectedValue={value}
+            selectName={getExtensionDeatilById(value)?.name}
             inputRef={inputRef}
           />
         </div>
@@ -177,7 +183,6 @@ function Item({
       value={value}
       keywords={keywords}
       onSelect={() => {
-        console.log("id", id)
         handleOpenExtensionDetails(id)
       }}>
       {children}
@@ -189,11 +194,13 @@ function Item({
 function SubCommand({
   inputRef,
   listRef,
-  selectedValue
+  selectedValue,
+  selectName
 }: {
   inputRef: React.RefObject<HTMLInputElement>
   listRef: React.RefObject<HTMLElement>
   selectedValue: string
+  selectName?: string
 }) {
   const [open, setOpen] = React.useState(false)
 
@@ -246,7 +253,7 @@ function SubCommand({
         }}>
         <Command>
           <Command.List>
-            <Command.Group heading={selectedValue}>
+            <Command.Group heading={selectName}>
               <SubItem shortcut="↵">
                 <WindowIcon />
                 Open Application
@@ -290,4 +297,3 @@ function SubItem({
     </Command.Item>
   )
 }
-

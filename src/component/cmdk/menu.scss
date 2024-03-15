@@ -490,7 +490,9 @@
 }
 
 .raycast-submenu {
-  padding: 8px;
+  &:focus {
+    outline: none;
+  }
 
   [cmdk-root] {
     display: flex;

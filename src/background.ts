@@ -99,6 +99,27 @@ const handleOpenExtensionDetails = ({ request, sendResponse }) => {
 }
 
 /**
+ *  插件管理页面
+ * @param param0
+ * @returns
+ */
+const handleOpenExtensionPage = ({ request, sendResponse }) => {
+  const magUrl = `chrome://extensions/`
+  chrome.tabs.create({ url: magUrl })
+  return true
+}
+
+// arc://extensions/shortcuts
+/**
+ * 打开插件快捷键页面
+ */
+function handleOpenExtensionShortcutsPage({ request, sendResponse }) {
+  const magUrl = `chrome://extensions/shortcuts`
+  chrome.tabs.create({ url: magUrl })
+  return true
+}
+
+/**
  * 获取并发送扩展图标
  */
 // function handleGetExtensionIcon({ request, sendResponse }) {
@@ -193,6 +214,8 @@ const ACTICON_MAP = {
   open_extension_details: handleOpenExtensionDetails,
   get_extension_icon: handleGetExtensionIcon,
   disable_all_extension: handleDisableAllExt,
+  open_extension_homepage: handleOpenExtensionPage,
+  open_extension_shortcuts: handleOpenExtensionShortcutsPage,
   [EXT_UPDATE_DONE]: handleUpdateExtIcon
 }
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {

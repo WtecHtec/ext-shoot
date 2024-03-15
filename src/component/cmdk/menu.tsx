@@ -1,5 +1,6 @@
 import * as Popover from "@radix-ui/react-popover"
 import { Command } from "cmdk"
+import { set } from "lodash"
 import React, { useEffect, useState } from "react"
 
 import { Storage } from "@plasmohq/storage"
@@ -203,13 +204,11 @@ function SubCommand({
         e.preventDefault()
         setOpen((o) => !o)
       }
-      if (open && subCommandInputRef.current) {
-        subCommandInputRef.current.focus() // 将焦点移动到子命令输入框
+      if (subCommandInputRef.current) {
+        subCommandInputRef.current.focus()
       }
     }
-
     document.addEventListener("keydown", listener)
-
     return () => {
       document.removeEventListener("keydown", listener)
     }
@@ -243,7 +242,6 @@ function SubCommand({
         className="raycast-submenu"
         sideOffset={16}
         alignOffset={0}
-        autoFocus
         onCloseAutoFocus={(e) => {
           e.preventDefault()
           inputRef?.current?.focus()
@@ -271,9 +269,9 @@ function SubCommand({
             </Command.Group>
           </Command.List>
           <Command.Input
+            autoFocus
             ref={subCommandInputRef}
             placeholder="Search for actions..."
-            autoFocus
           />
         </Command>
       </Popover.Content>

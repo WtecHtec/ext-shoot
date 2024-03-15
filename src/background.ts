@@ -1,14 +1,16 @@
-import { getIcon } from './utils/util';
-import { Storage } from "@plasmohq/storage"
-import { ICON_CACHE, HAS_CRX_UPDATE } from "~config/cache.config";
-import { EXT_UPDATE, EXT_UPDATE_DONE } from '~config/actions';
+
+import { GLOAL_WIN_INFO } from "~config/cache.config";
+import { EXT_UPDATE_DONE, OPEN_CRX_WIN, UPDATE_WIN_SIZE } from '~config/actions';
+import { doOpenCrxWin, doCloseCrxWin, } from '~utils/bg.util';
+import { getStorageByWinInfo, removeStorgaeByKey } from '~utils/storage.util';
 console.log(
     'Live now; make now always the most precious time. Now will never come again.',
 );
 
-const storage = new Storage({
-  area: "local"
-})
+
+
+let gloalDefWidth = 0
+let gloalDefHeight = 0
 
 // 当插件安装时，开始计时
 // dev 先注释掉
@@ -32,14 +34,13 @@ interface ExtItem {
 const getExtensions = ({ sendResponse }) => {
     chrome.management.getAll().then(async (extensions) => {
         const result: ExtItem[] = [];
-        const iconData = await storage.get(ICON_CACHE) || {}
         for (let i = 0; i < extensions.length; i++) {
             const { id, name, description, icons } = extensions[i];
             result.push({
                 id,
                 name,
                 description,
-                icon:  iconData[id] || '',
+                icon: icons[0].url,
             });
         }
         sendResponse({ extensions: result });
@@ -158,11 +159,51 @@ function handleGetExtensionIcon({ request, sendResponse }) {
 }
 
 const handleUpdateExtIcon = ({ request, sendResponse }) => {
-  storage.set(HAS_CRX_UPDATE, '')
   chrome.tabs.create({
     url: chrome.runtime.getURL("/tabs/update.html"),
   });
 }
+
+/** 处理弹窗 */
+const handleOpenCrxWin = async ({  sendResponse }) => {
+  const { windowId } = await getStorageByWinInfo() || {};
+  if (!windowId) {
+    doOpenCrxWin();
+    return
+  }
+  try {
+    const fdwin = await chrome.windows.get(windowId)
+    if (fdwin) {
+      doCloseCrxWin();
+    } else {
+      doOpenCrxWin();
+    }
+  } catch (error) {
+    console.log('handleOpenCrxWin error ---', error)
+    doOpenCrxWin();
+  }
+
+  sendResponse({ status: 'Extension page opened' });
+}
+
+
+const handleUpdateWinSize = async ({ request, sendResponse }) => {
+  let { width, height, isInit } = request
+  const { windowId } = await getStorageByWinInfo() || {};
+  console.log('width, height----', width, height, isInit, windowId)
+  if (!windowId) return ;
+  if (isInit) {
+    gloalDefWidth = width
+    gloalDefHeight = height
+  } else {
+    width = width > gloalDefWidth ? width : gloalDefWidth;
+  }
+  chrome.windows.update(windowId, { width, height });
+  sendResponse({ status: 'update size' });
+}
+
+
+
 const ACTICON_MAP = {
     'get_extensions': getExtensions,
     'enable_extension': handleEnableExtension,
@@ -171,6 +212,8 @@ const ACTICON_MAP = {
     'open_extension_details': handleOpenExtensionDetails,
     'get_extension_icon': handleGetExtensionIcon,
     [EXT_UPDATE_DONE]: handleUpdateExtIcon,
+    [OPEN_CRX_WIN]: handleOpenCrxWin,
+    [UPDATE_WIN_SIZE]: handleUpdateWinSize,
 };
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // 获取插件列表
@@ -182,6 +225,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
     return true; // 表示我们将异步发送响应
 });
+
+/** 监听window关闭 */
+chrome.windows.onRemoved.addListener(async (id) => {
+  const { windowId } = await getStorageByWinInfo() || {};
+  id === windowId && removeStorgaeByKey(GLOAL_WIN_INFO)
+})
 
 /**
  * 监听此插件的更新,通知更新

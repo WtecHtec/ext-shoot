@@ -1,4 +1,4 @@
-import { EXT_UPDATE_DONE } from '~config/actions';
+import { EXT_UPDATE_DONE, OPEN_CRX_WIN, UPDATE_WIN_SIZE } from '~config/actions';
 interface ExtItem {
   id: string
   name: string,
@@ -86,5 +86,32 @@ export const handleExtUpdateDone = () => {
     }).catch(err => {
         resolve([err, null]);
     });
-});
+  });
+}
+
+/** 打开window */
+export const handleOpenCrxWin = () => {
+  return new Promise(resolve => {
+    chrome.runtime.sendMessage(
+        { action: OPEN_CRX_WIN, },
+    ).then(async (response) => {
+        resolve([null, response]);
+    }).catch(err => {
+        resolve([err, null]);
+    });
+  });
+} 
+
+
+/** 更新窗口大小 */
+export const updateWinSize = (width, height, isInit = false) => {
+  return new Promise(resolve => {
+    chrome.runtime.sendMessage(
+        { action: UPDATE_WIN_SIZE, width, height, isInit},
+    ).then(async (response) => {
+        resolve([null, response]);
+    }).catch(err => {
+        resolve([err, null]);
+    });
+  });
 }

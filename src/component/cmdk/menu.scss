@@ -94,10 +94,10 @@
 
   min-width: 700px;
   [cmdk-root] {
-    max-width: 640px;
+    // max-width: 640px;
     width: 100%;
     background: var(--gray1);
-    border-radius: 12px;
+    // border-radius: 12px;
     padding: 8px 0;
     font-family: var(--font-sans);
     box-shadow: var(--cmdk-shadow);
@@ -395,7 +395,8 @@
     display: flex;
     height: 40px;
     align-items: center;
-    width: 640px;
+    // width: 640px;
+    width: 100%;
     padding-left: 2px;
     position: absolute;
     background: var(--gray1);

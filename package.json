@@ -43,13 +43,16 @@
     ],
     "permissions": [
       "tabs",
+      "activeTab",
       "management",
-      "unlimitedStorage"
+      "storage",
+      "scripting"
     ],
     "web_accessible_resources": [
       {
         "resources": [
-          "tabs/icon-render.html"
+          "tabs/icon-render.html",
+          "tabs/index.html"
         ],
         "matches": [
           "<all_urls>"

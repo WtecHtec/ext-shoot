@@ -490,18 +490,15 @@
 }
 
 .raycast-submenu {
-  &:focus {
-    outline: none;
-  }
-
   [cmdk-root] {
     display: flex;
     flex-direction: column;
     width: 320px;
-    height: 300px;
+    max-height: 300px;
     border: 1px solid var(--gray6);
     background: var(--gray2);
     border-radius: 8px;
+    padding: 2px 0;
   }
 
   [cmdk-list] {
@@ -546,6 +543,9 @@
     svg {
       width: 16px;
       height: 16px;
+      filter: grayscale(1);
+      margin-left: 8px;
+      margin-right: 2px;
     }
 
     [cmdk-raycast-submenu-shortcuts] {
@@ -577,7 +577,7 @@
     text-transform: capitalize;
     font-size: 12px;
     color: var(--gray11);
-    font-weight: 500;
+    font-weight: 800;
     margin-bottom: 8px;
     margin-top: 8px;
     margin-left: 4px;

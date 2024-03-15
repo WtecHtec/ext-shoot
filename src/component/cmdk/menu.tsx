@@ -55,24 +55,6 @@ export function RaycastCMDK() {
     }
   }, [])
 
-  React.useEffect(() => {
-    function listener(e: KeyboardEvent) {
-      console.log("e.key---", e.key, value)
-
-      if (e.key === "Enter") {
-        e.preventDefault()
-        // handleOpenOtions(value)
-        handleOpenExtensionDetails(value)
-      }
-    }
-
-    document.addEventListener("keydown", listener)
-
-    return () => {
-      document.removeEventListener("keydown", listener)
-    }
-  }, [value])
-
   // 当搜索内容变化时，滚动到列表顶部
   useEffect(() => {
     if (listRef.current) {
@@ -99,7 +81,7 @@ export function RaycastCMDK() {
             {extDatas.length > 0
               ? extDatas?.map(({ id, name, icon }) => {
                   return (
-                    <Item value={id} keywords={[name]} key={id}>
+                    <Item value={name} keywords={[name]} id={id} key={id} >
                       {icon ? (
                         <ExtensionIcon base64={icon} />
                       ) : (
@@ -170,19 +152,22 @@ function Item({
   children,
   value,
   keywords,
+  id,
   isCommand = false
 }: {
   children: React.ReactNode
   value: string
   keywords?: string[]
   isCommand?: boolean
+  id?: string
 }) {
   return (
     <Command.Item
       value={value}
       keywords={keywords}
-      onSelect={(value) => {
-        console.log("Selected", value)
+      onSelect={() => {
+        console.log("id", id)
+        handleOpenExtensionDetails(id)
       }}>
       {children}
       <span cmdk-raycast-meta="">{isCommand ? "Command" : "Extension"}</span>

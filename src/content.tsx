@@ -22,10 +22,10 @@ const PlasmoOverlay = () => {
   const [open, setOpen] = React.useState(true)
   React.useEffect(() => {
     function listener(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        e.preventDefault()
-        setOpen(false)
-      }
+      // if (e.key === "Escape") {
+      //   e.preventDefault()
+      //   setOpen(false)
+      // }
       // 改为 cmd + / 打开
 
       if (e.key === "/" && e.metaKey) {

@@ -292,7 +292,7 @@ chrome.tabs.onCreated.addListener(function (tab) {
 	chrome.tabs.get(id, (info) => {
 		const { pendingUrl } = info
 		const regex = /chrome-extension:\/\/([a-zA-Z0-9]+)\//;
-		const match = pendingUrl.match(regex);
+		const match = pendingUrl?.match(regex);
 		if (match && match[1] && match[1] !== chrome.runtime.id) {
 			const extensionId = match[1];
 			// console.log('插件ID:', extensionId);

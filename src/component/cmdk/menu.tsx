@@ -3,12 +3,12 @@ import { Command } from "cmdk"
 import { set } from "lodash"
 import React, { useEffect, useState } from "react"
 
-import { Storage } from "@plasmohq/storage"
+// import { Storage } from "@plasmohq/storage"
 
 import { EXT_UPDATE } from "~config/actions"
 import { HAS_CRX_UPDATE } from "~config/cache.config"
 import { ActionMeta } from "~utils/actions"
-import { getExtensionAll, handleExtFavoriteDone, handleOpenExtensionDetails } from "~utils/management"
+import { getExtensionAll, handleExtFavoriteDone, handleOpenExtensionDetails, handleOpenRecently } from "~utils/management"
 
 import {
 	ClipboardIcon,
@@ -23,15 +23,26 @@ import {
 	WindowIcon
 } from "../icons"
 
-const storage = new Storage({
-	area: "local"
-})
+// const storage = new Storage({
+// 	area: "local"
+// })
 
+const RecentlyFix = 'recently_'
+
+const handleDoExt = (extInfo) => {
+	const { id, recently } = extInfo
+	if (id.includes(RecentlyFix) && recently && recently.pendingUrl) {
+		handleOpenRecently(recently.pendingUrl)
+	} else {
+		handleOpenExtensionDetails(id)
+	}
+}
 export function RaycastCMDK() {
 	const [value, setValue] = React.useState("")
 	const [extDatas, setExtDatas] = React.useState([])
 	const [originDatas, setOriginDatas] = React.useState([])
 	const [hasUpdate, setHasUpdate] = React.useState(false)
+	const [loaded, setLoaded] = React.useState(false)
 	const inputRef = React.useRef<HTMLInputElement | null>(null)
 	const listRef = React.useRef(null)
 	const [search, setSearch] = useState(null)
@@ -62,6 +73,11 @@ export function RaycastCMDK() {
 		}
 		const groups = [
 			{
+				name: 'Recently Accessed',
+				key: 'recently',
+				children: [],
+			},
+			{
 				name: 'Favorite',
 				key: 'favorite',
 				children: [],
@@ -76,19 +92,27 @@ export function RaycastCMDK() {
 				children: [],
 			}]
 		let lastInx = groups.length - 1
-		setHasUpdate(checkUpdate(res));
 		res.forEach(item => {
-			const { installType, favorite } = item
+			const { installType, favorite, recently } = item
+			if (recently && recently.pendingUrl) {
+				groups[0].children.push({
+					...item,
+					id: `${RecentlyFix}${item.id}`
+				})
+			}
 			if (favorite) {
-				groups[0].children.push(item)
-			} else if (installType === 'development') {
 				groups[1].children.push(item)
+			} else if (installType === 'development') {
+				groups[2].children.push(item)
 			} else {
 				groups[lastInx].children.push(item)
 			}
 		})
+		groups[0].children.sort((a, b) => b?.recently.lastTime - a?.recently.lastTime).slice(0, 7)
 		setOriginDatas(res)
 		setExtDatas(groups)
+		setHasUpdate(checkUpdate(res));
+		setLoaded(res.length > 0)
 	}
 
 	/** icon 为空，则为有更新 */
@@ -167,9 +191,10 @@ export function RaycastCMDK() {
 								{
 									children && children.length > 0 ? <>
 										<Command.Group heading={name}>
-											{children?.map(({ id, name, icon }) => {
+											{children?.map((item) => {
+												const { id, name, icon } = item;
 												return (
-													<Item value={id} keywords={[name]} id={id} key={id}>
+													<Item value={id} keywords={[name]} id={id} key={id} extinfo={item}>
 														{icon ? (
 															<ExtensionIcon base64={icon} />
 														) : (
@@ -203,21 +228,25 @@ export function RaycastCMDK() {
 							})
 							: null}
 					</Command.Group> */}
-					<Command.Group heading="Commands">
-						{ActionMeta.map(({ value, keywords, icon, name, handle }) => {
-							return (
-								<Item
-									key={value}
-									isCommand
-									value={value}
-									keywords={keywords}
-									commandHandle={handle}>
-									<Logo>{icon}</Logo>
-									{name}
-								</Item>
-							)
-						})}
-					</Command.Group>
+					{
+						loaded ?
+							<Command.Group heading="Commands">
+								{ActionMeta.map(({ value, keywords, icon, name, handle }) => {
+									return (
+										<Item
+											key={value}
+											isCommand
+											value={value}
+											keywords={keywords}
+											commandHandle={handle}>
+											<Logo>{icon}</Logo>
+											{name}
+										</Item>
+									)
+								})}
+							</Command.Group>
+							: null
+					}
 				</Command.List>
 
 				<div cmdk-raycast-footer="">
@@ -255,7 +284,8 @@ function Item({
 	keywords,
 	id,
 	commandHandle,
-	isCommand = false
+	isCommand = false,
+	extinfo = {},
 }: {
 	children: React.ReactNode
 	value: string
@@ -263,13 +293,14 @@ function Item({
 	isCommand?: boolean
 	commandHandle?: any
 	id?: string
+	extinfo?: any
 }) {
 	return (
 		<Command.Item
 			value={value}
 			keywords={keywords}
 			onSelect={() => {
-				isCommand ? commandHandle?.() : handleOpenExtensionDetails(id)
+				isCommand ? commandHandle?.() : handleDoExt(extinfo)
 			}}>
 			{children}
 			<span cmdk-raycast-meta="">{isCommand ? "Command" : "Extension"}</span>

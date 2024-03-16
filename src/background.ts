@@ -1,9 +1,8 @@
 import { Storage } from "@plasmohq/storage"
 
-import { ENABLE_ALL_EXTENSION, EXT_UPDATE_DONE, AC_FAVORITE } from "~config/actions"
+import { ENABLE_ALL_EXTENSION, EXT_UPDATE_DONE, AC_FAVORITE, AC_RECENTLY_OPEN } from "~config/actions"
 import { EXTENDED_INFO_CACHE, HAS_CRX_UPDATE, ICON_CACHE } from "~config/cache.config"
 import { mode } from "~config/config"
-import { getMutliLevelProperty } from "~utils/util"
 
 console.log(
 	"Live now; make now always the most precious time. Now will never come again."
@@ -233,6 +232,13 @@ const setExtendedInfo = async (id, key, value) => {
 	await storage.set(EXTENDED_INFO_CACHE, extendInfo)
 }
 
+/** 打开最近使用 */
+const handleOpenRecently = async ({ request, sendResponse }) => {
+	const { pendingUrl } = request
+	chrome.tabs.create({ url: pendingUrl })
+	sendResponse({ status: "Open Recently" })
+}
+
 const ACTICON_MAP = {
 	get_extensions: getExtensions,
 	enable_extension: handleEnableExtension,
@@ -246,6 +252,7 @@ const ACTICON_MAP = {
 	[EXT_UPDATE_DONE]: handleUpdateExtIcon,
 	[ENABLE_ALL_EXTENSION]: handleEnableAllExt,
 	[AC_FAVORITE]: handleFavoriteExt,
+	[AC_RECENTLY_OPEN]: handleOpenRecently
 }
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	// 获取插件列表
@@ -275,3 +282,24 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 //     });
 //   }
 // });
+
+
+/**
+ * 根据tab判断chrome-extension
+ */
+chrome.tabs.onCreated.addListener(function (tab) {
+	const { id } = tab
+	chrome.tabs.get(id, (info) => {
+		const { pendingUrl } = info
+		const regex = /chrome-extension:\/\/([a-zA-Z0-9]+)\//;
+		const match = pendingUrl.match(regex);
+		if (match && match[1] && match[1] !== chrome.runtime.id) {
+			const extensionId = match[1];
+			// console.log('插件ID:', extensionId);
+			setExtendedInfo(extensionId, 'recently', {
+				lastTime: new Date().getTime(),
+				pendingUrl,
+			})
+		}
+	})
+});

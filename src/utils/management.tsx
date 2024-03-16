@@ -1,4 +1,4 @@
-import { AC_FAVORITE, EXT_UPDATE_DONE } from '~config/actions';
+import { AC_FAVORITE, AC_RECENTLY_OPEN, EXT_UPDATE_DONE } from '~config/actions';
 /**
  * 获取插件列表
  * @returns
@@ -99,4 +99,21 @@ export const handleExtFavoriteDone = (id, value) => {
 	});
 }
 
+/**
+ *  打开最近使用插件页面
+ * @param id
+ * @param pendingUrl 
+ * @returns 
+ */
+export const handleOpenRecently = (pendingUrl) => {
+	return new Promise(resolve => {
+		chrome.runtime.sendMessage(
+			{ action: AC_RECENTLY_OPEN, pendingUrl },
+		).then(async (response) => {
+			resolve([null, response]);
+		}).catch(err => {
+			resolve([err, null]);
+		});
+	});
+}
 

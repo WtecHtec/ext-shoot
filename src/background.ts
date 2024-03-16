@@ -1,52 +1,50 @@
 import { Storage } from "@plasmohq/storage"
 
-import { EXT_UPDATE, EXT_UPDATE_DONE } from "~config/actions"
-import { HAS_CRX_UPDATE, ICON_CACHE } from "~config/cache.config"
-
-import { getIcon } from "./utils/util"
+import { ENABLE_ALL_EXTENSION, EXT_UPDATE_DONE, AC_FAVORITE } from "~config/actions"
+import { EXTENDED_INFO_CACHE, HAS_CRX_UPDATE, ICON_CACHE } from "~config/cache.config"
+import { mode } from "~config/config"
+import { getMutliLevelProperty } from "~utils/util"
 
 console.log(
-  "Live now; make now always the most precious time. Now will never come again."
+	"Live now; make now always the most precious time. Now will never come again."
 )
 
 const storage = new Storage({
-  area: "local"
+	area: "local"
 })
 
 // 当插件安装时，开始计时
 // dev 先注释掉
 chrome.runtime.onInstalled.addListener(() => {
-  console.log("installed ---")
-  // chrome.tabs.create({
-  //   url: chrome.runtime.getURL("/tabs/welcome.html"),
-  // });
+	console.log("installed ---")
+	mode !== 'dev' && chrome.tabs.create({
+		url: chrome.runtime.getURL("/tabs/welcome.html"),
+	});
 })
-interface ExtItem {
-  id: string
-  name: string
-  icon: string | ArrayBuffer
-  description: string
-}
+
 
 /**
  * 获取插件列表
  * @param param0
  */
 const getExtensions = ({ sendResponse }) => {
-  chrome.management.getAll().then(async (extensions) => {
-    const result: ExtItem[] = []
-    const iconData = (await storage.get(ICON_CACHE)) || {}
-    for (let i = 0; i < extensions.length; i++) {
-      const { id, name, description, icons } = extensions[i]
-      result.push({
-        id,
-        name,
-        description,
-        icon: iconData[id] || ""
-      })
-    }
-    sendResponse({ extensions: result })
-  })
+	chrome.management.getAll().then(async (extensions) => {
+		const result: ExtItem[] = []
+		const iconData = (await storage.get(ICON_CACHE)) || {}
+		const extendInfo = (await storage.get(EXTENDED_INFO_CACHE)) || {}
+		for (let i = 0; i < extensions.length; i++) {
+			const { id, name, description, installType } = extensions[i]
+			result.push({
+				id,
+				name,
+				description,
+				icon: iconData[id] || "",
+				installType,
+				...(extendInfo[id] || {})
+			})
+		}
+		sendResponse({ extensions: result })
+	})
 }
 
 /**
@@ -54,10 +52,10 @@ const getExtensions = ({ sendResponse }) => {
  * @param param0
  */
 const handleEnableExtension = ({ request, sendResponse }) => {
-  const { extensionId, status } = request
-  chrome.management.setEnabled(extensionId, status, () => {
-    sendResponse({ status: "Extension enabled" })
-  })
+	const { extensionId, status } = request
+	chrome.management.setEnabled(extensionId, status, () => {
+		sendResponse({ status: "Extension enabled" })
+	})
 }
 
 /**
@@ -65,10 +63,10 @@ const handleEnableExtension = ({ request, sendResponse }) => {
  * @param param0
  */
 const handleUninstallExtension = ({ request, sendResponse }) => {
-  const { extensionId } = request
-  chrome.management.uninstall(extensionId, {}, () => {
-    sendResponse({ status: "Extension uninstalled" })
-  })
+	const { extensionId } = request
+	chrome.management.uninstall(extensionId, {}, () => {
+		sendResponse({ status: "Extension uninstalled" })
+	})
 }
 
 /**
@@ -76,15 +74,15 @@ const handleUninstallExtension = ({ request, sendResponse }) => {
  * @param param0
  */
 const handleOpenOptionsPage = ({ request, sendResponse }) => {
-  const { extensionId } = request
-  chrome.management.get(extensionId, (extensionInfo) => {
-    if (extensionInfo.optionsUrl) {
-      chrome.tabs.create({ url: extensionInfo.optionsUrl })
-      sendResponse({ status: "Options page opened" })
-    } else {
-      sendResponse({ status: "No options page available" })
-    }
-  })
+	const { extensionId } = request
+	chrome.management.get(extensionId, (extensionInfo) => {
+		if (extensionInfo.optionsUrl) {
+			chrome.tabs.create({ url: extensionInfo.optionsUrl })
+			sendResponse({ status: "Options page opened" })
+		} else {
+			sendResponse({ status: "No options page available" })
+		}
+	})
 }
 
 /**
@@ -92,10 +90,10 @@ const handleOpenOptionsPage = ({ request, sendResponse }) => {
  * @param param0
  */
 const handleOpenExtensionDetails = ({ request, sendResponse }) => {
-  const { extensionId } = request
-  const detailsUrl = `chrome://extensions/?id=${extensionId}`
-  chrome.tabs.create({ url: detailsUrl })
-  sendResponse({ status: "Extension details page opened" })
+	const { extensionId } = request
+	const detailsUrl = `chrome://extensions/?id=${extensionId}`
+	chrome.tabs.create({ url: detailsUrl })
+	sendResponse({ status: "Extension details page opened" })
 }
 
 /**
@@ -104,9 +102,9 @@ const handleOpenExtensionDetails = ({ request, sendResponse }) => {
  * @returns
  */
 const handleOpenExtensionPage = ({ request, sendResponse }) => {
-  const magUrl = `chrome://extensions/`
-  chrome.tabs.create({ url: magUrl })
-  return true
+	const magUrl = `chrome://extensions/`
+	chrome.tabs.create({ url: magUrl })
+	return true
 }
 
 // arc://extensions/shortcuts
@@ -114,9 +112,9 @@ const handleOpenExtensionPage = ({ request, sendResponse }) => {
  * 打开插件快捷键页面
  */
 function handleOpenExtensionShortcutsPage({ request, sendResponse }) {
-  const magUrl = `chrome://extensions/shortcuts`
-  chrome.tabs.create({ url: magUrl })
-  return true
+	const magUrl = `chrome://extensions/shortcuts`
+	chrome.tabs.create({ url: magUrl })
+	return true
 }
 
 /**
@@ -150,83 +148,114 @@ function handleOpenExtensionShortcutsPage({ request, sendResponse }) {
 //
 
 function handleGetExtensionIcon({ request, sendResponse }) {
-  const { extensionId, iconSize = "128" } = request
-  chrome.management.get(extensionId, (extensionInfo) => {
-    if (extensionInfo.icons && extensionInfo.icons.length > 0) {
-      // 尝试匹配请求的大小，否则使用第一个可用的图标
-      let icon =
-        extensionInfo.icons.find((icon) => icon.size == iconSize) ||
-        extensionInfo.icons[0]
+	const { extensionId, iconSize = "128" } = request
+	chrome.management.get(extensionId, (extensionInfo) => {
+		if (extensionInfo.icons && extensionInfo.icons.length > 0) {
+			// 尝试匹配请求的大小，否则使用第一个可用的图标
+			let icon =
+				extensionInfo.icons.find((icon) => icon.size == iconSize) ||
+				extensionInfo.icons[0]
 
-      // 替换协议 chrome:// 为 chrome-extension://
-      // 直接发送图标的URL，不尝试下载
-      const iconURL = icon.url
-      console.log(iconURL)
+			// 替换协议 chrome:// 为 chrome-extension://
+			// 直接发送图标的URL，不尝试下载
+			const iconURL = icon.url
+			console.log(iconURL)
 
-      // 发送get_extension_icon_blob消息
-      chrome.runtime.sendMessage(
-        {
-          action: "get_extension_icon_blob",
-          iconURL
-        },
-        (response) => {
-          console.log(response)
-          sendResponse({
-            status: "Icon fetched",
-            iconDataUrl: response.iconDataUrl
-          })
-        }
-      )
+			// 发送get_extension_icon_blob消息
+			chrome.runtime.sendMessage(
+				{
+					action: "get_extension_icon_blob",
+					iconURL
+				},
+				(response) => {
+					console.log(response)
+					sendResponse({
+						status: "Icon fetched",
+						iconDataUrl: response.iconDataUrl
+					})
+				}
+			)
 
-      // sendResponse({ status: 'Icon fetched', iconDataUrl: iconURL });
-    } else {
-      sendResponse({ status: "No icon available" })
-    }
-  })
-  return true // 保持消息通道打开
+			// sendResponse({ status: 'Icon fetched', iconDataUrl: iconURL });
+		} else {
+			sendResponse({ status: "No icon available" })
+		}
+	})
+	return true // 保持消息通道打开
 }
 
 const handleUpdateExtIcon = ({ request, sendResponse }) => {
-  storage.set(HAS_CRX_UPDATE, "")
-  chrome.tabs.create({
-    url: chrome.runtime.getURL("/tabs/update.html")
-  })
+	storage.set(HAS_CRX_UPDATE, "")
+	chrome.tabs.create({
+		url: chrome.runtime.getURL("/tabs/update.html"),
+		active: false,
+	})
 }
 
 const handleDisableAllExt = ({ request, sendResponse }) => {
-  chrome.management.getAll().then((extensions) => {
-    // 跳过自己
-    extensions.forEach((ext) => {
-      if (ext.enabled) {
-        if (ext.id === chrome.runtime.id) return
-        chrome.management.setEnabled(ext.id, false)
-      }
-    })
-    sendResponse({ status: "All extensions disabled" })
-  })
+	chrome.management.getAll().then((extensions) => {
+		// 跳过自己
+		extensions.forEach((ext) => {
+			if (ext.enabled) {
+				if (ext.id === chrome.runtime.id) return
+				chrome.management.setEnabled(ext.id, false)
+			}
+		})
+		sendResponse({ status: "All extensions disabled" })
+	})
+}
+const handleEnableAllExt = ({ request, sendResponse }) => {
+	chrome.management.getAll().then((extensions) => {
+		// 跳过自己
+		extensions.forEach((ext) => {
+			if (!ext.enabled) {
+				if (ext.id === chrome.runtime.id) return
+				chrome.management.setEnabled(ext.id, true)
+			}
+		})
+		sendResponse({ status: "All extensions enable" })
+	})
+}
+
+const handleFavoriteExt = async ({ request, sendResponse }) => {
+	const { id, value } = request
+	await setExtendedInfo(id, 'favorite', value)
+	sendResponse({ status: "Favorite" })
+}
+
+/** 缓存扩展信息 */
+const setExtendedInfo = async (id, key, value) => {
+	const extendInfo = await storage.get(EXTENDED_INFO_CACHE) || {}
+	if (!extendInfo[id]) {
+		extendInfo[id] = {}
+	}
+	extendInfo[id][key] = value
+	await storage.set(EXTENDED_INFO_CACHE, extendInfo)
 }
 
 const ACTICON_MAP = {
-  get_extensions: getExtensions,
-  enable_extension: handleEnableExtension,
-  uninstall_extension: handleUninstallExtension,
-  open_options_page: handleOpenOptionsPage,
-  open_extension_details: handleOpenExtensionDetails,
-  get_extension_icon: handleGetExtensionIcon,
-  disable_all_extension: handleDisableAllExt,
-  open_extension_homepage: handleOpenExtensionPage,
-  open_extension_shortcuts: handleOpenExtensionShortcutsPage,
-  [EXT_UPDATE_DONE]: handleUpdateExtIcon
+	get_extensions: getExtensions,
+	enable_extension: handleEnableExtension,
+	uninstall_extension: handleUninstallExtension,
+	open_options_page: handleOpenOptionsPage,
+	open_extension_details: handleOpenExtensionDetails,
+	get_extension_icon: handleGetExtensionIcon,
+	disable_all_extension: handleDisableAllExt,
+	open_extension_homepage: handleOpenExtensionPage,
+	open_extension_shortcuts: handleOpenExtensionShortcutsPage,
+	[EXT_UPDATE_DONE]: handleUpdateExtIcon,
+	[ENABLE_ALL_EXTENSION]: handleEnableAllExt,
+	[AC_FAVORITE]: handleFavoriteExt,
 }
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  // 获取插件列表
-  const { action } = request
-  if (typeof ACTICON_MAP[action] === "function") {
-    ACTICON_MAP[action]({ request, sender, sendResponse })
-  } else {
-    console.log("action---->", action)
-  }
-  return true // 表示我们将异步发送响应
+	// 获取插件列表
+	const { action } = request
+	if (typeof ACTICON_MAP[action] === "function") {
+		ACTICON_MAP[action]({ request, sender, sendResponse })
+	} else {
+		console.log("action---->", action)
+	}
+	return true // 表示我们将异步发送响应
 })
 
 /**

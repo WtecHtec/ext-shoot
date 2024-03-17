@@ -28,6 +28,7 @@ import {
 // })
 
 const RecentlyFix = 'recently_'
+import { toast } from 'sonner/dist'
 
 const handleDoExt = (extInfo) => {
 	const { id, recently } = extInfo
@@ -327,6 +328,7 @@ function SubCommand({
 			if (e.key === "k" && e.metaKey) {
 				e.preventDefault()
 				setOpen((o) => !o)
+				toast("Open SubCommand")
 			}
 			if (subCommandInputRef.current) {
 				subCommandInputRef.current.focus()

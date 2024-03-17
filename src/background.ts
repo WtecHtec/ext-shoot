@@ -1,16 +1,11 @@
-import { Storage } from "@plasmohq/storage"
 
-import { ENABLE_ALL_EXTENSION, EXT_UPDATE_DONE, AC_FAVORITE, AC_RECENTLY_OPEN } from "~config/actions"
-import { EXTENDED_INFO_CACHE, HAS_CRX_UPDATE, ICON_CACHE } from "~config/cache.config"
+import { ENABLE_ALL_EXTENSION, EXT_UPDATE_DONE, AC_FAVORITE, AC_RECENTLY_OPEN, AC_ICON_UPDATED } from "~config/actions"
 import { mode } from "~config/config"
+import { getExtendedInfo, getStorageIcon, setExtendedInfo } from "~utils/local.storage"
 
 console.log(
 	"Live now; make now always the most precious time. Now will never come again."
 )
-
-const storage = new Storage({
-	area: "local"
-})
 
 // 当插件安装时，开始计时
 // dev 先注释掉
@@ -29,8 +24,8 @@ chrome.runtime.onInstalled.addListener(() => {
 const getExtensions = ({ sendResponse }) => {
 	chrome.management.getAll().then(async (extensions) => {
 		const result: ExtItem[] = []
-		const iconData = (await storage.get(ICON_CACHE)) || {}
-		const extendInfo = (await storage.get(EXTENDED_INFO_CACHE)) || {}
+		const iconData = (await getStorageIcon()) || {}
+		const extendInfo = (await getExtendedInfo()) || {}
 		for (let i = 0; i < extensions.length; i++) {
 			const { id, name, description, installType } = extensions[i]
 			result.push({
@@ -92,6 +87,10 @@ const handleOpenExtensionDetails = ({ request, sendResponse }) => {
 	const { extensionId } = request
 	const detailsUrl = `chrome://extensions/?id=${extensionId}`
 	chrome.tabs.create({ url: detailsUrl })
+	setExtendedInfo(extensionId, 'recently', {
+		lastTime: new Date().getTime(),
+		pendingUrl: detailsUrl,
+	})
 	sendResponse({ status: "Extension details page opened" })
 }
 
@@ -184,7 +183,6 @@ function handleGetExtensionIcon({ request, sendResponse }) {
 }
 
 const handleUpdateExtIcon = ({ request, sendResponse }) => {
-	storage.set(HAS_CRX_UPDATE, "")
 	chrome.tabs.create({
 		url: chrome.runtime.getURL("/tabs/update.html"),
 		active: false,
@@ -222,21 +220,23 @@ const handleFavoriteExt = async ({ request, sendResponse }) => {
 	sendResponse({ status: "Favorite" })
 }
 
-/** 缓存扩展信息 */
-const setExtendedInfo = async (id, key, value) => {
-	const extendInfo = await storage.get(EXTENDED_INFO_CACHE) || {}
-	if (!extendInfo[id]) {
-		extendInfo[id] = {}
-	}
-	extendInfo[id][key] = value
-	await storage.set(EXTENDED_INFO_CACHE, extendInfo)
-}
 
 /** 打开最近使用 */
 const handleOpenRecently = async ({ request, sendResponse }) => {
 	const { pendingUrl } = request
 	chrome.tabs.create({ url: pendingUrl })
 	sendResponse({ status: "Open Recently" })
+}
+
+/** 更新通知转发当前tab */
+const handleIconUpdated = async ({ request, sendResponse }) => {
+	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+		// 向content.js发送消息
+		chrome.tabs.sendMessage(tabs[0].id, { action: AC_ICON_UPDATED }, function (response) {
+			console.log(response.result);
+		});
+	});
+	sendResponse({ status: "Icon Updated" })
 }
 
 const ACTICON_MAP = {
@@ -252,7 +252,8 @@ const ACTICON_MAP = {
 	[EXT_UPDATE_DONE]: handleUpdateExtIcon,
 	[ENABLE_ALL_EXTENSION]: handleEnableAllExt,
 	[AC_FAVORITE]: handleFavoriteExt,
-	[AC_RECENTLY_OPEN]: handleOpenRecently
+	[AC_RECENTLY_OPEN]: handleOpenRecently,
+	[AC_ICON_UPDATED]: handleIconUpdated,
 }
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	// 获取插件列表
@@ -272,7 +273,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 //   const { reason } = details
 //   if (['install', 'update'].includes(reason)) {
 //     // 通知更新
-//     storage.set(HAS_CRX_UPDATE, 'YES')
 //     // 获取当前活动选项卡
 //     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 //       // 向content.js发送消息

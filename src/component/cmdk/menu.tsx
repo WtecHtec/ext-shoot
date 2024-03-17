@@ -1,14 +1,10 @@
 import * as Popover from "@radix-ui/react-popover"
 import { Command } from "cmdk"
-import { set } from "lodash"
 import React, { useEffect, useState } from "react"
 
-// import { Storage } from "@plasmohq/storage"
-
-import { EXT_UPDATE } from "~config/actions"
-import { HAS_CRX_UPDATE } from "~config/cache.config"
+import { AC_ICON_UPDATED } from "~config/actions"
 import { ActionMeta } from "~utils/actions"
-import { getExtensionAll, handleExtFavoriteDone, handleOpenExtensionDetails, handleOpenRecently } from "~utils/management"
+import { getExtensionAll, handleExtFavoriteDone, handleExtUpdateDone, handleOpenExtensionDetails, handleOpenRecently } from "~utils/management"
 
 import {
 	ClipboardIcon,
@@ -23,25 +19,32 @@ import {
 	WindowIcon
 } from "../icons"
 
-// const storage = new Storage({
-// 	area: "local"
-// })
+
+import { LineSpinnerIcon } from "../icons"
+
 
 const RecentlyFix = 'recently_'
+const MarkId = '@_'
 
 const handleDoExt = (extInfo) => {
 	const { id, recently } = extInfo
 	if (id.includes(RecentlyFix) && recently && recently.pendingUrl) {
 		handleOpenRecently(recently.pendingUrl)
 	} else {
-		handleOpenExtensionDetails(id)
+		handleOpenExtensionDetails(getExtId(id))
 	}
+}
+
+
+const getExtId = (id) => {
+	const ids = id?.split(MarkId)
+	return ids[ids.length - 1];
 }
 export function RaycastCMDK() {
 	const [value, setValue] = React.useState("")
 	const [extDatas, setExtDatas] = React.useState([])
 	const [originDatas, setOriginDatas] = React.useState([])
-	const [hasUpdate, setHasUpdate] = React.useState(false)
+	const [updateStatus, setHasUpdateStatus] = React.useState(0) // 0:无更新；1:有更新；2:更新中
 	const [loaded, setLoaded] = React.useState(false)
 	const inputRef = React.useRef<HTMLInputElement | null>(null)
 	const listRef = React.useRef(null)
@@ -87,8 +90,8 @@ export function RaycastCMDK() {
 				key: 'development',
 				children: [],
 			}, {
-				name: 'Other',
-				key: 'other',
+				name: 'All',
+				key: 'all',
 				children: [],
 			}]
 		let lastInx = groups.length - 1
@@ -97,27 +100,33 @@ export function RaycastCMDK() {
 			if (recently && recently.pendingUrl) {
 				groups[0].children.push({
 					...item,
-					id: `${RecentlyFix}${item.id}`
+					id: `${RecentlyFix}${MarkId}${item.id}`
 				})
 			}
 			if (favorite) {
-				groups[1].children.push(item)
-			} else if (installType === 'development') {
-				groups[2].children.push(item)
-			} else {
-				groups[lastInx].children.push(item)
+				groups[1].children.push({
+					...item,
+					id: `${groups[1].key}${MarkId}${item.id}`
+				})
+			}
+			if (installType === 'development') {
+				groups[2].children.push({
+					...item,
+					id: `${groups[2].key}${MarkId}${item.id}`
+				})
 			}
 		})
+		groups[lastInx].children = [...res]
 		groups[0].children.sort((a, b) => b?.recently.lastTime - a?.recently.lastTime).slice(0, 7)
 		setOriginDatas(res)
 		setExtDatas(groups)
-		setHasUpdate(checkUpdate(res));
+		setHasUpdateStatus(checkUpdate(res) ? 1 : 0);
 		setLoaded(res.length > 0)
 	}
 
-	/** icon 为空，则为有更新 */
+	/** 判断 loadedicon 状态 */
 	const checkUpdate = (exts) => {
-		return !!exts.find(({ icon }) => !icon)
+		return !!exts.find(({ loadedicon }) => !loadedicon)
 	}
 
 	/** 触发按键 */
@@ -133,6 +142,11 @@ export function RaycastCMDK() {
 				const favorite = extDeatil?.favorite
 				await handleExtFavoriteDone(value, !favorite)
 				await getExtensionDatas();
+			} else if (e.key === "U") {
+				e.preventDefault()
+				// setOpen(false)
+				handleExtUpdateDone()
+				setHasUpdateStatus(2)
 			}
 		}
 		document.addEventListener("keydown", listener)
@@ -145,9 +159,10 @@ export function RaycastCMDK() {
 		inputRef?.current?.focus()
 		getExtensionDatas()
 		const handelMsgBybg = (request, sender, sendResponse) => {
-			if (request.action === EXT_UPDATE) {
+			if (request.action === AC_ICON_UPDATED) {
 				// 在这里处理接收到的消息
-				setHasUpdate(true)
+				setHasUpdateStatus(0)
+				getExtensionDatas();
 				// 发送响应
 				sendResponse({ result: "Message processed in content.js" })
 			}
@@ -168,8 +183,9 @@ export function RaycastCMDK() {
 	}, [search]) // 依赖search，当search变化时，执行effect
 
 	const getExtensionDeatilById = (id: string) => {
-		return originDatas.find((ext) => ext.id === id)
+		return originDatas.find((ext) => ext.id === getExtId(id))
 	}
+
 
 	return (
 		<div className="ext-shoot">
@@ -253,7 +269,9 @@ export function RaycastCMDK() {
 					<ShootIcon />
 
 					<button cmdk-raycast-open-trigger="">
-						{hasUpdate ? <UpdateInfoIcon></UpdateInfoIcon> : null}
+						{updateStatus === 1 ? <UpdateInfoIcon></UpdateInfoIcon> : (
+							updateStatus === 2 ? <LineSpinnerIcon></LineSpinnerIcon> : null
+						)}
 						Update
 						<kbd>U</kbd>
 					</button>

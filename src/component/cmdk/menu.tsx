@@ -21,10 +21,11 @@ import {
 
 
 import { LineSpinnerIcon } from "../icons"
-
+import { toast } from 'sonner/dist'
 
 const RecentlyFix = 'recently_'
 const MarkId = '@_'
+
 
 const handleDoExt = (extInfo) => {
 	const { id, recently } = extInfo
@@ -132,6 +133,7 @@ export function RaycastCMDK() {
 	/** 触发按键 */
 	React.useEffect(() => {
 		async function listener(e: KeyboardEvent) {
+			const key = e.key?.toUpperCase()
 			if (e.key === "F" && e.shiftKey && e.metaKey) {
 				const extDeatil = getExtensionDeatilById(value)
 				if (!extDeatil) return
@@ -142,7 +144,7 @@ export function RaycastCMDK() {
 				const favorite = extDeatil?.favorite
 				await handleExtFavoriteDone(value, !favorite)
 				await getExtensionDatas();
-			} else if (e.key === "U") {
+			} else if (key === 'U' && e.metaKey) {
 				e.preventDefault()
 				// setOpen(false)
 				handleExtUpdateDone()
@@ -345,6 +347,7 @@ function SubCommand({
 			if (e.key === "k" && e.metaKey) {
 				e.preventDefault()
 				setOpen((o) => !o)
+				toast("Open SubCommand")
 			}
 			if (subCommandInputRef.current) {
 				subCommandInputRef.current.focus()

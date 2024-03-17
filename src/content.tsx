@@ -1,52 +1,57 @@
-import componentStyles from "data-text:~style.all.scss"
-import cssText from "data-text:~style.css"
-import type { PlasmoCSConfig } from "plasmo"
-import React, { useEffect, useRef } from "react"
+import componentStyles from 'data-text:~style.all.scss';
+import cssText from 'data-text:~style.css';
+import type { PlasmoCSConfig } from 'plasmo';
+import React, { useEffect, useRef } from 'react';
 
-import { RaycastCMDK } from "~component/cmdk/menu"
-import { CMDKWrapper } from "~component/common"
+import { RaycastCMDK } from '~component/cmdk/menu';
+import { CMDKWrapper } from '~component/common';
+import { handleExtUpdateDone } from '~utils/management';
+import { Toaster } from 'sonner/dist/index';
+import injectToaster from "~toaster";
 
 export const config: PlasmoCSConfig = {
-	matches: ["<all_urls>"],
-	exclude_matches: ["https://gemini.google.com/*"]
-}
+	matches: ['<all_urls>'],
+	exclude_matches: ['https://gemini.google.com/*'],
+};
 
 export const getStyle = () => {
-	const style = document.createElement("style")
-	style.textContent = cssText + componentStyles
-	return style
-}
+	const style = document.createElement('style');
+	style.textContent = cssText + componentStyles;
+	return style;
+};
 
 const PlasmoOverlay = () => {
 	// for dev
-	const [open, setOpen] = React.useState(true)
-	const focusRef = useRef(null)
+	const [open, setOpen] = React.useState(true);
+	const focusRef = useRef(null);
 
 	React.useEffect(() => {
-		function listener(e: KeyboardEvent) {
-			if (e.key === "Escape") {
-				e.preventDefault()
-				setOpen(false)
-			}
-			// 改为 cmd + / 打开
 
-			if (e.key === "/" && e.metaKey) {
-				e.preventDefault()
-				setOpen((o) => !o)
+		// <Toaster/>
+		injectToaster();
+		function listener(e: KeyboardEvent) {
+			// if (e.key === "Escape") {
+			//   e.preventDefault()
+			//   setOpen(false)
+			// }
+			// 改为 cmd + / 打开
+			if (e.key === '/' && e.metaKey) {
+				e.preventDefault();
+				setOpen((o) => !o);
 			}
 		}
 
-		document.addEventListener("keydown", listener)
+		document.addEventListener('keydown', listener);
 
 		return () => {
-			document.removeEventListener("keydown", listener)
-		}
-	}, [])
+			document.removeEventListener('keydown', listener);
+		};
+	}, []);
 	useEffect(() => {
 		if (open && focusRef.current) {
-			focusRef.current.focus()
+			focusRef.current.focus();
 		}
-	}, [open])
+	}, [open]);
 	return (
 		<>
 			<div
@@ -60,7 +65,7 @@ const PlasmoOverlay = () => {
 				) : null}
 			</div>
 		</>
-	)
-}
+	);
+};
 
-export default PlasmoOverlay
+export default PlasmoOverlay;

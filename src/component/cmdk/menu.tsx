@@ -61,10 +61,10 @@ export function RaycastCMDK() {
 	 * 		name: 'Development'
 	 *  }
 	 *  {
-	 *   name: 'All'  
+	 *   name: 'All'
 	 *  }
 	 * ]
-	 * @returns 
+	 * @returns
 	 */
 	const getExtensionDatas = async () => {
 		const [err, res] = await getExtensionAll()
@@ -324,7 +324,7 @@ function SubCommand({
 
 	React.useEffect(() => {
 		function listener(e: KeyboardEvent) {
-			if (e.key === "K" && e.metaKey) {
+			if (e.key === "k" && e.metaKey) {
 				e.preventDefault()
 				setOpen((o) => !o)
 			}

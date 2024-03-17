@@ -170,7 +170,7 @@
     font-size: 15px;
     padding: 8px 16px;
     outline: none;
-    background: var(--bg);
+    background: inherit;
     color: var(--gray12);
 
     &::placeholder {

@@ -5,9 +5,10 @@ import React, { useEffect, useRef } from 'react';
 
 import { RaycastCMDK } from '~component/cmdk/menu';
 import { CMDKWrapper } from '~component/common';
-import { handleExtUpdateDone } from '~utils/management';
-import { Toaster } from 'sonner/dist/index';
 import injectToaster from "~toaster";
+
+
+
 
 export const config: PlasmoCSConfig = {
 	matches: ['<all_urls>'],
@@ -30,10 +31,10 @@ const PlasmoOverlay = () => {
 		// <Toaster/>
 		injectToaster();
 		function listener(e: KeyboardEvent) {
-			// if (e.key === "Escape") {
-			//   e.preventDefault()
-			//   setOpen(false)
-			// }
+			if (e.key === "Escape") {
+			  e.preventDefault()
+			  setOpen(false)
+			}
 			// 改为 cmd + / 打开
 			if (e.key === '/' && e.metaKey) {
 				e.preventDefault();
@@ -54,16 +55,16 @@ const PlasmoOverlay = () => {
 	}, [open]);
 	return (
 		<>
-			<div
-				ref={focusRef}
-				// style={ { display: open ? 'block' : 'none' } }
-				className="fixed z-50 flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-				{open ? (
-					<CMDKWrapper>
-						<RaycastCMDK />
-					</CMDKWrapper>
-				) : null}
-			</div>
+      <div
+        ref={focusRef}
+        // style={ { display: open ? 'block' : 'none' } }
+        className="fixed z-50 flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+        {open ? (
+          <CMDKWrapper>
+            <RaycastCMDK />
+          </CMDKWrapper>
+        ) : null}
+      </div>
 		</>
 	);
 };

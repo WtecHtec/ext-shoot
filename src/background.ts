@@ -1,7 +1,7 @@
 
-import { ENABLE_ALL_EXTENSION, EXT_UPDATE_DONE, AC_FAVORITE, AC_RECENTLY_OPEN, AC_ICON_UPDATED } from "~config/actions"
+import { ENABLE_ALL_EXTENSION, EXT_UPDATE_DONE, AC_FAVORITE, AC_RECENTLY_OPEN, AC_ICON_UPDATED, AC_SNAPSHOT_CREATE, AC_GET_SNAPSHOTS } from "~config/actions"
 import { mode } from "~config/config"
-import { getExtendedInfo, getStorageIcon, setExtendedInfo } from "~utils/local.storage"
+import { getExtendedInfo, getSnapshots, getStorageIcon, setExtendedInfo, setSnapshot, } from "~utils/local.storage"
 
 console.log(
 	"Live now; make now always the most precious time. Now will never come again."
@@ -239,6 +239,46 @@ const handleIconUpdated = async ({ request, sendResponse }) => {
 	sendResponse({ status: "Icon Updated" })
 }
 
+/**
+ * 创建快照 即：当前启用的插件
+ * @param param0 
+ */
+const handleCreateSnapshot = async ({request, sendResponse}) => {
+  const { id, name } = request
+  const snapshots = await getSnapshots() || []
+  const fditem = snapshots.find((item) => item.id === id)
+  const extIds = []
+  chrome.management.getAll().then(async (extensions) => {
+		// 跳过自己
+		extensions.forEach((ext) => {
+			if (ext.enabled) {
+				if (ext.id === chrome.runtime.id) return
+				extIds.push(id)
+			}
+		})
+    if (fditem) {
+      fditem.extIds = [...extIds]
+    } else {
+      snapshots.push({
+        id,
+        name,
+        extIds,
+      })
+    }
+    await setSnapshot(snapshots)
+		sendResponse({ status: "Create Snapshot" })
+	})
+}
+
+/**
+ * 获取所有快照
+ * @param param0 
+ */
+const handleGetSnapshots = async ({request, sendResponse}) => {
+  const snapshots = await getSnapshots()
+  sendResponse({ snapshots,})
+}
+
 const ACTICON_MAP = {
 	get_extensions: getExtensions,
 	enable_extension: handleEnableExtension,
@@ -254,6 +294,8 @@ const ACTICON_MAP = {
 	[AC_FAVORITE]: handleFavoriteExt,
 	[AC_RECENTLY_OPEN]: handleOpenRecently,
 	[AC_ICON_UPDATED]: handleIconUpdated,
+  [AC_SNAPSHOT_CREATE]: handleCreateSnapshot,
+  [AC_GET_SNAPSHOTS]: handleGetSnapshots,
 }
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	// 获取插件列表
@@ -295,7 +337,6 @@ chrome.tabs.onCreated.addListener(function (tab) {
 		const match = pendingUrl?.match(regex);
 		if (match && match[1] && match[1] !== chrome.runtime.id) {
 			const extensionId = match[1];
-			// console.log('插件ID:', extensionId);
 			setExtendedInfo(extensionId, 'recently', {
 				lastTime: new Date().getTime(),
 				pendingUrl,

@@ -19,9 +19,20 @@ import {
 	WindowIcon
 } from "../icons"
 
-
 import { LineSpinnerIcon } from "../icons"
 import { toast } from 'sonner/dist'
+
+
+
+import { Button } from "~component/ui/button"
+import {  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger, } from "~component/ui/dialog"
 
 const RecentlyFix = 'recently_'
 const MarkId = '@_'
@@ -41,11 +52,31 @@ const getExtId = (id) => {
 	const ids = id?.split(MarkId)
 	return ids[ids.length - 1];
 }
+
+const BASE_GROUP = [
+  {
+    name: 'Recently Accessed',
+    key: 'recently',
+    children: [],
+  },
+  {
+    name: 'Favorite',
+    key: 'favorite',
+    children: [],
+  },
+  {
+    name: 'Development',
+    key: 'development',
+    children: [],
+  }, 
+]
 export function RaycastCMDK() {
 	const [value, setValue] = React.useState("")
-	const [extDatas, setExtDatas] = React.useState([])
-	const [originDatas, setOriginDatas] = React.useState([])
+	const [extDatas, setExtDatas] = React.useState([]) // 页面显示数据
+	const [originDatas, setOriginDatas] = React.useState([]) // 扩展源数据, 全部
 	const [updateStatus, setHasUpdateStatus] = React.useState(0) // 0:无更新；1:有更新；2:更新中
+  const [selectSnapId, setSelectSnapId] = React.useState(''); // 快照id
+  const [snapshots, setSnapshots] = React.useState([]) // 快照数据
 	const [loaded, setLoaded] = React.useState(false)
 	const inputRef = React.useRef<HTMLInputElement | null>(null)
 	const listRef = React.useRef(null)
@@ -75,29 +106,15 @@ export function RaycastCMDK() {
 		if (err || !Array.isArray(res)) {
 			return
 		}
-		const groups = [
-			{
-				name: 'Recently Accessed',
-				key: 'recently',
-				children: [],
-			},
-			{
-				name: 'Favorite',
-				key: 'favorite',
-				children: [],
-			},
-			{
-				name: 'Development',
-				key: 'development',
-				children: [],
-			}, {
+		const groups = [ ...BASE_GROUP,
+		  {
 				name: 'All',
 				key: 'all',
 				children: [],
 			}]
 		let lastInx = groups.length - 1
 		res.forEach(item => {
-			const { installType, favorite, recently } = item
+			const { installType, favorite, recently } = item as ExtItem
 			if (recently && recently.pendingUrl) {
 				groups[0].children.push({
 					...item,
@@ -134,7 +151,9 @@ export function RaycastCMDK() {
 	React.useEffect(() => {
 		async function listener(e: KeyboardEvent) {
 			const key = e.key?.toUpperCase()
+     
 			if (e.key === "F" && e.shiftKey && e.metaKey) {
+        // 收藏
 				const extDeatil = getExtensionDeatilById(value)
 				if (!extDeatil) return
 				e.preventDefault()
@@ -145,11 +164,15 @@ export function RaycastCMDK() {
 				await handleExtFavoriteDone(value, !favorite)
 				await getExtensionDatas();
 			} else if (key === 'U' && e.metaKey) {
+        // 更新
 				e.preventDefault()
 				// setOpen(false)
 				handleExtUpdateDone()
 				setHasUpdateStatus(2)
-			}
+			} else if (e.key === "F" && e.shiftKey) {
+        // 快照
+        e.preventDefault()
+      }
 		}
 		document.addEventListener("keydown", listener)
 		return () => {
@@ -191,6 +214,9 @@ export function RaycastCMDK() {
 
 	return (
 		<div className="ext-shoot">
+
+   
+     
 			<Command value={value} onValueChange={(v) => setValue(v)}>
 				<div cmdk-raycast-top-shine="" />
 				<Command.Input
@@ -270,12 +296,13 @@ export function RaycastCMDK() {
 				<div cmdk-raycast-footer="">
 					<ShootIcon />
 
-					<button cmdk-raycast-open-trigger="">
+					<button cmdk-raycast-subcommand-trigger="">
 						{updateStatus === 1 ? <UpdateInfoIcon></UpdateInfoIcon> : (
 							updateStatus === 2 ? <LineSpinnerIcon></LineSpinnerIcon> : null
 						)}
 						Update
-						<kbd>U</kbd>
+            <kbd>⌘</kbd>
+            <kbd>U</kbd>
 					</button>
 					<hr />
 
@@ -395,6 +422,10 @@ function SubCommand({
 					<Command.List>
 						<Command.Empty>No Actions found.</Command.Empty>
 						<Command.Group heading={selectName}>
+            <SubItem shortcut="⇧ F">
+								<StarIcon />
+								Add to Snapshot 
+							</SubItem>
 							<SubItem shortcut="↵">
 								<WindowIcon />
 								Open Application
@@ -441,4 +472,28 @@ function SubItem({
 			</div>
 		</Command.Item>
 	)
+}
+
+
+
+function SnapshotDialog() {
+
+  return <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="outline">Share</Button>
+        </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. Are you sure you want to permanently
+            delete this file from our servers?
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button type="submit">Confirm</Button>
+        </DialogFooter>
+      </DialogContent>
+  </Dialog>
+
 }

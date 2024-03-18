@@ -1,5 +1,5 @@
 import { Storage } from "@plasmohq/storage"
-import { EXTENDED_INFO_CACHE, ICON_CACHE } from "~config/cache.config"
+import { EXTENDED_INFO_CACHE, ICON_CACHE, EXT_SNAPSHOT_CACHE } from "~config/cache.config"
 const storage = new Storage({
 	area: "local"
 })
@@ -27,4 +27,24 @@ export const setExtendedInfo = async (id, key, value) => {
 /** 获取扩展信息  */
 export const getExtendedInfo = () => {
 	return storage.get(EXTENDED_INFO_CACHE)
+}
+
+/** 生成一个快照 
+ * 
+ * [
+ *   {
+ *    id: string,
+ *    name: string,
+ *    extids: []   
+ *  }
+ * ]
+ * 
+*/
+export const setSnapshot = (snapshots) => {
+  return storage.set(EXT_SNAPSHOT_CACHE, snapshots)
+}
+
+/** 获取快照数据 */
+export const getSnapshots = (): Promise<any[]> => {
+  return storage.get(EXT_SNAPSHOT_CACHE)
 }

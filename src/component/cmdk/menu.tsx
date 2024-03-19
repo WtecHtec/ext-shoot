@@ -21,18 +21,13 @@ import {
 
 import { LineSpinnerIcon } from "../icons"
 import { toast } from 'sonner/dist'
+import classnames from 'classnames';
+import { Cross2Icon, ChevronDownIcon, CheckIcon, ChevronUpIcon } from '@radix-ui/react-icons';
 
+import * as Dialog from '@radix-ui/react-dialog';
+import * as Tabs from '@radix-ui/react-tabs';
+import * as Select from '@radix-ui/react-select';
 
-
-import { Button } from "~component/ui/button"
-import {  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger, } from "~component/ui/dialog"
 
 const RecentlyFix = 'recently_'
 const MarkId = '@_'
@@ -53,35 +48,36 @@ const getExtId = (id) => {
 	return ids[ids.length - 1];
 }
 
-const BASE_GROUP = [
-  {
-    name: 'Recently Accessed',
-    key: 'recently',
-    children: [],
-  },
-  {
-    name: 'Favorite',
-    key: 'favorite',
-    children: [],
-  },
-  {
-    name: 'Development',
-    key: 'development',
-    children: [],
-  }, 
+const BASE_GROUP = () => [
+	{
+		name: 'Recently Accessed',
+		key: 'recently',
+		children: [],
+	},
+	{
+		name: 'Favorite',
+		key: 'favorite',
+		children: [],
+	},
+	{
+		name: 'Development',
+		key: 'development',
+		children: [],
+	},
 ]
 export function RaycastCMDK() {
 	const [value, setValue] = React.useState("")
 	const [extDatas, setExtDatas] = React.useState([]) // 页面显示数据
 	const [originDatas, setOriginDatas] = React.useState([]) // 扩展源数据, 全部
 	const [updateStatus, setHasUpdateStatus] = React.useState(0) // 0:无更新；1:有更新；2:更新中
-  const [selectSnapId, setSelectSnapId] = React.useState(''); // 快照id
-  const [snapshots, setSnapshots] = React.useState([]) // 快照数据
+	const [selectSnapId, setSelectSnapId] = React.useState(''); // 快照id
+	const [snapshots, setSnapshots] = React.useState([]) // 快照数据
 	const [loaded, setLoaded] = React.useState(false)
 	const inputRef = React.useRef<HTMLInputElement | null>(null)
 	const listRef = React.useRef(null)
 	const [search, setSearch] = useState(null)
-
+	const [container, setContainer] = React.useState(null);
+	const [snapshotOpen, setSnapshotOpen] = React.useState(false);
 	// const inputRef = React.useRef<HTMLInputElement | null>(null)
 	/**
 	 * id: {
@@ -106,12 +102,12 @@ export function RaycastCMDK() {
 		if (err || !Array.isArray(res)) {
 			return
 		}
-		const groups = [ ...BASE_GROUP,
-		  {
-				name: 'All',
-				key: 'all',
-				children: [],
-			}]
+		const groups = [...BASE_GROUP(),
+		{
+			name: 'All',
+			key: 'all',
+			children: [],
+		}]
 		let lastInx = groups.length - 1
 		res.forEach(item => {
 			const { installType, favorite, recently } = item as ExtItem
@@ -151,9 +147,9 @@ export function RaycastCMDK() {
 	React.useEffect(() => {
 		async function listener(e: KeyboardEvent) {
 			const key = e.key?.toUpperCase()
-     
+
 			if (e.key === "F" && e.shiftKey && e.metaKey) {
-        // 收藏
+				// 收藏
 				const extDeatil = getExtensionDeatilById(value)
 				if (!extDeatil) return
 				e.preventDefault()
@@ -164,15 +160,16 @@ export function RaycastCMDK() {
 				await handleExtFavoriteDone(value, !favorite)
 				await getExtensionDatas();
 			} else if (key === 'U' && e.metaKey) {
-        // 更新
+				// 更新
 				e.preventDefault()
 				// setOpen(false)
 				handleExtUpdateDone()
 				setHasUpdateStatus(2)
 			} else if (e.key === "F" && e.shiftKey) {
-        // 快照
-        e.preventDefault()
-      }
+				// 快照
+				e.preventDefault()
+				setSnapshotOpen(v => !v)
+			}
 		}
 		document.addEventListener("keydown", listener)
 		return () => {
@@ -215,8 +212,8 @@ export function RaycastCMDK() {
 	return (
 		<div className="ext-shoot">
 
-   
-     
+			<SnapshotDialog snapOpen={snapshotOpen} onSnapChange={setSnapshotOpen} container={container}></SnapshotDialog>
+
 			<Command value={value} onValueChange={(v) => setValue(v)}>
 				<div cmdk-raycast-top-shine="" />
 				<Command.Input
@@ -301,8 +298,8 @@ export function RaycastCMDK() {
 							updateStatus === 2 ? <LineSpinnerIcon></LineSpinnerIcon> : null
 						)}
 						Update
-            <kbd>⌘</kbd>
-            <kbd>U</kbd>
+						<kbd>⌘</kbd>
+						<kbd>U</kbd>
 					</button>
 					<hr />
 
@@ -321,6 +318,8 @@ export function RaycastCMDK() {
 					/>
 				</div>
 			</Command>
+
+			<div className="diaglog-root" ref={setContainer}></div>
 		</div>
 	)
 }
@@ -422,9 +421,9 @@ function SubCommand({
 					<Command.List>
 						<Command.Empty>No Actions found.</Command.Empty>
 						<Command.Group heading={selectName}>
-            <SubItem shortcut="⇧ F">
+							<SubItem shortcut="⇧ F">
 								<StarIcon />
-								Add to Snapshot 
+								Add to Snapshot
 							</SubItem>
 							<SubItem shortcut="↵">
 								<WindowIcon />
@@ -476,24 +475,78 @@ function SubItem({
 
 
 
-function SnapshotDialog() {
-
-  return <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="outline">Share</Button>
-        </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. Are you sure you want to permanently
-            delete this file from our servers?
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button type="submit">Confirm</Button>
-        </DialogFooter>
-      </DialogContent>
-  </Dialog>
+function SnapshotDialog({ snapOpen, container, onSnapChange }) {
+	const [open, setOpen] = React.useState(false)
+	const [selectContainer, setSelectContainer] = React.useState(null)
+	React.useEffect(() => {
+		setOpen(snapOpen)
+	}, [snapOpen])
+	const onOpenChange = (v) => {
+		console.log('onOpenChange--', v)
+		setOpen(v)
+		typeof onSnapChange === 'function' && onSnapChange(v);
+	}
+	return <Dialog.Root open={open} onOpenChange={onOpenChange}>
+		<Dialog.Portal container={container}>
+			<Dialog.Overlay className="DialogOverlay" />
+			<Dialog.Content className="DialogContent">
+				<Tabs.Root className="TabsRoot" defaultValue="add">
+					<Tabs.List className="TabsList" aria-label="Manage your account">
+						<Tabs.Trigger className="TabsTrigger" value="add">
+							Add
+						</Tabs.Trigger>
+						<Tabs.Trigger className="TabsTrigger" value="replace">
+							Replace
+						</Tabs.Trigger>
+					</Tabs.List>
+					<Tabs.Content className="TabsContent" value="add">
+						<p className="Text">Create new snapshot</p>
+						<fieldset className="Fieldset">
+							<input placeholder="snapshot name" className="Input" id="name" defaultValue="Snapshot 1" />
+						</fieldset>
+					</Tabs.Content>
+					<Tabs.Content className="TabsContent" value="replace">
+						<p className="Text">Replace a snapshot</p>
+						<Select.Root>
+							<Select.Trigger className="SelectTrigger" aria-label="Food">
+								<Select.Value placeholder="Select a Snapshot" />
+								<Select.Icon className="SelectIcon">
+									<ChevronDownIcon />
+								</Select.Icon>
+							</Select.Trigger>
+							<Select.Portal container={selectContainer}>
+								<Select.Content className="SelectContent">
+									<SelectItem value="apple">Apple</SelectItem>
+									<SelectItem value="banana">Banana</SelectItem>
+									<SelectItem value="blueberry">Blueberry</SelectItem>
+									<SelectItem value="grapes">Grapes</SelectItem>
+									<SelectItem value="pineapple">Pineapple</SelectItem>
+								</Select.Content>
+							</Select.Portal>
+						</Select.Root>
+						<div className="diaglog-root" style={{ width: '100%', boxSizing: 'border-box', position: 'relative' }} ref={setSelectContainer}></div>
+					</Tabs.Content>
+				</Tabs.Root>
+				<div style={{ display: 'flex', marginTop: 25, justifyContent: 'flex-end' }}>
+					<button className="Button green">Save</button>
+				</div>
+				<Dialog.Close asChild>
+					<button className="IconButton" aria-label="Close"><Cross2Icon></Cross2Icon></button>
+				</Dialog.Close>
+			</Dialog.Content>
+		</Dialog.Portal>
+	</Dialog.Root>
 
 }
+
+
+const SelectItem: any = React.forwardRef(({ children, className, ...props }, forwardedRef) => {
+	return (
+		<Select.Item className={classnames('SelectItem', className)} {...props} ref={forwardedRef}>
+			<Select.ItemText>{children}</Select.ItemText>
+			<Select.ItemIndicator className="SelectItemIndicator">
+				<CheckIcon />
+			</Select.ItemIndicator>
+		</Select.Item>
+	);
+});

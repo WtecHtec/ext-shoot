@@ -2,6 +2,7 @@
 import { ENABLE_ALL_EXTENSION, EXT_UPDATE_DONE, AC_FAVORITE, AC_RECENTLY_OPEN, AC_ICON_UPDATED, AC_SNAPSHOT_CREATE, AC_GET_SNAPSHOTS } from "~config/actions"
 import { mode } from "~config/config"
 import { getExtendedInfo, getSnapshots, getStorageIcon, setExtendedInfo, setSnapshot, } from "~utils/local.storage"
+import { getId } from "~utils/util"
 
 console.log(
 	"Live now; make now always the most precious time. Now will never come again."
@@ -27,13 +28,14 @@ const getExtensions = ({ sendResponse }) => {
 		const iconData = (await getStorageIcon()) || {}
 		const extendInfo = (await getExtendedInfo()) || {}
 		for (let i = 0; i < extensions.length; i++) {
-			const { id, name, description, installType } = extensions[i]
+			const { id, name, description, installType, enabled } = extensions[i]
 			result.push({
 				id,
 				name,
 				description,
 				icon: iconData[id] || "",
 				installType,
+        enabled,
 				...(extendInfo[id] || {})
 			})
 		}
@@ -190,24 +192,34 @@ const handleUpdateExtIcon = ({ request, sendResponse }) => {
 }
 
 const handleDisableAllExt = ({ request, sendResponse }) => {
+  const { snapType, extIds, } = request
 	chrome.management.getAll().then((extensions) => {
 		// 跳过自己
 		extensions.forEach((ext) => {
 			if (ext.enabled) {
 				if (ext.id === chrome.runtime.id) return
-				chrome.management.setEnabled(ext.id, false)
+        if (snapType === 'all') {
+          chrome.management.setEnabled(ext.id, false)
+        } else if (extIds.includes(ext.id)) {
+          chrome.management.setEnabled(ext.id, false)
+        }
 			}
 		})
 		sendResponse({ status: "All extensions disabled" })
 	})
 }
 const handleEnableAllExt = ({ request, sendResponse }) => {
+  const { snapType, extIds, } = request
 	chrome.management.getAll().then((extensions) => {
 		// 跳过自己
 		extensions.forEach((ext) => {
 			if (!ext.enabled) {
 				if (ext.id === chrome.runtime.id) return
-				chrome.management.setEnabled(ext.id, true)
+        if (snapType === 'all') {
+          chrome.management.setEnabled(ext.id, true)
+        } else if (extIds.includes(ext.id)) {
+          chrome.management.setEnabled(ext.id, true)
+        }
 			}
 		})
 		sendResponse({ status: "All extensions enable" })
@@ -244,30 +256,21 @@ const handleIconUpdated = async ({ request, sendResponse }) => {
  * @param param0 
  */
 const handleCreateSnapshot = async ({request, sendResponse}) => {
-  const { id, name } = request
+  const { id, name, extIds } = request
   const snapshots = await getSnapshots() || []
   const fditem = snapshots.find((item) => item.id === id)
-  const extIds = []
-  chrome.management.getAll().then(async (extensions) => {
-		// 跳过自己
-		extensions.forEach((ext) => {
-			if (ext.enabled) {
-				if (ext.id === chrome.runtime.id) return
-				extIds.push(id)
-			}
-		})
-    if (fditem) {
-      fditem.extIds = [...extIds]
-    } else {
-      snapshots.push({
-        id,
-        name,
-        extIds,
-      })
-    }
-    await setSnapshot(snapshots)
-		sendResponse({ status: "Create Snapshot" })
-	})
+  if (fditem) {
+    fditem.id = fditem.id || getId();
+    fditem.extIds = [...extIds]
+  } else {
+    snapshots.push({
+      id: getId(),
+      name,
+      extIds,
+    })
+  }
+  await setSnapshot(snapshots)
+  sendResponse({ status: "Create Snapshot" })
 }
 
 /**

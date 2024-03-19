@@ -68,9 +68,15 @@ function getBase64FromIconUrl(iconUrl: string): Promise<string> {
 function deepCopyByJson(obj) {
 	return JSON.parse(JSON.stringify(obj))
 }
+
+function getId() {
+  return Date.now().toString(36);
+}
+
 export {
 	getMutliLevelProperty,
 	getIcon,
 	getBase64FromIconUrl,
 	deepCopyByJson,
+  getId,
 }

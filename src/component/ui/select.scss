@@ -63,6 +63,11 @@ button {
 	box-sizing: border-box;
 }
 
+.menu-main .SelectItem {
+  min-width: 100px;
+  width: 100%;
+}
+
 .SelectItem[data-disabled] {
 	color: var(--mauve-8);
 	pointer-events: none;

@@ -1,4 +1,4 @@
-import { AC_FAVORITE, AC_RECENTLY_OPEN, EXT_UPDATE_DONE } from '~config/actions';
+import { AC_FAVORITE, AC_GET_SNAPSHOTS, AC_RECENTLY_OPEN, AC_SNAPSHOT_CREATE, EXT_UPDATE_DONE } from '~config/actions';
 /**
  * 获取插件列表
  * @returns
@@ -109,6 +109,69 @@ export const handleOpenRecently = (pendingUrl) => {
 	return new Promise(resolve => {
 		chrome.runtime.sendMessage(
 			{ action: AC_RECENTLY_OPEN, pendingUrl },
+		).then(async (response) => {
+			resolve([null, response]);
+		}).catch(err => {
+			resolve([err, null]);
+		});
+	});
+}
+
+
+/**
+ * 获取快照数据
+ * @returns 
+ */
+export const handleGetSnapshots = () : Promise<[null | Error, any]>=> {
+	return new Promise(resolve => {
+		chrome.runtime.sendMessage(
+			{ action: AC_GET_SNAPSHOTS},
+		).then(async (response) => {
+			resolve([null, response.snapshots]);
+		}).catch(err => {
+			resolve([err, null]);
+		});
+	});
+}
+
+
+/**
+ * 创建快照数据
+ * @returns 
+ */
+ export const handleCreateSnapshots = (id, name, extIds) => {
+	return new Promise(resolve => {
+		chrome.runtime.sendMessage(
+			{ action: AC_SNAPSHOT_CREATE, id, name, extIds},
+		).then(async (response) => {
+			resolve([null, response]);
+		}).catch(err => {
+			resolve([err, null]);
+		});
+	});
+}
+
+/**
+ *  禁用、启用状态  status: false\ true
+ */
+export const handlePluginStatus = (extensionId, status) => {
+  return new Promise(resolve => {
+		chrome.runtime.sendMessage(
+			{ action: 'enable_extension', extensionId, status},
+		).then(async (response) => {
+			resolve([null, response]);
+		}).catch(err => {
+			resolve([err, null]);
+		});
+	});
+}
+/**
+ *  禁用、启用状态  status: false\ true
+ */
+ export const handleUninstallPlugin = (extensionId) => {
+  return new Promise(resolve => {
+		chrome.runtime.sendMessage(
+			{ action: 'uninstall_extension', extensionId},
 		).then(async (response) => {
 			resolve([null, response]);
 		}).catch(err => {

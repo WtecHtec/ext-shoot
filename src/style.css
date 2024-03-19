@@ -8,3 +8,7 @@
 *:focus {
 	outline: none;
 }
+
+.grayscale {
+  filter: grayscale(100%);
+}

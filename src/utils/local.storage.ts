@@ -41,6 +41,7 @@ export const getExtendedInfo = () => {
  * 
 */
 export const setSnapshot = (snapshots) => {
+  
   return storage.set(EXT_SNAPSHOT_CACHE, snapshots)
 }
 

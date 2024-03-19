@@ -540,7 +540,7 @@ function SnapshotDialog({ snapOpen, container, onSnapChange }) {
 }
 
 
-const SelectItem: any = React.forwardRef(({ children, className, ...props }, forwardedRef) => {
+const SelectItem: any = React.forwardRef(({ children, className, ...props }: any, forwardedRef) => {
 	return (
 		<Select.Item className={classnames('SelectItem', className)} {...props} ref={forwardedRef}>
 			<Select.ItemText>{children}</Select.ItemText>

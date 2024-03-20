@@ -29,6 +29,7 @@ import * as Tabs from '@radix-ui/react-tabs';
 import * as Select from '@radix-ui/react-select';
 import { getId } from "~utils/util"
 import * as clipboard from 'clipboard-polyfill';
+import axios from 'axios'
 
 const RecentlyFix = 'recently_'
 const MarkId = '@_'
@@ -78,11 +79,11 @@ export function RaycastCMDK() {
 	const listRef = React.useRef(null)
 	const [search, setSearch] = useState(null)
 	const [container, setContainer] = React.useState(null);
-  const [selectContainer, setSelectContainer] = React.useState(null);
+	const [selectContainer, setSelectContainer] = React.useState(null);
 	const [snapshotOpen, setSnapshotOpen] = React.useState(false);
 	// const inputRef = React.useRef<HTMLInputElement | null>(null)
 	/**
-   * 获取插件数据
+	 * 获取插件数据
 	 * id: {
 	 * 	group: ,
 	 *  favorite:
@@ -101,13 +102,13 @@ export function RaycastCMDK() {
 	 * @returns
 	 */
 	const getExtensionDatas = async () => {
-    console.log('获取插件数据')
+		console.log('获取插件数据')
 		const [err, res] = await getExtensionAll()
 		if (err || !Array.isArray(res)) {
 			return
 		}
-    const shotDatas = await getSnapShotDatas()
-    const [groups] = formatExtDatas(res, shotDatas, selectSnapId)
+		const shotDatas = await getSnapShotDatas()
+		const [groups] = formatExtDatas(res, shotDatas, selectSnapId)
 		setOriginDatas(res)
 		setExtDatas(groups)
 		setHasUpdateStatus(checkUpdate(res) ? 1 : 0);
@@ -119,11 +120,11 @@ export function RaycastCMDK() {
 		return !!exts.find(({ loadedicon }) => !loadedicon)
 	}
 
-  /** 处理分组数据, 切换快照时，可不需请求 */
-  const formatExtDatas = (exts, shotDatas, selectSnapId, ) => {
-    const currentSnap = shotDatas.find(({id}) => id === selectSnapId)
+	/** 处理分组数据, 切换快照时，可不需请求 */
+	const formatExtDatas = (exts, shotDatas, selectSnapId,) => {
+		const currentSnap = shotDatas.find(({ id }) => id === selectSnapId)
 		const groups = [...BASE_GROUP(),]
-    let currExts = []
+		let currExts = []
 		exts.sort((a, b) => b.enabled - a.enabled).forEach(item => {
 			const { installType, favorite, recently } = item as ExtItem
 			if (recently && recently.pendingUrl) {
@@ -144,29 +145,29 @@ export function RaycastCMDK() {
 					id: `${groups[2].key}${MarkId}${item.id}`
 				})
 			}
-      if (currentSnap && Array.isArray(currentSnap.extIds) && currentSnap.extIds.includes(item.id)) {
-        currExts.push({
-          ...item
-        })
-      }
+			if (currentSnap && Array.isArray(currentSnap.extIds) && currentSnap.extIds.includes(item.id)) {
+				currExts.push({
+					...item
+				})
+			}
 		})
-    
-    if (selectSnapId === 'all') {
-      groups.push(	{
-        name: 'All',
-        key: 'all',
-        children: [...exts],
-      });
-    } else if (currExts.length && currentSnap) {
-      groups.push(	{
-        name: currentSnap.name,
-        key: currentSnap.id,
-        children: [...currExts],
-      });
-    }
+
+		if (selectSnapId === 'all') {
+			groups.push({
+				name: 'All',
+				key: 'all',
+				children: [...exts],
+			});
+		} else if (currExts.length && currentSnap) {
+			groups.push({
+				name: currentSnap.name,
+				key: currentSnap.id,
+				children: [...currExts],
+			});
+		}
 		groups[0].children.sort((a, b) => b?.recently.lastTime - a?.recently.lastTime).slice(0, 7)
-    return [groups]
-  }
+		return [groups]
+	}
 
 	/** 触发按键 */
 	React.useEffect(() => {
@@ -175,40 +176,40 @@ export function RaycastCMDK() {
 
 			if (key === "F" && e.shiftKey && e.metaKey) {
 				// 收藏
-        e.preventDefault()
+				e.preventDefault()
 				onHandelFavorite()
 			} else if (key === 'U' && e.metaKey) {
 				// 更新
 				e.preventDefault()
-        onHandleUpdate()
+				onHandleUpdate()
 			} else if (key === "F" && e.shiftKey) {
 				// 快照
 				e.preventDefault()
 				setSnapshotOpen(v => !v)
 			} else if (e.metaKey && key === '.') {
-        // 复制插件名字
-        e.preventDefault()
-        onHandleCopyName()
-      } else if (e.shiftKey && e.metaKey && key === 'C') {
-        // 复制插件名字
-        e.preventDefault()
-        onHandleCopyPluginId()
-      } else if (e.shiftKey && e.metaKey && key === 'D') { 
-        e.preventDefault()
-        onHanldePulginStatus(false)
-      } else if (e.shiftKey && e.metaKey && key === 'S') {
-        e.preventDefault()
-        onHanldePulginStatus(true)
-      } else if (e.shiftKey && e.metaKey && key === 'Q') {
-        e.preventDefault()
-        onHanldeUninstallPulgin()
-      } else if (e.shiftKey && key === 'R') {
-        e.preventDefault()
-        onHandleReloadPlugin()
-      } else if (e.metaKey && e.key === 'ENTER') {
-        e.preventDefault()
-        onHandleShowInFinder()
-      }
+				// 复制插件名字
+				e.preventDefault()
+				onHandleCopyName()
+			} else if (e.shiftKey && e.metaKey && key === 'C') {
+				// 复制插件名字
+				e.preventDefault()
+				onHandleCopyPluginId()
+			} else if (e.shiftKey && e.metaKey && key === 'D') {
+				e.preventDefault()
+				onHanldePulginStatus(false)
+			} else if (e.shiftKey && e.metaKey && key === 'S') {
+				e.preventDefault()
+				onHanldePulginStatus(true)
+			} else if (e.shiftKey && e.metaKey && key === 'Q') {
+				e.preventDefault()
+				onHanldeUninstallPulgin()
+			} else if (e.shiftKey && key === 'R') {
+				e.preventDefault()
+				onHandleReloadPlugin()
+			} else if (e.metaKey && e.key === 'ENTER') {
+				e.preventDefault()
+				onHandleShowInFinder()
+			}
 		}
 		document.addEventListener("keydown", listener)
 		return () => {
@@ -234,11 +235,11 @@ export function RaycastCMDK() {
 		}
 	}, [])
 
-  // 当快照选择变化时，可以不需要重新请求接口
-  useEffect(() => {
-    const [groups] = formatExtDatas(originDatas, snapshots, selectSnapId)
-    setExtDatas(groups)
-  }, [selectSnapId])
+	// 当快照选择变化时，可以不需要重新请求接口
+	useEffect(() => {
+		const [groups] = formatExtDatas(originDatas, snapshots, selectSnapId)
+		setExtDatas(groups)
+	}, [selectSnapId])
 
 
 	// 当搜索内容变化时，滚动到列表顶部
@@ -251,210 +252,225 @@ export function RaycastCMDK() {
 	const getExtensionDeatilById = (id: string) => {
 		return originDatas.find((ext) => ext.id === getExtId(id))
 	}
-  /** 当前快照 启用的插件 */
-  const onSvaeSnap = async (tab, snapId, name) => {
-    try {
-      let extIds = extDatas[extDatas.length - 1].children.filter(({enabled}) => enabled === true);
-      extIds = extIds.map(({id}) => id);
-      await handleCreateSnapshots(snapId, name, extIds)
-      if (tab === 'add') {
-        await getSnapShotDatas()
-      } else if (tab === 'replace') {
-        await getExtensionDatas()
-      }
-    } catch (error) {
-      
-    }
-  }
+	/** 当前快照 启用的插件 */
+	const onSvaeSnap = async (tab, snapId, name) => {
+		try {
+			let extIds = extDatas[extDatas.length - 1].children.filter(({ enabled }) => enabled === true);
+			extIds = extIds.map(({ id }) => id);
+			await handleCreateSnapshots(snapId, name, extIds)
+			if (tab === 'add') {
+				await getSnapShotDatas()
+			} else if (tab === 'replace') {
+				await getExtensionDatas()
+			}
+		} catch (error) {
 
-  const getSnapShotDatas = async () => {
-    const [err, res] = await handleGetSnapshots()
-    if (err || !Array.isArray(res)) {
+		}
+	}
+
+	const getSnapShotDatas = async () => {
+		const [err, res] = await handleGetSnapshots()
+		if (err || !Array.isArray(res)) {
 			return []
 		}
-    setSnapshots(res)
-    return res
-  }
+		setSnapshots(res)
+		return res
+	}
 
-  /**
-   * 更新
-   */
-  const onHandleUpdate = () => {
-    handleExtUpdateDone()
-    setHasUpdateStatus(2)
-    toast("Update Success")
-  }
-  
-  /**
-   * 回车操作
-   * @returns 
-   */
-  const onHandleOpenExt = () => {
-    const extInfo = getExtensionDeatilById(value)
-    if (!extInfo) {
-      toast("It is not Extension")
-      return
-    } 
-    handleDoExt(extInfo)
-  }
+	/**
+	 * 更新
+	 */
+	const onHandleUpdate = () => {
+		handleExtUpdateDone()
+		setHasUpdateStatus(2)
+		toast("Update Success")
+	}
 
-  /**
-   * 收藏操作
-   * @returns 
-   */
-  const onHandelFavorite = async () => {
-    const extDeatil = getExtensionDeatilById(value)
-    if (!extDeatil) return
-    if (listRef.current) {
-      listRef.current.scrollTop = 0 // 滚动到顶部
-    }
-    const favorite = extDeatil?.favorite
-    await handleExtFavoriteDone(value, !favorite)
-    await getExtensionDatas();
-    toast("Favorite Success")
-  }
+	/**
+	 * 回车操作
+	 * @returns 
+	 */
+	const onHandleOpenExt = () => {
+		const extInfo = getExtensionDeatilById(value)
+		if (!extInfo) {
+			toast("It is not Extension")
+			return
+		}
+		handleDoExt(extInfo)
+	}
 
-  /**
-   * 复制插件名字
-   */
-  const onHandleCopyName = () => {
-    const extInfo = getExtensionDeatilById(value)
-    clipboard.writeText(extInfo.name);
-    toast("Copy Name Success")
-  }
+	/**
+	 * 收藏操作
+	 * @returns 
+	 */
+	const onHandelFavorite = async () => {
+		const extDeatil = getExtensionDeatilById(value)
+		if (!extDeatil) return
+		if (listRef.current) {
+			listRef.current.scrollTop = 0 // 滚动到顶部
+		}
+		const favorite = extDeatil?.favorite
+		await handleExtFavoriteDone(value, !favorite)
+		await getExtensionDatas();
+		toast("Favorite Success")
+	}
 
-  /**
-  * 复制插件名字
-  */
-  const onHandleCopyPluginId = () => {
-    const extInfo = getExtensionDeatilById(value)
-    clipboard.writeText(extInfo.id);
-    toast("Copy Plugin ID Success")
-  }
-  
-  /**
-   * 禁用、启用插件
-   * @param status 
-   */
-  const onHanldePulginStatus = async (status) => {
-    const extInfo = getExtensionDeatilById(value)
-    await handlePluginStatus(extInfo.id, status)
-    getExtensionDatas()
-    toast( status ?  "Enable Plugin Success" : "Disable Plugin Success")
-  }
+	/**
+	 * 复制插件名字
+	 */
+	const onHandleCopyName = () => {
+		const extInfo = getExtensionDeatilById(value)
+		clipboard.writeText(extInfo.name);
+		toast("Copy Name Success")
+	}
 
-  /**
-   * 执行一次禁用、启用插件模拟刷新插件(开发状态)
-   */
-  const onHandleReloadPlugin = async () => {
-    const extInfo = getExtensionDeatilById(value)
-    if (extInfo.installType === 'development') {
-      await handlePluginStatus(extInfo.id, false)
-      setTimeout(async () => {
-        await handlePluginStatus(extInfo.id, true)
-        getExtensionDatas()
-        toast('Reload PluginSuccess')
-      }, 2000)
-    } else {
-      toast('It is not Development')
-    }
-  }
+	/**
+	* 复制插件名字
+	*/
+	const onHandleCopyPluginId = () => {
+		const extInfo = getExtensionDeatilById(value)
+		clipboard.writeText(extInfo.id);
+		toast("Copy Plugin ID Success")
+	}
 
-  /**
-   * 打开插件文件夹路径
-   */
-  const onHandleShowInFinder = () => {
-    toast('Show In Finder PluginSuccess')
-  }
+	/**
+	 * 禁用、启用插件
+	 * @param status 
+	 */
+	const onHanldePulginStatus = async (status) => {
+		const extInfo = getExtensionDeatilById(value)
+		await handlePluginStatus(extInfo.id, status)
+		getExtensionDatas()
+		toast(status ? "Enable Plugin Success" : "Disable Plugin Success")
+	}
 
-  /**
-   * 卸载
-   */
-  const onHanldeUninstallPulgin = () => {
-    const extInfo = getExtensionDeatilById(value)
-    handleUninstallPlugin(extInfo.id)
-  }
-  /**
-   * SubCommand 点击操作 
-   */
-  const onClickSubItem = (subValue) => {
-    console.log('onClickSubItem ---', value)
-    const extInfo = getExtensionDeatilById(value)
-    if (!extInfo) {
-      toast("It is not Extension")
-      return
-    }
-    switch(subValue) {
-      case 'open_extension_page': 
-        onHandleOpenExt();
-      break
-      case 'copy_plugin_name':
-        onHandleCopyName();
-        break
-      case 'copy_plugin_id':
-        onHandleCopyPluginId()
-        break
-      case 'open_snapshot_dialog':
-        setSnapshotOpen(v => !v);
-        break
-      case 'add_to_favorites':
-        onHandelFavorite()
-        break
-      case 'disable_plugin':
-        onHanldePulginStatus(false)
-        break
-      case 'enable_plugin': 
-        onHanldePulginStatus(true)
-        break
-      case 'reload_plugin':
-        onHandleReloadPlugin()
-        break
-      case 'show_in_finder':
-        onHandleShowInFinder()
-        break
-      case 'uninstall_plugin':
-        onHanldeUninstallPulgin()
-        break
-      default:
-        toast("Try Other Actions")
-    }
-  }
+	/**
+	 * 执行一次禁用、启用插件模拟刷新插件(开发状态)
+	 */
+	const onHandleReloadPlugin = async () => {
+		const extInfo = getExtensionDeatilById(value)
+		if (extInfo.installType === 'development') {
+			await handlePluginStatus(extInfo.id, false)
+			setTimeout(async () => {
+				await handlePluginStatus(extInfo.id, true)
+				getExtensionDatas()
+				toast('Reload PluginSuccess')
+			}, 2000)
+		} else {
+			toast('It is not Development')
+		}
+	}
+
+	/**
+	 * 打开插件文件夹路径
+	 */
+	const onHandleShowInFinder = () => {
+		const extInfo = getExtensionDeatilById(value)
+		const { installType, id, name } = extInfo
+		axios.post('http://localhost:5698/submit', {
+			extId: id,
+			type: installType === 'development' ? 'development' : 'webstore',
+			name: encodeURIComponent(name),
+		})
+			.then(response => {
+				console.log(response.data);
+				toast('Show In Finder PluginSuccess')
+			})
+			.catch(error => {
+				console.error(error);
+				toast('Show In Finder Error')
+			});
+
+	}
+
+	/**
+	 * 卸载
+	 */
+	const onHanldeUninstallPulgin = () => {
+		const extInfo = getExtensionDeatilById(value)
+		handleUninstallPlugin(extInfo.id)
+	}
+	/**
+	 * SubCommand 点击操作 
+	 */
+	const onClickSubItem = (subValue) => {
+		console.log('onClickSubItem ---', value)
+		const extInfo = getExtensionDeatilById(value)
+		if (!extInfo) {
+			toast("It is not Extension")
+			return
+		}
+		switch (subValue) {
+			case 'open_extension_page':
+				onHandleOpenExt();
+				break
+			case 'copy_plugin_name':
+				onHandleCopyName();
+				break
+			case 'copy_plugin_id':
+				onHandleCopyPluginId()
+				break
+			case 'open_snapshot_dialog':
+				setSnapshotOpen(v => !v);
+				break
+			case 'add_to_favorites':
+				onHandelFavorite()
+				break
+			case 'disable_plugin':
+				onHanldePulginStatus(false)
+				break
+			case 'enable_plugin':
+				onHanldePulginStatus(true)
+				break
+			case 'reload_plugin':
+				onHandleReloadPlugin()
+				break
+			case 'show_in_finder':
+				onHandleShowInFinder()
+				break
+			case 'uninstall_plugin':
+				onHanldeUninstallPulgin()
+				break
+			default:
+				toast("Try Other Actions")
+		}
+	}
 
 	return (
 		<div className="ext-shoot">
 			<Command value={value} onValueChange={(v) => setValue(v)}>
 				<div cmdk-raycast-top-shine="" />
-        <div style={{ display: 'flex'}}>
-          <Command.Input
-            value={search}
-            onValueChange={setSearch}
-            ref={inputRef}
-            autoFocus
-            placeholder="Search for extensions and commands..."
-            style={{ flex: 1}}
-          />
-          <div style={{ flexShrink: 0, marginLeft: '12px',  position: 'relative', zIndex: 999}}>
-            <Select.Root value={selectSnapId} onValueChange={setSelectSnapId}>
-              <Select.Trigger className="SelectTrigger" aria-label="Food">
-                <Select.Value placeholder='Select a Snapshot' />
-                <Select.Icon className="SelectIcon">
-                  <ChevronDownIcon />
-                </Select.Icon>
-              </Select.Trigger>
-              <Select.Portal container={selectContainer}>
-                <Select.Content className="SelectContent">
-                <SelectItem value='all'>All</SelectItem>
-                  {
-                    snapshots.length > 0 ? snapshots.map(({ id, name }) => <SelectItem value={id || getId()}>{ name }</SelectItem>)  :  null
-                  }
-                </Select.Content>
-              </Select.Portal>
-            </Select.Root>
-            <div className="container-root menu-main" style={{ width: '100%', boxSizing: 'border-box', position: 'relative' }} ref={setSelectContainer}></div>
-          </div>
-        </div>
-			
-        
+				<div style={{ display: 'flex' }}>
+					<Command.Input
+						value={search}
+						onValueChange={setSearch}
+						ref={inputRef}
+						autoFocus
+						placeholder="Search for extensions and commands..."
+						style={{ flex: 1 }}
+					/>
+					<div style={{ flexShrink: 0, marginLeft: '12px', position: 'relative', zIndex: 999 }}>
+						<Select.Root value={selectSnapId} onValueChange={setSelectSnapId}>
+							<Select.Trigger className="SelectTrigger" aria-label="Food">
+								<Select.Value placeholder='Select a Snapshot' />
+								<Select.Icon className="SelectIcon">
+									<ChevronDownIcon />
+								</Select.Icon>
+							</Select.Trigger>
+							<Select.Portal container={selectContainer}>
+								<Select.Content className="SelectContent">
+									<SelectItem value='all'>All</SelectItem>
+									{
+										snapshots.length > 0 ? snapshots.map(({ id, name }) => <SelectItem value={id || getId()}>{name}</SelectItem>) : null
+									}
+								</Select.Content>
+							</Select.Portal>
+						</Select.Root>
+						<div className="container-root menu-main" style={{ width: '100%', boxSizing: 'border-box', position: 'relative' }} ref={setSelectContainer}></div>
+					</div>
+				</div>
+
+
 				<hr cmdk-raycast-loader="" />
 				<Command.List ref={listRef}>
 					<Command.Empty>No results found.</Command.Empty>
@@ -467,7 +483,7 @@ export function RaycastCMDK() {
 											{children?.map((item) => {
 												const { id, name, icon, enabled } = item;
 												return (
-													<Item value={id} keywords={[name]} id={id} key={id} extinfo={item} cls={ !enabled && 'grayscale'}>
+													<Item value={id} keywords={[name]} id={id} key={id} extinfo={item} cls={!enabled && 'grayscale'}>
 														{icon ? (
 															<ExtensionIcon base64={icon} />
 														) : (
@@ -512,9 +528,9 @@ export function RaycastCMDK() {
 											value={value}
 											keywords={keywords}
 											commandHandle={async () => {
-                        await handle({ extDatas: extDatas, snapType: selectSnapId});
-                        refresh && getExtensionDatas();
-                      }}>
+												await handle({ extDatas: extDatas, snapType: selectSnapId });
+												refresh && getExtensionDatas();
+											}}>
 											<Logo>{icon}</Logo>
 											{name}
 										</Item>
@@ -549,11 +565,11 @@ export function RaycastCMDK() {
 						listRef={listRef}
 						selectName={getExtensionDeatilById(value)?.name}
 						inputRef={inputRef}
-            onClickItem={onClickSubItem}
+						onClickItem={onClickSubItem}
 					/>
 				</div>
 			</Command>
-      <SnapshotDialog snapOpen={snapshotOpen} snapshots={snapshots} onSnapChange={setSnapshotOpen} container={container} onSvaeSnap={onSvaeSnap}></SnapshotDialog>
+			<SnapshotDialog snapOpen={snapshotOpen} snapshots={snapshots} onSnapChange={setSnapshotOpen} container={container} onSvaeSnap={onSvaeSnap}></SnapshotDialog>
 			<div className="container-root" ref={setContainer}></div>
 		</div>
 	)
@@ -567,7 +583,7 @@ function Item({
 	commandHandle,
 	isCommand = false,
 	extinfo = {},
-  cls = '',
+	cls = '',
 }: {
 	children: React.ReactNode
 	value: string
@@ -576,11 +592,11 @@ function Item({
 	commandHandle?: any
 	id?: string
 	extinfo?: any
-  cls?: string
+	cls?: string
 }) {
 	return (
 		<Command.Item
-      className={cls}
+			className={cls}
 			value={value}
 			keywords={keywords}
 			onSelect={() => {
@@ -596,12 +612,12 @@ function SubCommand({
 	inputRef,
 	listRef,
 	selectName,
-  onClickItem,
+	onClickItem,
 }: {
 	inputRef: React.RefObject<HTMLInputElement>
 	listRef: React.RefObject<HTMLElement>
 	selectName?: string
-  onClickItem?: any
+	onClickItem?: any
 }) {
 	const [open, setOpen] = React.useState(false)
 	const subCommandInputRef = React.useRef<HTMLInputElement>(null)
@@ -659,12 +675,12 @@ function SubCommand({
 					<Command.List>
 						<Command.Empty>No Actions found.</Command.Empty>
 						<Command.Group heading={selectName}>
-              {
-                SUB_ITME_ACTIONS.map((item) => <SubItem value={item.value} keywords={item.keywords}  shortcut={item.shortcut} commandHandle={ (value)=> typeof onClickItem ==='function' && onClickItem(value)}  >
-								{item.icon}
-								{item.name}
-							  </SubItem>)
-              }
+							{
+								SUB_ITME_ACTIONS.map((item) => <SubItem value={item.value} keywords={item.keywords} shortcut={item.shortcut} commandHandle={(value) => typeof onClickItem === 'function' && onClickItem(value)}  >
+									{item.icon}
+									{item.name}
+								</SubItem>)
+							}
 							{/* <SubItem shortcut="⇧ F">
 								<StarIcon />
 								Open Snapshot Dialog
@@ -699,20 +715,20 @@ function SubCommand({
 }
 
 function SubItem({
-  value,
-  keywords,
+	value,
+	keywords,
 	children,
 	shortcut,
-  commandHandle,
+	commandHandle,
 }: {
-  value: string
-  keywords: string[]
+	value: string
+	keywords: string[]
 	children: React.ReactNode
 	shortcut: string,
-  commandHandle?: any
+	commandHandle?: any
 }) {
 	return (
-		<Command.Item  value={value} keywords={keywords} onSelect={() => { typeof commandHandle === 'function' && commandHandle(value) }}>
+		<Command.Item value={value} keywords={keywords} onSelect={() => { typeof commandHandle === 'function' && commandHandle(value) }}>
 			{children}
 			<div cmdk-raycast-submenu-shortcuts="">
 				{shortcut.split(" ").map((key) => {
@@ -728,9 +744,9 @@ function SubItem({
 function SnapshotDialog({ snapOpen, container, onSnapChange, snapshots = [], onSvaeSnap = null }) {
 	const [open, setOpen] = React.useState(false)
 	const [selectContainer, setSelectContainer] = React.useState(null)
-  const [snapName, setSnapName] = React.useState('Snapshot 1')
-  const [tabValue, setTabValue] = React.useState('add')
-  const [snapId, setSnapId] = React.useState('')
+	const [snapName, setSnapName] = React.useState('Snapshot 1')
+	const [tabValue, setTabValue] = React.useState('add')
+	const [snapId, setSnapId] = React.useState('')
 	React.useEffect(() => {
 		setOpen(snapOpen)
 	}, [snapOpen])
@@ -738,14 +754,14 @@ function SnapshotDialog({ snapOpen, container, onSnapChange, snapshots = [], onS
 		setOpen(v)
 		typeof onSnapChange === 'function' && onSnapChange(v);
 	}
-  const onInput = (e) => {
-    setSnapName(e.target.value)
-  }
-  const onSave = () => {
-    if (snapName.trim().length < 2) return 
-    setOpen(false)
-    typeof onSvaeSnap === 'function' && onSvaeSnap(tabValue, snapId, snapName.trim());
-  }
+	const onInput = (e) => {
+		setSnapName(e.target.value)
+	}
+	const onSave = () => {
+		if (snapName.trim().length < 2) return
+		setOpen(false)
+		typeof onSvaeSnap === 'function' && onSvaeSnap(tabValue, snapId, snapName.trim());
+	}
 	return <Dialog.Root open={open} onOpenChange={onOpenChange}>
 		<Dialog.Portal container={container}>
 			<Dialog.Overlay className="DialogOverlay" />
@@ -762,23 +778,23 @@ function SnapshotDialog({ snapOpen, container, onSnapChange, snapshots = [], onS
 					<Tabs.Content className="TabsContent" value="add">
 						<p className="Text">Create new snapshot</p>
 						<fieldset className="Fieldset">
-							<input placeholder="snapshot name (min len 2)" minLength={2} maxLength={12} className="Input" value={snapName}  onInput={onInput} />
+							<input placeholder="snapshot name (min len 2)" minLength={2} maxLength={12} className="Input" value={snapName} onInput={onInput} />
 						</fieldset>
 					</Tabs.Content>
 					<Tabs.Content className="TabsContent" value="replace">
 						<p className="Text">Replace a snapshot</p>
 						<Select.Root value={snapId} onValueChange={setSnapId}>
 							<Select.Trigger className="SelectTrigger" aria-label="Food">
-								<Select.Value placeholder={ snapshots.length > 0 ? 'Select a Snapshot' : 'Snapshot Empty' } />
+								<Select.Value placeholder={snapshots.length > 0 ? 'Select a Snapshot' : 'Snapshot Empty'} />
 								<Select.Icon className="SelectIcon">
 									<ChevronDownIcon />
 								</Select.Icon>
 							</Select.Trigger>
 							<Select.Portal container={selectContainer}>
 								<Select.Content className="SelectContent">
-                  {
-                    snapshots.length > 0 ? snapshots.map(({ id, name }) => <SelectItem value={id || getId()}>{ name }</SelectItem>)  :  null
-                  }
+									{
+										snapshots.length > 0 ? snapshots.map(({ id, name }) => <SelectItem value={id || getId()}>{name}</SelectItem>) : null
+									}
 								</Select.Content>
 							</Select.Portal>
 						</Select.Root>

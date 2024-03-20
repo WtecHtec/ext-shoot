@@ -134,7 +134,7 @@ export const SUB_ITME_ACTIONS = [
     keywords: ["open", "add", "extension",  "Open Extension Page"],
   }, 
   {
-    shortcut: '⌘ ↵',
+    shortcut: '⇧ Alt Q',
     icon: <StarIcon />,
     name: 'Show in Finder',
     desc: 'Show in Finder',
@@ -142,7 +142,7 @@ export const SUB_ITME_ACTIONS = [
     keywords: ["show", "finder",  "Show in Finder"],
   },
   {
-    shortcut: '⌘ .',
+    shortcut: 'Alt C',
     icon: <StarIcon />,
     name: 'Copy Plugin Name',
     desc: 'Copy Plugin Name',
@@ -150,7 +150,7 @@ export const SUB_ITME_ACTIONS = [
     keywords: ["copy", "plugin", "name", "Copy Plugin Name"],
   },
   {
-    shortcut: '⇧ R',
+    shortcut: 'Alt R',
     icon: <StarIcon />,
     name: 'Reload Plugin',
     desc: 'Reload plugin',
@@ -174,7 +174,7 @@ export const SUB_ITME_ACTIONS = [
     keywords: ["favorites", "add",  "Add to Favorites"],
   },
   {
-    shortcut: '⇧ ⌘ C',
+    shortcut: 'Alt .',
     icon: <StarIcon />,
     name: 'Copy Plugin ID',
     desc: 'Copy Plugin ID',
@@ -182,7 +182,7 @@ export const SUB_ITME_ACTIONS = [
     keywords: ["copy", "plugin", "id", "Copy Plugin ID"],
   },
   {
-    shortcut: '⇧ ⌘ D',
+    shortcut: 'Alt D',
     icon: <StarIcon />,
     name: 'Disable Plugin',
     desc: 'Disable Plugin',
@@ -190,7 +190,7 @@ export const SUB_ITME_ACTIONS = [
     keywords: ["disable", "plugin", "Disable Plugin"],
   },
   {
-    shortcut: '⇧ ⌘ S',
+    shortcut: 'Alt S',
     icon: <StarIcon />,
     name: 'Enable Plugin',
     desc: 'Enable Plugin',
@@ -198,7 +198,7 @@ export const SUB_ITME_ACTIONS = [
     keywords: ["enable", "plugin", "Enable Plugin"],
   },
   {
-    shortcut: '⇧ ⌘ Q',
+    shortcut: 'Alt U',
     icon: <StarIcon />,
     name: 'Uninstall Plugin',
     desc: 'Uninstall Plugin',

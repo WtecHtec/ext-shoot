@@ -60,9 +60,15 @@ const handleEnableExtension = ({ request, sendResponse }) => {
  */
 const handleUninstallExtension = ({ request, sendResponse }) => {
 	const { extensionId } = request
-	chrome.management.uninstall(extensionId, {}, () => {
-		sendResponse({ status: "Extension uninstalled" })
-	})
+  try {
+    chrome.management.uninstall(extensionId, {}, () => {
+      console.log('取消卸载',chrome.runtime.lastError)
+      sendResponse({ status: chrome.runtime.lastError ? "error" : "success" })
+    })
+  } catch (error) {
+    console.log('取消卸载', error)
+  }
+
 }
 
 /**

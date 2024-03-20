@@ -174,39 +174,39 @@ export function RaycastCMDK() {
 		async function listener(e: KeyboardEvent) {
 			const key = e.key?.toUpperCase()
 
-			if (key === "F" && e.shiftKey && e.metaKey) {
+			if (e.shiftKey && e.metaKey && key === "F") {
 				// 收藏
 				e.preventDefault()
 				onHandelFavorite()
-			} else if (key === 'U' && e.metaKey) {
+			} else if ( e.metaKey && key === 'U') {
 				// 更新
 				e.preventDefault()
 				onHandleUpdate()
-			} else if (key === "F" && e.shiftKey) {
+			} else if (e.shiftKey && key === "F") {
 				// 快照
 				e.preventDefault()
 				setSnapshotOpen(v => !v)
-			} else if (e.metaKey && key === '.') {
+			} else if (e.altKey && key === 'C') {
 				// 复制插件名字
 				e.preventDefault()
 				onHandleCopyName()
-			} else if (e.shiftKey && e.metaKey && key === 'C') {
-				// 复制插件名字
+			} else if ( e.altKey && key === '.') {
+				// 复制插件Id
 				e.preventDefault()
 				onHandleCopyPluginId()
-			} else if (e.shiftKey && e.metaKey && key === 'D') {
+			} else if (e.altKey && key === 'D') {
 				e.preventDefault()
 				onHanldePulginStatus(false)
-			} else if (e.shiftKey && e.metaKey && key === 'S') {
+			} else if ( e.altKey && key === 'S') {
 				e.preventDefault()
 				onHanldePulginStatus(true)
-			} else if (e.shiftKey && e.metaKey && key === 'Q') {
+			} else if ( e.altKey && key === 'U') {
 				e.preventDefault()
 				onHanldeUninstallPulgin()
-			} else if (e.shiftKey && key === 'R') {
+			} else if (e.altKey && key === 'R') {
 				e.preventDefault()
 				onHandleReloadPlugin()
-			} else if (e.metaKey && e.key === 'ENTER') {
+			} else if (e.shiftKey && e.altKey &&  e.key === 'Q') {
 				e.preventDefault()
 				onHandleShowInFinder()
 			}
@@ -366,10 +366,9 @@ export function RaycastCMDK() {
 	 */
 	const onHandleShowInFinder = () => {
 		const extInfo = getExtensionDeatilById(value)
-		const { installType, id, name } = extInfo
+		const { id, name } = extInfo
 		axios.post('http://localhost:5698/submit', {
 			extId: id,
-			type: installType === 'development' ? 'development' : 'webstore',
 			name: encodeURIComponent(name),
 		})
 			.then(response => {
@@ -386,9 +385,10 @@ export function RaycastCMDK() {
 	/**
 	 * 卸载
 	 */
-	const onHanldeUninstallPulgin = () => {
-		const extInfo = getExtensionDeatilById(value)
-		handleUninstallPlugin(extInfo.id)
+	const onHanldeUninstallPulgin = async () => {
+		const extInfo = getExtensionDeatilById(value);
+	  const [, status] =	await handleUninstallPlugin(extInfo.id);
+    status && await getExtensionDatas();
 	}
 	/**
 	 * SubCommand 点击操作 

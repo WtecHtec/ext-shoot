@@ -168,12 +168,12 @@ export const handlePluginStatus = (extensionId, status) => {
 /**
  *  禁用、启用状态  status: false\ true
  */
- export const handleUninstallPlugin = (extensionId) => {
+ export const handleUninstallPlugin = (extensionId): Promise<[any, any]> => {
   return new Promise(resolve => {
 		chrome.runtime.sendMessage(
 			{ action: 'uninstall_extension', extensionId},
 		).then(async (response) => {
-			resolve([null, response]);
+			resolve([null, response.status === 'success']);
 		}).catch(err => {
 			resolve([err, null]);
 		});

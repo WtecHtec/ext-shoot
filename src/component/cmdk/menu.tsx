@@ -109,7 +109,7 @@ export function RaycastCMDK() {
      * @returns
      */
     const getExtensionDatas = async () => {
-        console.log('获取插件数据');
+        // console.log('获取插件数据');
         const [err, res] = await getExtensionAll();
         if (err || !Array.isArray(res)) {
             return;
@@ -204,38 +204,7 @@ export function RaycastCMDK() {
                 e.preventDefault();
                 onHandleUpdate();
             }
-            // else if (e.shiftKey && e.metaKey && key === "F") {
-            // 	// 收藏
-            // 	e.preventDefault()
-            // 	onHandelFavorite()
-            // } else if (e.shiftKey && key === "F") {
-            // 	// 快照
-            // 	e.preventDefault()
-            // 	setSnapshotOpen(v => !v)
-            // } else if (e.altKey && key === 'C') {
-            // 	// 复制插件名字
-            // 	e.preventDefault()
-            // 	onHandleCopyName()
-            // } else if ( e.altKey && key === '.') {
-            // 	// 复制插件Id
-            // 	e.preventDefault()
-            // 	onHandleCopyPluginId()
-            // } else if (e.altKey && key === 'D') {
-            // 	e.preventDefault()
-            // 	onHanldePulginStatus(false)
-            // } else if ( e.altKey && key === 'S') {
-            // 	e.preventDefault()
-            // 	onHanldePulginStatus(true)
-            // } else if ( e.altKey && key === 'U') {
-            // 	e.preventDefault()
-            // 	onHanldeUninstallPulgin()
-            // } else if (e.altKey && key === 'R') {
-            // 	e.preventDefault()
-            // 	onHandleReloadPlugin()
-            // } else if (e.shiftKey && e.altKey &&  e.key === 'Q') {
-            // 	e.preventDefault()
-            // 	onHandleShowInFinder()
-            // }
+
         }
 
         const handelMsgBybg = (request, sender, sendResponse) => {
@@ -470,7 +439,7 @@ export function RaycastCMDK() {
                 onHanldeUninstallPulgin();
                 break;
             default:
-                toast('Try Other Actions');
+                break;
         }
     };
 
@@ -698,7 +667,6 @@ function SubCommand({
             if (e.key.toLocaleUpperCase() === 'K' && e.metaKey) {
                 e.preventDefault();
                 setOpen((o) => !o);
-                toast('Open SubCommand');
             }
             if (subCommandInputRef.current) {
                 subCommandInputRef.current.focus();

@@ -70,7 +70,14 @@
         ]
       }
     ],
-    "commands":  {
+    "commands": {
+      "active_extention_launcher": {
+        "suggested_key": {
+          "default": "Ctrl+I",
+          "mac": "Command+I"
+        },
+        "description": "Active Extension Launcher"
+      },
       "show_in_finder": {
         "suggested_key": {
           "default": "Shift+Alt+Q"
@@ -87,7 +94,6 @@
         "description": "Copy Plugin ID"
       },
       "reload_plugin": {
-  
         "description": "Copy Plugin Name"
       },
       "disable_plugin": {
@@ -108,6 +114,6 @@
         },
         "description": "Add to Favorites"
       }
-    } 
+    }
   }
 }

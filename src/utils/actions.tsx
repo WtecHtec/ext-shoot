@@ -115,7 +115,7 @@ export const ActionMeta = [
 	{
 		name: "Change Extenion Shortcuts",
 		value: "change_extension_shortcuts",
-		keywords: ["shortcuts", "Change Extenion Shortcuts"],
+		keywords: ["shortcuts", "Change Extenion Shortcuts","key","keymap","keybindings","keyboard"],
 		icon: <ExtensionShortcutIcon />,
 		desc: "Change Extenion Shortcuts",
 		handle: handleOpenExtensionShortcutsPage
@@ -132,7 +132,7 @@ export const SUB_ITME_ACTIONS = [
   //   desc: 'Open Extension Page',
   //   value: 'open_extension_page',
   //   keywords: ["open", "add", "extension",  "Open Extension Page"],
-  // }, 
+  // },
   {
     // shortcut: '⇧ Alt Q',
     icon: <StarIcon />,
@@ -205,5 +205,5 @@ export const SUB_ITME_ACTIONS = [
     value: 'uninstall_plugin',
     keywords: ["uninstall", "plugin", "Uninstall Plugin"],
   },
-  
+
 ]

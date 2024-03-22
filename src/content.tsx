@@ -24,7 +24,7 @@ export const getStyle = () => {
 
 const PlasmoOverlay = () => {
 	// for dev
-	const [open, setOpen] = React.useState(true);
+	const [open, setOpen] = React.useState(false);
 	const focusRef = useRef(null);
 
 	React.useEffect(() => {

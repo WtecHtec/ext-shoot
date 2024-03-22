@@ -1,5 +1,5 @@
 
-import { ENABLE_ALL_EXTENSION, EXT_UPDATE_DONE, AC_FAVORITE, AC_RECENTLY_OPEN, AC_ICON_UPDATED, AC_SNAPSHOT_CREATE, AC_GET_SNAPSHOTS } from "~config/actions"
+import { ENABLE_ALL_EXTENSION, EXT_UPDATE_DONE, AC_FAVORITE, AC_RECENTLY_OPEN, AC_ICON_UPDATED, AC_SNAPSHOT_CREATE, AC_GET_SNAPSHOTS, AC_GET_COMMANDS } from "~config/actions"
 import { mode } from "~config/config"
 import { getExtendedInfo, getSnapshots, getStorageIcon, setExtendedInfo, setSnapshot, } from "~utils/local.storage"
 import { getId } from "~utils/util"
@@ -287,6 +287,25 @@ const handleGetSnapshots = async ({request, sendResponse}) => {
   const snapshots = await getSnapshots()
   sendResponse({ snapshots,})
 }
+/**
+ * 获取用户快捷设置
+ * @param param0 
+ */
+const handleGetCommands = async ({request, sendResponse}) => {
+  chrome.commands.getAll(
+    (commands) => {
+     console.log('commands---', commands)
+      const commandMapping = {}
+      commands.forEach(({ name, shortcut}) => {
+        if (shortcut) {
+          commandMapping[name] = shortcut.replace(/\+/g, ' ')
+        }
+      })
+      sendResponse({ commandMapping,})
+    })
+   
+}
+  
 
 const ACTICON_MAP = {
 	get_extensions: getExtensions,
@@ -305,6 +324,7 @@ const ACTICON_MAP = {
 	[AC_ICON_UPDATED]: handleIconUpdated,
   [AC_SNAPSHOT_CREATE]: handleCreateSnapshot,
   [AC_GET_SNAPSHOTS]: handleGetSnapshots,
+  [AC_GET_COMMANDS]: handleGetCommands,
 }
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	// 获取插件列表
@@ -352,4 +372,18 @@ chrome.tabs.onCreated.addListener(function (tab) {
 			})
 		}
 	})
+});
+
+
+/**
+ *  监听快捷指令
+ */
+chrome.commands.onCommand.addListener((command) => {
+  console.log('command---', command)
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    // 向content.js发送消息
+    chrome.tabs.sendMessage(tabs[0].id, { action: command }, function (response) {
+      console.log(response.result);
+    });
+  });
 });

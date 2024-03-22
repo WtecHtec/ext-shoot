@@ -1,4 +1,4 @@
-import { AC_FAVORITE, AC_GET_SNAPSHOTS, AC_RECENTLY_OPEN, AC_SNAPSHOT_CREATE, EXT_UPDATE_DONE } from '~config/actions';
+import { AC_FAVORITE, AC_GET_COMMANDS, AC_GET_SNAPSHOTS, AC_RECENTLY_OPEN, AC_SNAPSHOT_CREATE, EXT_UPDATE_DONE } from '~config/actions';
 /**
  * 获取插件列表
  * @returns
@@ -180,3 +180,16 @@ export const handlePluginStatus = (extensionId, status) => {
 	});
 }
 
+
+
+export const handleGetAllCommands = (): Promise<[any, any]> => {
+  return new Promise(resolve => {
+		chrome.runtime.sendMessage(
+			{ action: AC_GET_COMMANDS,},
+		).then(async (response) => {
+			resolve([null, response.commandMapping]);
+		}).catch(err => {
+			resolve([err, null]);
+		});
+	});
+}

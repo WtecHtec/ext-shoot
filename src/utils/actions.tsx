@@ -125,16 +125,16 @@ export const ActionMeta = [
 
 
 export const SUB_ITME_ACTIONS = [
+  // {
+  //   shortcut: '↵',
+  //   icon: <StarIcon />,
+  //   name: 'Open Extension Page',
+  //   desc: 'Open Extension Page',
+  //   value: 'open_extension_page',
+  //   keywords: ["open", "add", "extension",  "Open Extension Page"],
+  // }, 
   {
-    shortcut: '↵',
-    icon: <StarIcon />,
-    name: 'Open Extension Page',
-    desc: 'Open Extension Page',
-    value: 'open_extension_page',
-    keywords: ["open", "add", "extension",  "Open Extension Page"],
-  }, 
-  {
-    shortcut: '⇧ Alt Q',
+    // shortcut: '⇧ Alt Q',
     icon: <StarIcon />,
     name: 'Show in Finder',
     desc: 'Show in Finder',
@@ -142,7 +142,7 @@ export const SUB_ITME_ACTIONS = [
     keywords: ["show", "finder",  "Show in Finder"],
   },
   {
-    shortcut: 'Alt C',
+    // shortcut: 'Alt C',
     icon: <StarIcon />,
     name: 'Copy Plugin Name',
     desc: 'Copy Plugin Name',
@@ -150,7 +150,7 @@ export const SUB_ITME_ACTIONS = [
     keywords: ["copy", "plugin", "name", "Copy Plugin Name"],
   },
   {
-    shortcut: 'Alt R',
+    // shortcut: 'Alt R',
     icon: <StarIcon />,
     name: 'Reload Plugin',
     desc: 'Reload plugin',
@@ -158,7 +158,7 @@ export const SUB_ITME_ACTIONS = [
     keywords: ["reload", "plugin",  "Reload Plugin"],
   },
   {
-    shortcut: '⇧ F',
+    // shortcut: '⇧ F',
     icon: <StarIcon />,
     name: 'Open Snapshot Dialog',
     desc: 'Open Snapshot Dialog',
@@ -166,7 +166,7 @@ export const SUB_ITME_ACTIONS = [
     keywords: ["open", "add", "snapshot",  "Open Snapshot Dialog"],
   },
   {
-    shortcut: '⌘ ⇧ F',
+    // shortcut: '⌘ ⇧ F',
     icon: <StarIcon />,
     name: 'Add to Favorites',
     desc: 'Add to Favorites',
@@ -174,7 +174,7 @@ export const SUB_ITME_ACTIONS = [
     keywords: ["favorites", "add",  "Add to Favorites"],
   },
   {
-    shortcut: 'Alt .',
+    // shortcut: 'Alt .',
     icon: <StarIcon />,
     name: 'Copy Plugin ID',
     desc: 'Copy Plugin ID',
@@ -182,7 +182,7 @@ export const SUB_ITME_ACTIONS = [
     keywords: ["copy", "plugin", "id", "Copy Plugin ID"],
   },
   {
-    shortcut: 'Alt D',
+    // shortcut: 'Alt D',
     icon: <StarIcon />,
     name: 'Disable Plugin',
     desc: 'Disable Plugin',
@@ -190,7 +190,7 @@ export const SUB_ITME_ACTIONS = [
     keywords: ["disable", "plugin", "Disable Plugin"],
   },
   {
-    shortcut: 'Alt S',
+    // shortcut: 'Alt S',
     icon: <StarIcon />,
     name: 'Enable Plugin',
     desc: 'Enable Plugin',
@@ -198,7 +198,7 @@ export const SUB_ITME_ACTIONS = [
     keywords: ["enable", "plugin", "Enable Plugin"],
   },
   {
-    shortcut: 'Alt U',
+    // shortcut: 'Alt U',
     icon: <StarIcon />,
     name: 'Uninstall Plugin',
     desc: 'Uninstall Plugin',

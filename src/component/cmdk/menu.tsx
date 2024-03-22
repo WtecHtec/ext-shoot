@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react"
 
 import { AC_ICON_UPDATED } from "~config/actions"
 import { ActionMeta, SUB_ITME_ACTIONS } from "~utils/actions"
-import { getExtensionAll, handleCreateSnapshots, handleExtFavoriteDone, handleExtUpdateDone, handleGetSnapshots, handleOpenExtensionDetails, handleOpenRecently, handlePluginStatus, handleUninstallPlugin } from "~utils/management"
+import { getExtensionAll, handleCreateSnapshots, handleExtFavoriteDone, handleExtUpdateDone, handleGetAllCommands, handleGetSnapshots, handleOpenExtensionDetails, handleOpenRecently, handlePluginStatus, handleUninstallPlugin } from "~utils/management"
 
 import {
 	ClipboardIcon,
@@ -74,6 +74,7 @@ export function RaycastCMDK() {
 	const [updateStatus, setHasUpdateStatus] = React.useState(0) // 0:无更新；1:有更新；2:更新中
 	const [selectSnapId, setSelectSnapId] = React.useState('all'); // 快照id
 	const [snapshots, setSnapshots] = React.useState([]) // 快照数据
+  const [subCommands, setSubCommands] = React.useState([])
 	const [loaded, setLoaded] = React.useState(false)
 	const inputRef = React.useRef<HTMLInputElement | null>(null)
 	const listRef = React.useRef(null)
@@ -114,6 +115,24 @@ export function RaycastCMDK() {
 		setHasUpdateStatus(checkUpdate(res) ? 1 : 0);
 		setLoaded(res.length > 0)
 	}
+  /**
+   * 设置快捷键
+   * @returns 
+   */
+  const getAllCommands = async () => {
+    const [err, res] = await handleGetAllCommands() 
+    if (err || !res ) {
+			return
+		}
+    const subCommands = [...SUB_ITME_ACTIONS]
+    subCommands.forEach((item) => {
+      const { value } = item;
+      if (res[value]) {
+        (item as any).shortcut = res[value]
+      }
+    })
+    setSubCommands(subCommands)
+  }
 
 	/** 判断 loadedicon 状态 */
 	const checkUpdate = (exts) => {
@@ -171,68 +190,71 @@ export function RaycastCMDK() {
 
 	/** 触发按键 */
 	React.useEffect(() => {
-		async function listener(e: KeyboardEvent) {
+		function listener(e: KeyboardEvent) {
 			const key = e.key?.toUpperCase()
 
-			if (e.shiftKey && e.metaKey && key === "F") {
-				// 收藏
-				e.preventDefault()
-				onHandelFavorite()
-			} else if ( e.metaKey && key === 'U') {
+      if ( e.metaKey && key === 'U') {
 				// 更新
 				e.preventDefault()
 				onHandleUpdate()
-			} else if (e.shiftKey && key === "F") {
-				// 快照
-				e.preventDefault()
-				setSnapshotOpen(v => !v)
-			} else if (e.altKey && key === 'C') {
-				// 复制插件名字
-				e.preventDefault()
-				onHandleCopyName()
-			} else if ( e.altKey && key === '.') {
-				// 复制插件Id
-				e.preventDefault()
-				onHandleCopyPluginId()
-			} else if (e.altKey && key === 'D') {
-				e.preventDefault()
-				onHanldePulginStatus(false)
-			} else if ( e.altKey && key === 'S') {
-				e.preventDefault()
-				onHanldePulginStatus(true)
-			} else if ( e.altKey && key === 'U') {
-				e.preventDefault()
-				onHanldeUninstallPulgin()
-			} else if (e.altKey && key === 'R') {
-				e.preventDefault()
-				onHandleReloadPlugin()
-			} else if (e.shiftKey && e.altKey &&  e.key === 'Q') {
-				e.preventDefault()
-				onHandleShowInFinder()
-			}
+			} 
+      // else if (e.shiftKey && e.metaKey && key === "F") {
+			// 	// 收藏
+			// 	e.preventDefault()
+			// 	onHandelFavorite()
+			// } else if (e.shiftKey && key === "F") {
+			// 	// 快照
+			// 	e.preventDefault()
+			// 	setSnapshotOpen(v => !v)
+			// } else if (e.altKey && key === 'C') {
+			// 	// 复制插件名字
+			// 	e.preventDefault()
+			// 	onHandleCopyName()
+			// } else if ( e.altKey && key === '.') {
+			// 	// 复制插件Id
+			// 	e.preventDefault()
+			// 	onHandleCopyPluginId()
+			// } else if (e.altKey && key === 'D') {
+			// 	e.preventDefault()
+			// 	onHanldePulginStatus(false)
+			// } else if ( e.altKey && key === 'S') {
+			// 	e.preventDefault()
+			// 	onHanldePulginStatus(true)
+			// } else if ( e.altKey && key === 'U') {
+			// 	e.preventDefault()
+			// 	onHanldeUninstallPulgin()
+			// } else if (e.altKey && key === 'R') {
+			// 	e.preventDefault()
+			// 	onHandleReloadPlugin()
+			// } else if (e.shiftKey && e.altKey &&  e.key === 'Q') {
+			// 	e.preventDefault()
+			// 	onHandleShowInFinder()
+			// }
 		}
+    const handelMsgBybg = (request, sender, sendResponse) => {
+      const { action } = request
+			if (action === AC_ICON_UPDATED) {
+				// 在这里处理接收到的消息
+				setHasUpdateStatus(0)
+				getExtensionDatas();	
+			} else {
+        onClickSubItem(action)
+      }
+      // 发送响应
+			sendResponse({ result: "Message processed in content.js" })
+		}
+		chrome.runtime.onMessage.addListener(handelMsgBybg)
 		document.addEventListener("keydown", listener)
 		return () => {
 			document.removeEventListener("keydown", listener)
+      chrome.runtime.onMessage.removeListener(handelMsgBybg)
 		}
 	}, [value, originDatas])
 
 	React.useEffect(() => {
 		inputRef?.current?.focus()
 		getExtensionDatas()
-		const handelMsgBybg = (request, sender, sendResponse) => {
-			if (request.action === AC_ICON_UPDATED) {
-				// 在这里处理接收到的消息
-				setHasUpdateStatus(0)
-				getExtensionDatas();
-				// 发送响应
-				sendResponse({ result: "Message processed in content.js" })
-			}
-		}
-		chrome.runtime.onMessage.addListener(handelMsgBybg)
-		return () => {
-			chrome.runtime.onMessage.removeListener(handelMsgBybg)
-		}
+    getAllCommands()
 	}, [])
 
 	// 当快照选择变化时，可以不需要重新请求接口
@@ -320,8 +342,13 @@ export function RaycastCMDK() {
 	 */
 	const onHandleCopyName = () => {
 		const extInfo = getExtensionDeatilById(value)
-		clipboard.writeText(extInfo.name);
-		toast("Copy Name Success")
+    try {
+      clipboard.writeText(extInfo.name);
+      toast("Copy Name Success")
+    } catch (error) {
+		  toast("Copy Name Fail")
+    }
+		
 	}
 
 	/**
@@ -329,8 +356,12 @@ export function RaycastCMDK() {
 	*/
 	const onHandleCopyPluginId = () => {
 		const extInfo = getExtensionDeatilById(value)
-		clipboard.writeText(extInfo.id);
-		toast("Copy Plugin ID Success")
+    try {
+      clipboard.writeText(extInfo.id);
+      toast("Copy Plugin ID Success")
+    } catch (error) {
+      toast("Copy Plugin ID Fail")
+    }
 	}
 
 	/**
@@ -544,7 +575,7 @@ export function RaycastCMDK() {
 				<div cmdk-raycast-footer="">
 					<ShootIcon />
 
-					<button cmdk-raycast-subcommand-trigger="" onClick={onHandleUpdate}>
+					<button cmdk-raycast-open-trigger="" onClick={onHandleUpdate}>
 						{updateStatus === 1 ? <UpdateInfoIcon></UpdateInfoIcon> : (
 							updateStatus === 2 ? <LineSpinnerIcon></LineSpinnerIcon> : null
 						)}
@@ -731,9 +762,9 @@ function SubItem({
 		<Command.Item value={value} keywords={keywords} onSelect={() => { typeof commandHandle === 'function' && commandHandle(value) }}>
 			{children}
 			<div cmdk-raycast-submenu-shortcuts="">
-				{shortcut.split(" ").map((key) => {
+				{shortcut ? shortcut.split(" ").map((key) => {
 					return <kbd key={key}>{key}</kbd>
-				})}
+				}) : null}
 			</div>
 		</Command.Item>
 	)

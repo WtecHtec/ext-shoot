@@ -713,8 +713,9 @@ function SubCommand({
                 } }>
                 <Command>
                     <Command.List>
+                        <div className={'sub_command_title'}>{selectName}</div>
                         <Command.Empty>No Actions found.</Command.Empty>
-                        <Command.Group heading={ selectName }>
+                        <Command.Group>
                             {
                                 SUB_ITME_ACTIONS.map((item) => <SubItem
                                     value={ item.value } keywords={ item.keywords }
@@ -724,26 +725,6 @@ function SubCommand({
                                     { item.name }
                                 </SubItem>)
                             }
-                            {/* <SubItem shortcut="⇧ F">
-								<StarIcon />
-								Open Snapshot Dialog
-							</SubItem>
-							<SubItem shortcut="↵">
-								<WindowIcon />
-								Open Application
-							</SubItem>
-							<SubItem shortcut="⌘ ↵">
-								<FinderIcon />
-								Show in Finder
-							</SubItem>
-							<SubItem shortcut="⌘ I">
-								<FinderIcon />
-								Show Info in Finder
-							</SubItem>
-							<SubItem shortcut="⌘ ⇧ F">
-								<StarIcon />
-								Add to Favorites
-							</SubItem> */ }
                         </Command.Group>
                     </Command.List>
                     <Command.Input

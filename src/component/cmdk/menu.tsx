@@ -881,7 +881,7 @@ function SubCommand({
                                         key={ item.value }
                                         value={ item.value }
                                         style={ {
-                                            color: item.group === 'danger' ? 'red' : 'inherit',
+                                            color: item.group === 'danger' ? 'red' : '',
                                         } }
                                         keywords={ item.keywords }
                                         shortcut={ item.shortcut }

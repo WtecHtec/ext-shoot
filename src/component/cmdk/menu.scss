@@ -404,10 +404,11 @@
     svg {
       width: 20px;
       height: 20px;
-      filter: grayscale(1);
+      // filter: grayscale(1);
       margin-right: auto;
       margin-left: 8px;
-    }
+      // -webkit-filter: grayscale(1);
+}
 
     hr {
       height: 12px;
@@ -508,6 +509,11 @@
     scrollbar-width: none;
   }
 
+  [cmdk-group] {
+    border: 0;
+    border-top: 1px solid var(--gray6);
+  }
+
   [cmdk-item] {
     height: 40px;
     cursor: pointer;
@@ -541,10 +547,11 @@
     svg {
       width: 16px;
       height: 16px;
-      filter: grayscale(1);
+      // filter: grayscale(1);
       margin-left: 8px;
       margin-right: 2px;
-    }
+      // -webkit-filter: grayscale(1);
+}
 
     [cmdk-raycast-submenu-shortcuts] {
       display: flex;

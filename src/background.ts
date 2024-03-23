@@ -1,7 +1,7 @@
 
-import { ENABLE_ALL_EXTENSION, EXT_UPDATE_DONE, AC_FAVORITE, AC_RECENTLY_OPEN, AC_ICON_UPDATED, AC_SNAPSHOT_CREATE, AC_GET_SNAPSHOTS, AC_GET_COMMANDS } from "~config/actions"
+import { ENABLE_ALL_EXTENSION, EXT_UPDATE_DONE, AC_FAVORITE, AC_RECENTLY_OPEN, AC_ICON_UPDATED, AC_SNAPSHOT_CREATE, AC_GET_SNAPSHOTS, AC_GET_COMMANDS, AC_GET_RECENTLYS, AC_ADD_RECENTLYS } from "~config/actions"
 import { mode } from "~config/config"
-import { getExtendedInfo, getSnapshots, getStorageIcon, setExtendedInfo, setSnapshot, } from "~utils/local.storage"
+import { getExtendedInfo, getRecentlyData, getSnapshots, getStorageIcon, setExtendedInfo, setRecentlyData, setSnapshot, } from "~utils/local.storage"
 import { getId } from "~utils/util"
 
 console.log(
@@ -11,7 +11,6 @@ console.log(
 // 当插件安装时，开始计时
 // dev 先注释掉
 chrome.runtime.onInstalled.addListener(() => {
-	console.log("installed ---")
 	mode !== 'dev' && chrome.tabs.create({
 		url: chrome.runtime.getURL("/tabs/welcome.html"),
 	});
@@ -92,13 +91,15 @@ const handleOpenOptionsPage = ({ request, sendResponse }) => {
  * @param param0
  */
 const handleOpenExtensionDetails = ({ request, sendResponse }) => {
-	const { extensionId } = request
+	const { extensionId, extName } = request
 	const detailsUrl = `chrome://extensions/?id=${extensionId}`
 	chrome.tabs.create({ url: detailsUrl })
-	setExtendedInfo(extensionId, 'recently', {
-		lastTime: new Date().getTime(),
+	setRecentlyData({
+		value: 'open_ext_detail',
+		extIds: [extensionId],
+		name: `Open Extension Detail: `,
 		pendingUrl: detailsUrl,
-	})
+	});
 	sendResponse({ status: "Extension details page opened" })
 }
 
@@ -306,6 +307,16 @@ const handleGetCommands = async ({request, sendResponse}) => {
    
 }
   
+const handeleGetRecentlys = async ({request, sendResponse}) => {
+	const recentlys = await getRecentlyData()
+	sendResponse({recentlys})
+}
+
+const handleAddRecently = async ({request, sendResponse}) => {
+	const { params } = request
+   await setRecentlyData({...params})
+	 sendResponse({ status: "recently added" })
+}
 
 const ACTICON_MAP = {
 	get_extensions: getExtensions,
@@ -325,6 +336,8 @@ const ACTICON_MAP = {
   [AC_SNAPSHOT_CREATE]: handleCreateSnapshot,
   [AC_GET_SNAPSHOTS]: handleGetSnapshots,
   [AC_GET_COMMANDS]: handleGetCommands,
+	[AC_GET_RECENTLYS]: handeleGetRecentlys,
+	[AC_ADD_RECENTLYS]: handleAddRecently,
 }
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	// 获取插件列表
@@ -366,10 +379,16 @@ chrome.tabs.onCreated.addListener(function (tab) {
 		const match = pendingUrl?.match(regex);
 		if (match && match[1] && match[1] !== chrome.runtime.id) {
 			const extensionId = match[1];
-			setExtendedInfo(extensionId, 'recently', {
-				lastTime: new Date().getTime(),
-				pendingUrl,
-			})
+			// setExtendedInfo(extensionId, 'recently', {
+			// 	lastTime: new Date().getTime(),
+			// 	pendingUrl,
+			// })
+			setRecentlyData({
+				value: 'recently_used',
+				extIds: [extensionId],
+				name: ``,
+				pendingUrl: pendingUrl,
+			});
 		}
 	})
 });
@@ -379,7 +398,6 @@ chrome.tabs.onCreated.addListener(function (tab) {
  *  监听快捷指令
  */
 chrome.commands.onCommand.addListener((command) => {
-  console.log('command---', command)
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     // 向content.js发送消息
     chrome.tabs.sendMessage(tabs[0].id, { action: command }, function (response) {

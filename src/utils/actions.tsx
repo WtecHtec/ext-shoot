@@ -248,3 +248,11 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction> = [
     group: "danger"
   }
 ]
+
+export const getSubItemActionMap = () => {
+	const mapping = {}
+	SUB_ITME_ACTIONS.forEach(item => {
+		mapping[item.value] = item
+	})
+	return mapping
+}

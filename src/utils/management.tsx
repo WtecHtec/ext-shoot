@@ -1,4 +1,4 @@
-import { AC_FAVORITE, AC_GET_COMMANDS, AC_GET_SNAPSHOTS, AC_RECENTLY_OPEN, AC_SNAPSHOT_CREATE, EXT_UPDATE_DONE } from '~config/actions';
+import { AC_ADD_RECENTLYS, AC_FAVORITE, AC_GET_COMMANDS, AC_GET_RECENTLYS, AC_GET_SNAPSHOTS, AC_RECENTLY_OPEN, AC_SNAPSHOT_CREATE, EXT_UPDATE_DONE } from '~config/actions';
 /**
  * 获取插件列表
  * @returns
@@ -37,10 +37,10 @@ export const handleOpenOtions = (extensionId: string): Promise<[null | Error, an
  * @param extensionId
  * @returns
  */
-export const handleOpenExtensionDetails = (extensionId: string): Promise<[null | Error, any]> => {
+export const handleOpenExtensionDetails = (extensionId: string, extName: string): Promise<[null | Error, any]> => {
 	return new Promise(resolve => {
 		chrome.runtime.sendMessage(
-			{ action: 'open_extension_details', extensionId },
+			{ action: 'open_extension_details', extensionId, extName },
 		).then(async (response) => {
 			resolve([null, response]);
 		}).catch(err => {
@@ -193,3 +193,31 @@ export const handleGetAllCommands = (): Promise<[any, any]> => {
 		});
 	});
 }
+
+
+export const handleGetRecentlys = (): Promise<[any, any]> => {
+  return new Promise(resolve => {
+		chrome.runtime.sendMessage(
+			{ action: AC_GET_RECENTLYS,},
+		).then(async (response) => {
+			resolve([null, response.recentlys]);
+		}).catch(err => {
+			resolve([err, null]);
+		});
+	});
+}
+
+export const handleAddRecently = (recently: RecentlyItem): Promise<[any, any]> => {
+  return new Promise(resolve => {
+		chrome.runtime.sendMessage(
+			{ action: AC_ADD_RECENTLYS, params: recently},
+		).then(async (response) => {
+			resolve([null, response.status]);
+		}).catch(err => {
+			resolve([err, null]);
+		});
+	});
+}
+
+
+

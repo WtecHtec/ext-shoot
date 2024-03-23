@@ -287,6 +287,7 @@
     transition: 100ms ease;
     transition-property: height;
     padding: 0 8px 40px;
+    scrollbar-width: none;
   }
 
   [cmdk-raycast-open-trigger],
@@ -504,11 +505,11 @@
     overscroll-behavior: contain;
     transition: 100ms ease;
     transition-property: height;
+    scrollbar-width: none;
   }
 
   [cmdk-item] {
     height: 40px;
-
     cursor: pointer;
     height: 40px;
     border-radius: 8px;

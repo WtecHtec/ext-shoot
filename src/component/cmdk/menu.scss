@@ -408,7 +408,7 @@
       margin-right: auto;
       margin-left: 8px;
       // -webkit-filter: grayscale(1);
-}
+    }
 
     hr {
       height: 12px;
@@ -501,7 +501,7 @@
   }
 
   [cmdk-list] {
-    padding: 8px;
+    padding: 0 8px 8px 8px;
     overflow: auto;
     overscroll-behavior: contain;
     transition: 100ms ease;
@@ -511,7 +511,11 @@
 
   [cmdk-group] {
     border: 0;
-    border-top: 1px solid var(--gray6);
+    border-bottom: 1px solid var(--gray6);
+    // 最后一个 group 不显示 border
+    &:last-of-type {
+      border-bottom: 0;
+    }
   }
 
   [cmdk-item] {
@@ -523,7 +527,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 0 8px;
+    padding: 0 2px;
     color: var(--gray12);
     user-select: none;
     will-change: background, color;
@@ -551,9 +555,10 @@
       margin-left: 8px;
       margin-right: 2px;
       // -webkit-filter: grayscale(1);
-}
+    }
 
     [cmdk-raycast-submenu-shortcuts] {
+      margin-right: 6px;
       display: flex;
       margin-left: auto;
       gap: 2px;
@@ -583,9 +588,9 @@
     font-size: 12px;
     color: var(--gray11);
     font-weight: 800;
-    margin-bottom: 8px;
-    margin-top: 8px;
-    margin-left: 4px;
+    padding: 8px 16px;
+    border: 0;
+    //border-bottom: 1px solid var(--gray6);
   }
 
   [cmdk-input] {

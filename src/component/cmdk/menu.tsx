@@ -653,23 +653,40 @@ function SubCommand({
                         listRef,
                         selectName,
                         onClickItem,
+												onOpen,
                     }: {
     inputRef: React.RefObject<HTMLInputElement>
     listRef: React.RefObject<HTMLElement>
     selectName?: string
     onClickItem?: any
+		onOpen?:any
 }) {
+
     const [open, setOpen] = React.useState(false);
     const subCommandInputRef = React.useRef<HTMLInputElement>(null);
+		const [refresh ,setRefresh] = React.useState(0)
+
+		React.useEffect(() => {
+			const timer = setTimeout(() => {
+				setRefresh(Math.random())
+			}, 300);
+			return () => {
+				clearTimeout(timer)
+			}
+		}, [open])
+		
+		React.useEffect(() => {
+			if (subCommandInputRef.current) {
+				subCommandInputRef.current.autofocus = true
+				subCommandInputRef.current.focus();
+		}
+		}, [refresh, subCommandInputRef])
 
     React.useEffect(() => {
         function listener(e: KeyboardEvent) {
             if (e.key.toLocaleUpperCase() === 'K' && e.metaKey) {
                 e.preventDefault();
                 setOpen((o) => !o);
-            }
-            if (subCommandInputRef.current) {
-                subCommandInputRef.current.focus();
             }
         }
 
@@ -678,7 +695,7 @@ function SubCommand({
             document.removeEventListener('keydown', listener);
         };
     }, []);
-
+    
     React.useEffect(() => {
         const el = listRef.current;
 
@@ -686,8 +703,10 @@ function SubCommand({
 
         if (open) {
             el.style.overflow = 'hidden';
+						el.style.pointerEvents = 'none';
         } else {
             el.style.overflow = '';
+						el.style.pointerEvents = 'all';
         }
     }, [open, listRef]);
 
@@ -712,10 +731,10 @@ function SubCommand({
                     inputRef?.current?.focus();
                 } }>
                 <Command>
+										<div className={'sub_command_title'}>{selectName}</div>
                     <Command.List>
-                        <div className={'sub_command_title'}>{selectName}</div>
                         <Command.Empty>No Actions found.</Command.Empty>
-                        <Command.Group>
+                        <Command.Group style={{ overflow: 'auto'}}>
                             {
                                 SUB_ITME_ACTIONS.map((item) => <SubItem
                                     value={ item.value } keywords={ item.keywords }
@@ -731,6 +750,8 @@ function SubCommand({
                         autoFocus
                         ref={ subCommandInputRef }
                         placeholder="Search for actions..."
+												tabIndex={-2}
+												id="subCommandInput"
                     />
                 </Command>
             </Popover.Content>
@@ -751,7 +772,7 @@ function SubItem({
     shortcut: string,
     commandHandle?: any
 }) {
-    console.log(shortcut);
+    // console.log(shortcut);
     return (
         <Command.Item value={ value } keywords={ keywords } onSelect={ () => {
             typeof commandHandle === 'function' && commandHandle(value);

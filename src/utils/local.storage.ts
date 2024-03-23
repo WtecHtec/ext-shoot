@@ -1,5 +1,6 @@
 import { Storage } from "@plasmohq/storage"
-import { EXTENDED_INFO_CACHE, ICON_CACHE, EXT_SNAPSHOT_CACHE } from "~config/cache.config"
+import { EXTENDED_INFO_CACHE, ICON_CACHE, EXT_SNAPSHOT_CACHE, EXT_RECENTLY_CACHE } from "~config/cache.config"
+import { getId } from "./util"
 const storage = new Storage({
 	area: "local"
 })
@@ -41,11 +42,38 @@ export const getExtendedInfo = () => {
  * 
 */
 export const setSnapshot = (snapshots) => {
-  
   return storage.set(EXT_SNAPSHOT_CACHE, snapshots)
 }
 
 /** 获取快照数据 */
 export const getSnapshots = (): Promise<any[]> => {
   return storage.get(EXT_SNAPSHOT_CACHE)
+}
+
+/**
+ * 
+ * @param type Command|| Extension
+ * @param icon
+ * @param extid 
+ * @param name 
+ * @param pendingUrl 
+ * @returns 
+ */
+
+export const setRecentlyData = async (param: RecentlyItem) => {
+	let datas = await storage.get(EXT_RECENTLY_CACHE) as any
+	if (!Array.isArray(datas)) {
+		datas = []
+	}
+	datas.push({
+		id: `recently_${getId()}`,
+		time: new Date().getTime(),
+		...param,
+	})
+	return storage.set(EXT_RECENTLY_CACHE, [...datas])
+}
+
+
+export const getRecentlyData =  () => {
+	return  storage.get(EXT_RECENTLY_CACHE)
 }

@@ -4,7 +4,6 @@ import ExtensionHomePageIcon from 'react:~component/asset/extension-homepage.svg
 import ExtensionShortcutIcon from 'react:~component/asset/extension-shortcut.svg';
 import EnableAllIcon from 'react:~component/asset/enable-all-extension.svg';
 import {ENABLE_ALL_EXTENSION} from '~config/actions';
-import {StarIcon} from '@radix-ui/react-icons';
 import {
     CameraIcon,
     CopyNameIcon, DisableIcon, EnableIcon, FreshIcon,
@@ -220,4 +219,12 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction>
         keywords: ['uninstall', 'plugin', 'Uninstall Plugin'],
     },
 
-];
+]
+
+export const getSubItemActionMap = () => {
+	const mapping = {}
+	SUB_ITME_ACTIONS.forEach(item => {
+		mapping[item.value] = item
+	})
+	return mapping
+}

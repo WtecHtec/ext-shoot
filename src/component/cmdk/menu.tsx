@@ -770,13 +770,14 @@ function SubItem({
     shortcut: string,
     commandHandle?: any
 }) {
+    console.log(shortcut);
     return (
         <Command.Item value={ value } keywords={ keywords } onSelect={ () => {
             typeof commandHandle === 'function' && commandHandle(value);
         } }>
             { children }
             <div cmdk-raycast-submenu-shortcuts="">
-                { shortcut ? shortcut.split(' ').map((key) => {
+                { shortcut ? shortcut.split('').map((key) => {
                     return <kbd key={ key }>{ key }</kbd>;
                 }) : null }
             </div>

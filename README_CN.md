@@ -1,4 +1,10 @@
 # Ext Shoot 
+<samp>
+
+[**简体中文**](./README_CN.md) · [**English**](./README.md)
+
+</samp>
+
 下一代面向开发者的浏览器插件启动台
 
 ![首页](https://github.com/WtecHtec/ext-shoot/assets/50035229/fcfd51b3-5673-4ed9-96c7-faf35a33986d)

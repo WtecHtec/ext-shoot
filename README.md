@@ -1,4 +1,11 @@
 # Ext Shoot 
+
+<samp>
+
+[**简体中文**](./README_CN.md) · [**English**](./README.md)
+
+</samp>
+
 A blazingly fast extension launcher for your browser
 
 ![HomePage](https://github.com/WtecHtec/ext-shoot/assets/50035229/fcfd51b3-5673-4ed9-96c7-faf35a33986d)

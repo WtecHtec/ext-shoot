@@ -5,6 +5,12 @@ import ExtensionShortcutIcon from 'react:~component/asset/extension-shortcut.svg
 import EnableAllIcon from 'react:~component/asset/enable-all-extension.svg';
 import {ENABLE_ALL_EXTENSION} from '~config/actions';
 import {StarIcon} from '@radix-ui/react-icons';
+import {
+    CameraIcon,
+    CopyNameIcon, DisableIcon, EnableIcon, FreshIcon,
+    OpenRecentPageIcon,
+    ShowInFinderIcon, StarItIcon, UninstallIcon,
+} from '~component/icons';
 
 /**
  * 禁用其他插件
@@ -133,17 +139,17 @@ type SubItemAction = {
 }
 export const SUB_ITME_ACTIONS: Array<SubItemAction>
     = [
-    // {
-    //   shortcut: '↵',
-    //   icon: <StarIcon />,
-    //   name: 'Open Extension Page',
-    //   desc: 'Open Extension Page',
-    //   value: 'open_extension_page',
-    //   keywords: ["open", "add", "extension",  "Open Extension Page"],
-    // },
+    {
+        shortcut: '↵',
+        icon: <OpenRecentPageIcon/>,
+        name: 'Open Recent Page',
+        desc: 'Open Recent Page',
+        value: 'open_extension_page',
+        keywords: ['open', 'Recent', 'extension', 'Open Extension Page'],
+    },
     {
         shortcut: '',
-        icon: <StarIcon/>,
+        icon: <ShowInFinderIcon/>,
         name: 'Show in Finder',
         desc: 'Show in Finder',
         value: 'show_in_finder',
@@ -151,7 +157,7 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction>
     },
     {
         shortcut: '',
-        icon: <StarIcon/>,
+        icon: <CopyNameIcon/>,
         name: 'Copy Plugin Name',
         desc: 'Copy Plugin Name',
         value: 'copy_plugin_name',
@@ -159,7 +165,7 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction>
     },
     {
         shortcut: '',
-        icon: <StarIcon/>,
+        icon: <FreshIcon/>,
         name: 'Reload Plugin',
         desc: 'Reload plugin',
         value: 'reload_plugin',
@@ -167,7 +173,7 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction>
     },
     {
         shortcut: '',
-        icon: <StarIcon/>,
+        icon: <CameraIcon/>,
         name: 'Open Snapshot Dialog',
         desc: 'Open Snapshot Dialog',
         value: 'open_snapshot_dialog',
@@ -175,7 +181,7 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction>
     },
     {
         shortcut: '',
-        icon: <StarIcon/>,
+        icon: <StarItIcon/>,
         name: 'Add to Favorites',
         desc: 'Add to Favorites',
         value: 'add_to_favorites',
@@ -183,7 +189,7 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction>
     },
     {
         shortcut: '',
-        icon: <StarIcon/>,
+        icon: <CopyNameIcon/>,
         name: 'Copy Plugin ID',
         desc: 'Copy Plugin ID',
         value: 'copy_plugin_id',
@@ -191,7 +197,7 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction>
     },
     {
         shortcut: '',
-        icon: <StarIcon/>,
+        icon: <DisableIcon/>,
         name: 'Disable Plugin',
         desc: 'Disable Plugin',
         value: 'disable_plugin',
@@ -199,7 +205,7 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction>
     },
     {
         shortcut: '',
-        icon: <StarIcon/>,
+        icon: <EnableIcon/>,
         name: 'Enable Plugin',
         desc: 'Enable Plugin',
         value: 'enable_plugin',
@@ -207,7 +213,7 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction>
     },
     {
         shortcut: '',
-        icon: <StarIcon/>,
+        icon: <UninstallIcon/>,
         name: 'Uninstall Plugin',
         desc: 'Uninstall Plugin',
         value: 'uninstall_plugin',

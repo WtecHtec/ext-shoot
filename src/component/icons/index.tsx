@@ -227,21 +227,35 @@ export function FramerIcon() {
   );
 }
 
-export function ShootIcon() {
+export function ShootIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
-      width="1024"
-      height="1024"
-      viewBox="0 0 1024 1024"
+      width="512"
+      height="512"
+      viewBox="0 0 512 512"
       fill="none"
+    {...props}
       xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M224 288.002L800 192.002V304.002L224 400.002V288.002ZM224 512.002L800 416.002V528.002L224 624.002V512.002ZM224 736.002L800 640.002V752.002L224 848.002V736.002Z"
-        fill="#888888"
-        stroke="currentColor"
-        strokeWidth="64"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+      <rect
+        width="361.149"
+        height="96.7897"
+        rx="14.5382"
+        transform="matrix(0.986286 -0.165048 0.0174524 0.999848 78.1147 368.687)"
+        fill="#222831"
+      />
+      <rect
+        width="360.659"
+        height="96.7897"
+        rx="14.5185"
+        transform="matrix(0.986286 -0.165048 0.0174524 0.999848 76.9048 106.064)"
+        fill="#76ABAE"
+      />
+      <rect
+        width="360.659"
+        height="96.7897"
+        rx="14.5185"
+        transform="matrix(0.986286 -0.165048 0.0174524 0.999848 76 237.94)"
+        fill="#31363F"
       />
     </svg>
   );
@@ -362,7 +376,7 @@ export function HammerIcon() {
   );
 }
 
-export function ExtensionIcon({ base64 = "" } : { base64?: string}) {
+export function ExtensionIcon({ base64 = "" }: { base64?: string }) {
   const [iconUrl, setIconUrl] = useState("");
 
   // useEffect(() => {

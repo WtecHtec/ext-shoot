@@ -42,6 +42,7 @@ import SelectItem from './select-item';
 import SubCommand from './sub-command';
 import SnapshotDialog from './snapshot-dialog';
 import { ExtItem } from '~utils/ext.interface';
+import { GITHUB_URL } from '~utils/constant';
 
 
 const RecentlyFix = 'recently_';
@@ -409,6 +410,14 @@ export function RaycastCMDK() {
 
 	};
 
+    /**
+     * 打开Github仓库 https://github.com/WtecHtec/ext-shoot
+     */
+    function handleOpenGithub(): void {
+        // 打开Github仓库
+		window.open(GITHUB_URL, '_blank');
+    }
+
 	/**
 	 * 卸载
 	 */
@@ -540,6 +549,8 @@ export function RaycastCMDK() {
 			return item !== (enabled ? 'enable_plugin' : 'disable_plugin');
 		});
 	};
+   
+
 	return (
 		<div className="ext-shoot">
 			<Command value={value} onValueChange={(v) => setValue(v)}>
@@ -662,8 +673,9 @@ export function RaycastCMDK() {
 				</Command.List>
 
 				<div cmdk-raycast-footer="">
-					<ShootIcon />
-
+                     <ShootIcon className={ 'main-logo' }
+                               onClick={ () => handleOpenGithub() }
+                    />
 					<button cmdk-raycast-open-trigger="" onClick={onHandleUpdate}>
 						{updateStatus === 1 ? (
 							<UpdateInfoIcon></UpdateInfoIcon>

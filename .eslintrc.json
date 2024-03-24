@@ -17,6 +17,7 @@
         "react"
     ],
     "rules": {
+			"react/no-unknown-property": 0,
 			"semi": [2, "always"],
 			"@typescript-eslint/no-explicit-any": 0,
 			// 禁止 function 定义中出现重名参数

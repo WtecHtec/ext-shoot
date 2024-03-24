@@ -2,7 +2,7 @@ import React from 'react';
 import useUpdateIcon from '~hooks/useUpdateIcon';
 export default function WelcomeRender() {
 
-  useUpdateIcon()
+  useUpdateIcon();
 
   return (
       <div

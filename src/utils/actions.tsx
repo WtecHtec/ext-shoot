@@ -1,8 +1,8 @@
-import React from "react"
-import DisableAllIcon from "react:~component/asset/disable-all-extension.svg"
-import EnableAllIcon from "react:~component/asset/enable-all-extension.svg"
-import ExtensionHomePageIcon from "react:~component/asset/extension-homepage.svg"
-import ExtensionShortcutIcon from "react:~component/asset/extension-shortcut.svg"
+import React from "react";
+import DisableAllIcon from "react:~component/asset/disable-all-extension.svg";
+import EnableAllIcon from "react:~component/asset/enable-all-extension.svg";
+import ExtensionHomePageIcon from "react:~component/asset/extension-homepage.svg";
+import ExtensionShortcutIcon from "react:~component/asset/extension-shortcut.svg";
 
 import {
   CameraIcon,
@@ -14,8 +14,8 @@ import {
   ShowInFinderIcon,
   StarItIcon,
   UninstallIcon
-} from "~component/icons"
-import { ENABLE_ALL_EXTENSION } from "~config/actions"
+} from "~component/icons";
+import { ENABLE_ALL_EXTENSION } from "~config/actions";
 
 /**
  * 禁用其他插件
@@ -26,54 +26,52 @@ const handleDisableAllExtension = (
 ): Promise<[null | Error, any]> => {
   return new Promise((resolve) => {
     // todo Notification
-    const { extDatas, snapType } = params
-    let extIds = []
+    const { extDatas, snapType } = params;
+    let extIds = [];
     if (snapType !== "all") {
-      extIds = extDatas[extDatas.length - 1].children.map(({ id }) => id)
+      extIds = extDatas[extDatas.length - 1].children.map(({ id }) => id);
     }
     chrome.runtime
       .sendMessage({ action: "disable_all_extension", snapType, extIds })
       .then(async (response) => {
-        resolve([null, response])
+        resolve([null, response]);
       })
       .catch((err) => {
-        resolve([err, null])
-      })
-  })
-}
+        resolve([err, null]);
+      });
+  });
+};
 
 /**
  * 打开插件设置页面
  * @returns
  */
-const handleOpenExtensionPage = (params: any): Promise<[null | Error, any]> => {
+const handleOpenExtensionPage = (): Promise<[null | Error, any]> => {
   return new Promise((resolve) => {
     chrome.runtime
       .sendMessage({ action: "open_extension_homepage" })
       .then(async (response) => {
-        resolve([null, response])
+        resolve([null, response]);
       })
       .catch((err) => {
-        resolve([err, null])
-      })
-  })
-}
+        resolve([err, null]);
+      });
+  });
+};
 
 // 打开插件快捷键页面
-const handleOpenExtensionShortcutsPage = (
-  params: any
-): Promise<[null | Error, any]> => {
+const handleOpenExtensionShortcutsPage = (): Promise<[null | Error, any]> => {
   return new Promise((resolve) => {
     chrome.runtime
       .sendMessage({ action: "open_extension_shortcuts" })
       .then(async (response) => {
-        resolve([null, response])
+        resolve([null, response]);
       })
       .catch((err) => {
-        resolve([err, null])
-      })
-  })
-}
+        resolve([err, null]);
+      });
+  });
+};
 
 /**
  * 启用其他插件
@@ -82,23 +80,23 @@ const handleOpenExtensionShortcutsPage = (
 const handleEnableAllExtension = (
   params: any
 ): Promise<[null | Error, any]> => {
-  const { extDatas, snapType } = params
-  let extIds = []
+  const { extDatas, snapType } = params;
+  let extIds = [];
   if (snapType !== "all") {
-    extIds = extDatas[extDatas.length - 1].children.map(({ id }) => id)
+    extIds = extDatas[extDatas.length - 1].children.map(({ id }) => id);
   }
   return new Promise((resolve) => {
     // todo Notification
     chrome.runtime
       .sendMessage({ action: ENABLE_ALL_EXTENSION, snapType, extIds })
       .then(async (response) => {
-        resolve([null, response])
+        resolve([null, response]);
       })
       .catch((err) => {
-        resolve([err, null])
-      })
-  })
-}
+        resolve([err, null]);
+      });
+  });
+};
 
 export const ActionMeta = [
   {
@@ -144,7 +142,7 @@ export const ActionMeta = [
     desc: "Change Extenion Shortcuts",
     handle: handleOpenExtensionShortcutsPage
   }
-]
+];
 
 type SubItemAction = {
   shortcut?: string
@@ -247,12 +245,12 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction> = [
     keywords: ["uninstall", "plugin", "Uninstall Plugin"],
     group: "danger"
   }
-]
+];
 
 export const getSubItemActionMap = () => {
-	const mapping = {}
+	const mapping = {};
 	SUB_ITME_ACTIONS.forEach(item => {
-		mapping[item.value] = item
-	})
-	return mapping
-}
+		mapping[item.value] = item;
+	});
+	return mapping;
+};

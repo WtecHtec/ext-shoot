@@ -1,5 +1,5 @@
-import { motion, type MotionProps } from "framer-motion"
-import React from "react"
+import { motion, type MotionProps } from "framer-motion";
+import React from "react";
 
 export function CMDKWrapper(
   props: MotionProps & { children: React.ReactNode }
@@ -15,5 +15,5 @@ export function CMDKWrapper(
       }}
       {...props}
     />
-  )
+  );
 }

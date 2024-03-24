@@ -1,7 +1,7 @@
-import React, { useReducer } from "react"
+import React, { useReducer } from "react";
 
 export const CountButton = () => {
-  const [count, increase] = useReducer((c) => c + 1, 0)
+  const [count, increase] = useReducer((c) => c + 1, 0);
 
   return (
     <button
@@ -13,5 +13,5 @@ export const CountButton = () => {
         {count}
       </span>
     </button>
-  )
-}
+  );
+};

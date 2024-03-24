@@ -1,4 +1,4 @@
-interface ExtItem {
+export interface ExtItem {
 	id: string
 	name: string
 	icon: string | ArrayBuffer
@@ -7,7 +7,7 @@ interface ExtItem {
 	[key: string]: any
 }
 
-interface RecentlyItem {
+export interface RecentlyItem {
 	value?: string,
 	icon?: string,
 	extIds?: string[],
@@ -15,3 +15,5 @@ interface RecentlyItem {
 	pendingUrl?: string,
 	isCommand?: boolean,
 }
+
+ 

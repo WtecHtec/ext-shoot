@@ -23,17 +23,17 @@ function isObject(obj) {
 
 function getIcon(icons) {
 	if (!icons || icons.length === 0)
-		return '/assets/ext-icon.png'
+		return '/assets/ext-icon.png';
 
-	let max = 0
-	let maxIndex = 0
+	let max = 0;
+	let maxIndex = 0;
 	icons.forEach((item, index) => {
 		if (item.size > max && item.size <= 128) {
-			max = item.size
-			maxIndex = index
+			max = item.size;
+			maxIndex = index;
 		}
-	})
-	return icons[maxIndex].url
+	});
+	return icons[maxIndex].url;
 }
 
 // 创建一个函数，接收 icon url 返回 base64 对象
@@ -66,7 +66,7 @@ function getBase64FromIconUrl(iconUrl: string): Promise<string> {
 }
 
 function deepCopyByJson(obj) {
-	return JSON.parse(JSON.stringify(obj))
+	return JSON.parse(JSON.stringify(obj));
 }
 
 function getId() {
@@ -79,4 +79,4 @@ export {
 	getBase64FromIconUrl,
 	deepCopyByJson,
   getId,
-}
+};

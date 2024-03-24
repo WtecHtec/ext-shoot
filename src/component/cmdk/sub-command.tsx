@@ -28,12 +28,14 @@ export default function SubCommand({
 	selectName,
 	onClickItem,
 	subCommands,
+	includeCommands = [],
 }: {
 	inputRef: React.RefObject<HTMLInputElement>
 	listRef: React.RefObject<HTMLElement>
 	selectName?: string
 	onClickItem?: any,
 	subCommands?: any
+	includeCommands?: any,
 }) {
 
 	const [open, setOpen] = React.useState(false);
@@ -108,7 +110,12 @@ export default function SubCommand({
 					<div className={'sub_command_title'}>{selectName}</div>
 					<Command.List>
 						<Command.Empty>No Results</Command.Empty>
-						{subCommands.reduce((groups, item) => {
+						{subCommands.filter(({value}) => {
+							if (Array.isArray(includeCommands) && includeCommands.length) {
+								return includeCommands.includes(value);
+							}
+							return true;
+						}).reduce((groups, item) => {
 							const group = groups.find((group) => group.name === item.group);
 							if (group) {
 								group.children.push(item);
@@ -121,7 +128,7 @@ export default function SubCommand({
 							}
 							return groups;
 						}, BASE_SUB_GROUP()).map((group) => (
-							<Command.Group key={group.key}
+							group?.children.length ? <Command.Group key={group.key}
 								style={{ overflow: 'auto' }}>
 								{group.children.map((item) => (
 									<SubItem
@@ -140,6 +147,7 @@ export default function SubCommand({
 									</SubItem>
 								))}
 							</Command.Group>
+							: null
 						))}
 					</Command.List>
 

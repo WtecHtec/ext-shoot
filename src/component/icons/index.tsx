@@ -227,9 +227,10 @@ export function FramerIcon() {
     );
 }
 
-export function ShootIcon() {
+export function ShootIcon(props: SVGProps<SVGSVGElement>) {
     return (
         <svg width="512" height="512" viewBox="0 0 512 512" fill="none"
+             { ...props }
              xmlns="http://www.w3.org/2000/svg">
             <rect width="361.149" height="96.7897" rx="14.5382"
                   transform="matrix(0.986286 -0.165048 0.0174524 0.999848 78.1147 368.687)"

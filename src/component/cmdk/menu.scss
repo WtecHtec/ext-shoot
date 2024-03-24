@@ -402,12 +402,12 @@
     border-radius: 0 0 12px 12px;
 
     svg {
-      width: 20px;
-      height: 20px;
-      // filter: grayscale(1);
+      //  //width: 20px;
+      //  //height: 20px;
+      //  // filter: grayscale(1);
       margin-right: auto;
       margin-left: 8px;
-      // -webkit-filter: grayscale(1);
+      //  // -webkit-filter: grayscale(1);
     }
 
     hr {
@@ -659,5 +659,17 @@
     [cmdk-input] {
       font-size: 16px;
     }
+  }
+}
+
+.main-logo {
+  padding: 4px;
+  height: 26px;
+  width: 26px;
+
+  &:hover {
+    border-radius: 10%;
+    background: var(--gray4);
+    cursor: pointer;
   }
 }

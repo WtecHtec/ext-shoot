@@ -290,6 +290,14 @@
     scrollbar-width: none;
   }
 
+  .status-notifications {
+    color: var(--gray11);
+    border-radius: 6px;
+    margin-right: auto;
+    font-weight: 500;
+    font-size: 12px;
+  }
+
   [cmdk-raycast-open-trigger],
   [cmdk-raycast-subcommand-trigger] {
     color: var(--gray11);
@@ -609,7 +617,7 @@
     -moz-border-radius: 0;
     -ms-border-radius: 0;
     -o-border-radius: 0;
-}
+  }
 
   animation-duration: 0.2s;
   animation-timing-function: ease;

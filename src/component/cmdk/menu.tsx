@@ -33,7 +33,6 @@ import {
     LineSpinnerIcon,
     Logo,
     RaycastIcon,
-    ShootIcon,
     UpdateInfoIcon,
 } from '../icons';
 import {getId, getMutliLevelProperty} from '~utils/util';
@@ -42,7 +41,7 @@ import SelectItem from './select-item';
 import SubCommand from './sub-command';
 import SnapshotDialog from './snapshot-dialog';
 import {ExtItem} from '~utils/ext.interface';
-import {GITHUB_URL} from '~utils/constant';
+import FooterTip, {footerTip} from '~component/cmdk/footer-tip';
 
 
 const RecentlyFix = 'recently_';
@@ -302,6 +301,7 @@ export function RaycastCMDK() {
      */
     const onHandleUpdate = () => {
         handleExtUpdateDone();
+        footerTip('loading', 'Updating...');
         setHasUpdateStatus(2);
     };
 
@@ -410,13 +410,6 @@ export function RaycastCMDK() {
 
     };
 
-    /**
-     * 打开Github仓库 https://github.com/WtecHtec/ext-shoot
-     */
-    function handleOpenGithub(): void {
-        // 打开Github仓库
-        window.open(GITHUB_URL, '_blank');
-    }
 
     /**
      * 卸载
@@ -550,6 +543,15 @@ export function RaycastCMDK() {
         });
     };
 
+    // useEffect(() => {
+    //         setTimeout(
+    //             () => {
+    //                 footerTip('success', '2222');
+    //             },
+    //         ), 10000;
+    //     }, [],
+    // );
+    //
 
     return (
         <div className="ext-shoot">
@@ -572,7 +574,8 @@ export function RaycastCMDK() {
                     } }>
                         <Select.Root value={ selectSnapId }
                                      onValueChange={ setSelectSnapId }>
-                            <Select.Trigger className="SelectTrigger" aria-label="Food">
+                            <Select.Trigger className="SelectTrigger"
+                                            aria-label="Food">
                                 <Select.Value placeholder="Select a Snapshot"/>
                                 <Select.Icon className="SelectIcon">
                                     <ChevronDownIcon/>
@@ -622,7 +625,7 @@ export function RaycastCMDK() {
                                                     return (
                                                         <Item value={ id }
                                                               keywords={ [name] }
-                                                              key={ id }
+
                                                               commandHandle={ () => onCommandHandle(item) }
                                                               isCommand={ isCommand }
                                                               cls={ !enabled && 'grayscale' }>
@@ -673,9 +676,8 @@ export function RaycastCMDK() {
                 </Command.List>
 
                 <div cmdk-raycast-footer="">
-                    <ShootIcon className={ 'main-logo' }
-                               onClick={ () => handleOpenGithub() }
-                    />
+
+                    <FooterTip/>
                     <button cmdk-raycast-open-trigger="" onClick={ onHandleUpdate }>
                         <div className={ 'mr-1' }>
                             { updateStatus === 1 ? (

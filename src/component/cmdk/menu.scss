@@ -290,13 +290,7 @@
     scrollbar-width: none;
   }
 
-  .status-notifications {
-    color: var(--gray11);
-    border-radius: 6px;
-    margin-right: auto;
-    font-weight: 500;
-    font-size: 12px;
-  }
+
 
   [cmdk-raycast-open-trigger],
   [cmdk-raycast-subcommand-trigger] {
@@ -414,7 +408,7 @@
       //  //height: 20px;
       //  // filter: grayscale(1);
       margin-right: auto;
-      margin-left: 8px;
+      //margin-left: 8px;
       //  // -webkit-filter: grayscale(1);
     }
 
@@ -675,14 +669,12 @@
   }
 }
 
-.main-logo {
-  padding: 4px;
-  height: 26px;
-  width: 26px;
-
-  &:hover {
-    border-radius: 10%;
-    background: var(--gray4);
-    cursor: pointer;
-  }
+.status-notifications {
+  color: var(--gray12);
+  border-radius: 6px;
+  margin-right: auto;
+  margin-top: 2px;
+  font-weight: 500;
+  font-size: 12px;
+  padding: 0 6px;
 }

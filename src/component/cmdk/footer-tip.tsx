@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ShootIcon} from '~component/icons';
+import {LineSpinnerIcon, ShootIcon} from '~component/icons';
 import {GITHUB_URL} from '~utils/constant';
 
 interface StatusMessage {
@@ -50,6 +50,31 @@ export const footerTip = (type: 'success' | 'error' | 'loading', message: string
     statusManager.updateStatus(type, message, duration);
 };
 
+interface TipProps {
+    msg: string;
+}
+
+const LoadingTip: React.FC<TipProps> = ({ msg },
+) => {
+    return (
+        <div className="flex">
+            <LineSpinnerIcon/>
+            <span className="pl-2">{ msg }</span>
+        </div>
+    );
+};
+
+const DefaultTip: React.FC<TipProps> = ({ msg }) => {
+    function handleOpenGithub(): void {
+        window.open(GITHUB_URL, '_blank');
+    }
+
+    return (
+        <ShootIcon
+            className="h-8 w-8 p-1 hover:bg-[var(--gray4)] hover:rounded-[10%] hover:cursor-pointer"
+            onClick={ handleOpenGithub }/>
+    );
+};
 const StatusNotifications: React.FC = () => {
     const [currentStatus, setCurrentStatus] = useState<StatusMessage>({ type: 'default', message: '' });
 
@@ -58,9 +83,6 @@ const StatusNotifications: React.FC = () => {
         return unsubscribe;
     }, []);
 
-    function handleOpenGithub(): void {
-        window.open(GITHUB_URL, '_blank');
-    }
 
     // 监测status并打印
     useEffect(() => {
@@ -72,10 +94,14 @@ const StatusNotifications: React.FC = () => {
             <div key={ currentStatus.type }
                  className={ `notification ${ currentStatus.type }` }>
                 { currentStatus.type === 'default' || !currentStatus.message ? (
-                    <ShootIcon className="main-logo" onClick={ handleOpenGithub }/>
-                ) : (
-                    <span>{ currentStatus.message }</span>
-                ) }
+                        <DefaultTip msg={ currentStatus.message }/>
+                    ) :
+                    currentStatus.type === 'loading' ? (
+                        <LoadingTip msg={ currentStatus.message }/>
+                    ) : (
+                        <span>{ currentStatus.message }</span>
+                    )
+                }
             </div>
         </div>
     );

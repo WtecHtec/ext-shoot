@@ -342,15 +342,15 @@ export function ClipboardIcon() {
 export function UpdateInfoIcon() {
   return (
     <svg
-      width="32"
-      height="32"
+      width="18"
+      height="18"
       viewBox="0 0 1024 1024"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       p-id="4425">
       <path
         d="M512 64a448 448 0 1 1 0 896A448 448 0 0 1 512 64z m0 640a64 64 0 1 0 0 128 64 64 0 0 0 0-128z m0-512a64 64 0 0 0-64 64v320a64 64 0 1 0 128 0V256a64 64 0 0 0-64-64z"
-        fill="#d81e06"></path>
+        fill="currentColor"></path>
     </svg>
   );
 }

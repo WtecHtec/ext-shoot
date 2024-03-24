@@ -57,9 +57,9 @@ interface TipProps {
 const LoadingTip: React.FC<TipProps> = ({ msg },
 ) => {
     return (
-        <div className="flex">
+        <div className="flex px-1">
             <LineSpinnerIcon/>
-            <span className="pl-2">{ msg }</span>
+            <span className="pl-2 text-[14px] font-[400]">{ msg }</span>
         </div>
     );
 };
@@ -95,6 +95,8 @@ const StatusNotifications: React.FC = () => {
                  className={ `notification ${ currentStatus.type }` }>
                 { currentStatus.type === 'default' || !currentStatus.message ? (
                         <DefaultTip msg={ currentStatus.message }/>
+                        // <LoadingTip msg={ currentStatus.message }/>
+
                     ) :
                     currentStatus.type === 'loading' ? (
                         <LoadingTip msg={ currentStatus.message }/>

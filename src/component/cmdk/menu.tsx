@@ -679,13 +679,13 @@ export function RaycastCMDK() {
 
                     <FooterTip/>
                     <button cmdk-raycast-open-trigger="" onClick={ onHandleUpdate }>
-                        <div className={ 'mr-1' }>
-                            { updateStatus === 1 ? (
-                                <UpdateInfoIcon></UpdateInfoIcon>
-                            ) : updateStatus === 2 ? (
-                                <LineSpinnerIcon></LineSpinnerIcon>
-                            ) : null }
-                        </div>
+                        {/*<div className={ 'mr-1' }>*/}
+                        {/*    { updateStatus === 1 ? (*/}
+                        {/*        <UpdateInfoIcon></UpdateInfoIcon>*/}
+                        {/*    ) : updateStatus === 2 ? (*/}
+                        {/*        <LineSpinnerIcon></LineSpinnerIcon>*/}
+                        {/*    ) : null }*/}
+                        {/*</div>*/}
 
                         Update
                         <kbd>⌘</kbd>

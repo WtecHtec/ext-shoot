@@ -1,4 +1,5 @@
 import { AC_ADD_RECENTLYS, AC_FAVORITE, AC_GET_COMMANDS, AC_GET_RECENTLYS, AC_GET_SNAPSHOTS, AC_RECENTLY_OPEN, AC_SNAPSHOT_CREATE, EXT_UPDATE_DONE } from '~config/actions';
+import {ExtItem, RecentlyItem} from '~utils/ext.interface';
 /**
  * 获取插件列表
  * @returns
@@ -68,7 +69,7 @@ export const handleGetExtensionIcon = (extensionId: string, iconSize: string): P
 
 /**
  * 触发更新icon
- * @returns 
+ * @returns
  */
 export const handleExtUpdateDone = () => {
 	return new Promise(resolve => {
@@ -85,7 +86,7 @@ export const handleExtUpdateDone = () => {
 
 /**
  * 收藏
- * @returns 
+ * @returns
  */
 export const handleExtFavoriteDone = (id, value) => {
 	return new Promise(resolve => {
@@ -102,8 +103,8 @@ export const handleExtFavoriteDone = (id, value) => {
 /**
  *  打开最近使用插件页面
  * @param id
- * @param pendingUrl 
- * @returns 
+ * @param pendingUrl
+ * @returns
  */
 export const handleOpenRecently = (pendingUrl) => {
 	return new Promise(resolve => {
@@ -120,7 +121,7 @@ export const handleOpenRecently = (pendingUrl) => {
 
 /**
  * 获取快照数据
- * @returns 
+ * @returns
  */
 export const handleGetSnapshots = () : Promise<[null | Error, any]>=> {
 	return new Promise(resolve => {
@@ -137,7 +138,7 @@ export const handleGetSnapshots = () : Promise<[null | Error, any]>=> {
 
 /**
  * 创建快照数据
- * @returns 
+ * @returns
  */
  export const handleCreateSnapshots = (id, name, extIds) => {
 	return new Promise(resolve => {

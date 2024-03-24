@@ -28,13 +28,7 @@ import {
     handleUninstallPlugin,
 } from '~utils/management';
 
-import {
-    ExtensionIcon,
-    LineSpinnerIcon,
-    Logo,
-    RaycastIcon,
-    UpdateInfoIcon,
-} from '../icons';
+import {ExtensionIcon, Logo, RaycastIcon} from '../icons';
 import {getId, getMutliLevelProperty} from '~utils/util';
 import Item from './item';
 import SelectItem from './select-item';
@@ -215,15 +209,15 @@ export function RaycastCMDK() {
 
     /** 触发按键 */
     React.useEffect(() => {
-        function listener(e: KeyboardEvent) {
-            const key = e.key?.toUpperCase();
-
-            if (e.metaKey && key === 'U') {
-                // 更新
-                e.preventDefault();
-                onHandleUpdate();
-            }
-        }
+        // function listener(e: KeyboardEvent) {
+        //     const key = e.key?.toUpperCase();
+        //
+        //     if (e.metaKey && key === 'U') {
+        //         // 更新
+        //         e.preventDefault();
+        //         onHandleUpdate();
+        //     }
+        // }
 
         const handelMsgBybg = (request, sender, sendResponse) => {
             const { action } = request;
@@ -239,9 +233,9 @@ export function RaycastCMDK() {
             sendResponse({ result: 'Message processed in content.js' });
         };
         chrome.runtime.onMessage.addListener(handelMsgBybg);
-        document.addEventListener('keydown', listener);
+        // document.addEventListener('keydown', listener);
         return () => {
-            document.removeEventListener('keydown', listener);
+            // document.removeEventListener('keydown', listener);
             chrome.runtime.onMessage.removeListener(handelMsgBybg);
         };
     }, [value, originDatas]);
@@ -297,11 +291,11 @@ export function RaycastCMDK() {
     };
 
     /**
-     * 更新
+     * 更listener新
      */
     const onHandleUpdate = () => {
         handleExtUpdateDone();
-        footerTip('loading', 'Updating...');
+        footerTip('loading', 'Update Extension Info ...');
         setHasUpdateStatus(2);
     };
 
@@ -543,16 +537,6 @@ export function RaycastCMDK() {
         });
     };
 
-    // useEffect(() => {
-    //         setTimeout(
-    //             () => {
-    //                 footerTip('success', '2222');
-    //             },
-    //         ), 10000;
-    //     }, [],
-    // );
-    //
-
     return (
         <div className="ext-shoot">
             <Command value={ value } onValueChange={ (v) => setValue(v) }>
@@ -678,19 +662,19 @@ export function RaycastCMDK() {
                 <div cmdk-raycast-footer="">
 
                     <FooterTip/>
-                    <button cmdk-raycast-open-trigger="" onClick={ onHandleUpdate }>
-                        {/*<div className={ 'mr-1' }>*/}
-                        {/*    { updateStatus === 1 ? (*/}
-                        {/*        <UpdateInfoIcon></UpdateInfoIcon>*/}
-                        {/*    ) : updateStatus === 2 ? (*/}
-                        {/*        <LineSpinnerIcon></LineSpinnerIcon>*/}
-                        {/*    ) : null }*/}
-                        {/*</div>*/}
+                    {/*<button cmdk-raycast-open-trigger="" onClick={ onHandleUpdate }>*/ }
+                    {/*    /!*<div className={ 'mr-1' }>*!/*/ }
+                    {/*    /!*    { updateStatus === 1 ? (*!/*/ }
+                    {/*    /!*        <UpdateInfoIcon></UpdateInfoIcon>*!/*/ }
+                    {/*    /!*    ) : updateStatus === 2 ? (*!/*/ }
+                    {/*    /!*        <LineSpinnerIcon></LineSpinnerIcon>*!/*/ }
+                    {/*    /!*    ) : null }*!/*/ }
+                    {/*    /!*</div>*!/*/ }
 
-                        Update
-                        <kbd>⌘</kbd>
-                        <kbd className="ml-2">U</kbd>
-                    </button>
+                    {/*    Update*/ }
+                    {/*    <kbd>⌘</kbd>*/ }
+                    {/*    <kbd className="ml-2">U</kbd>*/ }
+                    {/*</button>*/ }
                     <hr/>
 
                     <button cmdk-raycast-open-trigger=""

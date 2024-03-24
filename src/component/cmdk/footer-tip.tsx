@@ -95,8 +95,6 @@ const StatusNotifications: React.FC = () => {
                  className={ `notification ${ currentStatus.type }` }>
                 { currentStatus.type === 'default' || !currentStatus.message ? (
                         <DefaultTip msg={ currentStatus.message }/>
-                        // <LoadingTip msg={ currentStatus.message }/>
-
                     ) :
                     currentStatus.type === 'loading' ? (
                         <LoadingTip msg={ currentStatus.message }/>

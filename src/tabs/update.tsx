@@ -12,7 +12,7 @@ export default function UpdateRender() {
 			timer = setTimeout(() => {
 				setUpdated(true);
 				chrome.runtime.sendMessage({ action: AC_ICON_UPDATED }, function (response) {
-					console.log(response);
+					// console.log(response);
 					window.close();
 				});
 			}, 1000 * 2);

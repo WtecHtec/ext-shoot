@@ -12,13 +12,17 @@ import React, {useEffect, useState} from 'react';
 import {toast} from 'sonner/dist';
 
 import {AC_ICON_UPDATED} from '~config/actions';
-import {ActionMeta, getSubItemActionMap, SUB_ITME_ACTIONS} from '~utils/actions';
+import {
+    ActionMeta,
+    getSubItemActionMap,
+    HandleIconUpdate,
+    SUB_ITME_ACTIONS,
+} from '~utils/actions';
 import {
     getExtensionAll,
     handleAddRecently,
     handleCreateSnapshots,
     handleExtFavoriteDone,
-    handleExtUpdateDone,
     handleGetAllCommands,
     handleGetRecentlys,
     handleGetSnapshots,
@@ -206,18 +210,17 @@ export function RaycastCMDK() {
         }
         return [groups];
     };
-
     /** 触发按键 */
     React.useEffect(() => {
-        // function listener(e: KeyboardEvent) {
-        //     const key = e.key?.toUpperCase();
-        //
-        //     if (e.metaKey && key === 'U') {
-        //         // 更新
-        //         e.preventDefault();
-        //         onHandleUpdate();
-        //     }
-        // }
+        function listener(e: KeyboardEvent) {
+            const key = e.key?.toUpperCase();
+
+            if (e.metaKey && key === 'U') {
+                // 更新
+                e.preventDefault();
+                HandleIconUpdate();
+            }
+        }
 
         const handelMsgBybg = (request, sender, sendResponse) => {
             const { action } = request;
@@ -225,7 +228,8 @@ export function RaycastCMDK() {
                 // 在这里处理接收到的消息
                 setHasUpdateStatus(0);
                 getExtensionDatas();
-                toast('Extension Update Success');
+                footerTip('success', 'Update Extension Info Success',3000);
+                // toast('Extension Update Success');
             } else {
                 onClickSubItem(action, value);
             }
@@ -233,9 +237,9 @@ export function RaycastCMDK() {
             sendResponse({ result: 'Message processed in content.js' });
         };
         chrome.runtime.onMessage.addListener(handelMsgBybg);
-        // document.addEventListener('keydown', listener);
+        document.addEventListener('keydown', listener);
         return () => {
-            // document.removeEventListener('keydown', listener);
+            document.removeEventListener('keydown', listener);
             chrome.runtime.onMessage.removeListener(handelMsgBybg);
         };
     }, [value, originDatas]);
@@ -291,13 +295,13 @@ export function RaycastCMDK() {
     };
 
     /**
-     * 更listener新
+     * 更listener新 改为command
      */
-    const onHandleUpdate = () => {
-        handleExtUpdateDone();
-        footerTip('loading', 'Update Extension Info ...');
-        setHasUpdateStatus(2);
-    };
+    // const onHandleUpdate = () => {
+    //     handleExtUpdateDone();
+    //     footerTip('loading', 'Update Extension Info ...');
+    //     setHasUpdateStatus(2);
+    // };
 
     /**
      * 回车操作

@@ -115,9 +115,9 @@ const handleUpdateExtensionInfo = (): Promise<[null | Error, any]> => {
     });
 };
 
-const HandleIconUpdate = () => {
-    handleExtUpdateDone();
+export const HandleIconUpdate = () => {
     footerTip('loading', 'Update Extension Info ...');
+    handleExtUpdateDone();
 };
 export const ActionMeta = [
     {

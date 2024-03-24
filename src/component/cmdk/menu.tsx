@@ -228,7 +228,7 @@ export function RaycastCMDK() {
                 // 在这里处理接收到的消息
                 setHasUpdateStatus(0);
                 getExtensionDatas();
-                footerTip('success', 'Update Extension Info Success',3000);
+                footerTip('success', 'Extension Info Updated Successfully', 3000);
                 // toast('Extension Update Success');
             } else {
                 onClickSubItem(action, value);

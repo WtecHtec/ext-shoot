@@ -50,7 +50,7 @@ function getBase64FromIconUrl(iconUrl: string): Promise<string> {
 					const base64data = reader.result;
 					resolve(base64data as string);
 				};
-				reader.onerror = (error) => {
+				reader.onerror = () => {
 					reject(new Error('Failed to convert blob to base64'));
 				};
 				reader.readAsDataURL(blob);

@@ -1,0 +1,32 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "plugins": [
+        "@typescript-eslint",
+        "react"
+    ],
+    "rules": {
+			"semi": [2, "always"],
+			"@typescript-eslint/no-explicit-any": 0,
+			// 禁止 function 定义中出现重名参数
+			"no-dupe-args": 2,
+			// 要求操作符周围有空格
+			"space-infix-ops": 2,
+			"semi-spacing": 2,
+				// 不允许多个空行
+			"no-multiple-empty-lines": [2, {
+				"max": 2
+			}]
+    }
+}

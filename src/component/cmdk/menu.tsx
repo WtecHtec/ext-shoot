@@ -677,7 +677,7 @@ export function RaycastCMDK() {
                                onClick={ () => handleOpenGithub() }
                     />
                     <button cmdk-raycast-open-trigger="" onClick={ onHandleUpdate }>
-                        <div className={ 'pr-1' }>
+                        <div className={ 'mr-1' }>
                             { updateStatus === 1 ? (
                                 <UpdateInfoIcon></UpdateInfoIcon>
                             ) : updateStatus === 2 ? (
@@ -687,7 +687,7 @@ export function RaycastCMDK() {
 
                         Update
                         <kbd>⌘</kbd>
-                        <kbd>U</kbd>
+                        <kbd className="ml-2">U</kbd>
                     </button>
                     <hr/>
 

@@ -80,7 +80,7 @@ export const handleExtUpdateDone = () => {
 			resolve([err, null]);
 		});
 	});
-}
+};
 
 
 /**
@@ -97,7 +97,7 @@ export const handleExtFavoriteDone = (id, value) => {
 			resolve([err, null]);
 		});
 	});
-}
+};
 
 /**
  *  打开最近使用插件页面
@@ -115,7 +115,7 @@ export const handleOpenRecently = (pendingUrl) => {
 			resolve([err, null]);
 		});
 	});
-}
+};
 
 
 /**
@@ -132,7 +132,7 @@ export const handleGetSnapshots = () : Promise<[null | Error, any]>=> {
 			resolve([err, null]);
 		});
 	});
-}
+};
 
 
 /**
@@ -149,7 +149,7 @@ export const handleGetSnapshots = () : Promise<[null | Error, any]>=> {
 			resolve([err, null]);
 		});
 	});
-}
+};
 
 /**
  *  禁用、启用状态  status: false\ true
@@ -164,7 +164,7 @@ export const handlePluginStatus = (extensionId, status) => {
 			resolve([err, null]);
 		});
 	});
-}
+};
 /**
  *  禁用、启用状态  status: false\ true
  */
@@ -178,9 +178,7 @@ export const handlePluginStatus = (extensionId, status) => {
 			resolve([err, null]);
 		});
 	});
-}
-
-
+};
 
 export const handleGetAllCommands = (): Promise<[any, any]> => {
   return new Promise(resolve => {
@@ -192,7 +190,7 @@ export const handleGetAllCommands = (): Promise<[any, any]> => {
 			resolve([err, null]);
 		});
 	});
-}
+};
 
 
 export const handleGetRecentlys = (): Promise<[any, any]> => {
@@ -205,7 +203,7 @@ export const handleGetRecentlys = (): Promise<[any, any]> => {
 			resolve([err, null]);
 		});
 	});
-}
+};
 
 export const handleAddRecently = (recently: RecentlyItem): Promise<[any, any]> => {
   return new Promise(resolve => {
@@ -217,7 +215,6 @@ export const handleAddRecently = (recently: RecentlyItem): Promise<[any, any]> =
 			resolve([err, null]);
 		});
 	});
-}
-
+};
 
 

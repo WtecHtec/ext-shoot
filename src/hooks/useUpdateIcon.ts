@@ -1,28 +1,26 @@
 import React from "react";
 import { getIcon, getBase64FromIconUrl } from "~utils/util";
-
-import { ICON_CACHE } from "~config/cache.config";
 import { setExtendedInfo, setStorageByIcon } from "~utils/local.storage";
 export default function useUpdateIcon() {
-	const [status, setStatus] = React.useState(false)
+	const [status, setStatus] = React.useState(false);
 	React.useEffect(() => {
 
 		chrome.management.getAll().then(async (extensions) => {
-			const cacheDatas = {}
+			const cacheDatas = {};
 			for (let i = 0; i < extensions.length; i++) {
 				const { id, icons } = extensions[i];
 				const icon = getIcon(icons);
 				try {
-					const base64 = await getBase64FromIconUrl(icon)
-					cacheDatas[id] = base64
+					const base64 = await getBase64FromIconUrl(icon);
+					cacheDatas[id] = base64;
 				} catch (error) {
-					console.error('useUpdateIcon---->', error)
+					console.error('useUpdateIcon---->', error);
 				}
-				setExtendedInfo(id, 'loadedicon', 1)
+				setExtendedInfo(id, 'loadedicon', 1);
 			}
 			await setStorageByIcon(cacheDatas);
-			setStatus(true)
+			setStatus(true);
 		});
-	}, [])
-	return [status]
+	}, []);
+	return [status];
 }

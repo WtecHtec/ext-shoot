@@ -15,7 +15,7 @@ function getBase64FromIconUrl(iconUrl: string): Promise<string> {
                     const base64data = reader.result;
                     resolve(base64data as string);
                 };
-                reader.onerror = (error) => {
+                reader.onerror = () => {
                     reject(new Error('Failed to convert blob to base64'));
                 };
                 reader.readAsDataURL(blob);
@@ -38,7 +38,7 @@ function getBase64FromIconUrl(iconUrl: string): Promise<string> {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'get_extension_icon_blob') {
         console.log(request);
-        const { iconURL, iconSize } = request;
+        const { iconURL } = request;
         getBase64FromIconUrl(iconURL).then((base64data) => {
             sendResponse({ iconDataUrl: base64data});
         }).catch((err) => {

@@ -486,13 +486,16 @@ export function RaycastCMDK() {
 		}
 	};
 	const handleDoExt = (extInfo) => {
-		const { id, value, pendingUrl, extIds } = extInfo;
+		const { id, value, pendingUrl, extIds, } = extInfo;
 		console.log('extInfo---', extInfo);
 		if (id.includes(RecentlyFix)) {
 			switch (value) {
 				case 'open_ext_detail':
 				case 'recently_used':
 					handleOpenRecently(pendingUrl);
+					handleAddRecently({
+						...extInfo,
+					});
 					break;
 				default:
 					// toast('No operation instruction')

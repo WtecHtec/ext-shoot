@@ -1,9 +1,9 @@
-import React from "react"
+import React from "react";
 
-import "~style.css"
+import "~style.css";
 
 function IndexPopup() {
-  return <div></div>
+  return <div></div>;
 }
 
-export default IndexPopup
+export default IndexPopup;

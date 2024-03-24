@@ -11,7 +11,8 @@
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
-    "package": "plasmo package"
+    "package": "plasmo package",
+    "fix": "eslint . --ext .ts,.tsx --fix"
   },
   "dependencies": {
     "@plasmohq/messaging": "^0.6.2",
@@ -54,11 +55,15 @@
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react": "^7.34.1",
     "postcss": "8.4.33",
+    "pre-commit": "^1.2.2",
     "prettier": "^3.2.4",
     "typescript": "5.3.3",
     "webextension-polyfill": "^0.10.0",
     "windy-radix-palette": "0.6.1"
   },
+	"pre-commit": [
+    "fix"
+  ],
   "manifest": {
     "host_permissions": [
       "https://*/*"

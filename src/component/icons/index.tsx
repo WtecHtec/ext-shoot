@@ -1,4 +1,4 @@
-import React, { SVGProps, useEffect, useState } from "react"
+import React, { SVGProps, useEffect, useState } from "react";
 
 export function Logo({
   children,
@@ -19,7 +19,7 @@ export function Logo({
       </div>
       <div className="inner">{children}</div>
     </div>
-  )
+  );
 }
 
 export function FigmaIcon() {
@@ -47,7 +47,7 @@ export function FigmaIcon() {
       />
       <circle cx="32" cy="24" r="7" fill="#29b6f6" />
     </svg>
-  )
+  );
 }
 
 export function RaycastIcon() {
@@ -65,7 +65,7 @@ export function RaycastIcon() {
         fill="#FF6363"
       />
     </svg>
-  )
+  );
 }
 
 export function YouTubeIcon() {
@@ -81,7 +81,7 @@ export function YouTubeIcon() {
       />
       <path fill="#FFF" d="M20 31L20 17 32 24z" />
     </svg>
-  )
+  );
 }
 
 export function SlackIcon() {
@@ -124,7 +124,7 @@ export function SlackIcon() {
         d="M28,43c-2.209,0-4-1.791-4-4c0-1.195,0-4,0-4s2.986,0,4,0c2.209,0,4,1.791,4,4S30.209,43,28,43z"
       />
     </svg>
-  )
+  );
 }
 
 export function VercelIcon() {
@@ -136,10 +136,10 @@ export function VercelIcon() {
       viewBox="0 0 75 65">
       <path d="M37.59.25l36.95 64H.64l36.95-64z"></path>
     </svg>
-  )
+  );
 }
 
-export function LinearIcon({ style }: { style?: Object }) {
+export function LinearIcon({ style }: { style?: any }) {
   return (
     <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style={style}>
       <path
@@ -155,7 +155,7 @@ export function LinearIcon({ style }: { style?: Object }) {
         d="M7.69501 11.1447C13.5677 4.32093 22.2677 0 31.9769 0C49.6628 0 64 14.3372 64 32.0231C64 41.7323 59.6791 50.4323 52.8553 56.305L7.69501 11.1447Z"
         fill="#5E6AD2"></path>
     </svg>
-  )
+  );
 }
 
 export function CopyIcon() {
@@ -179,7 +179,7 @@ export function CopyIcon() {
         strokeLinejoin="round"
       />
     </svg>
-  )
+  );
 }
 
 export function CopiedIcon() {
@@ -198,7 +198,7 @@ export function CopiedIcon() {
         strokeLinejoin="round"
       />
     </svg>
-  )
+  );
 }
 
 export function GitHubIcon() {
@@ -214,7 +214,7 @@ export function GitHubIcon() {
         fill="currentColor"
       />
     </svg>
-  )
+  );
 }
 
 export function FramerIcon() {
@@ -224,7 +224,7 @@ export function FramerIcon() {
         d="M 16 0 L 16 8 L 8 8 L 0 0 Z M 0 8 L 8 8 L 16 16 L 8 16 L 8 24 L 0 16 Z"
         fill="var(--highContrast)"></path>
     </svg>
-  )
+  );
 }
 
 export function ShootIcon() {
@@ -244,7 +244,7 @@ export function ShootIcon() {
         strokeLinejoin="round"
       />
     </svg>
-  )
+  );
 }
 
 export function WindowIcon() {
@@ -263,7 +263,7 @@ export function WindowIcon() {
         strokeLinejoin="round"
       />
     </svg>
-  )
+  );
 }
 
 export function FinderIcon() {
@@ -282,7 +282,7 @@ export function FinderIcon() {
         strokeLinejoin="round"
       />
     </svg>
-  )
+  );
 }
 
 export function StarIcon() {
@@ -301,7 +301,7 @@ export function StarIcon() {
         strokeLinejoin="round"
       />
     </svg>
-  )
+  );
 }
 
 export function ClipboardIcon() {
@@ -322,7 +322,7 @@ export function ClipboardIcon() {
         />
       </svg>
     </div>
-  )
+  );
 }
 
 export function UpdateInfoIcon() {
@@ -338,7 +338,7 @@ export function UpdateInfoIcon() {
         d="M512 64a448 448 0 1 1 0 896A448 448 0 0 1 512 64z m0 640a64 64 0 1 0 0 128 64 64 0 0 0 0-128z m0-512a64 64 0 0 0-64 64v320a64 64 0 1 0 128 0V256a64 64 0 0 0-64-64z"
         fill="#d81e06"></path>
     </svg>
-  )
+  );
 }
 
 export function HammerIcon() {
@@ -359,11 +359,11 @@ export function HammerIcon() {
         />
       </svg>
     </div>
-  )
+  );
 }
 
-export function ExtensionIcon({ base64 = "" }) {
-  const [iconUrl, setIconUrl] = useState("")
+export function ExtensionIcon({ base64 = "" } : { base64?: string}) {
+  const [iconUrl, setIconUrl] = useState("");
 
   // useEffect(() => {
   //     handleGetExtensionIcon(extensionId, iconSize).then(([err, response]) => {
@@ -380,14 +380,14 @@ export function ExtensionIcon({ base64 = "" }) {
   // }, [extensionId, iconSize]);
 
   useEffect(() => {
-    setIconUrl(base64)
-  }, [base64])
+    setIconUrl(base64);
+  }, [base64]);
 
   return (
     <Logo>
       <img src={iconUrl} crossOrigin="anonymous"></img>
     </Logo>
-  )
+  );
 }
 
 export function LineSpinnerIcon() {
@@ -408,7 +408,7 @@ export function LineSpinnerIcon() {
         <div className="line-springer-line"></div>
       </div>
     </>
-  )
+  );
 }
 
 export function OpenRecentPageIcon(props: SVGProps<SVGSVGElement>) {
@@ -419,19 +419,19 @@ export function OpenRecentPageIcon(props: SVGProps<SVGSVGElement>) {
       height="1.8em"
       viewBox="0 0 24 24"
       {...props}>
-      <g fill="none" stroke="currentColor" stroke-width="2">
+      <g fill="none" stroke="currentColor" strokeWidth="2">
         <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           d="M20.935 11.009V8.793a2.978 2.978 0 0 0-1.529-2.61l-5.957-3.307a2.978 2.978 0 0 0-2.898 0L4.594 6.182a2.978 2.978 0 0 0-1.529 2.611v6.414a2.978 2.978 0 0 0 1.529 2.61l5.957 3.307a2.978 2.978 0 0 0 2.898 0l2.522-1.4"></path>
         <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           d="M20.33 6.996L12 12L3.67 6.996M12 21.49V12"></path>
         <circle cx="20.329" cy="16.501" r="2.376"></circle>
       </g>
     </svg>
-  )
+  );
 }
 
 export function CopyNameIcon(props: SVGProps<SVGSVGElement>) {
@@ -445,14 +445,14 @@ export function CopyNameIcon(props: SVGProps<SVGSVGElement>) {
       <g
         fill="none"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2">
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2">
         <path d="M18.327 7.286h-8.044a1.932 1.932 0 0 0-1.925 1.938v10.088c0 1.07.862 1.938 1.925 1.938h8.044a1.932 1.932 0 0 0 1.925-1.938V9.224c0-1.07-.862-1.938-1.925-1.938"></path>
         <path d="M15.642 7.286V4.688c0-.514-.203-1.007-.564-1.37a1.918 1.918 0 0 0-1.361-.568H5.673c-.51 0-1 .204-1.36.568a1.945 1.945 0 0 0-.565 1.37v10.088c0 .514.203 1.007.564 1.37c.361.364.85.568 1.361.568h2.685"></path>
       </g>
     </svg>
-  )
+  );
 }
 
 export function ShowInFinderIcon(props: SVGProps<SVGSVGElement>) {
@@ -466,14 +466,14 @@ export function ShowInFinderIcon(props: SVGProps<SVGSVGElement>) {
       <g
         fill="none"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2">
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2">
         <path d="M7.375 16.047h9.25m4.625-6.164v7.698a3.083 3.083 0 0 1-3.083 3.083H5.833a3.083 3.083 0 0 1-3.083-3.083V6.419a3.083 3.083 0 0 1 3.083-3.083h3.084a3.083 3.083 0 0 1 2.57 1.377l.873 1.326a1.748 1.748 0 0 0 1.449.77h4.358a3.084 3.084 0 0 1 3.083 3.074"></path>
         <path d="m11.517 4.723l6.927-1.11a1.531 1.531 0 0 1 1.778 1.521v2.457"></path>
       </g>
     </svg>
-  )
+  );
 }
 
 export function FreshIcon(props: SVGProps<SVGSVGElement>) {
@@ -487,17 +487,17 @@ export function FreshIcon(props: SVGProps<SVGSVGElement>) {
       <g
         fill="none"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-width="2">
+        strokeLinecap="round"
+        strokeWidth="2">
         <path
-          stroke-miterlimit="10"
+          strokeMiterlimit="10"
           d="M17.605 7.705A7.885 7.885 0 0 0 12 5.382a7.929 7.929 0 0 0-7.929 7.929A7.94 7.94 0 0 0 12 21.25a7.94 7.94 0 0 0 7.929-7.94"></path>
         <path
-          stroke-linejoin="round"
+          strokeLinejoin="round"
           d="m16.88 2.75l.95 3.858a1.332 1.332 0 0 1-.97 1.609l-3.869.948"></path>
       </g>
     </svg>
-  )
+  );
 }
 
 export function StarItIcon(props: SVGProps<SVGSVGElement>) {
@@ -511,12 +511,12 @@ export function StarItIcon(props: SVGProps<SVGSVGElement>) {
       <path
         fill="none"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
         d="m12.495 18.587l4.092 2.15a1.044 1.044 0 0 0 1.514-1.106l-.783-4.552a1.045 1.045 0 0 1 .303-.929l3.31-3.226a1.043 1.043 0 0 0-.575-1.785l-4.572-.657A1.044 1.044 0 0 1 15 7.907l-2.088-4.175a1.044 1.044 0 0 0-1.88 0L8.947 7.907a1.044 1.044 0 0 1-.783.575l-4.51.657a1.044 1.044 0 0 0-.584 1.785l3.309 3.226a1.044 1.044 0 0 1 .303.93l-.783 4.55a1.044 1.044 0 0 0 1.513 1.107l4.093-2.15a1.043 1.043 0 0 1 .991 0"></path>
     </svg>
-  )
+  );
 }
 
 export function UninstallIcon(props: SVGProps<SVGSVGElement>) {
@@ -530,14 +530,14 @@ export function UninstallIcon(props: SVGProps<SVGSVGElement>) {
       <g
         fill="none"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2">
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2">
         <path d="M5.47 6.015v12.514a2.72 2.72 0 0 0 2.721 2.721h7.618a2.72 2.72 0 0 0 2.72-2.72V6.014m-15.235.001h17.412"></path>
         <path d="M8.735 6.015V4.382a1.632 1.632 0 0 1 1.633-1.632h3.264a1.632 1.632 0 0 1 1.633 1.632v1.633m-5.984 6.081h5.438m-5.438 4.353h5.438"></path>
       </g>
     </svg>
-  )
+  );
 }
 
 export function EnableIcon(props: SVGProps<SVGSVGElement>) {
@@ -551,15 +551,15 @@ export function EnableIcon(props: SVGProps<SVGSVGElement>) {
       <g
         fill="none"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-width="2">
+        strokeLinecap="round"
+        strokeWidth="2">
         <path
-          stroke-linejoin="round"
+          strokeLinejoin="round"
           d="m16.219 17.114l-.51 2.959a1.164 1.164 0 0 1-2.213.093l-2.788-7.882A1.164 1.164 0 0 1 12.2 10.79l8.036 2.788a1.164 1.164 0 0 1-.116 2.234l-3.112.51a1.165 1.165 0 0 0-.79.791"></path>
         <path d="M21.502 9.314A9.726 9.726 0 1 0 9.297 21.5"></path>
       </g>
     </svg>
-  )
+  );
 }
 
 export function DisableIcon(props: SVGProps<SVGSVGElement>) {
@@ -573,14 +573,14 @@ export function DisableIcon(props: SVGProps<SVGSVGElement>) {
       <g
         fill="none"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2">
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2">
         <path d="M9.743 7.42a5.078 5.078 0 1 0 4.514 0M12 6.362v4.514"></path>
         <path d="M12 21.5a9.5 9.5 0 1 0 0-19a9.5 9.5 0 0 0 0 19"></path>
       </g>
     </svg>
-  )
+  );
 }
 
 export function CameraIcon(props: SVGProps<SVGSVGElement>) {
@@ -594,12 +594,12 @@ export function CameraIcon(props: SVGProps<SVGSVGElement>) {
       <g
         fill="none"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2">
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2">
         <path d="M5.833 19.708h12.334a3.083 3.083 0 0 0 3.083-3.083V9.431a3.083 3.083 0 0 0-3.083-3.084h-1.419c-.408 0-.8-.163-1.09-.452l-1.15-1.151a1.542 1.542 0 0 0-1.09-.452h-2.836c-.41 0-.8.163-1.09.452l-1.15 1.151c-.29.29-.682.452-1.09.452H5.833A3.083 3.083 0 0 0 2.75 9.431v7.194a3.083 3.083 0 0 0 3.083 3.083"></path>
         <path d="M12 16.625a4.111 4.111 0 1 0 0-8.222a4.111 4.111 0 0 0 0 8.222"></path>
       </g>
     </svg>
-  )
+  );
 }

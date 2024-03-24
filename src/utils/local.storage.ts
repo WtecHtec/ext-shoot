@@ -70,6 +70,7 @@ export const setRecentlyData = async (param: RecentlyItem) => {
 	datas = datas.filter(({extIds}) => {
 		return getMutliLevelProperty(extIds, '0', '') !== getMutliLevelProperty(param, 'extIds.0', '');
 	});
+	datas = datas.filter(({ value }) => getMutliLevelProperty(param, 'value', '') === 'open_snapshot_dialog' &&  value !== 'open_snapshot_dialog');
 	console.log('datas---', datas);
 	datas.push({
 		...param,

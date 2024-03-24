@@ -41,6 +41,7 @@ import Item from './item';
 import SelectItem from './select-item';
 import SubCommand from './sub-command';
 import SnapshotDialog from './snapshot-dialog';
+import { ExtItem } from '~utils/ext.interface';
 
 
 const RecentlyFix = 'recently_';
@@ -197,7 +198,7 @@ export function RaycastCMDK() {
 				if (extIds && extIds.length === 1 && extMapping[extIds[0]]) {
 					item.status = true;
 					item.enabled = extMapping[extIds[0]].enabled;
-					item.name = `${item.name}${extMapping[extIds[0]].name}` || '';
+					item.name = `${item.name}${ value !== 'open_snapshot_dialog' ? extMapping[extIds[0]].name : ''}` || '';
 					if (isCommand) {
 						item.icon = acMap[value]?.icon;
 					} else {
@@ -428,7 +429,6 @@ export function RaycastCMDK() {
 		}
 		const acMap = getSubItemActionMap();
 		if (acMap[subValue]) {
-			console.log('subValue---', subValue);
 			handleAddRecently({
 				value: subValue,
 				extIds: [getExtId(extId)],
@@ -507,6 +507,39 @@ export function RaycastCMDK() {
 		}
 	};
 
+
+	const getSubCnmandItem = (value) => {
+		if (value.includes(RecentlyFix)) {
+			const recentlys = getMutliLevelProperty(extDatas, '0.children', []);
+			return recentlys.find(({id}) => id === value);
+		} else {
+			return getExtensionDeatilById(value);
+		}
+	};
+
+	/** 兼容 */
+	const handelPatibleSubCommand = (subcommand, value) => {
+		const curenValue = getSubCnmandItem(value);
+		if (value.includes(RecentlyFix)) {
+			onCommandHandle(curenValue);
+		} else {
+			onClickSubItem(subcommand, value);
+		}
+	};
+	const getCommandsByType = (value) => {
+		const acMap = getSubItemActionMap();
+		const acKeys = Object.keys(acMap);
+		const { installType, enabled } = getSubCnmandItem(value) || {};
+		if (value.includes(RecentlyFix)) { 
+			return ['open_extension_page', 'open_snapshot_dialog'];
+		}
+		if (installType !== 'development') {
+			return acKeys.filter( item  => !['reload_plugin', 'show_in_finder'].includes(item));
+		}
+		return [...acKeys].filter(item => {
+			return item !== (enabled ? 'enable_plugin' : 'disable_plugin');
+		});
+	};
 	return (
 		<div className="ext-shoot">
 			<Command value={value} onValueChange={(v) => setValue(v)}>
@@ -644,7 +677,7 @@ export function RaycastCMDK() {
 					<hr />
 
 					<button cmdk-raycast-open-trigger=""
-						onClick={() => onClickSubItem('open_extension_page', value)}>
+						onClick={() => handelPatibleSubCommand('open_extension_page', value)}>
 						Open Extension Page
 						<kbd>↵</kbd>
 					</button>
@@ -654,9 +687,13 @@ export function RaycastCMDK() {
 					<SubCommand
 						subCommands={subCommands}
 						listRef={listRef}
-						selectName={getExtensionDeatilById(value)?.name}
+						selectName={ getSubCnmandItem(value)?.name }
 						inputRef={inputRef}
-						onClickItem={(subcommand) => onClickSubItem(subcommand, value)}
+						includeCommands={getCommandsByType(value)}
+						onClickItem={(subcommand) => {
+							handelPatibleSubCommand(subcommand, value);
+						} }
+						// onClickSubItem(subcommand, value)
 					/>
 				</div>
 			</Command>

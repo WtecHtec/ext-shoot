@@ -543,7 +543,7 @@ export function RaycastCMDK() {
             return ['open_extension_page', 'open_snapshot_dialog'];
         }
         if (installType !== 'development') {
-            return acKeys.filter(item => !['reload_plugin', 'show_in_finder'].includes(item));
+            return acKeys.filter(item => !['reload_plugin', 'show_in_finder', enabled ? 'enable_plugin' : 'disable_plugin'].includes(item));
         }
         return [...acKeys].filter(item => {
             return item !== (enabled ? 'enable_plugin' : 'disable_plugin');

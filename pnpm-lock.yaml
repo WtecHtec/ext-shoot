@@ -50,9 +50,6 @@ dependencies:
   framer-motion:
     specifier: ^11.0.8
     version: 11.0.8(react-dom@18.2.0)(react@18.2.0)
-  ldrs:
-    specifier: ^1.0.1
-    version: 1.0.1
   lucide-react:
     specifier: ^0.358.0
     version: 0.358.0(react@18.2.0)
@@ -5726,10 +5723,6 @@ packages:
     engines: {node: '>= 0.6.3'}
     dependencies:
       readable-stream: 2.3.8
-    dev: false
-
-  /ldrs@1.0.1:
-    resolution: {integrity: sha512-eeCP1XEG72Yz6JX50zlYWRJcEfNBrpp8QSzyjD3HHhxrnt4steLX4iDHF3Dezjbnnj5qtuJn7lr1nln+/kpUIQ==}
     dev: false
 
   /less@4.2.0:

@@ -141,9 +141,10 @@ export default function SubCommand({
 										}}
 										keywords={item.keywords}
 										shortcut={item.shortcut}
-										commandHandle={(value) =>
-											typeof onClickItem === 'function' && onClickItem(value)
-										}>
+										commandHandle={(value) => {
+                      setOpen(v => !v);
+											typeof onClickItem === 'function' && onClickItem(value);
+                    }}>
 										{item.icon}
 										{item.name}
 									</SubItem>

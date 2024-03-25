@@ -196,13 +196,17 @@ export function RaycastCMDK() {
             nwRecentlys = nwRecentlys.map((item) => {
                 const { extIds, value, isCommand } = item;
                 item.status = false;
+                item.enabled = true;
 								if (value.includes(SearchFix)) {
 									item.status = true;
 									item.icon = <MagnifyingGlassIcon></MagnifyingGlassIcon>;
-								} else if (extIds && extIds.length === 1 && extMapping[extIds[0]]) {
+								} else if (value === 'open_snapshot_dialog') {
+                  item.status = true;
+                  item.icon = acMap[value]?.icon;
+                } else if (extIds && extIds.length === 1 && extMapping[extIds[0]]) {
                     item.status = true;
                     item.enabled = extMapping[extIds[0]].enabled;
-                    item.name = `${ item.name }${ value !== 'open_snapshot_dialog' ? extMapping[extIds[0]].name : '' }` || '';
+                    item.name = `${item.name }${extMapping[extIds[0]].name}` || '';
                     if (isCommand) {
                         item.icon = acMap[value]?.icon;
                     } else {
@@ -409,7 +413,7 @@ export function RaycastCMDK() {
             })
             .catch(error => {
                 console.error(error);
-                toast('Show In Finder Error');
+                toast(<span>Show In Finder Error, <a style={{ color: '#1978FF'}} target="_blank" href="https://github.com/WtecHtec/ext-shoot/blob/main/README.md" rel="noreferrer"> View more help </a></span>);
             });
 
     };
@@ -428,11 +432,6 @@ export function RaycastCMDK() {
      */
     const onClickSubItem = (subValue, extId) => {
         console.log('onClickSubItem ---', extId);
-        const extInfo = getExtensionDeatilById(extId);
-        if (!extInfo) {
-            // toast('It is not Extension');
-            return;
-        }
         const acMap = getSubItemActionMap();
         if (acMap[subValue]) {
             handleAddRecently({
@@ -441,6 +440,15 @@ export function RaycastCMDK() {
                 isCommand: true,
                 name: `${ acMap[subValue].name }:`,
             });
+        }
+        if (subValue === 'open_snapshot_dialog') {
+          setSnapshotOpen(v => !v);
+          return;
+        }
+        const extInfo = getExtensionDeatilById(extId);
+        if (!extInfo) {
+            // toast('It is not Extension');
+            return;
         }
         switch (subValue) {
             case 'open_extension_page':
@@ -451,9 +459,6 @@ export function RaycastCMDK() {
                 break;
             case 'copy_plugin_id':
                 onHandleCopyPluginId(extId);
-                break;
-            case 'open_snapshot_dialog':
-                setSnapshotOpen(v => !v);
                 break;
             case 'add_to_favorites':
                 onHandelFavorite(extId);
@@ -533,7 +538,8 @@ export function RaycastCMDK() {
     /** 兼容 */
     const handelPatibleSubCommand = (subcommand, value) => {
         const curenValue = getSubCnmandItem(value);
-        if (value.includes(RecentlyFix)) {
+        console.log('subcommand, value---', subcommand, value);
+        if (value.includes(RecentlyFix) && !['open_snapshot_dialog'].includes(subcommand)) {
             onCommandHandle(curenValue);
         } else {
             onClickSubItem(subcommand, value);

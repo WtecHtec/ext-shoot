@@ -150,7 +150,7 @@ export const ActionMeta = [
     // Open Extension Page
     {
         name: 'Open Extension HomePage',
-        value: 'open_extension_page',
+        value: 'open_extension_home_page',
         keywords: ['open', 'extension', 'Open Extension Page'],
         icon: <ExtensionHomePageIcon/>,
         desc: 'Open Extension Page',

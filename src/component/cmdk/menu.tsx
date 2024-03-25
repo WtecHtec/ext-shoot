@@ -428,10 +428,13 @@ export function RaycastCMDK() {
         status && await getExtensionDatas();
     };
     /**
-     * SubCommand 点击操作
+     *  处理sub command 事件
+     * @param subValue 事件名称
+     * @param extId 插件id、command分组的事件名称
+     * @returns 
      */
     const onClickSubItem = (subValue, extId) => {
-        console.log('onClickSubItem ---', extId);
+        console.log('onClickSubItem ---', subValue, extId);
         const acMap = getSubItemActionMap();
         if (acMap[subValue]) {
             handleAddRecently({
@@ -444,12 +447,6 @@ export function RaycastCMDK() {
         
         if (subValue === 'open_snapshot_dialog') {
           setSnapshotOpen(v => !v);
-          return;
-        }
-        // 触发 command 分组
-        const { handle} =  ActionMeta.find((action) => action?.value === subValue)  || {};
-        if (typeof handle === 'function') {
-          handle({  extDatas: extDatas, snapType: selectSnapId, });
           return;
         }
         const extInfo = getExtensionDeatilById(extId);
@@ -490,9 +487,12 @@ export function RaycastCMDK() {
         }
     };
 
+    /**
+     * command 分组的事件、 同时也是 item的回车事件
+     * @param item 
+     */
     const onCommandHandle = async (item) => {
         const { handle, refresh } = item;
-
         if (typeof handle === 'function') {
             await handle({
                 extDatas: extDatas,
@@ -503,6 +503,12 @@ export function RaycastCMDK() {
             handleDoExt(item);
         }
     };
+    /**
+     * 1.处理 item事件(打开插件详情页)
+     * 2.处理 常用recently 事件
+     * @param extInfo 
+     * @returns 
+     */
     const handleDoExt = (extInfo) => {
         const { id, value, pendingUrl, extIds } = extInfo;
         console.log('extInfo---', extInfo);
@@ -548,7 +554,12 @@ export function RaycastCMDK() {
         if (value.includes(RecentlyFix) && !['open_snapshot_dialog'].includes(subcommand)) {
             onCommandHandle(curenValue);
         } else {
-            onClickSubItem(subcommand, value);
+          const { handle } =  ActionMeta.find((action) => action?.value === value)  || {};
+          if (typeof handle === 'function') {
+            handle({  extDatas: extDatas, snapType: selectSnapId, });
+            return;
+          }
+          onClickSubItem(subcommand, value);
         }
     };
     const getCommandsByType = (value) => {
@@ -577,6 +588,20 @@ export function RaycastCMDK() {
       }
       if (value.includes(search)) return 1;
       return 0;
+    };
+
+    /** 底部  Open Extension Page 按钮点击事件 */
+    const onBottomOpenExtPage = () => {
+      if (value.includes(SearchFix) && storeSearchRef && storeSearchRef.current) {
+        storeSearchRef.current.onSearch();
+      } else {
+        const { handle } =  ActionMeta.find((action) => action?.value === value)  || {};
+        if (typeof handle === 'function') {
+          handle({  extDatas: extDatas, snapType: selectSnapId, });
+          return;
+        }
+        handelPatibleSubCommand('open_extension_page', value);
+      }
     };
     return (
         <div className="ext-shoot">
@@ -712,12 +737,8 @@ export function RaycastCMDK() {
 
                     <button cmdk-raycast-open-trigger=""
                             onClick={ () => {
-															if (value.includes(SearchFix) && storeSearchRef && storeSearchRef.current) {
-																storeSearchRef.current.onSearch();
-															} else {
-																handelPatibleSubCommand('open_extension_page', value);
-															}
-														} }>
+															onBottomOpenExtPage();
+														}}>
                         Open Extension Page
                         <kbd>↵</kbd>
                     </button>

@@ -12,13 +12,17 @@ import React, {useEffect, useState} from 'react';
 import {toast} from 'sonner/dist';
 
 import {AC_ICON_UPDATED} from '~config/actions';
-import {ActionMeta, getSubItemActionMap, SUB_ITME_ACTIONS} from '~utils/actions';
+import {
+    ActionMeta,
+    getSubItemActionMap,
+    HandleIconUpdate,
+    SUB_ITME_ACTIONS,
+} from '~utils/actions';
 import {
     getExtensionAll,
     handleAddRecently,
     handleCreateSnapshots,
     handleExtFavoriteDone,
-    handleExtUpdateDone,
     handleGetAllCommands,
     handleGetRecentlys,
     handleGetSnapshots,
@@ -28,13 +32,7 @@ import {
     handleUninstallPlugin,
 } from '~utils/management';
 
-import {
-    ExtensionIcon,
-    LineSpinnerIcon,
-    Logo,
-    RaycastIcon,
-    UpdateInfoIcon,
-} from '../icons';
+import {ExtensionIcon, Logo, RaycastIcon} from '../icons';
 import {getId, getMutliLevelProperty} from '~utils/util';
 import Item from './item';
 import SelectItem from './select-item';
@@ -218,7 +216,6 @@ export function RaycastCMDK() {
         }
         return [groups];
     };
-
     /** 触发按键 */
     React.useEffect(() => {
         function listener(e: KeyboardEvent) {
@@ -227,7 +224,7 @@ export function RaycastCMDK() {
             if (e.metaKey && key === 'U') {
                 // 更新
                 e.preventDefault();
-                onHandleUpdate();
+                HandleIconUpdate();
             }
         }
 
@@ -237,7 +234,8 @@ export function RaycastCMDK() {
                 // 在这里处理接收到的消息
                 setHasUpdateStatus(0);
                 getExtensionDatas();
-                toast('Extension Update Success');
+                footerTip('success', 'Extension Info Updated Successfully', 3000);
+                // toast('Extension Update Success');
             } else {
                 onClickSubItem(action, value);
             }
@@ -303,13 +301,13 @@ export function RaycastCMDK() {
     };
 
     /**
-     * 更新
+     * 更listener新 改为command
      */
-    const onHandleUpdate = () => {
-        handleExtUpdateDone();
-        footerTip('loading', 'Updating...');
-        setHasUpdateStatus(2);
-    };
+    // const onHandleUpdate = () => {
+    //     handleExtUpdateDone();
+    //     footerTip('loading', 'Update Extension Info ...');
+    //     setHasUpdateStatus(2);
+    // };
 
     /**
      * 回车操作
@@ -687,19 +685,19 @@ export function RaycastCMDK() {
                 <div cmdk-raycast-footer="">
 
                     <FooterTip/>
-                    <button cmdk-raycast-open-trigger="" onClick={ onHandleUpdate }>
-                        <div className={ 'mr-1' }>
-                            { updateStatus === 1 ? (
-                                <UpdateInfoIcon></UpdateInfoIcon>
-                            ) : updateStatus === 2 ? (
-                                <LineSpinnerIcon></LineSpinnerIcon>
-                            ) : null }
-                        </div>
+                    {/*<button cmdk-raycast-open-trigger="" onClick={ onHandleUpdate }>*/ }
+                    {/*    /!*<div className={ 'mr-1' }>*!/*/ }
+                    {/*    /!*    { updateStatus === 1 ? (*!/*/ }
+                    {/*    /!*        <UpdateInfoIcon></UpdateInfoIcon>*!/*/ }
+                    {/*    /!*    ) : updateStatus === 2 ? (*!/*/ }
+                    {/*    /!*        <LineSpinnerIcon></LineSpinnerIcon>*!/*/ }
+                    {/*    /!*    ) : null }*!/*/ }
+                    {/*    /!*</div>*!/*/ }
 
-                        Update
-                        <kbd>⌘</kbd>
-                        <kbd className="ml-2">U</kbd>
-                    </button>
+                    {/*    Update*/ }
+                    {/*    <kbd>⌘</kbd>*/ }
+                    {/*    <kbd className="ml-2">U</kbd>*/ }
+                    {/*</button>*/ }
                     <hr/>
 
                     <button cmdk-raycast-open-trigger=""

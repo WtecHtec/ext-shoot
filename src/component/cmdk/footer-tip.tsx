@@ -66,7 +66,7 @@ const LoadingTip: React.FC<TipProps> = ({ msg },
     );
 };
 
-const DefaultTip: React.FC<TipProps> = ({ msg }) => {
+const DefaultTip: React.FC<TipProps> = () => {
     function handleOpenGithub(): void {
         window.open(GITHUB_URL, '_blank');
     }

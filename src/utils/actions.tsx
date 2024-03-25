@@ -102,18 +102,18 @@ const handleEnableAllExtension = (
 };
 
 // 更新插件信息
-const handleUpdateExtensionInfo = (): Promise<[null | Error, any]> => {
-    return new Promise((resolve) => {
-        chrome.runtime
-            .sendMessage({ action: 'update_extension_info' })
-            .then(async (response) => {
-                resolve([null, response]);
-            })
-            .catch((err) => {
-                resolve([err, null]);
-            });
-    });
-};
+// const handleUpdateExtensionInfo = (): Promise<[null | Error, any]> => {
+//     return new Promise((resolve) => {
+//         chrome.runtime
+//             .sendMessage({ action: 'update_extension_info' })
+//             .then(async (response) => {
+//                 resolve([null, response]);
+//             })
+//             .catch((err) => {
+//                 resolve([err, null]);
+//             });
+//     });
+// };
 
 export const HandleIconUpdate = () => {
     footerTip('loading', 'Update Extension Info ...');

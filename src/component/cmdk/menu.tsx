@@ -75,7 +75,7 @@ export function RaycastCMDK() {
     const [value, setValue] = React.useState('');
     const [extDatas, setExtDatas] = React.useState([]); // 页面显示数据
     const [originDatas, setOriginDatas] = React.useState([]); // 扩展源数据, 全部
-    const [updateStatus, setHasUpdateStatus] = React.useState(0); // 0:无更新；1:有更新；2:更新中
+    const [, setHasUpdateStatus] = React.useState(0); // 0:无更新；1:有更新；2:更新中
     const [selectSnapId, setSelectSnapId] = React.useState('all'); // 快照id
     const [snapshots, setSnapshots] = React.useState([]); // 快照数据
     const [subCommands, setSubCommands] = React.useState([]);
@@ -562,11 +562,11 @@ export function RaycastCMDK() {
       || value.includes('development@_')
       || value.includes('favorite@_')) return 0;
       if (value.includes('search_') ) {
-        return value.includes(`search_${search}`)
+        return value.includes(`search_${search}`);
       }
-      if (value.includes(search)) return 1
-      return 0
-    }
+      if (value.includes(search)) return 1;
+      return 0;
+    };
     return (
         <div className="ext-shoot">
             <Command value={ value } onValueChange={ (v) => setValue(v) }  filter={onCommandFilter}>

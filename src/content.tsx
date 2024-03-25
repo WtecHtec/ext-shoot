@@ -6,6 +6,8 @@ import React, {useEffect, useRef} from 'react';
 import {RaycastCMDK} from '~component/cmdk/menu';
 import {CMDKWrapper} from '~component/common';
 import injectToaster from '~toaster';
+import EventBus from '~utils/event-bus';
+import { getMutliLevelProperty } from '~utils/util';
 
 
 export const config: PlasmoCSConfig = {
@@ -19,6 +21,27 @@ export const getStyle = () => {
     style.textContent = cssText + componentStyles;
     return style;
 };
+
+const eventBus = EventBus.getInstace();
+
+eventBus.initState({ dialogs: [] }, {
+  openSnap: (state) => {
+    state.dialogs.push('snap_dialog');
+    return state;
+  },
+  closeSnap: (state) => {
+    state.dialogs = state.dialogs.filter( (item) => item !== 'snap_dialog');
+    return  state;
+  },
+  openSubCommand: (state) => {
+    state.dialogs.push('sub_command');
+    return  state;
+  },
+  closeSubCommand: (state) => {
+    state.dialogs = state.dialogs.filter( (item) => item !== 'sub_command');
+    return state;
+  },
+});
 
 const PlasmoOverlay = () => {
     // for dev
@@ -43,8 +66,14 @@ const PlasmoOverlay = () => {
         // <Escape> to close
         function listener(e: KeyboardEvent) {
             if (e.key === 'Escape') {
-                e.preventDefault();
-                setOpen(false);
+              e.preventDefault();
+              const state = eventBus.getState();
+              console.log('state---', state);
+               if (getMutliLevelProperty(state, 'dialogs', []).length === 0) {
+                 setOpen(false);
+               } else {
+                  eventBus.emit('close');
+               } 
             }
         }
 

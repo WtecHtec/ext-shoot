@@ -4,6 +4,10 @@ import { Command } from "cmdk";
 import React from 'react';
 import SubItem from './sub-item';
 
+import EventBus from '~utils/event-bus';
+import { getMutliLevelProperty } from '~utils/util';
+
+const eventBus = EventBus.getInstace();
 const BASE_SUB_GROUP = () => [
 	{
 		name: 'common',
@@ -65,10 +69,19 @@ export default function SubCommand({
 				setOpen((o) => !o);
 			}
 		}
+    function escClose(state) {
+      const dialogs = getMutliLevelProperty(state, 'dialogs',  []);
+      if (dialogs.length && dialogs[dialogs.length - 1] === 'sub_command') {
+        eventBus.dispath('closeSubCommand');
+        setOpen(false);
+      }
+    }
+    eventBus.on('close', escClose);
 
 		document.addEventListener('keydown', listener);
 		return () => {
 			document.removeEventListener('keydown', listener);
+      eventBus.off('close', escClose);
 		};
 	}, []);
 
@@ -78,11 +91,13 @@ export default function SubCommand({
 		if (!el) return;
 
 		if (open) {
+      eventBus.dispath('openSubCommand');
 			el.style.overflow = 'hidden';
 			el.style.pointerEvents = 'none';
       const rootEl = document.querySelector(`div[data-radix-popper-content-wrapper]`);
       console.log('rootEl---', rootEl);
 		} else {
+      eventBus.dispath('closeSubCommand');
 			el.style.overflow = '';
 			el.style.pointerEvents = 'all';
 		}

@@ -4,7 +4,10 @@ import * as Dialog from '@radix-ui/react-dialog';
 import React from 'react';
 import { ChevronDownIcon, Cross2Icon } from "@radix-ui/react-icons";
 import SelectItem from "./select-item";
-import { getId } from "~utils/util";
+import { getId, getMutliLevelProperty } from "~utils/util";
+import EventBus from '~utils/event-bus';
+
+const eventBus = EventBus.getInstace();
 
 export default function SnapshotDialog({
 	snapOpen,
@@ -26,7 +29,23 @@ export default function SnapshotDialog({
 	const [snapId, setSnapId] = React.useState('');
 	React.useEffect(() => {
 		setOpen(snapOpen);
+    eventBus.dispath(snapOpen ? 'openSnap' : 'closeSnap');
 	}, [snapOpen]);
+
+  React.useEffect(() => {
+    function escClose(state) {
+      const dialogs = getMutliLevelProperty(state, 'dialogs', []);
+      if (dialogs.length && dialogs[dialogs.length - 1] === 'snap_dialog') {
+        eventBus.dispath('closeSnap');
+        setOpen(false);
+      }
+    }
+    eventBus.on('close', escClose);
+    return () => {
+      eventBus.off('close', escClose);
+    };
+	}, []);
+  
 	const onOpenChange = (v) => {
 		setOpen(v);
 		typeof onSnapChange === 'function' && onSnapChange(v);

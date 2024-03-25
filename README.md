@@ -1,4 +1,5 @@
-# Ext Shoot 
+
+# Ext Shoot
 
 <samp>
 
@@ -6,31 +7,32 @@
 
 </samp>
 
-A blazingly fast extension launcher for your browser
+![HomePage](https://github.com/WtecHtec/ext-shoot/assets/50035229/ff001394-9878-42f3-8c72-0ace5d767989)
 
-![HomePage](https://github.com/WtecHtec/ext-shoot/assets/50035229/fcfd51b3-5673-4ed9-96c7-faf35a33986d)
+The next-generation extension management platform for developers
 
-🔍 **Instant Search**
-* Intelligent keyword matching for precise and swift searches.
-* Automatic prioritization of frequently used extensions based on your habits and time.
+🔍 **Search and Reach Instantly**
+- Efficient keyword-matched plugin search `default shortcut Command+I`
+- Automatically sorts by usage habits and timing, prioritizing frequently used extensions
+- Complete search and installation within one interface, without leaving the console
 
 ⚡️ **Quick Access**
-* Access any extension or its specific page in just two steps, without the hassle of navigating through menus.
-* Single-click management: activate, disable, or uninstall extensions effortlessly.
-* Customize aliases for your extensions, making them uniquely yours.
+- Activate and launch extensions in one step
+- Displays all custom extension pages for quick navigation
+- One-click management of extensions, including enabling, disabling, and uninstalling
 
-🗂️ **Organized Extension Collection**
-* Group and batch manage your extensions to streamline your workflow.
-* Flexible rule matching ensures the right extension for every website.
+🗂️ **Extension Management**
+- Supports extension runtime snapshots, enabling or disabling in bulk
+- Flexible rule matching to equip each website with the best extension
 
-🛠️ **A Developer's Haven**
-* Developer mode for easy testing and development.
-* Quick access to the local storage location of extensions.
+🛠️ **Exclusive for Developers**
+- One-click access to the plugin source code, supporting both local and network downloads
+- Independent Solo running mode to ensure a clean testing environment
+- Easily copy extension titles and IDs to improve development efficiency
 
 🚀 **Smooth Experience**
-* Clean and lightweight design for a non-intrusive presence.
-* Cross-browser compatibility with Chrome, Edge, and Arc.
-* Seamless rule importation allows for easy transition from other extension managers.
+- Minimalist design, lightweight operation, reducing resource burden
+- Compatible with multiple browsers, including Chrome, Edge, and Arc
+- Rule import feature, facilitating seamless migration from other extension managers
 
-💌 **Ext Shoot: Revolutionizing Extension Management!**
-
+💌 **Extenion Shoot, reshaping your extension management experience!**

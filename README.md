@@ -1,5 +1,6 @@
 
 # Ext Shoot
+The next-generation extension management platform for developers
 
 <samp>
 
@@ -7,9 +8,8 @@
 
 </samp>
 
-![HomePage](https://github.com/WtecHtec/ext-shoot/assets/50035229/ff001394-9878-42f3-8c72-0ace5d767989)
+![HomePage111](https://github.com/WtecHtec/ext-shoot/assets/50035229/ae64e9fd-f11a-40c5-9651-69c15dc02966)
 
-The next-generation extension management platform for developers
 
 🔍 **Search and Reach Instantly**
 - Efficient keyword-matched plugin search `default shortcut Command+I`

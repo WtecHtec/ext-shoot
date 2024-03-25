@@ -6,6 +6,7 @@
 </samp>
 
 面向开发者的下一代扩展管理平台
+![HomePage222](https://github.com/WtecHtec/ext-shoot/assets/50035229/75767009-131c-4a43-8cfa-312853bfc8f2)
 
 
 🔍 **搜索即触达**

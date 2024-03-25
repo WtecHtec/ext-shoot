@@ -32,7 +32,7 @@ import {
     handleUninstallPlugin,
 } from '~utils/management';
 
-import {ExtensionIcon, Logo, RaycastIcon} from '../icons';
+import {ExtensionIcon, Logo, ShootEmptyIcon, ShootIcon} from '../icons';
 import {getId, getMutliLevelProperty} from '~utils/util';
 import Item from './item';
 import SelectItem from './select-item';
@@ -41,7 +41,7 @@ import SnapshotDialog from './snapshot-dialog';
 import {ExtItem} from '~utils/ext.interface';
 import FooterTip, {footerTip} from '~component/cmdk/footer-tip';
 import Search from './search-store';
-import { SearchFix } from '~config/config';
+import {SearchFix} from '~config/config';
 
 
 const RecentlyFix = 'recently_';
@@ -87,7 +87,7 @@ export function RaycastCMDK() {
     const [selectContainer, setSelectContainer] = React.useState(null);
     const [snapshotOpen, setSnapshotOpen] = React.useState(false);
     const [recentlys, setRecentlys] = React.useState([]);
-		const storeSearchRef = React.useRef(null);
+    const storeSearchRef = React.useRef(null);
     // const inputRef = React.useRef<HTMLInputElement | null>(null)
     /**
      * 获取插件数据
@@ -197,16 +197,16 @@ export function RaycastCMDK() {
                 const { extIds, value, isCommand } = item;
                 item.status = false;
                 item.enabled = true;
-								if (value.includes(SearchFix)) {
-									item.status = true;
-									item.icon = <MagnifyingGlassIcon></MagnifyingGlassIcon>;
-								} else if (value === 'open_snapshot_dialog') {
-                  item.status = true;
-                  item.icon = acMap[value]?.icon;
+                if (value.includes(SearchFix)) {
+                    item.status = true;
+                    item.icon = <MagnifyingGlassIcon></MagnifyingGlassIcon>;
+                } else if (value === 'open_snapshot_dialog') {
+                    item.status = true;
+                    item.icon = acMap[value]?.icon;
                 } else if (extIds && extIds.length === 1 && extMapping[extIds[0]]) {
                     item.status = true;
                     item.enabled = extMapping[extIds[0]].enabled;
-                    item.name = `${item.name }:${extMapping[extIds[0]].name}` || '';
+                    item.name = `${ item.name }:${ extMapping[extIds[0]].name }` || '';
                     if (isCommand) {
                         item.icon = acMap[value]?.icon;
                     } else {
@@ -413,7 +413,10 @@ export function RaycastCMDK() {
             })
             .catch(error => {
                 console.error(error);
-                toast(<span>Show In Finder Error, <a style={{ color: '#1978FF'}} target="_blank" href="https://github.com/WtecHtec/ext-shoot/blob/main/README.md" rel="noreferrer"> View more help </a></span>);
+                toast(<span>Show In Finder Error, <a style={ { color: '#1978FF' } }
+                                                     target="_blank"
+                                                     href="https://github.com/WtecHtec/ext-shoot/blob/main/README.md"
+                                                     rel="noreferrer"> View more help </a></span>);
             });
 
     };
@@ -431,7 +434,7 @@ export function RaycastCMDK() {
      *  处理sub command 事件
      * @param subValue 事件名称
      * @param extId 插件id、command分组的事件名称
-     * @returns 
+     * @returns
      */
     const onClickSubItem = (subValue, extId) => {
         console.log('onClickSubItem ---', subValue, extId);
@@ -444,10 +447,10 @@ export function RaycastCMDK() {
                 name: `${ acMap[subValue].name }`,
             });
         }
-        
+
         if (subValue === 'open_snapshot_dialog') {
-          setSnapshotOpen(v => !v);
-          return;
+            setSnapshotOpen(v => !v);
+            return;
         }
         const extInfo = getExtensionDeatilById(extId);
         if (!extInfo) {
@@ -489,7 +492,7 @@ export function RaycastCMDK() {
 
     /**
      * command 分组的事件、 同时也是 item的回车事件
-     * @param item 
+     * @param item
      */
     const onCommandHandle = async (item) => {
         const { handle, refresh } = item;
@@ -506,20 +509,20 @@ export function RaycastCMDK() {
     /**
      * 1.处理 item事件(打开插件详情页)
      * 2.处理 常用recently 事件
-     * @param extInfo 
-     * @returns 
+     * @param extInfo
+     * @returns
      */
     const handleDoExt = (extInfo) => {
         const { id, value, pendingUrl, extIds } = extInfo;
         console.log('extInfo---', extInfo);
         if (id.includes(RecentlyFix)) {
-						if (value.includes(SearchFix)) {
-							window.open(extIds[0]);
-							handleAddRecently({
-								...extInfo,
-							});
-							return;
-						}
+            if (value.includes(SearchFix)) {
+                window.open(extIds[0]);
+                handleAddRecently({
+                    ...extInfo,
+                });
+                return;
+            }
             switch (value) {
                 case 'open_ext_detail':
                 case 'recently_used':
@@ -554,18 +557,18 @@ export function RaycastCMDK() {
         if (value.includes(RecentlyFix) && !['open_snapshot_dialog'].includes(subcommand)) {
             onCommandHandle(curenValue);
         } else {
-          const { handle } =  ActionMeta.find((action) => action?.value === value)  || {};
-          if (typeof handle === 'function') {
-            handle({  extDatas: extDatas, snapType: selectSnapId, });
-            return;
-          }
-          onClickSubItem(subcommand, value);
+            const { handle } = ActionMeta.find((action) => action?.value === value) || {};
+            if (typeof handle === 'function') {
+                handle({ extDatas: extDatas, snapType: selectSnapId });
+                return;
+            }
+            onClickSubItem(subcommand, value);
         }
     };
     const getCommandsByType = (value) => {
         const acMap = getSubItemActionMap();
         const acKeys = Object.keys(acMap);
-        const { installType, enabled, } = getSubCnmandItem(value) || {};
+        const { installType, enabled } = getSubCnmandItem(value) || {};
         if (value.includes(RecentlyFix) || value.includes(SearchFix) || ActionMeta.find((action) => action?.value === value)) {
             return ['open_extension_page', 'open_snapshot_dialog'];
         }
@@ -578,34 +581,35 @@ export function RaycastCMDK() {
     };
     /**
      * 排除最近使用、dev、favorite
-    */
+     */
     const onCommandFilter = (value, search) => {
-      if (value.includes('recently_') 
-      || value.includes('development@_')
-      || value.includes('favorite@_')) return 0;
-      if (value.includes('search_') ) {
-        return value.includes(`search_${search}`);
-      }
-      if (value.includes(search)) return 1;
-      return 0;
+        if (value.includes('recently_')
+            || value.includes('development@_')
+            || value.includes('favorite@_')) return 0;
+        if (value.includes('search_')) {
+            return value.includes(`search_${ search }`);
+        }
+        if (value.includes(search)) return 1;
+        return 0;
     };
 
     /** 底部  Open Extension Page 按钮点击事件 */
     const onBottomOpenExtPage = () => {
-      if (value.includes(SearchFix) && storeSearchRef && storeSearchRef.current) {
-        storeSearchRef.current.onSearch();
-      } else {
-        const { handle } =  ActionMeta.find((action) => action?.value === value)  || {};
-        if (typeof handle === 'function') {
-          handle({  extDatas: extDatas, snapType: selectSnapId, });
-          return;
+        if (value.includes(SearchFix) && storeSearchRef && storeSearchRef.current) {
+            storeSearchRef.current.onSearch();
+        } else {
+            const { handle } = ActionMeta.find((action) => action?.value === value) || {};
+            if (typeof handle === 'function') {
+                handle({ extDatas: extDatas, snapType: selectSnapId });
+                return;
+            }
+            handelPatibleSubCommand('open_extension_page', value);
         }
-        handelPatibleSubCommand('open_extension_page', value);
-      }
     };
     return (
         <div className="ext-shoot">
-            <Command value={ value } onValueChange={ (v) => setValue(v) }  filter={onCommandFilter}>
+            <Command value={ value } onValueChange={ (v) => setValue(v) }
+                     filter={ onCommandFilter }>
                 <div cmdk-raycast-top-shine=""/>
                 <div style={ { display: 'flex' } }>
                     <Command.Input
@@ -615,7 +619,7 @@ export function RaycastCMDK() {
                         autoFocus
                         placeholder="Search for extensions and commands..."
                         style={ { flex: 1 } }
-												tabIndex={-2}
+                        tabIndex={ -2 }
                     />
                     <div style={ {
                         flexShrink: 0,
@@ -658,9 +662,10 @@ export function RaycastCMDK() {
                 <hr cmdk-raycast-loader=""/>
                 <Command.List ref={ listRef }>
                     <Command.Empty>No results found.</Command.Empty>
-										{
-											search ? <Search search={search} ref={storeSearchRef}></Search> : null
-										}
+                    {
+                        search ? <Search search={ search }
+                                         ref={ storeSearchRef }></Search> : null
+                    }
                     {
                         extDatas.length > 0 ? extDatas?.map(({ children, name }) => {
                             return <>
@@ -678,7 +683,7 @@ export function RaycastCMDK() {
                                                     } = item;
                                                     return (
                                                         <Item value={ id }
-																															key={id}
+                                                              key={ id }
                                                               keywords={ [name] }
 
                                                               commandHandle={ () => onCommandHandle(item) }
@@ -689,9 +694,10 @@ export function RaycastCMDK() {
                                                                     <ExtensionIcon
                                                                         base64={ icon }/>
                                                             ) : (
-                                                                <RaycastIcon></RaycastIcon>
+                                                                <ShootEmptyIcon/>
                                                             ) }
-                                                            { name }
+                                                            <div
+                                                                className="overflow-hidden whitespace-nowrap overflow-ellipsis max-w-[80%]">{ name }</div>
                                                         </Item>
                                                     );
                                                 })
@@ -737,8 +743,8 @@ export function RaycastCMDK() {
 
                     <button cmdk-raycast-open-trigger=""
                             onClick={ () => {
-															onBottomOpenExtPage();
-														}}>
+                                onBottomOpenExtPage();
+                            } }>
                         Open Extension Page
                         <kbd>↵</kbd>
                     </button>

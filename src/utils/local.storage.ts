@@ -31,16 +31,16 @@ export const getExtendedInfo = () => {
 	return storage.get(EXTENDED_INFO_CACHE);
 };
 
-/** 生成一个快照 
- * 
+/** 生成一个快照
+ *
  * [
  *   {
  *    id: string,
  *    name: string,
- *    extids: []   
+ *    extids: []
  *  }
  * ]
- * 
+ *
 */
 export const setSnapshot = (snapshots) => {
 	return storage.set(EXT_SNAPSHOT_CACHE, snapshots);
@@ -52,14 +52,14 @@ export const getSnapshots = (): Promise<any[]> => {
 };
 
 /**
- * 
- * @param value 
+ *
+ * @param value
  * @param icon
- * @param extIds 
- * @param name 
- * @param pendingUrl 
+ * @param extIds
+ * @param name
+ * @param pendingUrl
  * @param isCommand true | false
- * @returns 
+ * @returns
  */
 
 export const setRecentlyData = async (param: RecentlyItem) => {

@@ -80,6 +80,8 @@ export default function SubCommand({
 		if (open) {
 			el.style.overflow = 'hidden';
 			el.style.pointerEvents = 'none';
+      const rootEl = document.querySelector(`div[data-radix-popper-content-wrapper]`);
+      console.log('rootEl---', rootEl)
 		} else {
 			el.style.overflow = '';
 			el.style.pointerEvents = 'all';

@@ -554,10 +554,22 @@ export function RaycastCMDK() {
             return item !== (enabled ? 'enable_plugin' : 'disable_plugin');
         });
     };
-
+    /**
+     * 排除最近使用、dev、favorite
+    */
+    const onCommandFilter = (value, search) => {
+      if (value.includes('recently_') 
+      || value.includes('development@_')
+      || value.includes('favorite@_')) return 0;
+      if (value.includes('search_') ) {
+        return value.includes(`search_${search}`)
+      }
+      if (value.includes(search)) return 1
+      return 0
+    }
     return (
         <div className="ext-shoot">
-            <Command value={ value } onValueChange={ (v) => setValue(v) }>
+            <Command value={ value } onValueChange={ (v) => setValue(v) }  filter={onCommandFilter}>
                 <div cmdk-raycast-top-shine=""/>
                 <div style={ { display: 'flex' } }>
                     <Command.Input

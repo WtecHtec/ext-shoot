@@ -30,7 +30,7 @@ export default function SubItem({
 			{children}
 			<div  cmdk-raycast-submenu-shortcuts="">
 				{shortcut
-					? shortcut.split('').map((key) => {
+					? shortcut.split(' ').map((key) => {
 						return <kbd key={key}>{key}</kbd>;
 					})
 					: null}

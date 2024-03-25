@@ -12,3 +12,7 @@
 .grayscale {
   filter: grayscale(100%);
 }
+
+div[data-radix-popper-content-wrapper] {
+  z-index: 9999 !important;
+}

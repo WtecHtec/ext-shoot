@@ -70,7 +70,12 @@ export const setRecentlyData = async (param: RecentlyItem) => {
 	datas = datas.filter(({extIds}) => {
 		return getMutliLevelProperty(extIds, '0', '') !== getMutliLevelProperty(param, 'extIds.0', '');
 	});
-	datas = datas.filter(({ value }) => getMutliLevelProperty(param, 'value', '') === 'open_snapshot_dialog' &&  value !== 'open_snapshot_dialog');
+	datas = datas.filter(({ value }) => {
+		if (getMutliLevelProperty(param, 'value', '') === 'open_snapshot_dialog') {
+			return  value !== 'open_snapshot_dialog';
+		}
+		return true;
+	});
 	console.log('datas---', datas);
 	datas.push({
 		...param,

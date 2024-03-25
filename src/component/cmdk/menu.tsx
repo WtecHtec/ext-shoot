@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 
-import {ChevronDownIcon} from '@radix-ui/react-icons';
+import {ChevronDownIcon, MagnifyingGlassIcon} from '@radix-ui/react-icons';
 
 import * as Select from '@radix-ui/react-select';
 
@@ -42,6 +42,8 @@ import SubCommand from './sub-command';
 import SnapshotDialog from './snapshot-dialog';
 import {ExtItem} from '~utils/ext.interface';
 import FooterTip, {footerTip} from '~component/cmdk/footer-tip';
+import Search from './search-store';
+import { SearchFix } from '~config/config';
 
 
 const RecentlyFix = 'recently_';
@@ -87,6 +89,7 @@ export function RaycastCMDK() {
     const [selectContainer, setSelectContainer] = React.useState(null);
     const [snapshotOpen, setSnapshotOpen] = React.useState(false);
     const [recentlys, setRecentlys] = React.useState([]);
+		const storeSearchRef = React.useRef(null);
     // const inputRef = React.useRef<HTMLInputElement | null>(null)
     /**
      * 获取插件数据
@@ -195,7 +198,10 @@ export function RaycastCMDK() {
             nwRecentlys = nwRecentlys.map((item) => {
                 const { extIds, value, isCommand } = item;
                 item.status = false;
-                if (extIds && extIds.length === 1 && extMapping[extIds[0]]) {
+								if (value.includes(SearchFix)) {
+									item.status = true;
+									item.icon = <MagnifyingGlassIcon></MagnifyingGlassIcon>;
+								} else if (extIds && extIds.length === 1 && extMapping[extIds[0]]) {
                     item.status = true;
                     item.enabled = extMapping[extIds[0]].enabled;
                     item.name = `${ item.name }${ value !== 'open_snapshot_dialog' ? extMapping[extIds[0]].name : '' }` || '';
@@ -491,6 +497,13 @@ export function RaycastCMDK() {
         const { id, value, pendingUrl, extIds } = extInfo;
         console.log('extInfo---', extInfo);
         if (id.includes(RecentlyFix)) {
+						if (value.includes(SearchFix)) {
+							window.open(extIds[0]);
+							handleAddRecently({
+								...extInfo,
+							});
+							return;
+						}
             switch (value) {
                 case 'open_ext_detail':
                 case 'recently_used':
@@ -529,29 +542,20 @@ export function RaycastCMDK() {
         }
     };
     const getCommandsByType = (value) => {
+				if (value.includes('Rearch_')) return [];
         const acMap = getSubItemActionMap();
         const acKeys = Object.keys(acMap);
         const { installType, enabled } = getSubCnmandItem(value) || {};
-        if (value.includes(RecentlyFix)) {
+        if (value.includes(RecentlyFix) || value.includes(SearchFix)) {
             return ['open_extension_page', 'open_snapshot_dialog'];
         }
         if (installType !== 'development') {
-            return acKeys.filter(item => !['reload_plugin', 'show_in_finder', enabled ? 'enable_plugin' : 'disable_plugin'].includes(item));
+            return acKeys.filter(item => !['reload_plugin', enabled ? 'enable_plugin' : 'disable_plugin'].includes(item));
         }
         return [...acKeys].filter(item => {
             return item !== (enabled ? 'enable_plugin' : 'disable_plugin');
         });
     };
-
-    // useEffect(() => {
-    //         setTimeout(
-    //             () => {
-    //                 footerTip('success', '2222');
-    //             },
-    //         ), 10000;
-    //     }, [],
-    // );
-    //
 
     return (
         <div className="ext-shoot">
@@ -565,6 +569,7 @@ export function RaycastCMDK() {
                         autoFocus
                         placeholder="Search for extensions and commands..."
                         style={ { flex: 1 } }
+												tabIndex={-2}
                     />
                     <div style={ {
                         flexShrink: 0,
@@ -607,6 +612,9 @@ export function RaycastCMDK() {
                 <hr cmdk-raycast-loader=""/>
                 <Command.List ref={ listRef }>
                     <Command.Empty>No results found.</Command.Empty>
+										{
+											search ? <Search search={search} ref={storeSearchRef}></Search> : null
+										}
                     {
                         extDatas.length > 0 ? extDatas?.map(({ children, name }) => {
                             return <>
@@ -624,6 +632,7 @@ export function RaycastCMDK() {
                                                     } = item;
                                                     return (
                                                         <Item value={ id }
+																															key={id}
                                                               keywords={ [name] }
 
                                                               commandHandle={ () => onCommandHandle(item) }
@@ -694,7 +703,13 @@ export function RaycastCMDK() {
                     <hr/>
 
                     <button cmdk-raycast-open-trigger=""
-                            onClick={ () => handelPatibleSubCommand('open_extension_page', value) }>
+                            onClick={ () => {
+															if (value.includes(SearchFix) && storeSearchRef && storeSearchRef.current) {
+																storeSearchRef.current.onSearch();
+															} else {
+																handelPatibleSubCommand('open_extension_page', value);
+															}
+														} }>
                         Open Extension Page
                         <kbd>↵</kbd>
                     </button>

@@ -73,10 +73,32 @@ function getId() {
   return Date.now().toString(36);
 }
 
+
+function getBrowser() {
+	const browserType = navigator.userAgent.toLowerCase();
+	let result = 'chrome';
+	if (browserType.indexOf("chrome") > -1) {
+		console.log("当前浏览器是 Chrome");
+	} else if (browserType.indexOf("firefox") > -1) {
+		console.log("当前浏览器是 Firefox");
+	} else if (browserType.indexOf("safari") > -1) {
+		console.log("当前浏览器是 Safari");
+	} else if (browserType.indexOf("edge") > -1) {
+		console.log("当前浏览器是 Edge");
+		result = 'edge';
+	} else if (browserType.indexOf("arc") > -1) {
+		console.log("当前浏览器是 Edge");
+		result = 'arc';
+	} else {
+		console.log("当前浏览器是其他浏览器");
+	}
+	return result;
+}
 export {
 	getMutliLevelProperty,
 	getIcon,
 	getBase64FromIconUrl,
 	deepCopyByJson,
   getId,
+	getBrowser,
 };

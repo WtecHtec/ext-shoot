@@ -206,7 +206,7 @@ export function RaycastCMDK() {
                 } else if (extIds && extIds.length === 1 && extMapping[extIds[0]]) {
                     item.status = true;
                     item.enabled = extMapping[extIds[0]].enabled;
-                    item.name = `${item.name }${extMapping[extIds[0]].name}` || '';
+                    item.name = `${item.name }:${extMapping[extIds[0]].name}` || '';
                     if (isCommand) {
                         item.icon = acMap[value]?.icon;
                     } else {
@@ -438,11 +438,18 @@ export function RaycastCMDK() {
                 value: subValue,
                 extIds: [getExtId(extId)],
                 isCommand: true,
-                name: `${ acMap[subValue].name }:`,
+                name: `${ acMap[subValue].name }`,
             });
         }
+        
         if (subValue === 'open_snapshot_dialog') {
           setSnapshotOpen(v => !v);
+          return;
+        }
+        // 触发 command 分组
+        const { handle} =  ActionMeta.find((action) => action?.value === subValue)  || {};
+        if (typeof handle === 'function') {
+          handle({  extDatas: extDatas, snapType: selectSnapId, });
           return;
         }
         const extInfo = getExtensionDeatilById(extId);
@@ -516,7 +523,6 @@ export function RaycastCMDK() {
                     });
                     break;
                 default:
-                    // toast('No operation instruction')
                     onClickSubItem(value, getMutliLevelProperty(extIds, '0', ''));
             }
         } else {
@@ -535,7 +541,7 @@ export function RaycastCMDK() {
         }
     };
 
-    /** 兼容 */
+    /** 兼容  */
     const handelPatibleSubCommand = (subcommand, value) => {
         const curenValue = getSubCnmandItem(value);
         console.log('subcommand, value---', subcommand, value);
@@ -546,11 +552,10 @@ export function RaycastCMDK() {
         }
     };
     const getCommandsByType = (value) => {
-				if (value.includes('Rearch_')) return [];
         const acMap = getSubItemActionMap();
         const acKeys = Object.keys(acMap);
-        const { installType, enabled } = getSubCnmandItem(value) || {};
-        if (value.includes(RecentlyFix) || value.includes(SearchFix)) {
+        const { installType, enabled, } = getSubCnmandItem(value) || {};
+        if (value.includes(RecentlyFix) || value.includes(SearchFix) || ActionMeta.find((action) => action?.value === value)) {
             return ['open_extension_page', 'open_snapshot_dialog'];
         }
         if (installType !== 'development') {
@@ -703,19 +708,6 @@ export function RaycastCMDK() {
                 <div cmdk-raycast-footer="">
 
                     <FooterTip/>
-                    {/*<button cmdk-raycast-open-trigger="" onClick={ onHandleUpdate }>*/ }
-                    {/*    /!*<div className={ 'mr-1' }>*!/*/ }
-                    {/*    /!*    { updateStatus === 1 ? (*!/*/ }
-                    {/*    /!*        <UpdateInfoIcon></UpdateInfoIcon>*!/*/ }
-                    {/*    /!*    ) : updateStatus === 2 ? (*!/*/ }
-                    {/*    /!*        <LineSpinnerIcon></LineSpinnerIcon>*!/*/ }
-                    {/*    /!*    ) : null }*!/*/ }
-                    {/*    /!*</div>*!/*/ }
-
-                    {/*    Update*/ }
-                    {/*    <kbd>⌘</kbd>*/ }
-                    {/*    <kbd className="ml-2">U</kbd>*/ }
-                    {/*</button>*/ }
                     <hr/>
 
                     <button cmdk-raycast-open-trigger=""

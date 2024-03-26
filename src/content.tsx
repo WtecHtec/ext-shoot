@@ -8,7 +8,7 @@ import {CMDKWrapper} from '~component/common';
 import injectToaster from '~toaster';
 import EventBus from '~utils/event-bus';
 import { getMutliLevelProperty } from '~utils/util';
-import focusLock from 'dom-focus-lock';
+
 // import FocusLock from 'react-focus-lock';
 export const config: PlasmoCSConfig = {
     matches: ['<all_urls>'],
@@ -79,14 +79,10 @@ const PlasmoOverlay = () => {
 
         document.addEventListener('keydown', listener);
 				if (focusRef &&  focusRef.current) {
-					focusLock.on(focusRef.current);
 				}
 				
         return () => {
             document.removeEventListener('keydown', listener);
-						if (focusRef &&  focusRef.current) {
-							focusLock.off(focusRef.current);
-						}
         };
     }, []);
     useEffect(() => {

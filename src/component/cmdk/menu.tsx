@@ -10,7 +10,6 @@ import * as clipboard from 'clipboard-polyfill';
 import {Command} from 'cmdk';
 import React, {useEffect, useState} from 'react';
 import {toast} from 'sonner/dist';
-
 import {AC_ICON_UPDATED} from '~config/actions';
 import {
     ActionMeta,
@@ -222,15 +221,15 @@ export function RaycastCMDK() {
     };
     /** 触发按键 */
     React.useEffect(() => {
-        function listener(e: KeyboardEvent) {
-            const key = e.key?.toUpperCase();
+        // function listener(e: KeyboardEvent) {
+        //     const key = e.key?.toUpperCase();
 
-            if (e.metaKey && key === 'U') {
-                // 更新
-                e.preventDefault();
-                HandleIconUpdate();
-            }
-        }
+        //     if (e.metaKey && key === 'U') {
+        //         // 更新
+        //         e.preventDefault();
+        //         HandleIconUpdate();
+        //     }
+        // }
 
         const handelMsgBybg = (request, sender, sendResponse) => {
             const { action } = request;
@@ -247,9 +246,9 @@ export function RaycastCMDK() {
             sendResponse({ result: 'Message processed in content.js' });
         };
         chrome.runtime.onMessage.addListener(handelMsgBybg);
-        document.addEventListener('keydown', listener);
+        // document.addEventListener('keydown', listener);
         return () => {
-            document.removeEventListener('keydown', listener);
+            // document.removeEventListener('keydown', listener);
             chrome.runtime.onMessage.removeListener(handelMsgBybg);
         };
     }, [value, originDatas]);
@@ -258,6 +257,19 @@ export function RaycastCMDK() {
         inputRef?.current?.focus();
         getExtensionDatas();
         getAllCommands();
+        function inputListener (event) {
+          if ([27,37,38,39,40].includes(event.keyCode)) return
+          // 阻止事件冒泡
+          event.stopPropagation();
+        }
+        if (inputRef && inputRef.current) {
+          inputRef?.current.addEventListener('keydown', inputListener);
+        }
+        return () => {
+          if ( inputRef?.current) {
+            inputRef?.current.removeEventListener('keydown', inputListener)
+          }
+        }
     }, []);
 
     // 当快照选择变化时，可以不需要重新请求接口

@@ -258,7 +258,7 @@ export function RaycastCMDK() {
         getExtensionDatas();
         getAllCommands();
         function inputListener (event) {
-          if ([27,37,38,39,40].includes(event.keyCode)) return
+          if ([27,37,38,39,40].includes(event.keyCode)) return;
           // 阻止事件冒泡
           event.stopPropagation();
         }
@@ -267,9 +267,9 @@ export function RaycastCMDK() {
         }
         return () => {
           if ( inputRef?.current) {
-            inputRef?.current.removeEventListener('keydown', inputListener)
+            inputRef?.current.removeEventListener('keydown', inputListener);
           }
-        }
+        };
     }, []);
 
     // 当快照选择变化时，可以不需要重新请求接口

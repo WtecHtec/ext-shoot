@@ -57,7 +57,7 @@ export default function SubCommand({
 
 	React.useEffect(() => {
     function inputListener (event) {
-      if ([27,37,38,39,40].includes(event.keyCode)) return
+      if ([27,37,38,39,40].includes(event.keyCode)) return;
       // 阻止事件冒泡
       event.stopPropagation();
     }
@@ -70,7 +70,7 @@ export default function SubCommand({
       if (subCommandInputRef &&  subCommandInputRef.current) {
         subCommandInputRef?.current?.removeEventListener('keydown', inputListener);
       }
-    }
+    };
 	}, [refresh, subCommandInputRef, open]);
 
 	React.useEffect(() => {

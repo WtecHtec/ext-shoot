@@ -9,7 +9,7 @@ import injectToaster from '~toaster';
 import EventBus from '~utils/event-bus';
 import { getMutliLevelProperty } from '~utils/util';
 
-
+// import FocusLock from 'react-focus-lock';
 export const config: PlasmoCSConfig = {
     matches: ['<all_urls>'],
     exclude_matches: ['https://gemini.google.com/*'],
@@ -78,7 +78,9 @@ const PlasmoOverlay = () => {
         }
 
         document.addEventListener('keydown', listener);
-
+				if (focusRef &&  focusRef.current) {
+				}
+				
         return () => {
             document.removeEventListener('keydown', listener);
         };

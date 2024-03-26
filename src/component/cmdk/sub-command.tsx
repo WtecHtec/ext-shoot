@@ -56,10 +56,21 @@ export default function SubCommand({
 	}, [open]);
 
 	React.useEffect(() => {
+    function inputListener (event) {
+      if ([27,37,38,39,40].includes(event.keyCode)) return;
+      // 阻止事件冒泡
+      event.stopPropagation();
+    }
 		if (subCommandInputRef.current && open) {
 			subCommandInputRef.current.autofocus = true;
 			subCommandInputRef.current.focus();
+      subCommandInputRef?.current?.addEventListener('keydown', inputListener);
 		}
+    return () => {
+      if (subCommandInputRef &&  subCommandInputRef.current) {
+        subCommandInputRef?.current?.removeEventListener('keydown', inputListener);
+      }
+    };
 	}, [refresh, subCommandInputRef, open]);
 
 	React.useEffect(() => {
@@ -77,8 +88,6 @@ export default function SubCommand({
       }
     }
     eventBus.on('close', escClose);
-
-		document.addEventListener('keydown', listener);
 		return () => {
 			document.removeEventListener('keydown', listener);
       eventBus.off('close', escClose);

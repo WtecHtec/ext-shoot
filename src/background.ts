@@ -97,7 +97,7 @@ const handleOpenExtensionDetails = ({ request, sendResponse }) => {
 	setRecentlyData({
 		value: 'open_ext_detail',
 		extIds: [extensionId],
-		name: `Open Extension Detail: `,
+		name: `Open Extension Detail`,
 		pendingUrl: detailsUrl,
 	});
 	sendResponse({ status: "Extension details page opened" });

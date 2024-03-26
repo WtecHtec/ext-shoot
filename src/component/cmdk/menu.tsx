@@ -206,7 +206,7 @@ export function RaycastCMDK() {
                 } else if (extIds && extIds.length === 1 && extMapping[extIds[0]]) {
                     item.status = true;
                     item.enabled = extMapping[extIds[0]].enabled;
-                    item.name = `${item.name }:${extMapping[extIds[0]].name}` || '';
+                    item.name = `${item.name }${value === 'recently_used' ? '' : ':'}${extMapping[extIds[0]].name}` || '';
                     if (isCommand) {
                         item.icon = acMap[value]?.icon;
                     } else {
@@ -517,6 +517,7 @@ export function RaycastCMDK() {
 							window.open(extIds[0]);
 							handleAddRecently({
 								...extInfo,
+								name: extInfo?.name.split(':')[0],
 							});
 							return;
 						}
@@ -526,6 +527,7 @@ export function RaycastCMDK() {
                     handleOpenRecently(pendingUrl);
                     handleAddRecently({
                         ...extInfo,
+												name: ['recently_used'].includes(value) ? '' : extInfo?.name.split(':')[0],
                     });
                     break;
                 default:

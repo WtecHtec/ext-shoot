@@ -12,7 +12,7 @@
     "dev": "plasmo dev",
     "build": "plasmo build",
     "package": "plasmo package",
-    "fix": "eslint . --ext .ts,.tsx --fix"
+    "fix": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {
     "@plasmohq/messaging": "^0.6.2",

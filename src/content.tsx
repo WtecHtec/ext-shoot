@@ -73,14 +73,15 @@ const PlasmoOverlay = () => {
                  setOpen(false);
                } else {
                   eventBus.emit('close');
-               } 
+               }
             }
         }
 
         document.addEventListener('keydown', listener);
 				if (focusRef &&  focusRef.current) {
+                    console.log('focusRef---', focusRef);
 				}
-				
+
         return () => {
             document.removeEventListener('keydown', listener);
         };

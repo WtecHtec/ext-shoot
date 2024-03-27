@@ -593,15 +593,17 @@ export function RaycastCMDK() {
     /**
      * 排除最近使用、dev、favorite
      */
-    const onCommandFilter = (value, search) => {
+    const onCommandFilter = (value, search, keywords) => {
+				if (!search) return 1;
         if (value.includes('recently_')
             || value.includes('development@_')
             || value.includes('favorite@_')) return 0;
         if (value.includes('search_')) {
             return value.includes(`search_${ search }`);
         }
-        if (value.includes(search)) return 1;
-        return 0;
+				const fdn = keywords.find((item) => item.toLocaleLowerCase().includes(search?.toLocaleLowerCase()));
+        // if (value.includes(search)) return 1;
+        return fdn ? 1 : 0;
     };
 
     /** 底部  Open Extension Page 按钮点击事件 */
@@ -695,7 +697,7 @@ export function RaycastCMDK() {
                                                     return (
                                                         <Item value={ id }
                                                               key={ id }
-                                                              keywords={ [name] }
+                                                              keywords={ [...name.split(' '), name] }
 
                                                               commandHandle={ () => onCommandHandle(item) }
                                                               isCommand={ isCommand }

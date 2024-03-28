@@ -82,6 +82,7 @@ export function RaycastCMDK() {
     const [snapshotOpen, setSnapshotOpen] = React.useState(false);
     const [recentlys, setRecentlys] = React.useState([]);
     const storeSearchRef = React.useRef(null);
+		const extShootRef = React.useRef(null);
     // const inputRef = React.useRef<HTMLInputElement | null>(null)
     /**
      * 获取插件数据
@@ -254,7 +255,7 @@ export function RaycastCMDK() {
         getAllCommands();
 
         function inputListener(event) {
-            if ([27, 37, 38, 39, 40,].includes(event.keyCode) 
+            if ([27, 37, 38, 39, 40, 13,].includes(event.keyCode) 
 							|| (event.metaKey && event.key.toLocaleUpperCase() === 'K')) return;
 						if (event.metaKey) return;
             // 阻止事件冒泡
@@ -622,7 +623,7 @@ export function RaycastCMDK() {
         }
     };
     return (
-        <div className="ext-shoot">
+        <div className="ext-shoot" ref={extShootRef}>
             <Command value={ value } onValueChange={ (v) => setValue(v) }
                      filter={ onCommandFilter }>
                 <div cmdk-raycast-top-shine=""/>
@@ -770,6 +771,7 @@ export function RaycastCMDK() {
                         listRef={ listRef }
                         selectName={ getSubCnmandItem(value)?.name }
                         inputRef={ inputRef }
+												extShootRef={extShootRef}
                         includeCommands={ getCommandsByType(value) }
                         onClickItem={ (subcommand) => {
                             handelPatibleSubCommand(subcommand, value);

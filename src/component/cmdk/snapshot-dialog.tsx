@@ -27,9 +27,17 @@ export default function SnapshotDialog({
 	const [snapName, setSnapName] = React.useState('Snapshot 1');
 	const [tabValue, setTabValue] = React.useState('add');
 	const [snapId, setSnapId] = React.useState('');
+	const subCommandInputRef = React.useRef<HTMLInputElement>();
+	const [refresh, setRefresh] = React.useState(0);
 	React.useEffect(() => {
 		setOpen(snapOpen);
     eventBus.dispath(snapOpen ? 'openSnap' : 'closeSnap');
+		const timer = setTimeout(() => {
+			setRefresh(Math.random());
+		}, 300);
+		return () => {
+			clearTimeout(timer);
+		};
 	}, [snapOpen]);
 
   React.useEffect(() => {
@@ -38,6 +46,7 @@ export default function SnapshotDialog({
       if (dialogs.length && dialogs[dialogs.length - 1] === 'snap_dialog') {
         eventBus.dispath('closeSnap');
         setOpen(false);
+				typeof onSnapChange === 'function' && onSnapChange(false);
       }
     }
     eventBus.on('close', escClose);
@@ -46,6 +55,25 @@ export default function SnapshotDialog({
     };
 	}, []);
   
+
+	React.useEffect(() => {
+    function inputListener (event) {
+			if ([27, 37, 38, 39, 40, 13,].includes(event.keyCode)) return;
+      // 阻止事件冒泡
+      event.stopPropagation();
+    }
+		if (subCommandInputRef.current && open) {
+			subCommandInputRef.current.autofocus = true;
+			subCommandInputRef.current.focus();
+      subCommandInputRef?.current?.addEventListener('keydown', inputListener);
+		}
+    return () => {
+      if (subCommandInputRef &&  subCommandInputRef.current) {
+        subCommandInputRef?.current?.removeEventListener('keydown', inputListener);
+      }
+    };
+	}, [refresh, subCommandInputRef, open]);
+
 	const onOpenChange = (v) => {
 		setOpen(v);
 		typeof onSnapChange === 'function' && onSnapChange(v);
@@ -81,6 +109,8 @@ export default function SnapshotDialog({
 							<p className="Text">Create new snapshot</p>
 							<fieldset className="Fieldset">
 								<input
+									ref={subCommandInputRef}
+									autoFocus
 									placeholder="snapshot name (min len 2)"
 									minLength={2}
 									maxLength={12}

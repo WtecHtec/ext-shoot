@@ -32,10 +32,12 @@ export default function SubCommand({
 	selectName,
 	onClickItem,
 	subCommands,
+	extShootRef,
 	includeCommands = [],
 }: {
 	inputRef: React.RefObject<HTMLInputElement>
 	listRef: React.RefObject<HTMLElement>
+	extShootRef: React.RefObject<HTMLElement>
 	selectName?: string
 	onClickItem?: any,
 	subCommands?: any
@@ -57,7 +59,7 @@ export default function SubCommand({
 
 	React.useEffect(() => {
     function inputListener (event) {
-			if ([27, 37, 38, 39, 40,].includes(event.keyCode) 
+			if ([27, 37, 38, 39, 40, 13,].includes(event.keyCode) 
 				|| (event.metaKey && event.key.toLocaleUpperCase() === 'K')) return;
 			if (event.metaKey) return;
       // 阻止事件冒泡
@@ -76,10 +78,12 @@ export default function SubCommand({
 	}, [refresh, subCommandInputRef, open]);
 
 	React.useEffect(() => {
+		const el = extShootRef.current;
 		function listener(e: KeyboardEvent) {
 			if (e.key.toLocaleUpperCase() === 'K' &&  e.metaKey) {
 				e.preventDefault();
 				setOpen((o) => !o);
+				e.stopPropagation();
 			}
 		}
     function escClose(state) {
@@ -89,13 +93,13 @@ export default function SubCommand({
         setOpen(false);
       }
     }
-		document.addEventListener('keydown', listener);
+		el && el.addEventListener('keydown', listener);
     eventBus.on('close', escClose);
 		return () => {
-			document.removeEventListener('keydown', listener);
+			el && el.removeEventListener('keydown', listener);
       eventBus.off('close', escClose);
 		};
-	}, []);
+	}, [extShootRef]);
 
 	React.useEffect(() => {
 		const el = listRef.current;
@@ -106,8 +110,6 @@ export default function SubCommand({
       eventBus.dispath('openSubCommand');
 			el.style.overflow = 'hidden';
 			el.style.pointerEvents = 'none';
-      const rootEl = document.querySelector(`div[data-radix-popper-content-wrapper]`);
-      console.log('rootEl---', rootEl);
 		} else {
       eventBus.dispath('closeSubCommand');
 			el.style.overflow = '';

@@ -57,7 +57,9 @@ export default function SubCommand({
 
 	React.useEffect(() => {
     function inputListener (event) {
-      if ([27,37,38,39,40].includes(event.keyCode)) return;
+			if ([27, 37, 38, 39, 40,].includes(event.keyCode) 
+				|| (event.metaKey && event.key.toLocaleUpperCase() === 'K')) return;
+			if (event.metaKey) return;
       // 阻止事件冒泡
       event.stopPropagation();
     }
@@ -75,7 +77,7 @@ export default function SubCommand({
 
 	React.useEffect(() => {
 		function listener(e: KeyboardEvent) {
-			if (e.key.toLocaleUpperCase() === 'K' && e.metaKey) {
+			if (e.key.toLocaleUpperCase() === 'K' &&  e.metaKey) {
 				e.preventDefault();
 				setOpen((o) => !o);
 			}
@@ -87,6 +89,7 @@ export default function SubCommand({
         setOpen(false);
       }
     }
+		document.addEventListener('keydown', listener);
     eventBus.on('close', escClose);
 		return () => {
 			document.removeEventListener('keydown', listener);

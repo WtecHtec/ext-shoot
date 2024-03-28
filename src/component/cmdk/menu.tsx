@@ -254,7 +254,9 @@ export function RaycastCMDK() {
         getAllCommands();
 
         function inputListener(event) {
-            if ([27, 37, 38, 39, 40].includes(event.keyCode)) return;
+            if ([27, 37, 38, 39, 40,].includes(event.keyCode) 
+							|| (event.metaKey && event.key.toLocaleUpperCase() === 'K')) return;
+						if (event.metaKey) return;
             // 阻止事件冒泡
             event.stopPropagation();
         }

@@ -254,8 +254,9 @@ export function RaycastCMDK() {
         getAllCommands();
 
         function inputListener(event) {
-            if ([27, 37, 38, 39, 40].includes(event.keyCode)) return;
-            // 阻止事件冒泡
+            if ([27, 37, 38, 39, 40].includes(event.keyCode)
+                || (event.metaKey && event.key.toLocaleUpperCase() === 'K')) return;
+            if (event.metaKey) return;            // 阻止事件冒泡
             event.stopPropagation();
         }
 
@@ -440,7 +441,7 @@ export function RaycastCMDK() {
         if (isDev && isDev[1] === 'development') {
             toast('Open in Web Store Error');
         } else {
-            window.open(`https://chrome.google.com/webstore/detail/${id}`);
+            window.open(`https://chrome.google.com/webstore/detail/${ id }`);
         }
     };
 
@@ -611,14 +612,14 @@ export function RaycastCMDK() {
      * 排除最近使用、dev、favorite
      */
     const onCommandFilter = (value, search, keywords) => {
-				if (!search) return 1;
+        if (!search) return 1;
         if (value.includes('recently_')
             || value.includes('development@_')
             || value.includes('favorite@_')) return 0;
         if (value.includes('search_')) {
             return value.includes(`search_${ search }`);
         }
-				const fdn = keywords.find((item) => item.toLocaleLowerCase().includes(search?.toLocaleLowerCase()));
+        const fdn = keywords.find((item) => item.toLocaleLowerCase().includes(search?.toLocaleLowerCase()));
         // if (value.includes(search)) return 1;
         return fdn ? 1 : 0;
     };

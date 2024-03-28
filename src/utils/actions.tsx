@@ -6,6 +6,7 @@ import ExtensionShortcutIcon from 'react:~component/asset/extension-shortcut.svg
 import RefreshExtensionInfo
     from 'react:~component/asset/refresh_entension_infomation.svg';
 import {
+    BrowserIcon,
     CameraIcon,
     CopyNameIcon,
     DisableIcon,
@@ -223,7 +224,7 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction> = [
     },
     {
         shortcut: '',
-        icon: <WindowIcon/>,
+        icon: <BrowserIcon/>,
         name: 'Open In Web Store',
         desc: 'Open In Web Store',
         value: 'open_in_web_store',

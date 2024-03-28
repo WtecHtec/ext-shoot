@@ -535,3 +535,19 @@ export function ErrorIcon(props: SVGProps<SVGSVGElement>) {
         </svg>
     );
 }
+
+
+export function BrowserIcon(props: SVGProps<SVGSVGElement>) {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.8em"
+             height="1.8em"
+             viewBox="0 0 24 24" { ...props }>
+            <g fill="none" stroke="currentColor" stroke-linecap="round"
+               stroke-linejoin="round" stroke-width="2">
+                <path d="M12 21.5a9.5 9.5 0 1 0 0-19a9.5 9.5 0 0 0 0 19"></path>
+                <path
+                    d="M12 21.5c2.332 0 4.222-4.253 4.222-9.5S14.332 2.5 12 2.5c-2.332 0-4.222 4.253-4.222 9.5s1.89 9.5 4.222 9.5M2.5 12h19"></path>
+            </g>
+        </svg>
+    );
+}

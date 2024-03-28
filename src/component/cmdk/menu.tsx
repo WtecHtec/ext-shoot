@@ -430,6 +430,20 @@ export function RaycastCMDK() {
 
     };
 
+    /**
+     * 打开插件在 web store
+     */
+    const onHanldeOpenInWebStore = (extId) => {
+        const extInfo = getExtensionDeatilById(extId);
+        const { id } = extInfo;
+        const isDev = extId.match(/^(.*?)@_/);
+        if (isDev && isDev[1] === 'development') {
+            toast('Open in Web Store Error');
+        } else {
+            window.open(`https://chrome.google.com/webstore/detail/${id}`);
+        }
+    };
+
 
     /**
      * 卸载
@@ -493,6 +507,9 @@ export function RaycastCMDK() {
                 break;
             case 'uninstall_plugin':
                 onHanldeUninstallPulgin(extId);
+                break;
+            case 'open_in_web_store':
+                onHanldeOpenInWebStore(extId);
                 break;
             default:
                 break;

@@ -15,6 +15,7 @@ import {
     ShowInFinderIcon,
     StarItIcon,
     UninstallIcon,
+    WindowIcon,
 } from '~component/icons';
 import {ENABLE_ALL_EXTENSION} from '~config/actions';
 import {handleExtUpdateDone} from '~utils/management';
@@ -218,6 +219,15 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction> = [
         desc: 'Open Snapshot Dialog',
         value: 'open_snapshot_dialog',
         keywords: ['open', 'add', 'snapshot', 'Open Snapshot Dialog'],
+        group: 'common',
+    },
+    {
+        shortcut: '',
+        icon: <WindowIcon/>,
+        name: 'Open In Web Store',
+        desc: 'Open In Web Store',
+        value: 'open_in_web_store',
+        keywords: ['open', 'web', 'store', 'open in web store', 'web store'],
         group: 'common',
     },
     {

@@ -33,5 +33,8 @@
 - 兼容多种浏览器，包括Chrome、Edge和Arc
 - 规则导入功能，便于从其他扩展管理器无缝迁移
 
+💁 **Show in Finder**
+- 需要启动服务.[extss](https://www.npmjs.com/package/extss)
+
 💌 **Extenion Shoot，重塑你的扩展管理体验！**
 

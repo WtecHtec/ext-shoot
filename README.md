@@ -34,5 +34,7 @@ The next-generation extension management platform for developers
 - Minimalist design, lightweight operation, reducing resource burden
 - Compatible with multiple browsers, including Chrome, Edge, and Arc
 - Rule import feature, facilitating seamless migration from other extension managers
+💁 **Show in Finder**
+- Need to start service.[extss](https://www.npmjs.com/package/extss)
 
 💌 **Extenion Shoot, reshaping your extension management experience!**

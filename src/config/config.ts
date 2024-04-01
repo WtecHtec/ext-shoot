@@ -1,3 +1,3 @@
-export const mode = 'dev'; // dev \ pro
+export const mode = 'pro'; // dev \ pro
 
 export const SearchFix = 'search_';

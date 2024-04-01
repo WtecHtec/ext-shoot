@@ -12,6 +12,9 @@
     "dev": "plasmo dev",
     "build": "plasmo build",
     "package": "plasmo package",
+    "zip:firefox": "pnpm build --target=firefox-mv2 --zip",
+    "zip:chrome": "pnpm build --target=chrome-mv3 --zip",
+    "zip:edge": "pnpm build --target=edge-mv3 --zip",
     "fix": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {

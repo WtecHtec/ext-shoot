@@ -13,6 +13,7 @@ export default function SnapshotDialog({
 	snapOpen,
 	container,
 	onSnapChange,
+	listRef,
 	snapshots = [],
 	onSvaeSnap = null,
 }: {
@@ -21,6 +22,7 @@ export default function SnapshotDialog({
 	onSnapChange?: any,
 	snapshots?: any,
 	onSvaeSnap?: any,
+	listRef: React.RefObject<HTMLElement>
 }) {
 	const [open, setOpen] = React.useState(false);
 	const [selectContainer, setSelectContainer] = React.useState(null);
@@ -67,12 +69,20 @@ export default function SnapshotDialog({
 			subCommandInputRef.current.focus();
       subCommandInputRef?.current?.addEventListener('keydown', inputListener);
 		}
+		const el = listRef?.current;
+		if (open) {
+			el.style.overflow = 'hidden';
+			el.style.pointerEvents = 'none';
+		} else {
+			el.style.overflow = '';
+			el.style.pointerEvents = 'all';
+		}
     return () => {
       if (subCommandInputRef &&  subCommandInputRef.current) {
         subCommandInputRef?.current?.removeEventListener('keydown', inputListener);
       }
     };
-	}, [refresh, subCommandInputRef, open]);
+	}, [refresh, subCommandInputRef, open, listRef]);
 
 	const onOpenChange = (v) => {
 		setOpen(v);
@@ -88,7 +98,7 @@ export default function SnapshotDialog({
 			onSvaeSnap(tabValue, snapId, snapName.trim());
 	};
 	return (
-		<Dialog.Root open={open} onOpenChange={onOpenChange}>
+		<Dialog.Root open={open} onOpenChange={onOpenChange} modal={false}>
 			<Dialog.Portal container={container}>
 				<Dialog.Overlay className="DialogOverlay" />
 				<Dialog.Content className="DialogContent">

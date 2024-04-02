@@ -2,51 +2,46 @@ import * as Popover from '@radix-ui/react-popover';
 import { Command } from "cmdk";
 
 import React from 'react';
-import SubItem from './sub-item';
+
 
 import EventBus from '~utils/event-bus';
 import { getMutliLevelProperty } from '~utils/util';
 
-const eventBus = EventBus.getInstace();
-const BASE_SUB_GROUP = () => [
-	{
-		name: 'common',
-		key: 'common',
-		children: [],
-	},
-	{
-		name: 'dev',
-		key: 'dev',
-		children: [],
-	},
-	{
-		name: 'danger',
-		key: 'danger',
-		children: [],
-	},
-];
+import { GlobeIcon } from '~component/icons';
+import { ChevronDownIcon } from '@radix-ui/react-icons';
 
-export default function SubCommand({
+const eventBus = EventBus.getInstace();
+
+export default function SnapshotCommand({
 	inputRef,
 	listRef,
-	selectName,
-	onClickItem,
-	subCommands,
+	value,
+	onChange,
+	datas,
 	extShootRef,
-	includeCommands = [],
 }: {
 	inputRef: React.RefObject<HTMLInputElement>
 	listRef: React.RefObject<HTMLElement>
 	extShootRef: React.RefObject<HTMLElement>
-	selectName?: string
-	onClickItem?: any,
-	subCommands?: any
-	includeCommands?: any,
+	onChange?: any
+	datas?:any
+	value?:any
 }) {
 
 	const [open, setOpen] = React.useState(false);
 	const subCommandInputRef = React.useRef<HTMLInputElement>(null);
 	const [refresh, setRefresh] = React.useState(0);
+	const [showLabel, setShowLabel] = React.useState('All');
+	const [snapshotDatas, setSnapshotDatas] = React.useState([]);
+	const [valueId, setValueId] = React.useState('');
+	React.useEffect(() => {
+		console.log('snapshots---',datas);
+		if (!Array.isArray(datas)) return;
+		const { name } = datas.find(({id}) => id === value) || {};
+		name && setShowLabel(name);
+		setSnapshotDatas(datas);
+		setValueId(value);
+	}, [value, datas]);
 
 	React.useEffect(() => {
 		const timer = setTimeout(() => {
@@ -79,17 +74,17 @@ export default function SubCommand({
 
 	React.useEffect(() => {
 		const el = extShootRef.current;
-		function listener(e: KeyboardEvent) {
-			if (e.key.toLocaleUpperCase() === 'K' &&  e.metaKey) {
-				e.preventDefault();
-				setOpen((o) => !o);
-				e.stopPropagation();
-			}
+		function listener() {
+			// if (e.key.toLocaleUpperCase() === 'K' &&  e.metaKey) {
+			// 	e.preventDefault();
+			// 	setOpen((o) => !o);
+			// 	e.stopPropagation();
+			// }
 		}
     function escClose(state) {
       const dialogs = getMutliLevelProperty(state, 'dialogs',  []);
-      if (dialogs.length && dialogs[dialogs.length - 1] === 'sub_command') {
-        eventBus.dispath('closeSubCommand');
+      if (dialogs.length && dialogs[dialogs.length - 1] === 'snap_command') {
+        eventBus.dispath('openSnapCommand');
         setOpen(false);
       }
     }
@@ -107,11 +102,11 @@ export default function SubCommand({
 		if (!el) return;
 
 		if (open) {
-      eventBus.dispath('openSubCommand');
+      eventBus.dispath('openSnapCommand');
 			el.style.overflow = 'hidden';
 			el.style.pointerEvents = 'none';
 		} else {
-      eventBus.dispath('closeSubCommand');
+      eventBus.dispath('closeSnapCommand');
 			el.style.overflow = '';
 			el.style.pointerEvents = 'all';
 		}
@@ -123,9 +118,10 @@ export default function SubCommand({
 				cmdk-raycast-subcommand-trigger=""
 				onClick={() => setOpen(true)}
 				aria-expanded={open}>
-				Actions
-				<kbd>⌘</kbd>
-				<kbd>K</kbd>
+				<div className="snap-picker">
+					<label>{showLabel}</label> 
+					<ChevronDownIcon/>
+				</div>
 			</Popover.Trigger>
 			<Popover.Content
 				side="top"
@@ -137,58 +133,30 @@ export default function SubCommand({
 					e.preventDefault();
 					inputRef?.current?.focus();
 				}}>
-				<Command>
-					<div className={'sub_command_title'}>{selectName}</div>
+				<Command value={ valueId } onValueChange={setValueId}>
 					<Command.List>
 						<Command.Empty>No Results</Command.Empty>
-						{subCommands.filter(({value}) => {
-							if (Array.isArray(includeCommands) && includeCommands.length) {
-								return includeCommands.includes(value);
-							}
-							return true;
-						}).reduce((groups, item) => {
-							const group = groups.find((group) => group.name === item.group);
-							if (group) {
-								group.children.push(item);
-							} else {
-								groups.push({
-									name: item.group,
-									key: item.group.toLowerCase(),
-									children: [item],
-								});
-							}
-							return groups;
-						}, BASE_SUB_GROUP()).map((group) => (
-							group?.children.length ? <Command.Group key={group.key}
-								style={{ overflow: 'auto' }}>
-								{group.children.map((item) => (
-									<SubItem
-										key={item.value}
-										value={item.value}
-										style={{
-											color: item.group === 'danger' ? 'red' : '',
-										}}
-										keywords={item.keywords}
-										shortcut={item.shortcut}
-										commandHandle={(value) => {
-                      setOpen(v => !v);
-											typeof onClickItem === 'function' && onClickItem(value);
-                    }}>
-										{item.icon}
-										{item.name}
-									</SubItem>
-								))}
-							</Command.Group>
-							: null
-						))}
+						{
+							snapshotDatas && snapshotDatas.length ? 
+							snapshotDatas.map(({ id, name}) => (<Command.Item
+										key={ id }
+										value={ id }
+										keywords={ [name ] }
+										onSelect={ () => {
+											setShowLabel(name);
+											setOpen(false);
+											typeof onChange === 'function' && onChange(id);
+										} }>
+											<GlobeIcon></GlobeIcon>
+											{ name }
+									</Command.Item>)) : null
+						}
 					</Command.List>
-
 					<Command.Input
 						autoFocus
 						ref={subCommandInputRef}
-						placeholder="Search for actions..."
+						placeholder="Search for snapshot..."
 						tabIndex={-2}
-						id="subCommandInput"
 					/>
 				</Command>
 			</Popover.Content>

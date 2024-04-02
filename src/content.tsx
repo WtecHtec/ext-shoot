@@ -41,6 +41,14 @@ eventBus.initState({ dialogs: [] }, {
     state.dialogs = state.dialogs.filter( (item) => item !== 'sub_command');
     return state;
   },
+	openSnapCommand: (state) => {
+    state.dialogs.push('snap_command');
+    return state;
+  },
+  closeSnapCommand: (state) => {
+    state.dialogs = state.dialogs.filter( (item) => item !== 'snap_command');
+    return  state;
+  },
 });
 
 const PlasmoOverlay = () => {

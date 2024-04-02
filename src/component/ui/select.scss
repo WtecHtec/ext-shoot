@@ -15,13 +15,13 @@ button {
 	line-height: 1;
 	height: 35px;
 	gap: 5px;
-	background-color: white;
-	color: var(--violet-11);
-	box-shadow: 0 2px 10px var(--black-a7);
+	background-color: var(--gray1);
+	color: var(--gray12);
+	box-shadow: 0 0 0 1px var(--gray6);
 }
 
 .SelectTrigger:hover {
-	background-color: var(--mauve-3);
+	background-color: var(--gray4);
 }
 
 // .SelectTrigger:focus {
@@ -29,17 +29,17 @@ button {
 // }
 
 .SelectTrigger[data-placeholder] {
-	color: var(--violet-9);
+	color: var(--gray11);
 }
 
 .SelectIcon {
-	color: Var(--violet-11);
+	color: Var(--gray12);
 }
 
 .SelectContent {
 	width: 100%;
 	overflow: hidden;
-	background-color: white;
+	background-color: var(--gray1);
 	border-radius: 6px;
 	box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
 }
@@ -49,18 +49,20 @@ button {
 }
 
 .SelectItem {
+	background-color: var(--gray1);
 	font-size: 13px;
 	line-height: 1;
-	color: var(--violet-11);
+	color: var(--gray12);
 	border-radius: 3px;
 	display: flex;
 	align-items: center;
-	height: 25px;
-	padding: 0 35px 0 25px;
+	// height: 25px;
+	padding: 8px 35px 8px 25px;
 	position: relative;
 	user-select: none;
 	width: 360px;
 	box-sizing: border-box;
+	cursor: pointer;
 }
 
 .menu-main .SelectItem {
@@ -75,8 +77,8 @@ button {
 
 .SelectItem[data-highlighted] {
 	outline: none;
-	background-color: var(--violet-9);
-	color: var(--violet-1);
+	background-color: var(--gray6);
+	color: var(--gray12);
 }
 
 .SelectLabel {
@@ -95,7 +97,7 @@ button {
 .SelectItemIndicator {
 	position: absolute;
 	left: 0;
-	width: 25px;
+	width: 16px;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;

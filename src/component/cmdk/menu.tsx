@@ -1,8 +1,8 @@
 /* eslint-disable react/no-unknown-property */
 
-import {ChevronDownIcon, MagnifyingGlassIcon} from '@radix-ui/react-icons';
+import { MagnifyingGlassIcon} from '@radix-ui/react-icons';
 
-import * as Select from '@radix-ui/react-select';
+// import * as Select from '@radix-ui/react-select';
 
 import axios from 'axios';
 
@@ -27,15 +27,15 @@ import {
 } from '~utils/management';
 
 import {ExtensionIcon, Logo, ShootIcon} from '../icons';
-import {getId, getMutliLevelProperty} from '~utils/util';
+import { deepCopyByJson, getMutliLevelProperty} from '~utils/util';
 import Item from './item';
-import SelectItem from './select-item';
 import SubCommand from './sub-command';
 import SnapshotDialog from './snapshot-dialog';
 import {ExtItem} from '~utils/ext.interface';
 import FooterTip, {footerTip} from '~component/cmdk/footer-tip';
 import Search from './search-store';
 import {SearchFix} from '~config/config';
+import SnapshotCommand from './snapshot-command';
 
 
 const RecentlyFix = 'recently_';
@@ -80,7 +80,6 @@ export function RaycastCMDK() {
     const listRef = React.useRef(null);
     const [search, setSearch] = useState(null);
     const [container, setContainer] = React.useState(null);
-    const [selectContainer, setSelectContainer] = React.useState(null);
     const [snapshotOpen, setSnapshotOpen] = React.useState(false);
     const [recentlys, setRecentlys] = React.useState([]);
     const storeSearchRef = React.useRef(null);
@@ -148,6 +147,9 @@ export function RaycastCMDK() {
 
     /** 处理分组数据, 切换快照时，可不需请求 */
     const formatExtDatas = (exts, shotDatas, selectSnapId, recentlys) => {
+				shotDatas = deepCopyByJson(shotDatas);
+				recentlys = deepCopyByJson(recentlys);
+				exts = deepCopyByJson(exts);
         const currentSnap = shotDatas.find(({ id }) => id === selectSnapId);
         const groups = [...BASE_GROUP()];
         const currExts = [];
@@ -681,35 +683,13 @@ export function RaycastCMDK() {
                         marginLeft: '12px',
                         position: 'relative',
                         zIndex: 999,
+												display: 'flex',
+												alignItems: 'center',
                     } }>
-                        <Select.Root value={ selectSnapId }
-                                     onValueChange={ setSelectSnapId }>
-                            <Select.Trigger className="SelectTrigger"
-                                            aria-label="Food">
-                                <Select.Value placeholder="Select a Snapshot"/>
-                                <Select.Icon className="SelectIcon">
-                                    <ChevronDownIcon/>
-                                </Select.Icon>
-                            </Select.Trigger>
-                            <Select.Portal container={ selectContainer }>
-                                <Select.Content className="SelectContent">
-                                    <SelectItem value="all">All</SelectItem>
-                                    {
-                                        snapshots.length > 0 ? snapshots.map(({
-                                                                                  id,
-                                                                                  name,
-                                                                              }) =>
-                                            <SelectItem key={ id }
-                                                        value={ id || getId() }>{ name }</SelectItem>) : null
-                                    }
-                                </Select.Content>
-                            </Select.Portal>
-                        </Select.Root>
-                        <div className="container-root menu-main" style={ {
-                            width: '100%',
-                            boxSizing: 'border-box',
-                            position: 'relative',
-                        } } ref={ setSelectContainer }></div>
+											<SnapshotCommand value={selectSnapId} inputRef={inputRef} listRef={listRef} datas={[{
+													id: 'all',
+													name: 'All'
+												}, ...snapshots]} onChange={setSelectSnapId} extShootRef={extShootRef}></SnapshotCommand>
                     </div>
                 </div>
 
@@ -819,7 +799,7 @@ export function RaycastCMDK() {
                     />
                 </div>
             </Command>
-            <SnapshotDialog snapOpen={ snapshotOpen } snapshots={ snapshots }
+            <SnapshotDialog  listRef={ listRef } snapOpen={ snapshotOpen } snapshots={ snapshots }
                             onSnapChange={ setSnapshotOpen } container={ container }
                             onSvaeSnap={ onSvaeSnap }></SnapshotDialog>
             <div className="container-root" ref={ setContainer }></div>

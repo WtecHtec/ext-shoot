@@ -16,3 +16,12 @@
 div[data-radix-popper-content-wrapper] {
   z-index: 9999 !important;
 }
+
+.snap-picker {
+	display: flex;
+	align-items: center;
+}
+
+.snap-picker label {
+	margin-left: 4px;
+}

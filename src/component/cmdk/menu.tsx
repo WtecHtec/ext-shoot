@@ -206,7 +206,8 @@ export function RaycastCMDK() {
                 } else if (extIds && extIds.length === 1 && extMapping[extIds[0]]) {
                     item.status = true;
                     item.enabled = extMapping[extIds[0]].enabled;
-                    item.name = `${ item.name }${ value === 'recently_used' ? '' : ':' }${ extMapping[extIds[0]].name }` || '';
+                    item.name = `${ extMapping[extIds[0]].name }` || '';
+
                     if (isCommand) {
                         item.icon = acMap[value]?.icon;
                     } else {

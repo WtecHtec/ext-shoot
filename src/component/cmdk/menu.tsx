@@ -481,7 +481,7 @@ export function RaycastCMDK() {
             handleAddRecently({
                 value: subValue,
                 extIds: [subValue],
-                isCommand: false,
+                isCommand: true,
                 name: `${ commandMetaMap[subValue].name }`,
             });
             commandMetaMap[subValue].handle();
@@ -564,6 +564,8 @@ export function RaycastCMDK() {
         const { id, value, pendingUrl, extIds } = extInfo;
         console.log('extInfo---', extInfo);
         if (id.includes(RecentlyFix)) {
+            console.log(232131231);
+            console.log(extInfo);
             if (value.includes(SearchFix)) {
                 window.open(extIds[0]);
                 handleAddRecently({

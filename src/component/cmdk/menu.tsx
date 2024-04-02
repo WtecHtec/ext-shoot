@@ -11,7 +11,7 @@ import {Command} from 'cmdk';
 import React, {useEffect, useState} from 'react';
 import {toast} from 'sonner/dist';
 import {AC_ICON_UPDATED} from '~config/actions';
-import {ActionMeta, getSubItemActionMap, SUB_ITME_ACTIONS} from '~utils/actions';
+import {ActionMeta, getActionMetaMap, getSubItemActionMap, SUB_ITME_ACTIONS} from '~utils/actions';
 import {
     getExtensionAll,
     handleAddRecently,
@@ -40,6 +40,8 @@ import {SearchFix} from '~config/config';
 
 const RecentlyFix = 'recently_';
 const MarkId = '@_';
+const acMap = getSubItemActionMap();
+const metaMap = getActionMetaMap();
 
 const getExtId = (id) => {
     const ids = id?.split(MarkId);
@@ -186,7 +188,7 @@ export function RaycastCMDK() {
             });
         }
         if (Array.isArray(recentlys) && recentlys.length) {
-            const acMap = getSubItemActionMap();
+    
             let nwRecentlys = recentlys.filter(item => item);
             nwRecentlys = nwRecentlys.map((item) => {
                 const { extIds, value, isCommand } = item;
@@ -195,9 +197,6 @@ export function RaycastCMDK() {
                 if (value.includes(SearchFix)) {
                     item.status = true;
                     item.icon = <MagnifyingGlassIcon></MagnifyingGlassIcon>;
-                } else if (value === 'open_snapshot_dialog') {
-                    item.status = true;
-                    item.icon = acMap[value]?.icon;
                 } else if (extIds && extIds.length === 1 && extMapping[extIds[0]]) {
                     item.status = true;
                     item.enabled = extMapping[extIds[0]].enabled;
@@ -207,10 +206,13 @@ export function RaycastCMDK() {
                     } else {
                         item.icon = extMapping[extIds[0]].icon;
                     }
-                }
+                } else if (extIds && extIds.length === 1 && metaMap[extIds[0]]) {
+									item.status = true;
+									item.icon = metaMap[value]?.icon;
+								}
                 return item;
             }).filter(({ status }) => status);
-            nwRecentlys = nwRecentlys.sort((a, b) => b?.time - a?.time).slice(0, 10);
+            nwRecentlys = nwRecentlys.sort((a, b) => b?.time - a?.time).slice(0, 7);
             groups[0].children = [...nwRecentlys];
         }
         return [groups];
@@ -442,6 +444,18 @@ export function RaycastCMDK() {
         const [, status] = await handleUninstallPlugin(extInfo.id);
         status && await getExtensionDatas();
     };
+		
+
+		/**
+		 * 排除部分record
+		 * @param command 
+		 * @returns 
+		 */
+    const excludeRecordCommand = (command) => {
+        return !['open_snapshot_dialog', 'open_snapshot_dialog', 'add_to_favorites', 'uninstall_plugin'].includes(command);
+    };
+
+
     /**
      *  处理sub command 事件
      * @param subValue 事件名称
@@ -450,8 +464,7 @@ export function RaycastCMDK() {
      */
     const onClickSubItem = (subValue, extId) => {
         console.log('onClickSubItem ---', subValue, extId);
-        const acMap = getSubItemActionMap();
-        if (acMap[subValue]) {
+        if (acMap[subValue] && excludeRecordCommand(subValue)) {
             handleAddRecently({
                 value: subValue,
                 extIds: [getExtId(extId)],
@@ -459,7 +472,15 @@ export function RaycastCMDK() {
                 name: `${ acMap[subValue].name }`,
             });
         }
-
+				if (metaMap[subValue] && typeof metaMap[subValue].handle === 'function' ) {
+					handleAddRecently({
+							value: subValue,
+							extIds: [subValue],
+							isCommand: true,
+							name: `${ metaMap[subValue].name }`,
+					});
+					metaMap[subValue].handle();
+				}
         if (subValue === 'open_snapshot_dialog') {
             setSnapshotOpen(v => !v);
             return;
@@ -507,8 +528,15 @@ export function RaycastCMDK() {
      * @param item
      */
     const onCommandHandle = async (item) => {
-        const { handle, refresh } = item;
+        const { handle, refresh, name, value } = item;
+				console.log('onCommandHandle---', item, typeof handle === 'function');
         if (typeof handle === 'function') {
+						handleAddRecently({
+							value,
+							extIds: [value],
+							isCommand: true,
+							name,
+						});
             await handle({
                 extDatas: extDatas,
                 snapType: selectSnapId,
@@ -571,16 +599,21 @@ export function RaycastCMDK() {
         if (value.includes(RecentlyFix) && !['open_snapshot_dialog'].includes(subcommand)) {
             onCommandHandle(curenValue);
         } else {
-            const { handle } = ActionMeta.find((action) => action?.value === value) || {};
+            const { handle, name} = ActionMeta.find((action) => action?.value === value) || {};
             if (typeof handle === 'function') {
                 handle({ extDatas: extDatas, snapType: selectSnapId });
+								handleAddRecently({
+									value,
+									extIds: [value],
+									isCommand: true,
+									name,
+								});
                 return;
             }
             onClickSubItem(subcommand, value);
         }
     };
     const getCommandsByType = (value) => {
-        const acMap = getSubItemActionMap();
         const acKeys = Object.keys(acMap);
         const { installType, enabled } = getSubCnmandItem(value) || {};
         if (value.includes(RecentlyFix) || value.includes(SearchFix) || ActionMeta.find((action) => action?.value === value)) {
@@ -614,9 +647,15 @@ export function RaycastCMDK() {
         if (value.includes(SearchFix) && storeSearchRef && storeSearchRef.current) {
             storeSearchRef.current.onSearch();
         } else {
-            const { handle } = ActionMeta.find((action) => action?.value === value) || {};
+            const { handle,name } = ActionMeta.find((action) => action?.value === value) || {};
             if (typeof handle === 'function') {
                 handle({ extDatas: extDatas, snapType: selectSnapId });
+								handleAddRecently({
+									value,
+									extIds: [value],
+									isCommand: true,
+									name,
+								});
                 return;
             }
             handelPatibleSubCommand('open_extension_page', value);

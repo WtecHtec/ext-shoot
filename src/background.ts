@@ -108,9 +108,10 @@ const handleOpenExtensionDetails = ({ request, sendResponse }) => {
  * @param param0
  * @returns
  */
-const handleOpenExtensionPage = () => {
+const handleOpenExtensionPage = ({sendResponse}) => {
 	const magUrl = `chrome://extensions/`;
 	chrome.tabs.create({ url: magUrl });
+	sendResponse({ status: "Extension home page opened" });
 	return true;
 };
 
@@ -118,9 +119,10 @@ const handleOpenExtensionPage = () => {
 /**
  * 打开插件快捷键页面
  */
-function handleOpenExtensionShortcutsPage() {
+function handleOpenExtensionShortcutsPage({sendResponse}) {
 	const magUrl = `chrome://extensions/shortcuts`;
 	chrome.tabs.create({ url: magUrl });
+	sendResponse({ status: "Extension shortcuts page opened" });
 	return true;
 }
 
@@ -191,11 +193,12 @@ function handleGetExtensionIcon({ request, sendResponse }) {
 	return true; // 保持消息通道打开
 }
 
-const handleUpdateExtIcon = () => {
+const handleUpdateExtIcon = ({sendResponse}) => {
 	chrome.tabs.create({
 		url: chrome.runtime.getURL("/tabs/update.html"),
 		active: false,
 	});
+	sendResponse({ status: "update" });
 };
 
 const handleDisableAllExt = ({ request, sendResponse }) => {

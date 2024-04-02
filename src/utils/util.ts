@@ -94,6 +94,21 @@ function getBrowser() {
 	}
 	return result;
 }
+
+function isMac() {
+  return /mac/i.test(navigator?.platform);
+}
+
+function isWindow() {
+  return /win/i.test(navigator?.platform);
+}
+
+function getPlatform() {
+	if (isMac()) return 'mac';
+	if (isWindow()) return 'win';
+	return 'other';
+}
+
 export {
 	getMutliLevelProperty,
 	getIcon,
@@ -101,4 +116,5 @@ export {
 	deepCopyByJson,
   getId,
 	getBrowser,
+	getPlatform,
 };

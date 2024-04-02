@@ -2,6 +2,7 @@
 import { Command } from "cmdk";
 
 import React from 'react';
+import { getPlatform } from "~utils/util";
 
 export default function SubItem({
 	value,
@@ -30,7 +31,7 @@ export default function SubItem({
 			{children}
 			<div  cmdk-raycast-submenu-shortcuts="">
 				{shortcut
-					? shortcut.split(' ').map((key) => {
+					? shortcut.split(getPlatform() === 'mac' ? '' : ' ').map((key) => {
 						return <kbd key={key}>{key}</kbd>;
 					})
 					: null}
@@ -38,3 +39,4 @@ export default function SubItem({
 		</Command.Item>
 	);
 }
+

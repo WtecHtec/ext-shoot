@@ -7,7 +7,7 @@ import {
 } from '~config/cache.config';
 import {getId, getMutliLevelProperty} from './util';
 import {RecentlyItem} from './ext.interface';
-
+import {SearchFix} from '~config/config';
 const storage = new Storage({
     area: 'local',
 });
@@ -78,8 +78,8 @@ export const setRecentlyData = async (param: RecentlyItem) => {
         return getMutliLevelProperty(extIds, '0', '') !== getMutliLevelProperty(param, 'extIds.0', '');
     });
     datas = datas.filter(({ value }) => {
-        if (getMutliLevelProperty(param, 'value', '') === 'open_snapshot_dialog') {
-            return value !== 'open_snapshot_dialog';
+        if (getMutliLevelProperty(param, 'value', '').includes(SearchFix)) {
+            return !value.includes(SearchFix);
         }
         return true;
     });

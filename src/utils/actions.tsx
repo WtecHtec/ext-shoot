@@ -151,7 +151,7 @@ export const ActionMeta = [
     {
         name: 'Open Extension HomePage',
         value: 'open_extension_home_page',
-        keywords: ['open', 'extension', 'Open Extension Page'],
+        keywords: ['open', 'extension', 'home', 'Open Extension HomePage'],
         icon: <ExtensionHomePageIcon/>,
         desc: 'Open Extension Page',
         handle: handleOpenExtensionPage,
@@ -283,4 +283,12 @@ export const getSubItemActionMap = () => {
         mapping[item.value] = item;
     });
     return mapping;
+};
+
+export const getActionMetaMap = () => {
+	const mapping = {};
+	ActionMeta.forEach(item => {
+		mapping[item.value] = item;
+});
+	return mapping;
 };

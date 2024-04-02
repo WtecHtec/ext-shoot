@@ -535,6 +535,18 @@ export function RaycastCMDK() {
     const onCommandHandle = async (item, isCommand = false) => {
         const { handle, refresh, name, value } = item;
         console.log('onCommandHandle---', item, typeof handle === 'function');
+
+        if (value === 'add_snapshot') {
+            setSnapshotOpen(v => !v);
+            handleAddRecently({
+                value,
+                extIds: [],
+                isCommand: true,
+                name,
+            });
+            return;
+        }
+
         if (typeof handle === 'function') {
             console.log(value, isCommand);
             if (value !== 'clear_recently') {

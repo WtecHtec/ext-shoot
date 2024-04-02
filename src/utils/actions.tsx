@@ -4,6 +4,8 @@ import EnableAllIcon from 'react:~component/asset/enable-all-extension.svg';
 import ExtensionHomePageIcon from 'react:~component/asset/extension-homepage.svg';
 import ExtensionShortcutIcon from 'react:~component/asset/extension-shortcut.svg';
 import ExtensionClearRecentIcon from 'react:~component/asset/clear-recent.svg';
+import ExtensionAddSnapShot from 'react:~component/asset/snapshoot.svg';
+
 import RefreshExtensionInfo
     from 'react:~component/asset/refresh_entension_infomation.svg';
 import {
@@ -196,6 +198,15 @@ export const CommandMeta = [
         desc: 'Clear Recently Access',
         handle: handleClearRecently,
     },
+    {
+        name: 'Add Snapshot',
+        value: 'add_snapshot',
+        keywords: ['create', 'snapshot', 'Add Snapshot'],
+        icon: <ExtensionAddSnapShot/>,
+        desc: 'Create Snapshot',
+        handle: null,
+
+    },
 ];
 
 type SubItemAction = {
@@ -235,15 +246,6 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction> = [
         keywords: ['favorites', 'add', 'Add to Favorites'],
         group: 'common',
     },
-    // {
-    //     shortcut: '',
-    //     icon: <CameraIcon/>,
-    //     name: 'Open Snapshot Dialog',
-    //     desc: 'Open Snapshot Dialog',
-    //     value: 'open_snapshot_dialog',
-    //     keywords: ['open', 'add', 'snapshot', 'Open Snapshot Dialog'],
-    //     group: 'common',
-    // },
     {
         shortcut: '',
         icon: <ShowInFinderIcon/>,
@@ -312,6 +314,8 @@ export const getSubItemActionMap = () => {
 export const getCommandMetaMap = () => {
     const mapping = {};
     CommandMeta.forEach(item => {
+        // 给所有的command加一个label command 用于搜所
+        item.keywords.push('command');
         mapping[item.value] = item;
     });
     return mapping;

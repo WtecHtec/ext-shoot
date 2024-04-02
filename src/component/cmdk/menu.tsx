@@ -1,16 +1,15 @@
 /* eslint-disable react/no-unknown-property */
 
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import {MagnifyingGlassIcon} from '@radix-ui/react-icons';
 
 // import * as Select from '@radix-ui/react-select';
-
 import axios from 'axios';
 
 import * as clipboard from 'clipboard-polyfill';
-import { Command } from 'cmdk';
-import React, { useEffect, useState } from 'react';
-import { toast } from 'sonner/dist';
-import { AC_ICON_UPDATED } from '~config/actions';
+import {Command} from 'cmdk';
+import React, {useEffect, useState} from 'react';
+import {toast} from 'sonner/dist';
+import {AC_ICON_UPDATED} from '~config/actions';
 import {
     CommandMeta,
     getCommandMetaMap,
@@ -31,15 +30,15 @@ import {
     handleUninstallPlugin,
 } from '~utils/management';
 
-import { ExtensionIcon, Logo, ShootIcon } from '../icons';
-import { deepCopyByJson, getMutliLevelProperty } from '~utils/util';
+import {ExtensionIcon, Logo, ShootIcon} from '../icons';
+import {deepCopyByJson, getMutliLevelProperty} from '~utils/util';
 import Item from './item';
 import SubCommand from './sub-command';
 import SnapshotDialog from './snapshot-dialog';
-import { ExtItem } from '~utils/ext.interface';
-import FooterTip, { footerTip } from '~component/cmdk/footer-tip';
+import {ExtItem} from '~utils/ext.interface';
+import FooterTip, {footerTip} from '~component/cmdk/footer-tip';
 import Search from './search-store';
-import { SearchFix } from '~config/config';
+import {SearchFix} from '~config/config';
 import SnapshotCommand from './snapshot-command';
 import { getSelectSnapId, setSelectSnapIdBtStorge } from '~utils/local.storage';
 
@@ -122,7 +121,9 @@ export function RaycastCMDK() {
 				const fshot = shotDatas.find(({id}) => id === selectSnapId);
 				selectSnapId = fshot ? selectSnapId : 'all';
         const [, recentlys] = await handleGetRecentlys();
+        console.log('recentlys---', recentlys, selectSnapId);
         const [groups] = formatExtDatas(res, shotDatas, selectSnapId, recentlys ?? []);
+        console.log('groups---', groups);
 				setSelectSnapId(selectSnapId);
         setOriginDatas(res);
         setExtDatas(groups);
@@ -170,13 +171,13 @@ export function RaycastCMDK() {
             if (favorite) {
                 groups[1].children.push({
                     ...item,
-                    id: `${groups[1].key}${MarkId}${item.id}`,
+                    id: `${ groups[1].key }${ MarkId }${ item.id }`,
                 });
             }
             if (installType === 'development') {
                 groups[2].children.push({
                     ...item,
-                    id: `${groups[2].key}${MarkId}${item.id}`,
+                    id: `${ groups[2].key }${ MarkId }${ item.id }`,
                 });
             }
             if (currentSnap && Array.isArray(currentSnap.extIds) && currentSnap.extIds.includes(item.id)) {
@@ -212,7 +213,7 @@ export function RaycastCMDK() {
                 } else if (extIds && extIds.length === 1 && extMapping[extIds[0]]) {
                     item.status = true;
                     item.enabled = extMapping[extIds[0]].enabled;
-                    item.name = `${extMapping[extIds[0]].name}` || '';
+                    item.name = `${ extMapping[extIds[0]].name }` || '';
                     item.icon = extMapping[extIds[0]].icon;
                     item.actIcon = acMap[value]?.icon;
                 } else if (extIds && extIds.length > 0 && commandMetaMap[extIds[0]]) {
@@ -223,7 +224,7 @@ export function RaycastCMDK() {
 											if (extIds[1] === 'all') {
 												item.name = `${commandMetaMap[value].name}[All]`;
 											} else {
-												const fsnap = snapshots.find(({ id }) => id === extIds[1]);
+												const fsnap = shotDatas.find(({ id }) => id === extIds[1]);
 												if (fsnap) {
 													item.name = `${commandMetaMap[value].name}[${fsnap.name}]`;
 												}
@@ -339,27 +340,6 @@ export function RaycastCMDK() {
         return res;
     };
 
-    /**
-     * 更listener新 改为command
-     */
-    // const onHandleUpdate = () => {
-    //     handleExtUpdateDone();
-    //     footerTip('loading', 'Update Extension Info ...');
-    //     setHasUpdateStatus(2);
-    // };
-
-    /**
-     * 回车操作
-     * @returns
-     */
-    const onHandleOpenExt = (extId) => {
-        const extInfo = getExtensionDeatilById(extId);
-        if (!extInfo) {
-            toast('It is not Extension');
-            return;
-        }
-        handleDoExt(extInfo);
-    };
 
     /**
      * 收藏操作
@@ -448,10 +428,10 @@ export function RaycastCMDK() {
             })
             .catch(error => {
                 console.error(error);
-                toast(<span>Show In Finder Error, <a style={{ color: '#1978FF' }}
-                    target="_blank"
-                    href="https://github.com/WtecHtec/ext-shoot/blob/main/README.md"
-                    rel="noreferrer"> View more help </a></span>);
+                toast(<span>Show In Finder Error, <a style={ { color: '#1978FF' } }
+                                                     target="_blank"
+                                                     href="https://github.com/WtecHtec/ext-shoot/blob/main/README.md"
+                                                     rel="noreferrer"> View more help </a></span>);
             });
 
     };
@@ -484,37 +464,25 @@ export function RaycastCMDK() {
 		 * @param reucently 操作记录数据
      * @returns
      */
-    const onClickSubItem = (subValue, extId, reucently = {}) => {
+    const onClickSubItem = (subValue, extId) => {
         console.log('onClickSubItem ---', subValue, extId);
-        if (acMap[subValue] && excludeRecordCommand(subValue)) {
-            handleAddRecently({
-                value: subValue,
-                extIds: [getExtId(extId)],
-                isCommand: false,
-                name: `${acMap[subValue].name}`,
-            });
-        }
-        if (commandMetaMap[subValue] && typeof commandMetaMap[subValue].handle === 'function') {
-            handleAddRecently({
-								...reucently,
-                value: subValue,
-                isCommand: true,
-                name: `${commandMetaMap[subValue].name}`,
-            });
-            commandMetaMap[subValue].handle();
-        }
-        if (subValue === 'open_snapshot_dialog') {
-            setSnapshotOpen(v => !v);
-            return;
-        }
         const extInfo = getExtensionDeatilById(extId);
+
+				if (acMap[subValue] && excludeRecordCommand(subValue)) {
+					handleAddRecently({
+							value: subValue,
+							extIds: [getExtId(extId)],
+							isCommand: false,
+							name: `${ acMap[subValue].name }`,
+					});
+				}
         if (!extInfo) {
             // toast('It is not Extension');
             return;
         }
         switch (subValue) {
             case 'open_extension_page':
-                onHandleOpenExt(extId);
+								onBottomOpenExtPage(extId);
                 break;
             case 'copy_plugin_name':
                 onHandleCopyName(extId);
@@ -546,99 +514,146 @@ export function RaycastCMDK() {
     };
 
     /**
-     * command 分组的事件、 同时也是 单个item的选中、回车事件
+     * command 分组的事件、 同时也是 单个item的选中、回车事件(正常事件)
      * @param item
      */
     const onCommandHandle = async (item, isCommand = false) => {
         const { handle, refresh, name, value } = item;
-        console.log('onCommandHandle---', item, typeof handle === 'function', selectSnapId);
-        if (typeof handle === 'function') {
+        console.log('onCommandHandle---', item, typeof handle === 'function');
+
+        if (value === 'add_snapshot') {
+            setSnapshotOpen(v => !v);
             handleAddRecently({
                 value,
-                extIds: [value, selectSnapId],
-                isCommand: isCommand,
+                extIds: [value],
+                isCommand: true,
                 name,
             });
+            return;
+        }
+
+        if (typeof handle === 'function') {
+            if (value !== 'clear_recently') {
+                handleAddRecently({
+                    value,
+                    extIds: [value, selectSnapId],
+                    isCommand: isCommand,
+                    name,
+                });
+            }
+						const fsnap = snapshots.find(({id}) => id === selectSnapId);
+						const extDatas = getMutliLevelProperty(fsnap, 'extIds', []);
             await handle({
                 extDatas: extDatas,
                 snapType: selectSnapId,
             });
             refresh && getExtensionDatas();
         } else {
-            handleDoExt(item);
+          handleDoExtDetail(item);
         }
     };
+		
     /**
      * 1.处理 item事件(打开插件详情页)
-     * 2.处理 常用recently 事件
      * @param extInfo
      * @returns
      */
-    const handleDoExt = (extInfo) => {
-        const { id, value, pendingUrl, extIds } = extInfo;
-        console.log('extInfo---', extInfo);
-        if (id.includes(RecentlyFix)) {
-            if (value.includes(SearchFix)) {
-                window.open(extIds[0]);
-                handleAddRecently({
-                    ...extInfo,
-                    name: extInfo?.name.split(':')[0],
-                });
-                return;
-            }
-            // 打开最近使用
-            switch (value) {
-                case 'open_ext_detail':
-                case 'recently_used':
-                    handleOpenRecently(pendingUrl);
-                    handleAddRecently({
-                        ...extInfo,
-                        name: ['recently_used'].includes(value) ? '' : extInfo?.name.split(':')[0],
-                    });
-                    break;
-                default:
-									// 历史记录触发
-                  onClickSubItem(value, getMutliLevelProperty(extIds, '0', ''), extInfo);
-            }
-        } else {
-            const extId = getExtId(id);
-            handleOpenExtensionDetails(extId, getExtensionDeatilById(extId)?.name);
-        }
+    const handleDoExtDetail = (extInfo) => {
+        const { id } = extInfo;
+				const extId = getExtId(id);
+				handleOpenExtensionDetails(extId, getExtensionDeatilById(extId)?.name);
     };
 
+		const getSubCnmandItem = (value) => {
+			if (value.includes(RecentlyFix)) {
+					const recentlys = getMutliLevelProperty(extDatas, '0.children', []);
+					return recentlys.find(({ id }) => id === value);
+			} else {
+					return getExtensionDeatilById(value);
+			}
+		};
+		/**
+		 *  获取单个数据详情（list 列表下查找）
+		 */
+		const getItemByCommandList = (inValue) => {
+			let curenValue = getSubCnmandItem(inValue);
+			let isCommand = false;
+			if (!curenValue) {
+				curenValue = CommandMeta.find(({value}) => value === inValue);
+				isCommand = true;
+			}
+			return [curenValue, isCommand];
+		};
+    
+		/**
+		 * 
+		 * @param  处理历史记录
+		 * @returns 
+		 */
+		const handleRecentEvent = (inValue) => {
+			const [curenValue, isCommand] = getItemByCommandList(inValue);
+			const { value, pendingUrl, extIds, name } = curenValue || {};
+			console.log('RecentlyFix---', inValue, curenValue, isCommand);
+			if (value.includes(SearchFix)) {
+				window.open(extIds[0]);
+				handleAddRecently({
+						...curenValue,
+						name: curenValue?.name.split(':')[0],
+				});
+				return;
+			}
+			if (value === 'add_snapshot') {
+				setSnapshotOpen(v => !v);
+				handleAddRecently({
+						value,
+						extIds: [value],
+						isCommand: true,
+						name,
+				});
+				return;
+			}
+			if (commandMetaMap[value] && typeof commandMetaMap[value].handle === 'function') {
+				if (value !== 'clear_recently') {
+					handleAddRecently({
+						...curenValue,
+						value: value,
+						isCommand: true,
+						name: `${ commandMetaMap[value].name }`,
+					});
+				}
+				const snapType = extIds[1] || '';
+				const fsnap = snapshots.find(({id}) => id === snapType);
+				const extDatas = getMutliLevelProperty(fsnap, 'extIds', []);
+				commandMetaMap[value].handle({
+					extDatas,
+					snapType,
+				});
+				commandMetaMap[value].refresh && getExtensionDatas();
+				return;
+			}
+			switch (value) {
+				case 'open_ext_detail':
+				case 'recently_used':
+						handleOpenRecently(pendingUrl);
+						handleAddRecently({
+								...curenValue,
+								name: ['recently_used'].includes(value) ? '' : curenValue?.name.split(':')[0],
+						});
+						break;
+				default:
+					onClickSubItem(value, getMutliLevelProperty(extIds, '0', ''));
+					break;
+			}
+	
+		};
 
-    const getSubCnmandItem = (value) => {
-        if (value.includes(RecentlyFix)) {
-            const recentlys = getMutliLevelProperty(extDatas, '0.children', []);
-            return recentlys.find(({ id }) => id === value);
-        } else {
-            return getExtensionDeatilById(value);
-        }
-    };
-
-    /** 兼容 回车事件、subcommand回车事件  */
+    /** 兼容 回车事件、sub command action事件  */
     const handelPatibleSubCommand = (subcommand, value) => {
-        const curenValue = getSubCnmandItem(value);
-        console.log('subcommand, value---', subcommand, value);
-        if (value.includes(RecentlyFix) && !['open_snapshot_dialog'].includes(subcommand)) {
-            onCommandHandle(curenValue);
-        } else {
-            const {
-                handle,
-                name,
-            } = CommandMeta.find((action) => action?.value === value) || {};
-            if (typeof handle === 'function') {
-                handle({ extDatas: extDatas, snapType: selectSnapId });
-                handleAddRecently({
-                    value,
-                    extIds: [value, selectSnapId],
-                    isCommand: true,
-                    name,
-                });
-                return;
-            }
-            onClickSubItem(subcommand, value);
-        }
+				if (subcommand === 'open_extension_page') {
+					onBottomOpenExtPage(value);
+				} else {
+					onClickSubItem(subcommand, value);
+				}
     };
     const getCommandsByType = (value) => {
         const acKeys = Object.keys(acMap);
@@ -662,120 +677,115 @@ export function RaycastCMDK() {
             || value.includes('development@_')
             || value.includes('favorite@_')) return 0;
         if (value.includes('search_')) {
-            return value.includes(`search_${search}`);
+            return value.includes(`search_${ search }`);
         }
         const fdn = keywords.find((item) => item.toLocaleLowerCase().includes(search?.toLocaleLowerCase()));
         // if (value.includes(search)) return 1;
         return fdn ? 1 : 0;
     };
 
-    /** 底部  Open Extension Page 按钮点击事件 */
-    const onBottomOpenExtPage = () => {
+
+    /** 底部  Open Extension Page 按钮点击事件、 回车事件处理 */
+    const onBottomOpenExtPage = (value) => {
         if (value.includes(SearchFix) && storeSearchRef && storeSearchRef.current) {
             storeSearchRef.current.onSearch();
         } else {
-            const {
-                handle,
-                name,
-            } = CommandMeta.find((action) => action?.value === value) || {};
-            if (typeof handle === 'function') {
-                handle({ extDatas: extDatas, snapType: selectSnapId });
-                handleAddRecently({
-                    value,
-                    extIds: [value, selectSnapId],
-                    isCommand: true,
-                    name,
-                });
-                return;
-            }
-            handelPatibleSubCommand('open_extension_page', value);
+					if (value.includes(RecentlyFix)) {
+						// 处理记录数据
+						handleRecentEvent(value);
+					} else {
+						const [curenValue, isCommand] = getItemByCommandList(value);
+						onCommandHandle(curenValue, isCommand);
+					}
         }
     };
     return (
-        <div className="ext-shoot" ref={extShootRef}>
-            <Command value={value} onValueChange={(v) => setValue(v)}
-                filter={onCommandFilter}>
-                <div cmdk-raycast-top-shine="" />
-                <div style={{ display: 'flex' }}>
+        <div className="ext-shoot" ref={ extShootRef }>
+            <Command value={ value } onValueChange={ (v) => setValue(v) }
+                     filter={ onCommandFilter }>
+                <div cmdk-raycast-top-shine=""/>
+                <div style={ { display: 'flex' } }>
                     <Command.Input
-                        value={search}
-                        onValueChange={setSearch}
-                        ref={inputRef}
+                        value={ search }
+                        onValueChange={ setSearch }
+                        ref={ inputRef }
                         autoFocus
                         placeholder="Search for extensions and commands..."
-                        style={{ flex: 1 }}
-                        tabIndex={-2}
+                        style={ { flex: 1 } }
+                        tabIndex={ -2 }
                     />
                     {
 
                         // 只有数量大于1时，才显示快照选择
                         snapshots.length > 0 &&
-                        <div style={{
+                        <div style={ {
                             flexShrink: 0,
                             marginLeft: '12px',
                             position: 'relative',
                             zIndex: 999,
                             display: 'flex',
-                            alignItems: 'center'
-                        }}>
-                            <SnapshotCommand value={selectSnapId} inputRef={inputRef} listRef={listRef} datas={[{
+                            alignItems: 'center',
+                        } }>
+                            <SnapshotCommand value={ selectSnapId } inputRef={ inputRef }
+                                             listRef={ listRef } datas={ [{
                                 id: 'all',
-                                name: 'All'
-                            }, ...snapshots]} onChange={setSelectSnapId} extShootRef={extShootRef}></SnapshotCommand>
+                                name: 'All',
+                            }, ...snapshots] } onChange={ setSelectSnapId }
+                                             extShootRef={ extShootRef }></SnapshotCommand>
                         </div>
                     }
                 </div>
 
-                <hr cmdk-raycast-loader="" />
-                <Command.List ref={listRef}>
+                <hr cmdk-raycast-loader=""/>
+                <Command.List ref={ listRef }>
                     <Command.Empty>No results found.</Command.Empty>
                     {
-                        search ? <Search search={search}
-                            ref={storeSearchRef}></Search> : null
+                        search ? <Search search={ search }
+                                         ref={ storeSearchRef }></Search> : null
                     }
                     {
                         extDatas.length > 0 ? extDatas?.map(({ children, name }) => {
                             return <>
                                 {
                                     children && children.length > 0 ? <>
-                                        <Command.Group
-                                            heading={`${name}(${children.length})`}>
-                                            {children?.map((item) => {
-                                                const {
-                                                    id,
-                                                    name,
-                                                    icon,
-                                                    enabled,
-                                                    isCommand,
-                                                    actIcon,
-                                                } = item;
-                                                return (
-                                                    <Item value={id}
-                                                        key={id}
-                                                        keywords={[...name.split(' '), name]}
+                                            <Command.Group
+                                                heading={ `${ name }(${ children.length })` }>
+                                                { children?.map((item) => {
+                                                    const {
+                                                        id,
+                                                        name,
+                                                        icon,
+                                                        enabled,
+                                                        isCommand,
+                                                        actIcon,
+                                                    } = item;
+                                                    return (
+                                                        <Item value={ id }
+                                                              key={ id }
+                                                              keywords={ [...name.split(' '), name] }
 
-                                                        commandHandle={() => onCommandHandle(item)}
-                                                        isCommand={isCommand}
-                                                        cls={!enabled && 'grayscale'}>
-                                                        {icon ? (
-                                                            isCommand ? icon :
-                                                                <ExtensionIcon
-                                                                    base64={icon} />
-                                                        ) : (
-                                                            <ShootIcon></ShootIcon>
-                                                        )}
-                                                        <div className="truncate">
-                                                            {name}
-                                                        </div>
-                                                        <div>
-                                                           {actIcon ? actIcon : null}
-                                                        </div>
-                                                    </Item>
-                                                );
-                                            })
-                                            }
-                                        </Command.Group>
-                                    </>
+                                                              commandHandle={ () => handelPatibleSubCommand('open_extension_page' ,id) }
+                                                              isCommand={ isCommand }
+                                                              cls={ !enabled && 'grayscale' }>
+                                                            { icon ? (
+                                                                isCommand ? icon :
+                                                                    <ExtensionIcon
+                                                                        base64={ icon }/>
+                                                            ) : (
+                                                                <ShootIcon></ShootIcon>
+                                                            ) }
+                                                            <div className="truncate">
+                                                                { name }
+                                                            </div>
+                                                            <div>
+                                                                { actIcon ? actIcon : null }
+                                                            </div>
+                                                        </Item>
+                                                    );
+                                                })
+                                                }
+                                            </Command.Group>
+                                        </>
                                         : null
                                 }
                             </>;
@@ -784,7 +794,7 @@ export function RaycastCMDK() {
                     {
                         loaded ?
                             <Command.Group heading="Commands">
-                                {CommandMeta.map((item) => {
+                                { CommandMeta.map((item) => {
                                     const {
                                         value,
                                         keywords,
@@ -793,16 +803,16 @@ export function RaycastCMDK() {
                                     } = item;
                                     return (
                                         <Item
-                                            key={value}
+                                            key={ value }
                                             isCommand
-                                            value={value}
-                                            keywords={keywords}
-                                            commandHandle={() => onCommandHandle(item, true)}>
-                                            <Logo>{icon}</Logo>
-                                            {name}
+                                            value={ value }
+                                            keywords={ keywords }
+                                            commandHandle={ () => onCommandHandle(item, true) }>
+                                            <Logo>{ icon }</Logo>
+                                            { name }
                                         </Item>
                                     );
-                                })}
+                                }) }
                             </Command.Group>
                             : null
                     }
@@ -810,37 +820,37 @@ export function RaycastCMDK() {
 
                 <div cmdk-raycast-footer="">
 
-                    <FooterTip />
-                    <hr />
+                    <FooterTip/>
+                    <hr/>
 
                     <button cmdk-raycast-open-trigger=""
-                        onClick={() => {
-                            onBottomOpenExtPage();
-                        }}>
+                            onClick={ () => {
+                                onBottomOpenExtPage(value);
+                            } }>
                         Open Extension Page
                         <kbd>↵</kbd>
                     </button>
 
-                    <hr />
+                    <hr/>
 
                     <SubCommand
-                        subCommands={subCommands}
-                        listRef={listRef}
-                        selectName={getSubCnmandItem(value)?.name}
-                        inputRef={inputRef}
-                        extShootRef={extShootRef}
-                        includeCommands={getCommandsByType(value)}
-                        onClickItem={(subcommand) => {
+                        subCommands={ subCommands }
+                        listRef={ listRef }
+                        selectName={ getSubCnmandItem(value)?.name }
+                        inputRef={ inputRef }
+                        extShootRef={ extShootRef }
+                        includeCommands={ getCommandsByType(value) }
+                        onClickItem={ (subcommand) => {
                             handelPatibleSubCommand(subcommand, value);
-                        }}
-                    // onClickSubItem(subcommand, value)
+                        } }
                     />
                 </div>
             </Command>
-            <SnapshotDialog listRef={listRef} snapOpen={snapshotOpen} snapshots={snapshots}
-                onSnapChange={setSnapshotOpen} container={container}
-                onSvaeSnap={onSvaeSnap}></SnapshotDialog>
-            <div className="container-root" ref={setContainer}></div>
+            <SnapshotDialog listRef={ listRef } snapOpen={ snapshotOpen }
+                            snapshots={ snapshots }
+                            onSnapChange={ setSnapshotOpen } container={ container }
+                            onSvaeSnap={ onSvaeSnap }></SnapshotDialog>
+            <div className="container-root" ref={ setContainer }></div>
         </div>
     );
 }

@@ -3,10 +3,12 @@ import DisableAllIcon from 'react:~component/asset/disable-all-extension.svg';
 import EnableAllIcon from 'react:~component/asset/enable-all-extension.svg';
 import ExtensionHomePageIcon from 'react:~component/asset/extension-homepage.svg';
 import ExtensionShortcutIcon from 'react:~component/asset/extension-shortcut.svg';
+import ExtensionClearRecentIcon from 'react:~component/asset/clear-recent.svg';
+import ExtensionAddSnapShot from 'react:~component/asset/snapshoot.svg';
+
 import RefreshExtensionInfo
     from 'react:~component/asset/refresh_entension_infomation.svg';
 import {
-    CameraIcon,
     CopyNameIcon,
     DisableIcon,
     EnableIcon,
@@ -16,7 +18,7 @@ import {
     StarItIcon,
     UninstallIcon,
 } from '~component/icons';
-import {ENABLE_ALL_EXTENSION} from '~config/actions';
+import {AC_CLEAR_RECENTLYS, ENABLE_ALL_EXTENSION} from '~config/actions';
 import {handleExtUpdateDone} from '~utils/management';
 import {footerTip} from '~component/cmdk/footer-tip';
 
@@ -30,10 +32,7 @@ const handleDisableAllExtension = (
     return new Promise((resolve) => {
         // todo Notification
         const { extDatas, snapType } = params;
-        let extIds = [];
-        if (snapType !== 'all') {
-            extIds = extDatas[extDatas.length - 1].children.map(({ id }) => id);
-        }
+        const extIds = [...extDatas];
         chrome.runtime
             .sendMessage({ action: 'disable_all_extension', snapType, extIds })
             .then(async (response) => {
@@ -76,6 +75,21 @@ const handleOpenExtensionShortcutsPage = (): Promise<[null | Error, any]> => {
     });
 };
 
+// 清楚最近使用
+// 打开插件快捷键页面
+const handleClearRecently = (): Promise<[null | Error, any]> => {
+    return new Promise((resolve) => {
+        chrome.runtime
+            .sendMessage({ action: AC_CLEAR_RECENTLYS })
+            .then(async (response) => {
+                resolve([null, response]);
+            })
+            .catch((err) => {
+                resolve([err, null]);
+            });
+    });
+};
+
 /**
  * 启用其他插件
  * @returns
@@ -84,10 +98,7 @@ const handleEnableAllExtension = (
     params: any,
 ): Promise<[null | Error, any]> => {
     const { extDatas, snapType } = params;
-    let extIds = [];
-    if (snapType !== 'all') {
-        extIds = extDatas[extDatas.length - 1].children.map(({ id }) => id);
-    }
+		const extIds = [...extDatas];
     return new Promise((resolve) => {
         // todo Notification
         chrome.runtime
@@ -116,7 +127,7 @@ const handleEnableAllExtension = (
 // };
 
 export const HandleIconUpdate = () => {
-    footerTip('loading', 'Update Extension Info ...');
+    footerTip('loading', 'Update Extension Info ...', 5000);
     handleExtUpdateDone();
 };
 export const CommandMeta = [
@@ -172,6 +183,24 @@ export const CommandMeta = [
         desc: 'Change Extenion Shortcuts',
         handle: handleOpenExtensionShortcutsPage,
     },
+    // 清楚最近使用
+    {
+        name: 'Clear Recently Accessed',
+        value: 'clear_recently',
+        keywords: ['clear', 'recently', 'Clear Recently Accessed', 'recent', 'reset'],
+        icon: <ExtensionClearRecentIcon/>,
+        desc: 'Clear Recently Access',
+        handle: handleClearRecently,
+    },
+    {
+        name: 'Add Snapshot',
+        value: 'add_snapshot',
+        keywords: ['create', 'snapshot', 'Add Snapshot'],
+        icon: <ExtensionAddSnapShot/>,
+        desc: 'Create Snapshot',
+        handle: null,
+
+    },
 ];
 
 type SubItemAction = {
@@ -209,15 +238,6 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction> = [
         desc: 'Add to Favorites',
         value: 'add_to_favorites',
         keywords: ['favorites', 'add', 'Add to Favorites'],
-        group: 'common',
-    },
-    {
-        shortcut: '',
-        icon: <CameraIcon/>,
-        name: 'Open Snapshot Dialog',
-        desc: 'Open Snapshot Dialog',
-        value: 'open_snapshot_dialog',
-        keywords: ['open', 'add', 'snapshot', 'Open Snapshot Dialog'],
         group: 'common',
     },
     {
@@ -286,9 +306,11 @@ export const getSubItemActionMap = () => {
 };
 
 export const getCommandMetaMap = () => {
-	const mapping = {};
-	CommandMeta.forEach(item => {
-		mapping[item.value] = item;
-});
-	return mapping;
+    const mapping = {};
+    CommandMeta.forEach(item => {
+        // 给所有的command加一个label command 用于搜所
+        item.keywords.push('command');
+        mapping[item.value] = item;
+    });
+    return mapping;
 };

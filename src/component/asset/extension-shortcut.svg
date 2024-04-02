@@ -16,7 +16,7 @@
         </radialGradient>
     </defs><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" width="393" height="393" x="59.5" y="59.5"
         alignment-baseline="middle" style="color: rgb(255, 255, 255);">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" stroke-width="1.5"
             d="M8 4.75v-3m0 3H3.75a2 2 0 0 0-2 2v5.5a2 2 0 0 0 2 2h8.5a2 2 0 0 0 2-2v-5.5a2 2 0 0 0-2-2H8Zm-2.25 6.5h4.5m-5.5-3h.5m2.5 0h.5m2.5 0h.5">
         </path>
     </svg>

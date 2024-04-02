@@ -1,5 +1,5 @@
-<svg width="16" height="16" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink" class="">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 512 512" fill="none"
+     xmlns="http://www.w3.org/2000/svg" class="">
     <rect id="r4" width="512" height="512" x="0" y="0" rx="128" fill="url(#r5)" stroke="#FFFFFF" stroke-width="0"
           stroke-opacity="100%" paint-order="stroke"></rect>
     <clipPath id="clip">
@@ -19,7 +19,9 @@
     </defs>
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" width="352" height="352" x="80" y="80"
          alignment-baseline="middle" style="color: rgb(255, 255, 255);">
-        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" stroke-width="1.5"
-              d="M8.25 1.75 5.75 4m0 0 2.5 2.25M5.75 4H8c2.9 0 5.25 2.1 5.25 5a5.25 5.25 0 1 1-10.5 0"></path>
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M10.25 8.5a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"></path>
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M1.75 6.75v4.5a2 2 0 0 0 2 2h8.5a2 2 0 0 0 2-2v-4.5a2 2 0 0 0-2-2h-.382a1 1 0 0 1-.894-.553l-.448-.894a1 1 0 0 0-.894-.553H6.368a1 1 0 0 0-.894.553l-.448.894a1 1 0 0 1-.894.553H3.75a2 2 0 0 0-2 2Z"></path>
     </svg>
 </svg>

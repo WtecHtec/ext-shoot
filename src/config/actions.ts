@@ -9,3 +9,5 @@ export const AC_GET_SNAPSHOTS = 'ac_get_snapshots';
 export const AC_GET_COMMANDS = 'ac_get_commands';
 export const AC_GET_RECENTLYS = 'ac_get_recently';
 export const AC_ADD_RECENTLYS = 'ac_add_recently';
+//clear recently
+export const AC_CLEAR_RECENTLYS = 'ac_clear_recently';

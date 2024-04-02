@@ -11,7 +11,12 @@ import {Command} from 'cmdk';
 import React, {useEffect, useState} from 'react';
 import {toast} from 'sonner/dist';
 import {AC_ICON_UPDATED} from '~config/actions';
-import {ActionMeta, getActionMetaMap, getSubItemActionMap, SUB_ITME_ACTIONS} from '~utils/actions';
+import {
+    ActionMeta,
+    getActionMetaMap,
+    getSubItemActionMap,
+    SUB_ITME_ACTIONS,
+} from '~utils/actions';
 import {
     getExtensionAll,
     handleAddRecently,
@@ -84,7 +89,7 @@ export function RaycastCMDK() {
     const [snapshotOpen, setSnapshotOpen] = React.useState(false);
     const [recentlys, setRecentlys] = React.useState([]);
     const storeSearchRef = React.useRef(null);
-		const extShootRef = React.useRef(null);
+    const extShootRef = React.useRef(null);
     // const inputRef = React.useRef<HTMLInputElement | null>(null)
     /**
      * 获取插件数据
@@ -188,7 +193,7 @@ export function RaycastCMDK() {
             });
         }
         if (Array.isArray(recentlys) && recentlys.length) {
-    
+
             let nwRecentlys = recentlys.filter(item => item);
             nwRecentlys = nwRecentlys.map((item) => {
                 const { extIds, value, isCommand } = item;
@@ -207,9 +212,9 @@ export function RaycastCMDK() {
                         item.icon = extMapping[extIds[0]].icon;
                     }
                 } else if (extIds && extIds.length === 1 && metaMap[extIds[0]]) {
-									item.status = true;
-									item.icon = metaMap[value]?.icon;
-								}
+                    item.status = true;
+                    item.icon = metaMap[value]?.icon;
+                }
                 return item;
             }).filter(({ status }) => status);
             nwRecentlys = nwRecentlys.sort((a, b) => b?.time - a?.time).slice(0, 7);
@@ -257,9 +262,9 @@ export function RaycastCMDK() {
         getAllCommands();
 
         function inputListener(event) {
-            if ([27, 37, 38, 39, 40, 13,].includes(event.keyCode) 
-							|| (event.metaKey && event.key.toLocaleUpperCase() === 'K')) return;
-						if (event.metaKey) return;
+            if ([27, 37, 38, 39, 40, 13].includes(event.keyCode)
+                || (event.metaKey && event.key.toLocaleUpperCase() === 'K')) return;
+            if (event.metaKey) return;
             // 阻止事件冒泡
             event.stopPropagation();
         }
@@ -444,13 +449,13 @@ export function RaycastCMDK() {
         const [, status] = await handleUninstallPlugin(extInfo.id);
         status && await getExtensionDatas();
     };
-		
 
-		/**
-		 * 排除部分record
-		 * @param command 
-		 * @returns 
-		 */
+
+    /**
+     * 排除部分record
+     * @param command
+     * @returns
+     */
     const excludeRecordCommand = (command) => {
         return !['open_snapshot_dialog', 'open_snapshot_dialog', 'add_to_favorites', 'uninstall_plugin'].includes(command);
     };
@@ -472,15 +477,15 @@ export function RaycastCMDK() {
                 name: `${ acMap[subValue].name }`,
             });
         }
-				if (metaMap[subValue] && typeof metaMap[subValue].handle === 'function' ) {
-					handleAddRecently({
-							value: subValue,
-							extIds: [subValue],
-							isCommand: true,
-							name: `${ metaMap[subValue].name }`,
-					});
-					metaMap[subValue].handle();
-				}
+        if (metaMap[subValue] && typeof metaMap[subValue].handle === 'function') {
+            handleAddRecently({
+                value: subValue,
+                extIds: [subValue],
+                isCommand: true,
+                name: `${ metaMap[subValue].name }`,
+            });
+            metaMap[subValue].handle();
+        }
         if (subValue === 'open_snapshot_dialog') {
             setSnapshotOpen(v => !v);
             return;
@@ -529,14 +534,14 @@ export function RaycastCMDK() {
      */
     const onCommandHandle = async (item) => {
         const { handle, refresh, name, value } = item;
-				console.log('onCommandHandle---', item, typeof handle === 'function');
+        console.log('onCommandHandle---', item, typeof handle === 'function');
         if (typeof handle === 'function') {
-						handleAddRecently({
-							value,
-							extIds: [value],
-							isCommand: true,
-							name,
-						});
+            handleAddRecently({
+                value,
+                extIds: [value],
+                isCommand: true,
+                name,
+            });
             await handle({
                 extDatas: extDatas,
                 snapType: selectSnapId,
@@ -599,15 +604,18 @@ export function RaycastCMDK() {
         if (value.includes(RecentlyFix) && !['open_snapshot_dialog'].includes(subcommand)) {
             onCommandHandle(curenValue);
         } else {
-            const { handle, name} = ActionMeta.find((action) => action?.value === value) || {};
+            const {
+                handle,
+                name,
+            } = ActionMeta.find((action) => action?.value === value) || {};
             if (typeof handle === 'function') {
                 handle({ extDatas: extDatas, snapType: selectSnapId });
-								handleAddRecently({
-									value,
-									extIds: [value],
-									isCommand: true,
-									name,
-								});
+                handleAddRecently({
+                    value,
+                    extIds: [value],
+                    isCommand: true,
+                    name,
+                });
                 return;
             }
             onClickSubItem(subcommand, value);
@@ -630,14 +638,14 @@ export function RaycastCMDK() {
      * 排除最近使用、dev、favorite
      */
     const onCommandFilter = (value, search, keywords) => {
-				if (!search) return 1;
+        if (!search) return 1;
         if (value.includes('recently_')
             || value.includes('development@_')
             || value.includes('favorite@_')) return 0;
         if (value.includes('search_')) {
             return value.includes(`search_${ search }`);
         }
-				const fdn = keywords.find((item) => item.toLocaleLowerCase().includes(search?.toLocaleLowerCase()));
+        const fdn = keywords.find((item) => item.toLocaleLowerCase().includes(search?.toLocaleLowerCase()));
         // if (value.includes(search)) return 1;
         return fdn ? 1 : 0;
     };
@@ -647,22 +655,25 @@ export function RaycastCMDK() {
         if (value.includes(SearchFix) && storeSearchRef && storeSearchRef.current) {
             storeSearchRef.current.onSearch();
         } else {
-            const { handle,name } = ActionMeta.find((action) => action?.value === value) || {};
+            const {
+                handle,
+                name,
+            } = ActionMeta.find((action) => action?.value === value) || {};
             if (typeof handle === 'function') {
                 handle({ extDatas: extDatas, snapType: selectSnapId });
-								handleAddRecently({
-									value,
-									extIds: [value],
-									isCommand: true,
-									name,
-								});
+                handleAddRecently({
+                    value,
+                    extIds: [value],
+                    isCommand: true,
+                    name,
+                });
                 return;
             }
             handelPatibleSubCommand('open_extension_page', value);
         }
     };
     return (
-        <div className="ext-shoot" ref={extShootRef}>
+        <div className="ext-shoot" ref={ extShootRef }>
             <Command value={ value } onValueChange={ (v) => setValue(v) }
                      filter={ onCommandFilter }>
                 <div cmdk-raycast-top-shine=""/>
@@ -676,43 +687,47 @@ export function RaycastCMDK() {
                         style={ { flex: 1 } }
                         tabIndex={ -2 }
                     />
-                    <div style={ {
-                        flexShrink: 0,
-                        marginLeft: '12px',
-                        position: 'relative',
-                        zIndex: 999,
-                    } }>
-                        <Select.Root value={ selectSnapId }
-                                     onValueChange={ setSelectSnapId }>
-                            <Select.Trigger className="SelectTrigger"
-                                            aria-label="Food">
-                                <Select.Value placeholder="Select a Snapshot"/>
-                                <Select.Icon className="SelectIcon">
-                                    <ChevronDownIcon/>
-                                </Select.Icon>
-                            </Select.Trigger>
-                            <Select.Portal container={ selectContainer }>
-                                <Select.Content className="SelectContent">
-                                    <SelectItem value="all">All</SelectItem>
-                                    {
-                                        snapshots.length > 0 ? snapshots.map(({
-                                                                                  id,
-                                                                                  name,
-                                                                              }) =>
-                                            <SelectItem key={ id }
-                                                        value={ id || getId() }>{ name }</SelectItem>) : null
-                                    }
-                                </Select.Content>
-                            </Select.Portal>
-                        </Select.Root>
-                        <div className="container-root menu-main" style={ {
-                            width: '100%',
-                            boxSizing: 'border-box',
-                            position: 'relative',
-                        } } ref={ setSelectContainer }></div>
-                    </div>
-                </div>
+                    {
 
+                        // 只有数量大于1时，才显示快照选择
+                        snapshots.length > 0 &&
+                        <div style={ {
+                            flexShrink: 0,
+                            marginLeft: '12px',
+                            position: 'relative',
+                            zIndex: 999,
+                        } }>
+                            <Select.Root value={ selectSnapId }
+                                         onValueChange={ setSelectSnapId }>
+                                <Select.Trigger className="SelectTrigger"
+                                                aria-label="Food">
+                                    <Select.Value placeholder="Select a Snapshot"/>
+                                    <Select.Icon className="SelectIcon">
+                                        <ChevronDownIcon/>
+                                    </Select.Icon>
+                                </Select.Trigger>
+                                <Select.Portal container={ selectContainer }>
+                                    <Select.Content className="SelectContent">
+                                        <SelectItem value="all">All</SelectItem>
+                                        {
+                                            snapshots.length > 0 ? snapshots.map(({
+                                                                                      id,
+                                                                                      name,
+                                                                                  }) =>
+                                                <SelectItem key={ id }
+                                                            value={ id || getId() }>{ name }</SelectItem>) : null
+                                        }
+                                    </Select.Content>
+                                </Select.Portal>
+                            </Select.Root>
+                            <div className="container-root menu-main" style={ {
+                                width: '100%',
+                                boxSizing: 'border-box',
+                                position: 'relative',
+                            } } ref={ setSelectContainer }></div>
+                        </div>
+                    }
+                </div>
 
                 <hr cmdk-raycast-loader=""/>
                 <Command.List ref={ listRef }>
@@ -810,7 +825,7 @@ export function RaycastCMDK() {
                         listRef={ listRef }
                         selectName={ getSubCnmandItem(value)?.name }
                         inputRef={ inputRef }
-												extShootRef={extShootRef}
+                        extShootRef={ extShootRef }
                         includeCommands={ getCommandsByType(value) }
                         onClickItem={ (subcommand) => {
                             handelPatibleSubCommand(subcommand, value);

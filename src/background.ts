@@ -9,10 +9,10 @@ console.log(
 	"Live now; make now always the most precious time. Now will never come again."
 );
 
-// 当插件安装时，开始计时
+// 当插件安装时，打开欢迎页
 // dev 先注释掉
 chrome.runtime.onInstalled.addListener(() => {
-	mode !== 'dev' && chrome.tabs.create({
+	'dev' !== mode && chrome.tabs.create({
 		url: chrome.runtime.getURL("/tabs/welcome.html"),
 	});
 });
@@ -263,7 +263,7 @@ const handleIconUpdated = async ({ sendResponse }) => {
 
 /**
  * 创建快照 即：当前启用的插件
- * @param param0 
+ * @param param0
  */
 const handleCreateSnapshot = async ({request, sendResponse}) => {
   const { id, name, extIds } = request;
@@ -285,7 +285,7 @@ const handleCreateSnapshot = async ({request, sendResponse}) => {
 
 /**
  * 获取所有快照
- * @param param0 
+ * @param param0
  */
 const handleGetSnapshots = async ({ sendResponse}) => {
   const snapshots = await getSnapshots();
@@ -293,7 +293,7 @@ const handleGetSnapshots = async ({ sendResponse}) => {
 };
 /**
  * 获取用户快捷设置
- * @param param0 
+ * @param param0
  */
 const handleGetCommands = async ({ sendResponse}) => {
   chrome.commands.getAll(
@@ -307,9 +307,9 @@ const handleGetCommands = async ({ sendResponse}) => {
       });
       sendResponse({ commandMapping,});
     });
-   
+
 };
-  
+
 const handeleGetRecentlys = async ({ sendResponse}) => {
 	const recentlys = await getRecentlyData();
 	sendResponse({recentlys});

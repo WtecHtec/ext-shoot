@@ -119,7 +119,7 @@ export const HandleIconUpdate = () => {
     footerTip('loading', 'Update Extension Info ...');
     handleExtUpdateDone();
 };
-export const ActionMeta = [
+export const CommandMeta = [
     {
         name: 'Update Extension Information',
         value: 'update_extension_info',
@@ -285,9 +285,9 @@ export const getSubItemActionMap = () => {
     return mapping;
 };
 
-export const getActionMetaMap = () => {
+export const getCommandMetaMap = () => {
 	const mapping = {};
-	ActionMeta.forEach(item => {
+	CommandMeta.forEach(item => {
 		mapping[item.value] = item;
 });
 	return mapping;

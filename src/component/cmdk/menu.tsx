@@ -12,8 +12,8 @@ import React, {useEffect, useState} from 'react';
 import {toast} from 'sonner/dist';
 import {AC_ICON_UPDATED} from '~config/actions';
 import {
-    ActionMeta,
-    getActionMetaMap,
+    CommandMeta,
+    getCommandMetaMap,
     getSubItemActionMap,
     SUB_ITME_ACTIONS,
 } from '~utils/actions';
@@ -46,7 +46,7 @@ import {SearchFix} from '~config/config';
 const RecentlyFix = 'recently_';
 const MarkId = '@_';
 const acMap = getSubItemActionMap();
-const metaMap = getActionMetaMap();
+const commandMetaMap = getCommandMetaMap();
 
 const getExtId = (id) => {
     const ids = id?.split(MarkId);
@@ -120,6 +120,7 @@ export function RaycastCMDK() {
         const [, recentlys] = await handleGetRecentlys();
         console.log('recentlys---', recentlys);
         const [groups] = formatExtDatas(res, shotDatas, selectSnapId, recentlys);
+        console.log('groups---', groups);
         setOriginDatas(res);
         setExtDatas(groups);
         setRecentlys(recentlys);
@@ -211,13 +212,14 @@ export function RaycastCMDK() {
                     } else {
                         item.icon = extMapping[extIds[0]].icon;
                     }
-                } else if (extIds && extIds.length === 1 && metaMap[extIds[0]]) {
+                } else if (extIds && extIds.length === 1 && commandMetaMap[extIds[0]]) {
                     item.status = true;
-                    item.icon = metaMap[value]?.icon;
+                    item.icon = commandMetaMap[value]?.icon;
                 }
                 return item;
             }).filter(({ status }) => status);
             nwRecentlys = nwRecentlys.sort((a, b) => b?.time - a?.time).slice(0, 7);
+            console.log('nwRecentlys---', nwRecentlys);
             groups[0].children = [...nwRecentlys];
         }
         return [groups];
@@ -473,18 +475,18 @@ export function RaycastCMDK() {
             handleAddRecently({
                 value: subValue,
                 extIds: [getExtId(extId)],
-                isCommand: true,
+                isCommand: false,
                 name: `${ acMap[subValue].name }`,
             });
         }
-        if (metaMap[subValue] && typeof metaMap[subValue].handle === 'function') {
+        if (commandMetaMap[subValue] && typeof commandMetaMap[subValue].handle === 'function') {
             handleAddRecently({
                 value: subValue,
                 extIds: [subValue],
-                isCommand: true,
-                name: `${ metaMap[subValue].name }`,
+                isCommand: false,
+                name: `${ commandMetaMap[subValue].name }`,
             });
-            metaMap[subValue].handle();
+            commandMetaMap[subValue].handle();
         }
         if (subValue === 'open_snapshot_dialog') {
             setSnapshotOpen(v => !v);
@@ -532,14 +534,14 @@ export function RaycastCMDK() {
      * command 分组的事件、 同时也是 item的回车事件
      * @param item
      */
-    const onCommandHandle = async (item) => {
+    const onCommandHandle = async (item, isCommand = false) => {
         const { handle, refresh, name, value } = item;
         console.log('onCommandHandle---', item, typeof handle === 'function');
         if (typeof handle === 'function') {
             handleAddRecently({
                 value,
                 extIds: [value],
-                isCommand: true,
+                isCommand: isCommand,
                 name,
             });
             await handle({
@@ -607,13 +609,13 @@ export function RaycastCMDK() {
             const {
                 handle,
                 name,
-            } = ActionMeta.find((action) => action?.value === value) || {};
+            } = CommandMeta.find((action) => action?.value === value) || {};
             if (typeof handle === 'function') {
                 handle({ extDatas: extDatas, snapType: selectSnapId });
                 handleAddRecently({
                     value,
                     extIds: [value],
-                    isCommand: true,
+                    isCommand: false,
                     name,
                 });
                 return;
@@ -624,7 +626,7 @@ export function RaycastCMDK() {
     const getCommandsByType = (value) => {
         const acKeys = Object.keys(acMap);
         const { installType, enabled } = getSubCnmandItem(value) || {};
-        if (value.includes(RecentlyFix) || value.includes(SearchFix) || ActionMeta.find((action) => action?.value === value)) {
+        if (value.includes(RecentlyFix) || value.includes(SearchFix) || CommandMeta.find((action) => action?.value === value)) {
             return ['open_extension_page', 'open_snapshot_dialog'];
         }
         if (installType !== 'development') {
@@ -658,13 +660,13 @@ export function RaycastCMDK() {
             const {
                 handle,
                 name,
-            } = ActionMeta.find((action) => action?.value === value) || {};
+            } = CommandMeta.find((action) => action?.value === value) || {};
             if (typeof handle === 'function') {
                 handle({ extDatas: extDatas, snapType: selectSnapId });
                 handleAddRecently({
                     value,
                     extIds: [value],
-                    isCommand: true,
+                    isCommand: false,
                     name,
                 });
                 return;
@@ -783,7 +785,7 @@ export function RaycastCMDK() {
                     {
                         loaded ?
                             <Command.Group heading="Commands">
-                                { ActionMeta.map((item) => {
+                                { CommandMeta.map((item) => {
                                     const {
                                         value,
                                         keywords,
@@ -796,7 +798,7 @@ export function RaycastCMDK() {
                                             isCommand
                                             value={ value }
                                             keywords={ keywords }
-                                            commandHandle={ () => onCommandHandle(item) }>
+                                            commandHandle={ () => onCommandHandle(item, true) }>
                                             <Logo>{ icon }</Logo>
                                             { name }
                                         </Item>

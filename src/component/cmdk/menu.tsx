@@ -766,7 +766,9 @@ export function RaycastCMDK() {
                                                             ) : (
                                                                 <ShootIcon></ShootIcon>
                                                             ) }
-                                                            { name }
+                                                            <div className="truncate">
+                                                                { name }
+                                                            </div>
                                                         </Item>
                                                     );
                                                 })

@@ -131,7 +131,7 @@ const handleEnableAllExtension = (
 // };
 
 export const HandleIconUpdate = () => {
-    footerTip('loading', 'Update Extension Info ...');
+    footerTip('loading', 'Update Extension Info ...', 5000);
     handleExtUpdateDone();
 };
 export const CommandMeta = [

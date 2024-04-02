@@ -3,10 +3,10 @@ import DisableAllIcon from 'react:~component/asset/disable-all-extension.svg';
 import EnableAllIcon from 'react:~component/asset/enable-all-extension.svg';
 import ExtensionHomePageIcon from 'react:~component/asset/extension-homepage.svg';
 import ExtensionShortcutIcon from 'react:~component/asset/extension-shortcut.svg';
+import ExtensionClearRecentIcon from 'react:~component/asset/clear-recent.svg';
 import RefreshExtensionInfo
     from 'react:~component/asset/refresh_entension_infomation.svg';
 import {
-    CameraIcon,
     CopyNameIcon,
     DisableIcon,
     EnableIcon,
@@ -16,7 +16,7 @@ import {
     StarItIcon,
     UninstallIcon,
 } from '~component/icons';
-import {ENABLE_ALL_EXTENSION} from '~config/actions';
+import {AC_CLEAR_RECENTLYS, ENABLE_ALL_EXTENSION} from '~config/actions';
 import {handleExtUpdateDone} from '~utils/management';
 import {footerTip} from '~component/cmdk/footer-tip';
 
@@ -67,6 +67,21 @@ const handleOpenExtensionShortcutsPage = (): Promise<[null | Error, any]> => {
     return new Promise((resolve) => {
         chrome.runtime
             .sendMessage({ action: 'open_extension_shortcuts' })
+            .then(async (response) => {
+                resolve([null, response]);
+            })
+            .catch((err) => {
+                resolve([err, null]);
+            });
+    });
+};
+
+// 清楚最近使用
+// 打开插件快捷键页面
+const handleClearRecently = (): Promise<[null | Error, any]> => {
+    return new Promise((resolve) => {
+        chrome.runtime
+            .sendMessage({ action: AC_CLEAR_RECENTLYS })
             .then(async (response) => {
                 resolve([null, response]);
             })
@@ -172,6 +187,15 @@ export const CommandMeta = [
         desc: 'Change Extenion Shortcuts',
         handle: handleOpenExtensionShortcutsPage,
     },
+    // 清楚最近使用
+    {
+        name: 'Clear Recently Accessed',
+        value: 'clear_recently',
+        keywords: ['clear', 'recently', 'Clear Recently Accessed', 'recent', 'reset'],
+        icon: <ExtensionClearRecentIcon/>,
+        desc: 'Clear Recently Access',
+        handle: handleClearRecently,
+    },
 ];
 
 type SubItemAction = {
@@ -211,15 +235,15 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction> = [
         keywords: ['favorites', 'add', 'Add to Favorites'],
         group: 'common',
     },
-    {
-        shortcut: '',
-        icon: <CameraIcon/>,
-        name: 'Open Snapshot Dialog',
-        desc: 'Open Snapshot Dialog',
-        value: 'open_snapshot_dialog',
-        keywords: ['open', 'add', 'snapshot', 'Open Snapshot Dialog'],
-        group: 'common',
-    },
+    // {
+    //     shortcut: '',
+    //     icon: <CameraIcon/>,
+    //     name: 'Open Snapshot Dialog',
+    //     desc: 'Open Snapshot Dialog',
+    //     value: 'open_snapshot_dialog',
+    //     keywords: ['open', 'add', 'snapshot', 'Open Snapshot Dialog'],
+    //     group: 'common',
+    // },
     {
         shortcut: '',
         icon: <ShowInFinderIcon/>,
@@ -286,9 +310,9 @@ export const getSubItemActionMap = () => {
 };
 
 export const getCommandMetaMap = () => {
-	const mapping = {};
-	CommandMeta.forEach(item => {
-		mapping[item.value] = item;
-});
-	return mapping;
+    const mapping = {};
+    CommandMeta.forEach(item => {
+        mapping[item.value] = item;
+    });
+    return mapping;
 };

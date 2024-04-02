@@ -94,6 +94,10 @@ export const setRecentlyData = async (param: RecentlyItem) => {
     return storage.set(EXT_RECENTLY_CACHE, [...datas]);
 };
 
+export const clearRecentlyData = () => {
+    return storage.set(EXT_RECENTLY_CACHE, []);
+}
+
 
 export const getRecentlyData = () => {
     return storage.get(EXT_RECENTLY_CACHE);

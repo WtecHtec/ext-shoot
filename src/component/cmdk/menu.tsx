@@ -41,6 +41,7 @@ import FooterTip, { footerTip } from '~component/cmdk/footer-tip';
 import Search from './search-store';
 import { SearchFix } from '~config/config';
 import SnapshotCommand from './snapshot-command';
+import { getSelectSnapId, setSelectSnapIdBtStorge } from '~utils/local.storage';
 
 
 const RecentlyFix = 'recently_';
@@ -110,16 +111,19 @@ export function RaycastCMDK() {
      * @returns
      */
     const getExtensionDatas = async () => {
+				let selectSnapId = await getSelectSnapId();
         // console.log('获取插件数据');
         const [err, res] = await getExtensionAll();
         if (err || !Array.isArray(res)) {
             return;
         }
         const shotDatas = await getSnapShotDatas();
+				console.log('shotDatas---', shotDatas, selectSnapId);
+				const fshot = shotDatas.find(({id}) => id === selectSnapId);
+				selectSnapId = fshot ? selectSnapId : 'all';
         const [, recentlys] = await handleGetRecentlys();
-        console.log('recentlys---', recentlys);
-        const [groups] = formatExtDatas(res, shotDatas, selectSnapId, recentlys??[]);
-        console.log('groups---', groups);
+        const [groups] = formatExtDatas(res, shotDatas, selectSnapId, recentlys ?? []);
+				setSelectSnapId(selectSnapId);
         setOriginDatas(res);
         setExtDatas(groups);
         setRecentlys(recentlys);
@@ -211,14 +215,24 @@ export function RaycastCMDK() {
                     item.name = `${extMapping[extIds[0]].name}` || '';
                     item.icon = extMapping[extIds[0]].icon;
                     item.actIcon = acMap[value]?.icon;
-                } else if (extIds && extIds.length === 1 && commandMetaMap[extIds[0]]) {
+                } else if (extIds && extIds.length > 0 && commandMetaMap[extIds[0]]) {
                     item.status = true;
                     item.icon = commandMetaMap[value]?.icon;
+										console.log('extIds---', extIds, extIds[1], value);
+										if ( extIds[1] && ['enable_all_extension', 'disable_all_extension'].includes(value)) {
+											if (extIds[1] === 'all') {
+												item.name = `${commandMetaMap[value].name}[All]`;
+											} else {
+												const fsnap = snapshots.find(({ id }) => id === extIds[1]);
+												if (fsnap) {
+													item.name = `${commandMetaMap[value].name}[${fsnap.name}]`;
+												}
+											}
+										}
                 }
                 return item;
             }).filter(({ status }) => status);
             nwRecentlys = nwRecentlys.sort((a, b) => b?.time - a?.time).slice(0, 7);
-            console.log('nwRecentlys---', nwRecentlys);
             groups[0].children = [...nwRecentlys];
         }
         return [groups];
@@ -283,6 +297,7 @@ export function RaycastCMDK() {
     // 当快照选择变化时，可以不需要重新请求接口
     useEffect(() => {
         const [groups] = formatExtDatas(originDatas, snapshots, selectSnapId, recentlys);
+				setSelectSnapIdBtStorge(selectSnapId);
         setExtDatas(groups);
     }, [selectSnapId]);
 
@@ -466,9 +481,10 @@ export function RaycastCMDK() {
      *  处理sub command 事件
      * @param subValue 事件名称
      * @param extId 插件id、command分组的事件名称
+		 * @param reucently 操作记录数据
      * @returns
      */
-    const onClickSubItem = (subValue, extId) => {
+    const onClickSubItem = (subValue, extId, reucently = {}) => {
         console.log('onClickSubItem ---', subValue, extId);
         if (acMap[subValue] && excludeRecordCommand(subValue)) {
             handleAddRecently({
@@ -480,9 +496,9 @@ export function RaycastCMDK() {
         }
         if (commandMetaMap[subValue] && typeof commandMetaMap[subValue].handle === 'function') {
             handleAddRecently({
+								...reucently,
                 value: subValue,
-                extIds: [subValue],
-                isCommand: false,
+                isCommand: true,
                 name: `${commandMetaMap[subValue].name}`,
             });
             commandMetaMap[subValue].handle();
@@ -530,16 +546,16 @@ export function RaycastCMDK() {
     };
 
     /**
-     * command 分组的事件、 同时也是 item的回车事件
+     * command 分组的事件、 同时也是 单个item的选中、回车事件
      * @param item
      */
     const onCommandHandle = async (item, isCommand = false) => {
         const { handle, refresh, name, value } = item;
-        console.log('onCommandHandle---', item, typeof handle === 'function');
+        console.log('onCommandHandle---', item, typeof handle === 'function', selectSnapId);
         if (typeof handle === 'function') {
             handleAddRecently({
                 value,
-                extIds: [value],
+                extIds: [value, selectSnapId],
                 isCommand: isCommand,
                 name,
             });
@@ -549,7 +565,6 @@ export function RaycastCMDK() {
             });
             refresh && getExtensionDatas();
         } else {
-            console.log(2222);
             handleDoExt(item);
         }
     };
@@ -582,7 +597,8 @@ export function RaycastCMDK() {
                     });
                     break;
                 default:
-                    onClickSubItem(value, getMutliLevelProperty(extIds, '0', ''));
+									// 历史记录触发
+                  onClickSubItem(value, getMutliLevelProperty(extIds, '0', ''), extInfo);
             }
         } else {
             const extId = getExtId(id);
@@ -600,7 +616,7 @@ export function RaycastCMDK() {
         }
     };
 
-    /** 兼容  */
+    /** 兼容 回车事件、subcommand回车事件  */
     const handelPatibleSubCommand = (subcommand, value) => {
         const curenValue = getSubCnmandItem(value);
         console.log('subcommand, value---', subcommand, value);
@@ -615,8 +631,8 @@ export function RaycastCMDK() {
                 handle({ extDatas: extDatas, snapType: selectSnapId });
                 handleAddRecently({
                     value,
-                    extIds: [value],
-                    isCommand: false,
+                    extIds: [value, selectSnapId],
+                    isCommand: true,
                     name,
                 });
                 return;
@@ -666,8 +682,8 @@ export function RaycastCMDK() {
                 handle({ extDatas: extDatas, snapType: selectSnapId });
                 handleAddRecently({
                     value,
-                    extIds: [value],
-                    isCommand: false,
+                    extIds: [value, selectSnapId],
+                    isCommand: true,
                     name,
                 });
                 return;

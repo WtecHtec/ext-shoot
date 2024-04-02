@@ -98,3 +98,11 @@ export const setRecentlyData = async (param: RecentlyItem) => {
 export const getRecentlyData = () => {
     return storage.get(EXT_RECENTLY_CACHE);
 };
+
+export const getSelectSnapId = () => {
+	return storage.get('select_snap_id');
+};
+
+export const setSelectSnapIdBtStorge = (snapid) => {
+	return storage.set('select_snap_id', snapid);
+};

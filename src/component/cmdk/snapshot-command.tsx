@@ -35,7 +35,6 @@ export default function SnapshotCommand({
 	const [snapshotDatas, setSnapshotDatas] = React.useState([]);
 	const [valueId, setValueId] = React.useState('');
 	React.useEffect(() => {
-		console.log('snapshots---',datas);
 		if (!Array.isArray(datas)) return;
 		const { name } = datas.find(({id}) => id === value) || {};
 		name && setShowLabel(name);

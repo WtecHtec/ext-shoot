@@ -32,10 +32,7 @@ const handleDisableAllExtension = (
     return new Promise((resolve) => {
         // todo Notification
         const { extDatas, snapType } = params;
-        let extIds = [];
-        if (snapType !== 'all') {
-            extIds = extDatas[extDatas.length - 1].children.map(({ id }) => id);
-        }
+        const extIds = [...extDatas];
         chrome.runtime
             .sendMessage({ action: 'disable_all_extension', snapType, extIds })
             .then(async (response) => {
@@ -101,10 +98,7 @@ const handleEnableAllExtension = (
     params: any,
 ): Promise<[null | Error, any]> => {
     const { extDatas, snapType } = params;
-    let extIds = [];
-    if (snapType !== 'all') {
-        extIds = extDatas[extDatas.length - 1].children.map(({ id }) => id);
-    }
+		const extIds = [...extDatas];
     return new Promise((resolve) => {
         // todo Notification
         chrome.runtime

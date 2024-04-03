@@ -687,34 +687,30 @@ export function RaycastCMDK() {
     // filter sub command
     // return  action name list
     const getCommandsByType = (value) => {
-        // console.log('getCommandsByType value---', value);
-        // console.log('getCommandsByType detail', getSubCnmandItem(value));
-        if (CommandMeta.find((action) => action?.value === value)) {
+        const commandMetaItem = CommandMeta.find(action => action?.value === value);
+        if (commandMetaItem) {
             return Object.keys(acMap_command);
         }
-        // find extension detail
-        const { installType, enabled, isCommand } = getSubCnmandItem(value) || {};
-        const acKeys = Object.keys(acMap_Extension());
 
-        if (value.includes(RecentlyFix) || value.includes(SearchFix) || isCommand) {
-            if (isCommand) {
-                return ['execute_command'];
-            }
-            if (value.includes(SearchFix)) {
-                return ['execute_recent_action'];
-            }
-            // 如果两个都不是，就是插件详情页
+        const { installType, enabled, isCommand } = getSubCnmandItem(value) || {};
+
+        if (isCommand) {
+            return ['execute_command'];
+        } else if (value.includes(SearchFix)) {
+            return ['execute_recent_action'];
         }
+
+        const actionKeys = Object.keys(acMap_Extension());
+        const filterDisabledOrEnabledPlugin = (item) => item !== (enabled ? 'enable_plugin' : 'disable_plugin');
+
         if (installType !== 'development') {
-            return acKeys.filter(item => ![enabled ? 'enable_plugin' : 'disable_plugin'].includes(item));
+            return actionKeys.filter(filterDisabledOrEnabledPlugin);
         }
-        // development 模式的插件
-        // not show 'open_in_web_store'
-        let ackeys_ = [...acKeys].filter(item => item !== 'open_in_web_store');
-        return ackeys_.filter(item => {
-            return item !== (enabled ? 'enable_plugin' : 'disable_plugin');
-        });
+
+        // For development mode plugins, exclude 'open_in_web_store'
+        return actionKeys.filter(item => item !== 'open_in_web_store' && filterDisabledOrEnabledPlugin(item));
     };
+
     /**
      * 排除最近使用、dev、favorite
      */

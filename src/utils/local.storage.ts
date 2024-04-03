@@ -8,6 +8,7 @@ import {
 import {getId, getMutliLevelProperty} from './util';
 import {RecentlyItem} from './ext.interface';
 import {SearchFix} from '~config/config';
+
 const storage = new Storage({
     area: 'local',
 });
@@ -69,7 +70,7 @@ export const getSnapshots = (): Promise<any[]> => {
  */
 
 export const setRecentlyData = async (param: RecentlyItem) => {
-    console.log(param);
+    // console.log(param);
     let datas = await storage.get(EXT_RECENTLY_CACHE) as any;
     if (!Array.isArray(datas)) {
         datas = [];
@@ -83,14 +84,15 @@ export const setRecentlyData = async (param: RecentlyItem) => {
         }
         return true;
     });
-    console.log('datas---', datas);
+    // console.log('datas---', datas);
+    // console.log('param---', param);
     datas.push({
         ...param,
-        id: `recently_${ getId() }`,
+        id: `recently_${ getId() }@_${ param.extIds[0] }`,
         time: new Date().getTime(),
     });
 
-    console.log('datas---', datas);
+    // console.log('datas---', datas);
     return storage.set(EXT_RECENTLY_CACHE, [...datas]);
 };
 
@@ -104,9 +106,9 @@ export const getRecentlyData = () => {
 };
 
 export const getSelectSnapId = () => {
-	return storage.get('select_snap_id');
+    return storage.get('select_snap_id');
 };
 
 export const setSelectSnapIdBtStorge = (snapid) => {
-	return storage.set('select_snap_id', snapid);
+    return storage.set('select_snap_id', snapid);
 };

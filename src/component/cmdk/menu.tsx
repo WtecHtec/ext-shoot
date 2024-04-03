@@ -263,7 +263,6 @@ export function RaycastCMDK() {
                 setHasUpdateStatus(0);
                 getExtensionDatas();
                 footerTip('success', 'Extension Info Updated Successfully', 3000);
-                // toast('Extension Update Success');
             } else {
                 onClickSubItem(action, value);
             }
@@ -472,7 +471,6 @@ export function RaycastCMDK() {
      */
     const onClickSubItem = (subValue, extId) => {
         console.log('onClickSubItem ---', subValue, extId);
-        const extInfo = getExtensionDeatilById(extId);
 
         if (acMap[subValue] && excludeRecordCommand(subValue)) {
             handleAddRecently({
@@ -482,36 +480,42 @@ export function RaycastCMDK() {
                 name: `${ acMap[subValue].name }`,
             });
         }
+
+        const extId_ = getExtId(extId);
+        console.log(extId_);
+        const extInfo = getExtensionDeatilById(extId_);
+
         if (!extInfo) {
             return;
         }
+
         switch (subValue) {
             case 'open_extension_page':
-                onBottomOpenExtPage(extId);
+                onBottomOpenExtPage(extId_);
                 break;
             case 'copy_plugin_name':
-                onHandleCopyName(extId);
+                onHandleCopyName(extId_);
                 break;
             case 'copy_plugin_id':
-                onHandleCopyPluginId(extId);
+                onHandleCopyPluginId(extId_);
                 break;
             case 'add_to_favorites':
-                onHandelFavorite(extId);
+                onHandelFavorite(extId_);
                 break;
             case 'disable_plugin':
-                onHanldePulginStatus(extId, false);
+                onHanldePulginStatus(extId_, false);
                 break;
             case 'enable_plugin':
-                onHanldePulginStatus(extId, true);
+                onHanldePulginStatus(extId_, true);
                 break;
             case 'reload_plugin':
-                onHandleReloadPlugin(extId);
+                onHandleReloadPlugin(extId_);
                 break;
             case 'show_in_finder':
-                onHandleShowInFinder(extId);
+                onHandleShowInFinder(extId_);
                 break;
             case 'uninstall_plugin':
-                onHanldeUninstallPulgin(extId);
+                onHanldeUninstallPulgin(extId_);
                 break;
             default:
                 break;
@@ -669,10 +673,17 @@ export function RaycastCMDK() {
             return Object.keys(acMap_command);
         }
         // find extension detail
-        const { installType, enabled } = getSubCnmandItem(value) || {};
+        const { installType, enabled, isCommand } = getSubCnmandItem(value) || {};
         const acKeys = Object.keys(acMap_Extension());
-        if (value.includes(RecentlyFix) || value.includes(SearchFix)) {
-            return ['open_extension_page', 'open_snapshot_dialog'];
+
+        if (value.includes(RecentlyFix) || value.includes(SearchFix) || isCommand) {
+            if (isCommand) {
+                return ['execute_command'];
+            }
+            if (value.includes(SearchFix)) {
+                return ['open_extension_page'];
+            }
+            // 如果脏两个都不是，就是插件详情页
         }
         if (installType !== 'development') {
             return acKeys.filter(item => !['reload_plugin', enabled ? 'enable_plugin' : 'disable_plugin'].includes(item));

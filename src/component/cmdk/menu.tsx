@@ -41,7 +41,7 @@ import SnapshotDialog from './snapshot-dialog';
 import {ExtItem} from '~utils/ext.interface';
 import FooterTip, {footerTip} from '~component/cmdk/footer-tip';
 import Search from './search-store';
-import {SearchFix} from '~config/config';
+import {RecentSaveNumber, SearchFix} from '~config/config';
 import SnapshotCommand from './snapshot-command';
 import {getSelectSnapId, setSelectSnapIdBtStorge} from '~utils/local.storage';
 
@@ -228,7 +228,7 @@ export function RaycastCMDK() {
                     if (extIds[1] && ['enable_all_extension', 'disable_all_extension'].includes(value)) {
                         item.actIcon = <GlobeIcon></GlobeIcon>;
                         if (extIds[1] === 'all') {
-                            item.name = `${ commandMetaMap[value].name }[All]`;
+                            item.name = `${ commandMetaMap[value].name } (ALL)`;
                         } else {
                             const fsnap = shotDatas.find(({ id }) => id === extIds[1]);
                             if (fsnap) {
@@ -239,7 +239,7 @@ export function RaycastCMDK() {
                 }
                 return item;
             }).filter(({ status }) => status);
-            nwRecentlys = nwRecentlys.sort((a, b) => b?.time - a?.time).slice(0, 7);
+            nwRecentlys = nwRecentlys.sort((a, b) => b?.time - a?.time).slice(0, RecentSaveNumber);
             groups[0].children = [...nwRecentlys];
         }
         return [groups];
@@ -411,12 +411,12 @@ export function RaycastCMDK() {
         //     toast('It is not Development');
         // }
         // 先禁用 再启用
-        footerTip('loading', 'Reloading Plugin', 1000);
+        footerTip('loading', 'Reloading Plugin', 3000);
         await handlePluginStatus(extInfo.id, false);
         setTimeout(async () => {
             await handlePluginStatus(extInfo.id, true);
             getExtensionDatas();
-            footerTip('success', 'Reload Plugin Success', 2000);
+            footerTip('success', 'Reload Plugin Success', 1000);
         }, 1000);
     };
 

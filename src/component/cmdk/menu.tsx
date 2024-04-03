@@ -30,7 +30,7 @@ import {
     handleUninstallPlugin,
 } from '~utils/management';
 
-import {ExtensionIcon, Logo, ShootIcon} from '../icons';
+import {ExtensionIcon, GlobeIcon, Logo, ShootIcon} from '../icons';
 import {deepCopyByJson, getMutliLevelProperty} from '~utils/util';
 import Item from './item';
 import SubCommand from './sub-command';
@@ -221,6 +221,7 @@ export function RaycastCMDK() {
                     item.icon = commandMetaMap[value]?.icon;
 										console.log('extIds---', extIds, extIds[1], value);
 										if ( extIds[1] && ['enable_all_extension', 'disable_all_extension'].includes(value)) {
+											item.actIcon = <GlobeIcon></GlobeIcon>;
 											if (extIds[1] === 'all') {
 												item.name = `${commandMetaMap[value].name}[All]`;
 											} else {
@@ -767,17 +768,19 @@ export function RaycastCMDK() {
                                                               commandHandle={ () => handelPatibleSubCommand('open_extension_page' ,id) }
                                                               isCommand={ isCommand }
                                                               cls={ !enabled && 'grayscale' }>
-                                                            { icon ? (
-                                                                isCommand ? icon :
-                                                                    <ExtensionIcon
-                                                                        base64={ icon }/>
-                                                            ) : (
-                                                                <ShootIcon></ShootIcon>
-                                                            ) }
+																																<div style={{flexShrink: 0}}>					
+																																	{ icon ? (
+																																			isCommand ? icon :
+																																					<ExtensionIcon
+																																							base64={ icon }/>
+																																	) : (
+																																			<ShootIcon></ShootIcon>
+																																	) }
+																																</div>
                                                             <div className="truncate">
                                                                 { name }
                                                             </div>
-                                                            <div>
+                                                            <div style={{flexShrink: 0}}>
                                                                 { actIcon ? actIcon : null }
                                                             </div>
                                                         </Item>

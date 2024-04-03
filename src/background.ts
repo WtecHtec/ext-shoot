@@ -115,7 +115,7 @@ const handleOpenExtensionDetails = ({ request, sendResponse }) => {
     const detailsUrl = `chrome://extensions/?id=${ extensionId }`;
     chrome.tabs.create({ url: detailsUrl });
     setRecentlyData({
-        value: 'open_extension_page',
+        value: 'execute_recent_action',
         extIds: [extensionId],
         name: `Open Extension Detail`,
         pendingUrl: detailsUrl,

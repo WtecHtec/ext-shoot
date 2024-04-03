@@ -490,7 +490,7 @@ export function RaycastCMDK() {
         }
 
         switch (subValue) {
-            case 'open_extension_page':
+            case 'execute_recent_action':
                 onBottomOpenExtPage(extId_);
                 break;
             case 'copy_plugin_name':
@@ -658,7 +658,7 @@ export function RaycastCMDK() {
 
     /** 兼容 回车事件、sub command action事件  */
     const handelPatibleSubCommand = (subcommand, value) => {
-        if (subcommand === 'open_extension_page' || subcommand === 'execute_command') {
+        if (subcommand === 'execute_recent_action' || subcommand === 'execute_command') {
             onBottomOpenExtPage(value);
         } else {
             onClickSubItem(subcommand, value);
@@ -681,9 +681,10 @@ export function RaycastCMDK() {
                 return ['execute_command'];
             }
             if (value.includes(SearchFix)) {
-                return ['open_extension_page'];
+                return ['execute_recent_action'];
             }
             // 如果脏两个都不是，就是插件详情页
+            // 去掉open recent
         }
         if (installType !== 'development') {
             return acKeys.filter(item => !['reload_plugin', enabled ? 'enable_plugin' : 'disable_plugin'].includes(item));
@@ -784,7 +785,7 @@ export function RaycastCMDK() {
                                                               key={ id }
                                                               keywords={ [...name.split(' '), name] }
 
-                                                              commandHandle={ () => handelPatibleSubCommand('open_extension_page', id) }
+                                                              commandHandle={ () => handelPatibleSubCommand('execute_recent_action', id) }
                                                               isCommand={ isCommand }
                                                               cls={ !enabled && 'grayscale' }>
                                                             { icon ? (
@@ -851,7 +852,7 @@ export function RaycastCMDK() {
                             onClick={ () => {
                                 onBottomOpenExtPage(value);
                             } }>
-                        Open Extension Page
+                        Execute Recent Action
                         <kbd>↵</kbd>
                     </button>
 

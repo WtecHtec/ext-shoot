@@ -13,7 +13,7 @@ import {
     DisableIcon,
     EnableIcon,
     FreshIcon,
-    OpenRecentPageIcon,
+    ExecuteRecentActionIcon,
     ShowInFinderIcon,
     StarItIcon,
     UninstallIcon,
@@ -216,11 +216,11 @@ type SubItemAction = {
 export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
     {
         shortcut: '↵',
-        icon: <OpenRecentPageIcon/>,
-        name: 'Open Recent Page',
-        desc: 'Open Recent Page',
-        value: 'open_extension_page',
-        keywords: ['open', 'Recent', 'extension', 'Open Extension Page'],
+        icon: <ExecuteRecentActionIcon/>,
+        name: 'Execute Recent Action',
+        desc: 'Execute Recent Action',
+        value: 'execute_recent_action',
+        keywords: ['execute', 'recent', 'action', 'Execute Recent Action'],
         group: 'common',
     },
     {
@@ -301,7 +301,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
 export const SUB_COMMAND_ACTIONS: Array<SubItemAction> = [
     {
         shortcut: '↵',
-        icon: <OpenRecentPageIcon/>,
+        icon: <ExecuteRecentActionIcon/>,
         name: 'Execute Command',
         desc: 'Execute Command',
         value: 'execute_command',

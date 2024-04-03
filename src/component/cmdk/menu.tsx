@@ -451,9 +451,23 @@ export function RaycastCMDK() {
         status && await getExtensionDatas();
     };
 
+    /**
+     * 打开插件在 web store
+     */
+    const onHanldeOpenInWebStore = (extId) => {
+        const extInfo = getExtensionDeatilById(extId);
+        const { id } = extInfo;
+        const isDev = extId.match(/^(.*?)@_/);
+        if (isDev && isDev[1] === 'development') {
+            toast('Development mode: Store access disabled');
+        } else {
+            window.open(`https://chrome.google.com/webstore/detail/${ id }`);
+        }
+    };
+
 
     /**
-     * 排除部分record
+     * 排除部分record 不记录recent
      * @param command
      * @returns
      */
@@ -516,6 +530,9 @@ export function RaycastCMDK() {
                 break;
             case 'uninstall_plugin':
                 onHanldeUninstallPulgin(extId_);
+                break;
+            case 'open_in_web_store':
+                onHanldeOpenInWebStore(extId);
                 break;
             default:
                 break;
@@ -683,13 +700,15 @@ export function RaycastCMDK() {
             if (value.includes(SearchFix)) {
                 return ['execute_recent_action'];
             }
-            // 如果脏两个都不是，就是插件详情页
-            // 去掉open recent
+            // 如果两个都不是，就是插件详情页
         }
         if (installType !== 'development') {
             return acKeys.filter(item => !['reload_plugin', enabled ? 'enable_plugin' : 'disable_plugin'].includes(item));
         }
-        return [...acKeys].filter(item => {
+        // development 模式的插件
+        // not show 'open_in_web_store'
+        let ackeys_ = [...acKeys].filter(item => item !== 'open_in_web_store');
+        return ackeys_.filter(item => {
             return item !== (enabled ? 'enable_plugin' : 'disable_plugin');
         });
     };

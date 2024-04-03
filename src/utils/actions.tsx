@@ -12,11 +12,12 @@ import {
     CopyNameIcon,
     DisableIcon,
     EnableIcon,
-    FreshIcon,
     ExecuteRecentActionIcon,
+    FreshIcon,
     ShowInFinderIcon,
-    StarItIcon,
+    StarItIcon, StoreIcon,
     UninstallIcon,
+    WindowIcon,
 } from '~component/icons';
 import {AC_CLEAR_RECENTLYS, ENABLE_ALL_EXTENSION} from '~config/actions';
 import {handleExtUpdateDone} from '~utils/management';
@@ -243,6 +244,15 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
     },
     {
         shortcut: '',
+        icon: <StoreIcon/>,
+        name: 'Open In Web Store',
+        desc: 'Open In Web Store',
+        value: 'open_in_web_store',
+        keywords: ['open', 'web', 'store', 'open in web store', 'web store'],
+        group: 'common',
+    },
+    {
+        shortcut: '',
         icon: <ShowInFinderIcon/>,
         name: 'Show in Finder',
         desc: 'Show in Finder',
@@ -268,6 +278,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
         keywords: ['copy', 'plugin', 'name', 'Copy Plugin Name'],
         group: 'dev',
     },
+
 
     {
         shortcut: '',
@@ -296,6 +307,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
         keywords: ['uninstall', 'plugin', 'Uninstall Plugin'],
         group: 'danger',
     },
+
 ];
 
 export const SUB_COMMAND_ACTIONS: Array<SubItemAction> = [

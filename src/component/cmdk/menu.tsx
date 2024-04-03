@@ -405,16 +405,19 @@ export function RaycastCMDK() {
      */
     const onHandleReloadPlugin = async (extId) => {
         const extInfo = getExtensionDeatilById(extId);
-        if (extInfo.installType === 'development') {
-            await handlePluginStatus(extInfo.id, false);
-            setTimeout(async () => {
-                await handlePluginStatus(extInfo.id, true);
-                getExtensionDatas();
-                toast('Reload PluginSuccess');
-            }, 2000);
-        } else {
-            toast('It is not Development');
-        }
+        // if (extInfo.installType === 'development') {
+        //
+        // } else {
+        //     toast('It is not Development');
+        // }
+        // 先禁用 再启用
+        footerTip('loading', 'Reloading Plugin', 1000);
+        await handlePluginStatus(extInfo.id, false);
+        setTimeout(async () => {
+            await handlePluginStatus(extInfo.id, true);
+            getExtensionDatas();
+            footerTip('success', 'Reload Plugin Success', 2000);
+        }, 1000);
     };
 
     /**
@@ -703,7 +706,7 @@ export function RaycastCMDK() {
             // 如果两个都不是，就是插件详情页
         }
         if (installType !== 'development') {
-            return acKeys.filter(item => !['reload_plugin', enabled ? 'enable_plugin' : 'disable_plugin'].includes(item));
+            return acKeys.filter(item => ![enabled ? 'enable_plugin' : 'disable_plugin'].includes(item));
         }
         // development 模式的插件
         // not show 'open_in_web_store'

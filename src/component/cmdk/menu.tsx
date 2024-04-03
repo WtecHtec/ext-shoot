@@ -12,9 +12,12 @@ import {toast} from 'sonner/dist';
 import {AC_ICON_UPDATED} from '~config/actions';
 import {
     CommandMeta,
+    getAllActionMap,
     getCommandMetaMap,
-    getSubItemActionMap,
-    SUB_ITME_ACTIONS,
+    getSubCommandActionMap,
+    getSubExtensionActionMap,
+    SUB_COMMAND_ACTIONS,
+    SUB_EXTENSION_ACTIONS,
 } from '~utils/actions';
 import {
     getExtensionAll,
@@ -40,12 +43,14 @@ import FooterTip, {footerTip} from '~component/cmdk/footer-tip';
 import Search from './search-store';
 import {SearchFix} from '~config/config';
 import SnapshotCommand from './snapshot-command';
-import { getSelectSnapId, setSelectSnapIdBtStorge } from '~utils/local.storage';
+import {getSelectSnapId, setSelectSnapIdBtStorge} from '~utils/local.storage';
 
 
 const RecentlyFix = 'recently_';
 const MarkId = '@_';
-const acMap = getSubItemActionMap();
+const acMap = getAllActionMap();
+const acMap_command = getSubCommandActionMap();
+const acMap_Extension = getSubExtensionActionMap;
 const commandMetaMap = getCommandMetaMap();
 
 const getExtId = (id) => {
@@ -110,21 +115,21 @@ export function RaycastCMDK() {
      * @returns
      */
     const getExtensionDatas = async () => {
-				let selectSnapId = await getSelectSnapId();
+        let selectSnapId = await getSelectSnapId();
         // console.log('获取插件数据');
         const [err, res] = await getExtensionAll();
         if (err || !Array.isArray(res)) {
             return;
         }
         const shotDatas = await getSnapShotDatas();
-				console.log('shotDatas---', shotDatas, selectSnapId);
-				const fshot = shotDatas.find(({id}) => id === selectSnapId);
-				selectSnapId = fshot ? selectSnapId : 'all';
+        console.log('shotDatas---', shotDatas, selectSnapId);
+        const fshot = shotDatas.find(({ id }) => id === selectSnapId);
+        selectSnapId = fshot ? selectSnapId : 'all';
         const [, recentlys] = await handleGetRecentlys();
         console.log('recentlys---', recentlys, selectSnapId);
         const [groups] = formatExtDatas(res, shotDatas, selectSnapId, recentlys ?? []);
         console.log('groups---', groups);
-				setSelectSnapId(selectSnapId);
+        setSelectSnapId(selectSnapId);
         setOriginDatas(res);
         setExtDatas(groups);
         setRecentlys(recentlys);
@@ -140,7 +145,7 @@ export function RaycastCMDK() {
         if (err || !res) {
             return;
         }
-        const subCommands = [...SUB_ITME_ACTIONS];
+        const subCommands = [...SUB_EXTENSION_ACTIONS, ...SUB_COMMAND_ACTIONS];
         subCommands.forEach((item) => {
             const { value } = item;
             if (res[value]) {
@@ -219,17 +224,17 @@ export function RaycastCMDK() {
                 } else if (extIds && extIds.length > 0 && commandMetaMap[extIds[0]]) {
                     item.status = true;
                     item.icon = commandMetaMap[value]?.icon;
-										console.log('extIds---', extIds, extIds[1], value);
-										if ( extIds[1] && ['enable_all_extension', 'disable_all_extension'].includes(value)) {
-											if (extIds[1] === 'all') {
-												item.name = `${commandMetaMap[value].name}[All]`;
-											} else {
-												const fsnap = shotDatas.find(({ id }) => id === extIds[1]);
-												if (fsnap) {
-													item.name = `${commandMetaMap[value].name}[${fsnap.name}]`;
-												}
-											}
-										}
+                    console.log('extIds---', extIds, extIds[1], value);
+                    if (extIds[1] && ['enable_all_extension', 'disable_all_extension'].includes(value)) {
+                        if (extIds[1] === 'all') {
+                            item.name = `${ commandMetaMap[value].name }[All]`;
+                        } else {
+                            const fsnap = shotDatas.find(({ id }) => id === extIds[1]);
+                            if (fsnap) {
+                                item.name = `${ commandMetaMap[value].name }[${ fsnap.name }]`;
+                            }
+                        }
+                    }
                 }
                 return item;
             }).filter(({ status }) => status);
@@ -298,7 +303,7 @@ export function RaycastCMDK() {
     // 当快照选择变化时，可以不需要重新请求接口
     useEffect(() => {
         const [groups] = formatExtDatas(originDatas, snapshots, selectSnapId, recentlys);
-				setSelectSnapIdBtStorge(selectSnapId);
+        setSelectSnapIdBtStorge(selectSnapId);
         setExtDatas(groups);
     }, [selectSnapId]);
 
@@ -461,28 +466,27 @@ export function RaycastCMDK() {
      *  处理sub command 事件
      * @param subValue 事件名称
      * @param extId 插件id、command分组的事件名称
-		 * @param reucently 操作记录数据
+     * @param reucently 操作记录数据
      * @returns
      */
     const onClickSubItem = (subValue, extId) => {
         console.log('onClickSubItem ---', subValue, extId);
         const extInfo = getExtensionDeatilById(extId);
 
-				if (acMap[subValue] && excludeRecordCommand(subValue)) {
-					handleAddRecently({
-							value: subValue,
-							extIds: [getExtId(extId)],
-							isCommand: false,
-							name: `${ acMap[subValue].name }`,
-					});
-				}
+        if (acMap[subValue] && excludeRecordCommand(subValue)) {
+            handleAddRecently({
+                value: subValue,
+                extIds: [getExtId(extId)],
+                isCommand: false,
+                name: `${ acMap[subValue].name }`,
+            });
+        }
         if (!extInfo) {
-            // toast('It is not Extension');
             return;
         }
         switch (subValue) {
             case 'open_extension_page':
-								onBottomOpenExtPage(extId);
+                onBottomOpenExtPage(extId);
                 break;
             case 'copy_plugin_name':
                 onHandleCopyName(extId);
@@ -541,18 +545,18 @@ export function RaycastCMDK() {
                     name,
                 });
             }
-						const fsnap = snapshots.find(({id}) => id === selectSnapId);
-						const extDatas = getMutliLevelProperty(fsnap, 'extIds', []);
+            const fsnap = snapshots.find(({ id }) => id === selectSnapId);
+            const extDatas = getMutliLevelProperty(fsnap, 'extIds', []);
             await handle({
                 extDatas: extDatas,
                 snapType: selectSnapId,
             });
             refresh && getExtensionDatas();
         } else {
-          handleDoExtDetail(item);
+            handleDoExtDetail(item);
         }
     };
-		
+
     /**
      * 1.处理 item事件(打开插件详情页)
      * @param extInfo
@@ -560,105 +564,113 @@ export function RaycastCMDK() {
      */
     const handleDoExtDetail = (extInfo) => {
         const { id } = extInfo;
-				const extId = getExtId(id);
-				handleOpenExtensionDetails(extId, getExtensionDeatilById(extId)?.name);
+        const extId = getExtId(id);
+        handleOpenExtensionDetails(extId, getExtensionDeatilById(extId)?.name);
     };
 
-		const getSubCnmandItem = (value) => {
-			if (value.includes(RecentlyFix)) {
-					const recentlys = getMutliLevelProperty(extDatas, '0.children', []);
-					return recentlys.find(({ id }) => id === value);
-			} else {
-					return getExtensionDeatilById(value);
-			}
-		};
-		/**
-		 *  获取单个数据详情（list 列表下查找）
-		 */
-		const getItemByCommandList = (inValue) => {
-			let curenValue = getSubCnmandItem(inValue);
-			let isCommand = false;
-			if (!curenValue) {
-				curenValue = CommandMeta.find(({value}) => value === inValue);
-				isCommand = true;
-			}
-			return [curenValue, isCommand];
-		};
-    
-		/**
-		 * 
-		 * @param  处理历史记录
-		 * @returns 
-		 */
-		const handleRecentEvent = (inValue) => {
-			const [curenValue, isCommand] = getItemByCommandList(inValue);
-			const { value, pendingUrl, extIds, name } = curenValue || {};
-			console.log('RecentlyFix---', inValue, curenValue, isCommand);
-			if (value.includes(SearchFix)) {
-				window.open(extIds[0]);
-				handleAddRecently({
-						...curenValue,
-						name: curenValue?.name.split(':')[0],
-				});
-				return;
-			}
-			if (value === 'add_snapshot') {
-				setSnapshotOpen(v => !v);
-				handleAddRecently({
-						value,
-						extIds: [value],
-						isCommand: true,
-						name,
-				});
-				return;
-			}
-			if (commandMetaMap[value] && typeof commandMetaMap[value].handle === 'function') {
-				if (value !== 'clear_recently') {
-					handleAddRecently({
-						...curenValue,
-						value: value,
-						isCommand: true,
-						name: `${ commandMetaMap[value].name }`,
-					});
-				}
-				const snapType = extIds[1] || '';
-				const fsnap = snapshots.find(({id}) => id === snapType);
-				const extDatas = getMutliLevelProperty(fsnap, 'extIds', []);
-				commandMetaMap[value].handle({
-					extDatas,
-					snapType,
-				});
-				commandMetaMap[value].refresh && getExtensionDatas();
-				return;
-			}
-			switch (value) {
-				case 'open_ext_detail':
-				case 'recently_used':
-						handleOpenRecently(pendingUrl);
-						handleAddRecently({
-								...curenValue,
-								name: ['recently_used'].includes(value) ? '' : curenValue?.name.split(':')[0],
-						});
-						break;
-				default:
-					onClickSubItem(value, getMutliLevelProperty(extIds, '0', ''));
-					break;
-			}
-	
-		};
+    const getSubCnmandItem = (value) => {
+        if (value.includes(RecentlyFix)) {
+            const recentlys = getMutliLevelProperty(extDatas, '0.children', []);
+            return recentlys.find(({ id }) => id === value);
+        } else {
+            return getExtensionDeatilById(value);
+        }
+    };
+    /**
+     *  获取单个数据详情（list 列表下查找）
+     */
+    const getItemByCommandList = (inValue) => {
+        let curenValue = getSubCnmandItem(inValue);
+        let isCommand = false;
+        if (!curenValue) {
+            curenValue = CommandMeta.find(({ value }) => value === inValue);
+            isCommand = true;
+        }
+        return [curenValue, isCommand];
+    };
+
+    /**
+     *
+     * @param  处理历史记录
+     * @returns
+     */
+    const handleRecentEvent = (inValue) => {
+        const [curenValue, isCommand] = getItemByCommandList(inValue);
+        const { value, pendingUrl, extIds, name } = curenValue || {};
+        console.log('RecentlyFix---', inValue, curenValue, isCommand);
+        if (value.includes(SearchFix)) {
+            window.open(extIds[0]);
+            handleAddRecently({
+                ...curenValue,
+                name: curenValue?.name.split(':')[0],
+            });
+            return;
+        }
+        if (value === 'add_snapshot') {
+            setSnapshotOpen(v => !v);
+            handleAddRecently({
+                value,
+                extIds: [value],
+                isCommand: true,
+                name,
+            });
+            return;
+        }
+        if (commandMetaMap[value] && typeof commandMetaMap[value].handle === 'function') {
+            if (value !== 'clear_recently') {
+                handleAddRecently({
+                    ...curenValue,
+                    value: value,
+                    isCommand: true,
+                    name: `${ commandMetaMap[value].name }`,
+                });
+            }
+            const snapType = extIds[1] || '';
+            const fsnap = snapshots.find(({ id }) => id === snapType);
+            const extDatas = getMutliLevelProperty(fsnap, 'extIds', []);
+            commandMetaMap[value].handle({
+                extDatas,
+                snapType,
+            });
+            commandMetaMap[value].refresh && getExtensionDatas();
+            return;
+        }
+        switch (value) {
+            case 'open_ext_detail':
+            case 'recently_used':
+                handleOpenRecently(pendingUrl);
+                handleAddRecently({
+                    ...curenValue,
+                    name: ['recently_used'].includes(value) ? '' : curenValue?.name.split(':')[0],
+                });
+                break;
+            default:
+                onClickSubItem(value, getMutliLevelProperty(extIds, '0', ''));
+                break;
+        }
+
+    };
 
     /** 兼容 回车事件、sub command action事件  */
     const handelPatibleSubCommand = (subcommand, value) => {
-				if (subcommand === 'open_extension_page') {
-					onBottomOpenExtPage(value);
-				} else {
-					onClickSubItem(subcommand, value);
-				}
+        if (subcommand === 'open_extension_page'|| subcommand === 'execute_command') {
+            onBottomOpenExtPage(value);
+        } else {
+            onClickSubItem(subcommand, value);
+        }
     };
+    // filter sub command
+    // return  action name list
     const getCommandsByType = (value) => {
-        const acKeys = Object.keys(acMap);
+        // console.log('getCommandsByType value---', value);
+        // console.log('getCommandsByType detail', getSubCnmandItem(value));
+        if (CommandMeta.find((action) => action?.value === value)) {
+            return Object.keys(acMap_command);
+        }
+        // find extension detail
         const { installType, enabled } = getSubCnmandItem(value) || {};
-        if (value.includes(RecentlyFix) || value.includes(SearchFix) || CommandMeta.find((action) => action?.value === value)) {
+        const acKeys = Object.keys(acMap_Extension());
+        if (value.includes(RecentlyFix) || value.includes(SearchFix)) {
             return ['open_extension_page', 'open_snapshot_dialog'];
         }
         if (installType !== 'development') {
@@ -690,13 +702,13 @@ export function RaycastCMDK() {
         if (value.includes(SearchFix) && storeSearchRef && storeSearchRef.current) {
             storeSearchRef.current.onSearch();
         } else {
-					if (value.includes(RecentlyFix)) {
-						// 处理记录数据
-						handleRecentEvent(value);
-					} else {
-						const [curenValue, isCommand] = getItemByCommandList(value);
-						onCommandHandle(curenValue, isCommand);
-					}
+            if (value.includes(RecentlyFix)) {
+                // 处理记录数据
+                handleRecentEvent(value);
+            } else {
+                const [curenValue, isCommand] = getItemByCommandList(value);
+                onCommandHandle(curenValue, isCommand);
+            }
         }
     };
     return (
@@ -764,7 +776,7 @@ export function RaycastCMDK() {
                                                               key={ id }
                                                               keywords={ [...name.split(' '), name] }
 
-                                                              commandHandle={ () => handelPatibleSubCommand('open_extension_page' ,id) }
+                                                              commandHandle={ () => handelPatibleSubCommand('open_extension_page', id) }
                                                               isCommand={ isCommand }
                                                               cls={ !enabled && 'grayscale' }>
                                                             { icon ? (

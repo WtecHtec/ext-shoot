@@ -98,7 +98,7 @@ const handleEnableAllExtension = (
     params: any,
 ): Promise<[null | Error, any]> => {
     const { extDatas, snapType } = params;
-		const extIds = [...extDatas];
+    const extIds = [...extDatas];
     return new Promise((resolve) => {
         // todo Notification
         chrome.runtime
@@ -211,8 +211,9 @@ type SubItemAction = {
     value: string
     keywords: string[]
     group?: string
+    label?: 'Extension' | 'Command'
 }
-export const SUB_ITME_ACTIONS: Array<SubItemAction> = [
+export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
     {
         shortcut: '↵',
         icon: <OpenRecentPageIcon/>,
@@ -297,9 +298,42 @@ export const SUB_ITME_ACTIONS: Array<SubItemAction> = [
     },
 ];
 
-export const getSubItemActionMap = () => {
+export const SUB_COMMAND_ACTIONS: Array<SubItemAction> = [
+    {
+        shortcut: '↵',
+        icon: <OpenRecentPageIcon/>,
+        name: 'Execute Command',
+        desc: 'Execute Command',
+        value: 'execute_command',
+        keywords: ['execute', 'command', 'Execute Command'],
+        group: 'command',
+    },
+];
+
+export const getSubCommandActionMap = () => {
     const mapping = {};
-    SUB_ITME_ACTIONS.forEach(item => {
+    SUB_COMMAND_ACTIONS.forEach(item => {
+        mapping[item.value] = item;
+    });
+    return mapping;
+};
+
+export const getSubExtensionActionMap = () => {
+    const mapping = {};
+    SUB_EXTENSION_ACTIONS.forEach(item => {
+        mapping[item.value] = item;
+    });
+    return mapping;
+};
+
+export const getAllActionMap = () => {
+    const mapping = {};
+    SUB_EXTENSION_ACTIONS.forEach(item => {
+        item.label = 'Extension';
+        mapping[item.value] = item;
+    });
+    SUB_COMMAND_ACTIONS.forEach(item => {
+        item.label = 'Command';
         mapping[item.value] = item;
     });
     return mapping;

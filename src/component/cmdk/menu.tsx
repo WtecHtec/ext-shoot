@@ -224,20 +224,9 @@ export function RaycastCMDK() {
                 } else if (extIds && extIds.length > 0 && commandMetaMap[extIds[0]]) {
                     item.status = true;
                     item.icon = commandMetaMap[value]?.icon;
-										console.log('extIds---', extIds, extIds[1], value);
-										if ( extIds[1] && ['enable_all_extension', 'disable_all_extension'].includes(value)) {
-											item.actIcon = <GlobeIcon></GlobeIcon>;
-											if (extIds[1] === 'all') {
-												item.name = `${commandMetaMap[value].name}[All]`;
-											} else {
-												const fsnap = shotDatas.find(({ id }) => id === extIds[1]);
-												if (fsnap) {
-													item.name = `${commandMetaMap[value].name}[${fsnap.name}]`;
-												}
-											}
-										}
                     console.log('extIds---', extIds, extIds[1], value);
                     if (extIds[1] && ['enable_all_extension', 'disable_all_extension'].includes(value)) {
+                        item.actIcon = <GlobeIcon></GlobeIcon>;
                         if (extIds[1] === 'all') {
                             item.name = `${ commandMetaMap[value].name }[All]`;
                         } else {
@@ -665,7 +654,7 @@ export function RaycastCMDK() {
 
     /** 兼容 回车事件、sub command action事件  */
     const handelPatibleSubCommand = (subcommand, value) => {
-        if (subcommand === 'open_extension_page'|| subcommand === 'execute_command') {
+        if (subcommand === 'open_extension_page' || subcommand === 'execute_command') {
             onBottomOpenExtPage(value);
         } else {
             onClickSubItem(subcommand, value);

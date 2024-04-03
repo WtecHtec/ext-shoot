@@ -753,10 +753,6 @@ export function RaycastCMDK() {
                 <Command.List ref={ listRef }>
                     <Command.Empty>No results found.</Command.Empty>
                     {
-                        search ? <Search search={ search }
-                                         ref={ storeSearchRef }></Search> : null
-                    }
-                    {
                         extDatas.length > 0 ? extDatas?.map(({ children, name }) => {
                             return <>
                                 {
@@ -828,6 +824,10 @@ export function RaycastCMDK() {
                                 }) }
                             </Command.Group>
                             : null
+                    }
+                    {
+                        search ? <Search search={ search }
+                                         ref={ storeSearchRef }></Search> : null
                     }
                 </Command.List>
 

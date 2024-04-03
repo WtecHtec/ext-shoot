@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {ErrorIcon, LineSpinnerIcon, ShootIcon, SuccessIcon} from '~component/icons';
-import {GITHUB_URL} from '~utils/constant';
+import React, { useEffect, useState } from 'react';
+import { ErrorIcon, LineSpinnerIcon, ShootIcon, SuccessIcon } from '~component/icons';
+import { GITHUB_URL } from '~utils/constant';
 
 interface StatusMessage {
     type: 'success' | 'error' | 'loading' | 'default' | 'tip';
     message: string;
 }
-
 class StatusObserver {
     private subscribers: Array<(status: StatusMessage) => void> = [];
     private currentStatus: StatusMessage = { type: 'default', message: 'Ready' };
+    private timeoutId: NodeJS.Timeout | null = null; // 用于跟踪当前的计时器
 
     public subscribe(callback: (status: StatusMessage) => void): () => void {
         this.subscribers.push(callback);
@@ -20,8 +20,15 @@ class StatusObserver {
     private notify(statusData: StatusMessage, duration?: number): void {
         this.currentStatus = statusData;
         this.subscribers.forEach(callback => callback(this.currentStatus));
+        if (this.timeoutId) {
+            clearTimeout(this.timeoutId); // 清除之前的计时器
+            this.timeoutId = null;
+        }
         if (duration !== undefined && statusData.type !== 'default' && statusData.type !== 'tip') {
-            setTimeout(() => this.notify({ type: 'default', message: '' }), duration);
+            this.timeoutId = setTimeout(() => {
+                this.notify({ type: 'default', message: '' });
+                this.timeoutId = null;
+            }, duration);
         }
     }
 
@@ -46,6 +53,7 @@ class StatusObserver {
     }
 }
 
+
 export const statusManager = new StatusObserver();
 
 export const footerTip = (type: 'success' | 'error' | 'loading' | 'tip', message: string, duration?: number): void => {
@@ -60,8 +68,8 @@ const LoadingTip: React.FC<TipProps> = ({ msg },
 ) => {
     return (
         <div className="flex px-1">
-            <LineSpinnerIcon/>
-            <span className="pl-2 text-[14px] font-[400]">{ msg }</span>
+            <LineSpinnerIcon />
+            <span className="pl-2 text-[14px] font-[400]">{msg}</span>
         </div>
     );
 };
@@ -74,22 +82,22 @@ const DefaultTip: React.FC<TipProps> = () => {
     return (
         <ShootIcon
             className="h-8 w-8 p-1 hover:bg-[var(--gray4)] hover:rounded-[10%] hover:cursor-pointer"
-            onClick={ handleOpenGithub }/>
+            onClick={handleOpenGithub} />
     );
 };
 const SuccessTip: React.FC<TipProps> = ({ msg }) => {
     return (
         <div className="flex px-1">
-            <SuccessIcon/>
-            <span className="pl-2 text-[14px] font-[400]">{ msg }</span>
+            <SuccessIcon />
+            <span className="pl-2 text-[14px] font-[400]">{msg}</span>
         </div>
     );
 };
 const ErrorTip: React.FC<TipProps> = ({ msg }) => {
     return (
         <div className="flex px-1">
-            <ErrorIcon/>
-            <span className="pl-2 text-[14px] font-[400]">{ msg }</span>
+            <ErrorIcon />
+            <span className="pl-2 text-[14px] font-[400]">{msg}</span>
         </div>
     );
 };
@@ -97,8 +105,8 @@ const ErrorTip: React.FC<TipProps> = ({ msg }) => {
 const Tip: React.FC<TipProps> = ({ msg }) => {
     return (
         <div className="flex px-1">
-            <ShootIcon/>
-            <span className="pl-2 text-[14px] font-[400]">{ msg }</span>
+            <ShootIcon />
+            <span className="pl-2 text-[14px] font-[400]">{msg}</span>
         </div>
     );
 };
@@ -127,9 +135,9 @@ const StatusNotifications: React.FC = () => {
 
     return (
         <div className="status-notifications">
-            <div key={ currentStatus.type }
-                 className={ `notification ${ currentStatus.type }` }>
-                <StatusComponent msg={ currentStatus.message }/>
+            <div key={currentStatus.type}
+                className={`notification ${currentStatus.type}`}>
+                <StatusComponent msg={currentStatus.message} />
             </div>
         </div>
     );

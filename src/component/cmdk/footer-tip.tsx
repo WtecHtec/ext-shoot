@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { ErrorIcon, LineSpinnerIcon, ShootIcon, SuccessIcon } from '~component/icons';
 import { GITHUB_URL } from '~utils/constant';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface StatusMessage {
     type: 'success' | 'error' | 'loading' | 'default' | 'tip';
     message: string;
 }
+
 class StatusObserver {
     private subscribers: Array<(status: StatusMessage) => void> = [];
     private currentStatus: StatusMessage = { type: 'default', message: 'Ready' };
@@ -134,11 +136,19 @@ const StatusNotifications: React.FC = () => {
     const StatusComponent = ComponentMap[currentStatus.type] || ComponentMap.default;
 
     return (
-        <div className="status-notifications">
-            <div key={currentStatus.type}
-                className={`notification ${currentStatus.type}`}>
-                <StatusComponent msg={currentStatus.message} />
-            </div>
+        <div className={`status-notifications `}>
+            <AnimatePresence>
+                <motion.div
+                    key={currentStatus.type}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.1 }} // 控制淡入淡出的时间
+                    className={`notification ${currentStatus.type}`}
+                >
+                    <StatusComponent msg={currentStatus.message} />
+                </motion.div>
+            </AnimatePresence>
         </div>
     );
 };

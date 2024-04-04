@@ -13,7 +13,6 @@ import {
     ENABLE_ALL_EXTENSION,
     EXT_UPDATE_DONE,
 } from '~config/actions';
-import { FIRST_URL } from '~utils/constant';
 import { ExtItem } from '~utils/ext.interface';
 import {
     clearRecentlyData,

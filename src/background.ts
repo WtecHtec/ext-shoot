@@ -12,7 +12,8 @@ import {
     ENABLE_ALL_EXTENSION,
     EXT_UPDATE_DONE,
 } from '~config/actions';
-import { mode } from '~config/config';
+import { isProd, mode } from '~config/config';
+import { EXTSS_TUTORIAL_URL, FIRST_URL } from '~utils/constant';
 import { ExtItem } from '~utils/ext.interface';
 import {
     clearRecentlyData,
@@ -30,12 +31,65 @@ console.log(
     'Live now; make now always the most precious time. Now will never come again.',
 );
 
-// 当插件安装时，打开欢迎页
-// dev 先注释掉
-chrome.runtime.onInstalled.addListener(() => {
-    'dev' !== mode && chrome.tabs.create({
-        url: chrome.runtime.getURL('/tabs/welcome.html'),
-    });
+// Open on install
+chrome.runtime.onInstalled.addListener((object) => {
+    // Inject Omni on install
+    const manifest = chrome.runtime.getManifest();
+
+    const injectIntoTab = (tab) => {
+        const scripts = manifest.content_scripts[0].js;
+        const s = scripts.length;
+
+        for (let i = 0; i < s; i++) {
+            chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                files: [scripts[i]],
+            });
+        }
+
+        chrome.scripting.insertCSS({
+            target: { tabId: tab.id },
+            files: [manifest.content_scripts[0].css[0]],
+        });
+    };
+
+    // Get all windows
+    chrome.windows.getAll(
+        {
+            populate: true,
+        },
+        (windows) => {
+            let currentWindow;
+            const w = windows.length;
+
+            for (let i = 0; i < w; i++) {
+                currentWindow = windows[i];
+
+                let currentTab;
+                const t = currentWindow.tabs.length;
+
+                for (let j = 0; j < t; j++) {
+                    currentTab = currentWindow.tabs[j];
+                    if (!currentTab.url.includes("chrome://") && !currentTab.url.includes("chrome-extension://") && !currentTab.url.includes("chrome.google.com")) {
+                        injectIntoTab(currentTab);
+                    }
+                }
+            }
+        }
+    );
+
+    if (object.reason === "install") {
+        chrome.tabs.create({ url: FIRST_URL });
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            // 确保至少有一个标签页是活动的
+            if (tabs.length > 0) {
+                // 发送消息到content脚本
+                chrome.tabs.sendMessage(tabs[0].id, { action: "active_extention_launcher" }, (response) => {
+                    console.log(response.result); // 接收并打印content脚本发送的响应
+                });
+            }
+        });
+    }
 });
 
 // // 点击icon的时候，打开插件主页

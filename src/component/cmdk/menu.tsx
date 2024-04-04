@@ -484,7 +484,7 @@ export function RaycastCMDK() {
         console.log(extInfo, 'extInfo');
         await handleSoloRun(extInfo.id);
         getExtensionDatas();
-        footerTip('success', 'Check Solo Mode Successfully', 1400);
+        footerTip('success', 'Check Solo Mode Successfully', 2000);
 
     };
 

@@ -1,6 +1,7 @@
 import {
     AC_ADD_RECENTLYS,
     AC_CLEAR_RECENTLYS,
+    AC_CREATE_TAB,
     AC_FAVORITE,
     AC_GET_COMMANDS,
     AC_GET_RECENTLYS,
@@ -428,6 +429,15 @@ const handleSoloRunExt = async ({ request, sendResponse }) => {
 };
 
 
+const handleCreateTabPage = ({ request, sendResponse }) => {
+	const { pageUrl, active } = request;
+	chrome.tabs.create({
+			url: pageUrl,
+			active: active,
+	});
+	sendResponse({ status: 'create tab page' });
+};
+
 const ACTICON_MAP = {
     get_extensions: getExtensions,
     enable_extension: handleEnableExtension,
@@ -450,6 +460,7 @@ const ACTICON_MAP = {
     [AC_ADD_RECENTLYS]: handleAddRecently,
     [AC_CLEAR_RECENTLYS]: handleClearRecentlys,
     [AC_SOLO_RUN]: handleSoloRunExt,
+		[AC_CREATE_TAB]: handleCreateTabPage,
 };
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // 获取插件列表

@@ -1,5 +1,6 @@
 import {
     AC_ADD_RECENTLYS,
+    AC_CREATE_TAB,
     AC_FAVORITE,
     AC_GET_COMMANDS,
     AC_GET_RECENTLYS,
@@ -241,3 +242,16 @@ export const handleSoloRun = (extId): Promise<[any, any]> => {
         });
     });
 };
+
+export const handleCreateTab = (pageUrl, active = true): Promise<[any, any]> => {
+	return new Promise(resolve => {
+			chrome.runtime.sendMessage(
+					{ action: AC_CREATE_TAB, pageUrl, active },
+			).then(async (response) => {
+					resolve([null, response.status]);
+			}).catch(err => {
+					resolve([err, null]);
+			});
+	});
+};
+

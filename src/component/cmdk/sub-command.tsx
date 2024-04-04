@@ -8,6 +8,8 @@ import EventBus from '~utils/event-bus';
 import { getMutliLevelProperty } from '~utils/util';
 import {RecentlyFix} from '~config/config';
 import axios from 'axios';
+import { GlobeIcon } from '~component/icons';
+import { handleCreateTab } from '~utils/management';
 const eventBus = EventBus.getInstace();
 const BASE_SUB_GROUP = () => [
 	{
@@ -50,6 +52,8 @@ export default function SubCommand({
 	const [open, setOpen] = React.useState(false);
 	const subCommandInputRef = React.useRef<HTMLInputElement>(null);
 	const [refresh, setRefresh] = React.useState(0);
+	const [pageDatas, setPageDatas] = React.useState([]);
+	const [loading, setLoading] = React.useState(false);
 
 	React.useEffect(() => {
 		const timer = setTimeout(() => {
@@ -67,19 +71,37 @@ export default function SubCommand({
 			name: encodeURIComponent(name),
 		})
 		.then(response => {
-			console.log(response.data);
+			const pages = getMutliLevelProperty(response, 'data.pages', []);
+			const resluts = pages.map(element => {
+				return ({
+					value: element.path,
+					shortcut: '',
+					keywords: [ element.path,  ...(element.path.split('/'))],
+					name: element.path,
+				});
+			});
+			setPageDatas(resluts);
 		})
 		.catch(error => {
 			console.error(error);
 		});
+		setLoading(false);
 	};
 	React.useEffect(() => {
 		if (!open) return;
 		const isCommand = getMutliLevelProperty(value, 'isCommand', true);
 		const id =  getMutliLevelProperty(value, 'id', '');
 		if (!value && isCommand || !id || id.includes(RecentlyFix)) return;
+		setLoading(true);
 		getExtPages(value);
 	}, [value, open]);
+
+	const gotoPage = async (path) => {
+		console.log('value----',value);
+		// window.open(`chrome-extension://${value.id}${path}`);
+		await handleCreateTab(`chrome-extension://${value.id}${path}`);
+		setOpen(false);
+	};
 	React.useEffect(() => {
     function inputListener (event) {
 			if ([27, 37, 38, 39, 40, 13,].includes(event.keyCode) 
@@ -204,6 +226,25 @@ export default function SubCommand({
 							</Command.Group>
 							: null
 						))}
+
+						{
+							loading ?  <Command.Loading></Command.Loading> : ( pageDatas.length ? <Command.Group heading="Action Pages">
+								{pageDatas.map((item) => (
+									<SubItem
+										key={item.value}
+										value={item.value}
+										keywords={item.keywords}
+										shortcut={item.shortcut}
+										commandHandle={() => {
+											setOpen(v => !v);
+											gotoPage(item.value);
+										}}>
+										<GlobeIcon></GlobeIcon>
+										{item.name}
+									</SubItem>
+								))}
+							</Command.Group> : null )
+						}
 					</Command.List>
 
 					<Command.Input

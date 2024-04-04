@@ -17,7 +17,6 @@ import {
     ShowInFinderIcon,
     StarItIcon, StoreIcon,
     UninstallIcon,
-    WindowIcon,
 } from '~component/icons';
 import {AC_CLEAR_RECENTLYS, ENABLE_ALL_EXTENSION} from '~config/actions';
 import {handleExtUpdateDone} from '~utils/management';

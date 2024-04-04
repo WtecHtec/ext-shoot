@@ -5,3 +5,5 @@ export const SearchFix = 'search_';
 
 
 export const RecentSaveNumber = 5;
+
+export const RecentlyFix = 'recently_';

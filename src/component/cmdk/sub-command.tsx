@@ -6,7 +6,8 @@ import SubItem from './sub-item';
 
 import EventBus from '~utils/event-bus';
 import { getMutliLevelProperty } from '~utils/util';
-
+import {RecentlyFix} from '~config/config';
+import axios from 'axios';
 const eventBus = EventBus.getInstace();
 const BASE_SUB_GROUP = () => [
 	{
@@ -33,6 +34,7 @@ export default function SubCommand({
 	onClickItem,
 	subCommands,
 	extShootRef,
+	value,
 	includeCommands = [],
 }: {
 	inputRef: React.RefObject<HTMLInputElement>
@@ -42,6 +44,7 @@ export default function SubCommand({
 	onClickItem?: any,
 	subCommands?: any
 	includeCommands?: any,
+	value?:any
 }) {
 
 	const [open, setOpen] = React.useState(false);
@@ -57,6 +60,26 @@ export default function SubCommand({
 		};
 	}, [open]);
 
+	const getExtPages = (extInfo) => {
+		const { id, name } = extInfo;
+		axios.post('http://localhost:5698/pages', {
+			extId: id,
+			name: encodeURIComponent(name),
+		})
+		.then(response => {
+			console.log(response.data);
+		})
+		.catch(error => {
+			console.error(error);
+		});
+	};
+	React.useEffect(() => {
+		if (!open) return;
+		const isCommand = getMutliLevelProperty(value, 'isCommand', true);
+		const id =  getMutliLevelProperty(value, 'id', '');
+		if (!value && isCommand || !id || id.includes(RecentlyFix)) return;
+		getExtPages(value);
+	}, [value, open]);
 	React.useEffect(() => {
     function inputListener (event) {
 			if ([27, 37, 38, 39, 40, 13,].includes(event.keyCode) 

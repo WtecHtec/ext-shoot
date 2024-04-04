@@ -41,12 +41,11 @@ import SnapshotDialog from './snapshot-dialog';
 import {ExtItem} from '~utils/ext.interface';
 import FooterTip, {footerTip} from '~component/cmdk/footer-tip';
 import Search from './search-store';
-import {RecentSaveNumber, SearchFix} from '~config/config';
+import {RecentSaveNumber, SearchFix, RecentlyFix} from '~config/config';
 import SnapshotCommand from './snapshot-command';
 import {getSelectSnapId, setSelectSnapIdBtStorge} from '~utils/local.storage';
 
 
-const RecentlyFix = 'recently_';
 const MarkId = '@_';
 const acMap = getAllActionMap();
 const acMap_command = getSubCommandActionMap();
@@ -879,7 +878,8 @@ export function RaycastCMDK() {
                     <SubCommand
                         subCommands={ subCommands }
                         listRef={ listRef }
-                        selectName={ getSubCnmandItem(value)?.name }
+                        selectName={ getItemByCommandList(value)[0]?.name }
+												value={getItemByCommandList(value)[0]}
                         inputRef={ inputRef }
                         extShootRef={ extShootRef }
                         includeCommands={ getCommandsByType(value) }

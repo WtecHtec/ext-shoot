@@ -37,9 +37,11 @@ const handleDisableAllExtension = (
         chrome.runtime
             .sendMessage({ action: 'disable_all_extension', snapType, extIds })
             .then(async (response) => {
+                footerTip('success', 'Disable All Extension Success', 3000);
                 resolve([null, response]);
             })
             .catch((err) => {
+                footerTip('error', 'Disable All Extension Error', 3000);
                 resolve([err, null]);
             });
     });
@@ -83,9 +85,11 @@ const handleClearRecently = (): Promise<[null | Error, any]> => {
         chrome.runtime
             .sendMessage({ action: AC_CLEAR_RECENTLYS })
             .then(async (response) => {
+                footerTip('success', 'Clear Recently Accessed Success', 3000);
                 resolve([null, response]);
             })
             .catch((err) => {
+                footerTip('error', 'Clear Recently Accessed Error', 3000);
                 resolve([err, null]);
             });
     });
@@ -105,9 +109,11 @@ const handleEnableAllExtension = (
         chrome.runtime
             .sendMessage({ action: ENABLE_ALL_EXTENSION, snapType, extIds })
             .then(async (response) => {
+                footerTip('success', 'Enable All Extension Success', 3000);
                 resolve([null, response]);
             })
             .catch((err) => {
+                footerTip('error', 'Enable All Extension Error', 3000);
                 resolve([err, null]);
             });
     });

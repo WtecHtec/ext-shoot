@@ -1,23 +1,23 @@
-import React, {SVGProps, useEffect, useState} from 'react';
+import React, { SVGProps, useEffect, useState } from 'react';
 
 export function Logo({
-                         children,
-                         size = '20px',
-                     }: {
+    children,
+    size = '20px',
+}: {
     children: React.ReactNode
     size?: string
 }) {
     return (
         <div
             className="blurLogo"
-            style={ {
+            style={{
                 width: size,
                 height: size,
-            } }>
+            }}>
             <div className="bg" aria-hidden>
-                { children }
+                {children}
             </div>
-            <div className="inner">{ children }</div>
+            <div className="inner">{children}</div>
         </div>
     );
 }
@@ -27,13 +27,13 @@ export function ShootEmptyIcon() {
     return (
 
         <svg width="28"
-             height="28" viewBox="0 0 479 479" fill="none"
-             xmlns="http://www.w3.org/2000/svg">
+            height="28" viewBox="0 0 479 479" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M104.781 134.72L374.219 89.8135V142.204L104.781 187.11V134.72ZM104.781 239.501L374.219 194.595V246.985L104.781 291.892V239.501ZM104.781 344.282L374.219 299.376V351.767L104.781 396.673V344.282Z"
                 fill="#888888" stroke="#888888" stroke-width="29.9375"
                 strokeLinecap="round"
-                strokeLinejoin="round"/>
+                strokeLinejoin="round" />
         </svg>
     );
 }
@@ -115,7 +115,7 @@ export function ShootIcon(props: SVGProps<SVGSVGElement>) {
             height="512"
             viewBox="0 0 512 512"
             fill="none"
-            { ...props }
+            {...props}
             xmlns="http://www.w3.org/2000/svg">
             <rect
                 width="361.149"
@@ -280,7 +280,7 @@ export function ExtensionIcon({ base64 = '' }: { base64?: string }) {
 
     return (
         <Logo>
-            <img src={ iconUrl } crossOrigin="anonymous"></img>
+            <img src={iconUrl} crossOrigin="anonymous"></img>
         </Logo>
     );
 }
@@ -313,7 +313,7 @@ export function ExecuteRecentActionIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <g fill="none" stroke="currentColor" strokeWidth="2">
                 <path
                     strokeLinecap="round"
@@ -336,7 +336,7 @@ export function CopyNameIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <g
                 fill="none"
                 stroke="currentColor"
@@ -352,6 +352,12 @@ export function CopyNameIcon(props: SVGProps<SVGSVGElement>) {
     );
 }
 
+export function SoloModeIcon(props: SVGProps<SVGSVGElement>) {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 24 24" {...props}><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.644 15.894a3.894 3.894 0 1 0 0-7.788a3.894 3.894 0 0 0 0 7.788m10.712 0a3.894 3.894 0 1 0 0-7.788a3.894 3.894 0 0 0 0 7.788m-10.712 0h10.712"></path></svg>
+    );
+}
+
 export function ShowInFinderIcon(props: SVGProps<SVGSVGElement>) {
     return (
         <svg
@@ -359,7 +365,7 @@ export function ShowInFinderIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <g
                 fill="none"
                 stroke="currentColor"
@@ -382,7 +388,7 @@ export function FreshIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <g
                 fill="none"
                 stroke="currentColor"
@@ -406,7 +412,7 @@ export function StarItIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <path
                 fill="none"
                 stroke="currentColor"
@@ -425,7 +431,7 @@ export function UninstallIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <g
                 fill="none"
                 stroke="currentColor"
@@ -448,7 +454,7 @@ export function EnableIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <g
                 fill="none"
                 stroke="currentColor"
@@ -470,7 +476,7 @@ export function DisableIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <g
                 fill="none"
                 stroke="currentColor"
@@ -491,7 +497,7 @@ export function CameraIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <g
                 fill="none"
                 stroke="currentColor"
@@ -511,10 +517,10 @@ export function CameraIcon(props: SVGProps<SVGSVGElement>) {
 export function SuccessIcon(props: SVGProps<SVGSVGElement>) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="1.8em"
-             height="1.8em"
-             viewBox="0 0 24 24" { ...props }>
+            height="1.8em"
+            viewBox="0 0 24 24" {...props}>
             <g fill="none" stroke="currentColor" strokeLinecap="round"
-               strokeLinejoin="round" strokeWidth="2">
+                strokeLinejoin="round" strokeWidth="2">
                 <path
                     d="m6.9 12.087l2.664 2.663a1.009 1.009 0 0 0 1.433 0l5.367-5.368"></path>
                 <path d="M12 21.5a9.5 9.5 0 1 0 0-19a9.5 9.5 0 0 0 0 19"></path>
@@ -527,11 +533,11 @@ export function SuccessIcon(props: SVGProps<SVGSVGElement>) {
 export function ErrorIcon(props: SVGProps<SVGSVGElement>) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="1.8em"
-             height="1.8em"
-             viewBox="0 0 24 24" { ...props }>
+            height="1.8em"
+            viewBox="0 0 24 24" {...props}>
             <path fill="none" stroke="currentColor" strokeLinecap="round"
-                  strokeLinejoin="round" stroke-width="2"
-                  d="m15.958 8.042l-7.916 7.916m7.916 0L8.042 8.042M12 21.5a9.5 9.5 0 1 0 0-19a9.5 9.5 0 0 0 0 19"></path>
+                strokeLinejoin="round" stroke-width="2"
+                d="m15.958 8.042l-7.916 7.916m7.916 0L8.042 8.042M12 21.5a9.5 9.5 0 1 0 0-19a9.5 9.5 0 0 0 0 19"></path>
         </svg>
     );
 }
@@ -539,19 +545,19 @@ export function ErrorIcon(props: SVGProps<SVGSVGElement>) {
 
 export function GlobeIcon() {
     return (<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                 viewBox="0 0 24 24">
+        viewBox="0 0 24 24">
         <path fill="currentColor" fill-rule="evenodd"
-              d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12m2 0a8 8 0 1 0 16 0a8 8 0 0 0-16 0m4.252-1.552c.243-.508.643-1.948.932-1.948c.288 0 .183.723.441.786c.217.053.05-.323.653-.39s1.26.302 1.26.302s.712.177 1.369 0c0 0-.347-.526.078-.698c.424-.172 1.002.464 1.023.875c.021.411-.944.687-.944.687l.944.567s.277-.878.867-.887c.525-.01 1.183.95.875 1.383c-.308.433-.506.135-.506.135s-.94.952-1.236 1.123c-.295.17-.708 0-.708 0s-.175.324 0 .473c.355.366 1.277.73 1.277.73s2.835.461 2.923 1.039c.088.578-2.256 3.5-2.625 3.5H14c-.357-.63.577-2.644.577-2.644s-.48-.532-.577-.856c-.096-.324.186-.894.186-.894l-1.279-.589s-.68 0-1.017-.267c-.337-.267-.515-1.75-.515-1.75l-1.22-.894s-1.06 1.346-1.405 1.174c-.346-.172-.74-.45-.498-.957m6.57-2.098c-.844 0-2.875-1.074-2.534-1.65c0-.826 2.135-.702 2.593-.702c.458 0 1.58.354 2.203.85c.623.495-.263 1.203-.572 1.502c-.31.3-.845 0-1.69 0"/>
+            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12m2 0a8 8 0 1 0 16 0a8 8 0 0 0-16 0m4.252-1.552c.243-.508.643-1.948.932-1.948c.288 0 .183.723.441.786c.217.053.05-.323.653-.39s1.26.302 1.26.302s.712.177 1.369 0c0 0-.347-.526.078-.698c.424-.172 1.002.464 1.023.875c.021.411-.944.687-.944.687l.944.567s.277-.878.867-.887c.525-.01 1.183.95.875 1.383c-.308.433-.506.135-.506.135s-.94.952-1.236 1.123c-.295.17-.708 0-.708 0s-.175.324 0 .473c.355.366 1.277.73 1.277.73s2.835.461 2.923 1.039c.088.578-2.256 3.5-2.625 3.5H14c-.357-.63.577-2.644.577-2.644s-.48-.532-.577-.856c-.096-.324.186-.894.186-.894l-1.279-.589s-.68 0-1.017-.267c-.337-.267-.515-1.75-.515-1.75l-1.22-.894s-1.06 1.346-1.405 1.174c-.346-.172-.74-.45-.498-.957m6.57-2.098c-.844 0-2.875-1.074-2.534-1.65c0-.826 2.135-.702 2.593-.702c.458 0 1.58.354 2.203.85c.623.495-.263 1.203-.572 1.502c-.31.3-.845 0-1.69 0" />
     </svg>);
 }
 
 export function StoreIcon(props: SVGProps<SVGSVGElement>) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="32"
-             height="32"
-             viewBox="0 0 24 24" { ...props }>
+            height="32"
+            viewBox="0 0 24 24" {...props}>
             <g fill="none" stroke="currentColor" stroke-linecap="round"
-               stroke-linejoin="round" stroke-width="2">
+                stroke-linejoin="round" stroke-width="2">
                 <path d="M12 21.5a9.5 9.5 0 1 0 0-19a9.5 9.5 0 0 0 0 19"></path>
                 <path
                     d="m7.778 16.222l1.942-5.837a1.056 1.056 0 0 1 .675-.665l5.827-1.942l-1.942 5.837a1.055 1.055 0 0 1-.665.665z"></path>
@@ -559,6 +565,5 @@ export function StoreIcon(props: SVGProps<SVGSVGElement>) {
         </svg>
     );
 }
-
 
 

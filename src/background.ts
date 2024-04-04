@@ -38,6 +38,20 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 });
 
+// // 点击icon的时候，打开插件主页
+chrome.action.onClicked.addListener(() => {
+    // 模拟发送Action的命令
+    // 获取当前活动的标签页
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        // 确保至少有一个标签页是活动的
+        if (tabs.length > 0) {
+            // 发送消息到content脚本
+            chrome.tabs.sendMessage(tabs[0].id, { action: "active_extention_launcher" }, (response) => {
+                console.log(response.result); // 接收并打印content脚本发送的响应
+            });
+        }
+    });
+});
 
 /**
  * 获取插件列表

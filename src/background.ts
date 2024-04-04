@@ -12,8 +12,7 @@ import {
     ENABLE_ALL_EXTENSION,
     EXT_UPDATE_DONE,
 } from '~config/actions';
-import { isProd, mode } from '~config/config';
-import { EXTSS_TUTORIAL_URL, FIRST_URL } from '~utils/constant';
+import { FIRST_URL } from '~utils/constant';
 import { ExtItem } from '~utils/ext.interface';
 import {
     clearRecentlyData,
@@ -27,13 +26,9 @@ import {
 } from '~utils/local.storage';
 import { getId } from '~utils/util';
 
-console.log(
-    'Live now; make now always the most precious time. Now will never come again.',
-);
 
-// Open on install
 chrome.runtime.onInstalled.addListener((object) => {
-    // Inject Omni on install
+    // Inject shoot on install
     const manifest = chrome.runtime.getManifest();
 
     const injectIntoTab = (tab) => {

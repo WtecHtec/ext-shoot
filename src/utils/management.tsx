@@ -6,6 +6,7 @@ import {
     AC_GET_SNAPSHOTS,
     AC_RECENTLY_OPEN,
     AC_SNAPSHOT_CREATE,
+    AC_SOLO_RUN,
     EXT_UPDATE_DONE,
 } from '~config/actions';
 import {ExtItem, RecentlyItem} from '~utils/ext.interface';
@@ -229,3 +230,14 @@ export const handleAddRecently = (recently: RecentlyItem): Promise<[any, any]> =
 };
 
 
+export const handleSoloRun = (extId): Promise<[any, any]> => {
+    return new Promise(resolve => {
+        chrome.runtime.sendMessage(
+            { action: AC_SOLO_RUN, extId },
+        ).then(async (response) => {
+            resolve([null, response.status]);
+        }).catch(err => {
+            resolve([err, null]);
+        });
+    });
+};

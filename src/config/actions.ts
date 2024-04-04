@@ -7,7 +7,9 @@ export const AC_ICON_UPDATED = 'ac_icon_updated';
 export const AC_SNAPSHOT_CREATE = 'ac_snapshot_create';
 export const AC_GET_SNAPSHOTS = 'ac_get_snapshots';
 export const AC_GET_COMMANDS = 'ac_get_commands';
+//recently
 export const AC_GET_RECENTLYS = 'ac_get_recently';
 export const AC_ADD_RECENTLYS = 'ac_add_recently';
-//clear recently
 export const AC_CLEAR_RECENTLYS = 'ac_clear_recently';
+//solo run
+export const AC_SOLO_RUN = 'ac_solo_run';

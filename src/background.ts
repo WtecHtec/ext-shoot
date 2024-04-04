@@ -8,11 +8,12 @@ import {
     AC_ICON_UPDATED,
     AC_RECENTLY_OPEN,
     AC_SNAPSHOT_CREATE,
+    AC_SOLO_RUN,
     ENABLE_ALL_EXTENSION,
     EXT_UPDATE_DONE,
 } from '~config/actions';
-import {mode} from '~config/config';
-import {ExtItem} from '~utils/ext.interface';
+import { mode } from '~config/config';
+import { ExtItem } from '~utils/ext.interface';
 import {
     clearRecentlyData,
     getExtendedInfo,
@@ -23,7 +24,7 @@ import {
     setRecentlyData,
     setSnapshot,
 } from '~utils/local.storage';
-import {getId} from '~utils/util';
+import { getId } from '~utils/util';
 
 console.log(
     'Live now; make now always the most precious time. Now will never come again.',
@@ -112,7 +113,7 @@ const handleOpenOptionsPage = ({ request, sendResponse }) => {
  */
 const handleOpenExtensionDetails = ({ request, sendResponse }) => {
     const { extensionId } = request;
-    const detailsUrl = `chrome://extensions/?id=${ extensionId }`;
+    const detailsUrl = `chrome://extensions/?id=${extensionId}`;
     chrome.tabs.create({ url: detailsUrl });
     setRecentlyData({
         value: 'execute_recent_action',
@@ -346,6 +347,24 @@ const handleClearRecentlys = async ({ sendResponse }) => {
     sendResponse({ status: 'recently clear' });
 };
 
+const handleSoloRunExt = async ({ request, sendResponse }) => {
+    const { extId } = request;
+    // 打开这个插件
+    // 除了这个插件和自己外，其他插件都禁用
+    chrome.management.getAll().then((extensions) => {
+        extensions.forEach((ext) => {
+            if (ext.id === chrome.runtime.id) return;
+            if (ext.id === extId) {
+                chrome.management.setEnabled(ext.id, true);
+            } else {
+                chrome.management.setEnabled(ext.id, false);
+            }
+        });
+        sendResponse({ status: 'Solo Run' });
+    });
+};
+
+
 const ACTICON_MAP = {
     get_extensions: getExtensions,
     enable_extension: handleEnableExtension,
@@ -367,6 +386,7 @@ const ACTICON_MAP = {
     [AC_GET_RECENTLYS]: handeleGetRecentlys,
     [AC_ADD_RECENTLYS]: handleAddRecently,
     [AC_CLEAR_RECENTLYS]: handleClearRecentlys,
+    [AC_SOLO_RUN]: handleSoloRunExt,
 };
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // 获取插件列表

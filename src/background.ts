@@ -75,7 +75,10 @@ chrome.runtime.onInstalled.addListener((object) => {
     );
 
     if (object.reason === "install") {
-        chrome.tabs.create({ url: FIRST_URL });
+        // chrome.tabs.create({ url: FIRST_URL });
+        chrome.tabs.create({
+            url: chrome.runtime.getURL('/tabs/welcome.html'),
+        });
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             // 确保至少有一个标签页是活动的
             if (tabs.length > 0) {

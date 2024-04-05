@@ -767,7 +767,6 @@ export function RaycastCMDK() {
     const handelPatibleSubCommand = (subcommand, value) => {
         if (subcommand === 'execute_recent_action' || subcommand === 'execute_command') {
             onBottomOpenExtPage(value);
-            closeLauncher();
         } else {
             onClickSubItem(subcommand, value);
         }
@@ -827,6 +826,8 @@ export function RaycastCMDK() {
             } else {
                 const [curenValue, isCommand] = getItemByCommandList(value);
                 onCommandHandle(curenValue, isCommand);
+                // 只有不是命令时，关闭launcher
+                !isCommand && closeLauncher();
             }
         }
     };

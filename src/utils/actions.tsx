@@ -223,15 +223,15 @@ type SubItemAction = {
     label?: 'Extension' | 'Command'
 }
 export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
-    {
-        shortcut: '↵',
-        icon: <ExecuteRecentActionIcon/>,
-        name: 'Execute Recent Action',
-        desc: 'Execute Recent Action',
-        value: 'execute_recent_action',
-        keywords: ['execute', 'recent', 'action', 'Execute Recent Action'],
-        group: 'common',
-    },
+    // {
+    //     shortcut: '↵',
+    //     icon: <ExecuteRecentActionIcon/>,
+    //     name: 'Execute Recent Action',
+    //     desc: 'Execute Recent Action',
+    //     value: 'execute_recent_action',
+    //     keywords: ['execute', 'recent', 'action', 'Execute Recent Action'],
+    //     group: 'common',
+    // },
     {
         shortcut: '',
         icon: <ActivatePluginIcon/>,

@@ -10,7 +10,7 @@ import RefreshExtensionInfo
     from 'react:~component/asset/refresh_entension_infomation.svg';
 import {
     ActivatePluginIcon,
-    CopyNameIcon,
+    CopyNameIcon, DetailPageIcon,
     DisableIcon,
     EnableIcon,
     ExecuteRecentActionIcon,
@@ -267,7 +267,15 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
         value: 'open_in_web_store',
         keywords: ['open', 'web', 'store', 'open in web store', 'web store'],
         group: 'common',
-
+    },
+    {
+        shortcut: '',
+        icon: <DetailPageIcon/>,
+        name: 'Open Detail Page',
+        desc: 'Open Detail Page',
+        value: 'open_detail_page',
+        keywords: ['open', 'detail', 'page', 'Open Detail Page'],
+        group: 'common',
     },
 
     {

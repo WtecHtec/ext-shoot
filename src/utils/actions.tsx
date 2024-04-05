@@ -9,6 +9,7 @@ import ExtensionAddSnapShot from 'react:~component/asset/snapshoot.svg';
 import RefreshExtensionInfo
     from 'react:~component/asset/refresh_entension_infomation.svg';
 import {
+    ActivatePluginIcon,
     CopyNameIcon,
     DisableIcon,
     EnableIcon,
@@ -233,7 +234,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
     },
     {
         shortcut: '',
-        icon: <ShowInFinderIcon/>,
+        icon: <ActivatePluginIcon/>,
         name: 'Active Plugin',
         desc: 'Active Plugin',
         value: 'active_plugin',

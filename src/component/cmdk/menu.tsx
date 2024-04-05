@@ -478,6 +478,8 @@ export function RaycastCMDK() {
         if (!enabled) {
             // 激活插件前，先启用插件
             onHanldePulginStatus(extId, true);
+            // 刷新当前网页 才能注入插件
+            window.location.reload();
         }
         axios.post(`${ ExtShootSeverHost }/active-extension`, {
             extId: id,

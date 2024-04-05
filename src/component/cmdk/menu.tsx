@@ -42,7 +42,12 @@ import SnapshotDialog from './snapshot-dialog';
 import {ExtItem} from '~utils/ext.interface';
 import FooterTip, {footerTip} from '~component/cmdk/footer-tip';
 import Search from './search-store';
-import {RecentlyFix, RecentSaveNumber, SearchFix} from '~config/config';
+import {
+    ExtShootSeverHost,
+    RecentlyFix,
+    RecentSaveNumber,
+    SearchFix,
+} from '~config/config';
 import SnapshotCommand from './snapshot-command';
 import {getSelectSnapId, setSelectSnapIdBtStorge} from '~utils/local.storage';
 import {EXTSS_TUTORIAL_URL} from '~utils/constant';
@@ -439,7 +444,7 @@ export function RaycastCMDK() {
     const onHandleShowInFinder = (extId) => {
         const extInfo = getExtensionDeatilById(extId);
         const { id, name } = extInfo;
-        axios.post('http://localhost:5698/submit', {
+        axios.post(`${ExtShootSeverHost}/submit`, {
             extId: id,
             name: encodeURIComponent(name),
         })

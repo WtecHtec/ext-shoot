@@ -8,3 +8,5 @@ export const SearchFix = 'search_';
 export const RecentSaveNumber = 5;
 
 export const RecentlyFix = 'recently_';
+
+export const ExtShootSeverHost = 'http://localhost:5698';

@@ -444,7 +444,7 @@ export function RaycastCMDK() {
     const onHandleShowInFinder = (extId) => {
         const extInfo = getExtensionDeatilById(extId);
         const { id, name } = extInfo;
-        axios.post(`${ExtShootSeverHost}/submit`, {
+        axios.post(`${ExtShootSeverHost}/open-extension`, {
             extId: id,
             name: encodeURIComponent(name),
         })

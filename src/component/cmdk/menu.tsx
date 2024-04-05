@@ -444,7 +444,7 @@ export function RaycastCMDK() {
     const onHandleShowInFinder = (extId) => {
         const extInfo = getExtensionDeatilById(extId);
         const { id, name } = extInfo;
-        axios.post(`${ExtShootSeverHost}/open-extension`, {
+        axios.post(`${ ExtShootSeverHost }/open-extension`, {
             extId: id,
             name: encodeURIComponent(name),
         })
@@ -469,6 +469,40 @@ export function RaycastCMDK() {
                 });
             });
 
+    };
+
+    // 激活插件 /activeExtention name
+    const onHandleActiveExtension = (extId) => {
+        const extInfo = getExtensionDeatilById(extId);
+        const { extId: id, name, enabled } = extInfo;
+        if (!enabled) {
+            // 激活插件前，先启用插件
+            onHanldePulginStatus(extId, true);
+        }
+        axios.post(`${ ExtShootSeverHost }/active-extension`, {
+            extId: id,
+            name: name,
+        })
+            .then(response => {
+                console.log(response.data);
+                toast('Active Plugin Success', {
+                    duration: 2000,
+                });
+            })
+            .catch(error => {
+                console.error(error);
+                toast('Need Start Local Server', {
+                    description: 'npx extss start',
+                    action: {
+                        label: 'More',
+                        onClick: () => {
+                            window.open(EXTSS_TUTORIAL_URL);
+                        },
+                    },
+                    duration: 8000,
+                    closeButton: true,
+                });
+            });
     };
 
 
@@ -574,6 +608,10 @@ export function RaycastCMDK() {
                 break;
             case 'show_in_finder':
                 onHandleShowInFinder(extId_);
+                closeLauncher();
+                break;
+            case 'active_plugin':
+                onHandleActiveExtension(extId_);
                 closeLauncher();
                 break;
             case 'uninstall_plugin':

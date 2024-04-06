@@ -1,7 +1,7 @@
 {
   "name": "extension-shoot",
   "displayName": "Ext Shoot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A blazingly fast extension launcher for browser",
   "author": "River.<laolei@forkway.cn>",
   "contributors": [

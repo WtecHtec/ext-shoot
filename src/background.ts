@@ -3,28 +3,32 @@ import {
     AC_CLEAR_RECENTLYS,
     AC_CREATE_TAB,
     AC_FAVORITE,
+    AC_GET_BROWSER,
     AC_GET_COMMANDS,
     AC_GET_RECENTLYS,
     AC_GET_SNAPSHOTS,
     AC_ICON_UPDATED,
     AC_RECENTLY_OPEN,
+    AC_SET_BROWSER,
     AC_SNAPSHOT_CREATE,
     AC_SOLO_RUN,
     ENABLE_ALL_EXTENSION,
     EXT_UPDATE_DONE,
 } from '~config/actions';
-import { ExtItem } from '~utils/ext.interface';
+import {ExtItem} from '~utils/ext.interface';
 import {
     clearRecentlyData,
+    getBrowserType,
     getExtendedInfo,
     getRecentlyData,
     getSnapshots,
     getStorageIcon,
+    setBrowserType,
     setExtendedInfo,
     setRecentlyData,
     setSnapshot,
 } from '~utils/local.storage';
-import { getId } from '~utils/util';
+import {getId} from '~utils/util';
 
 
 chrome.runtime.onInstalled.addListener((object) => {
@@ -65,15 +69,15 @@ chrome.runtime.onInstalled.addListener((object) => {
 
                 for (let j = 0; j < t; j++) {
                     currentTab = currentWindow.tabs[j];
-                    if (!currentTab.url.includes("chrome://") && !currentTab.url.includes("chrome-extension://") && !currentTab.url.includes("chrome.google.com")) {
+                    if (!currentTab.url.includes('chrome://') && !currentTab.url.includes('chrome-extension://') && !currentTab.url.includes('chrome.google.com')) {
                         injectIntoTab(currentTab);
                     }
                 }
             }
-        }
+        },
     );
 
-    if (object.reason === "install") {
+    if (object.reason === 'install') {
         // chrome.tabs.create({ url: FIRST_URL });
         chrome.tabs.create({
             url: chrome.runtime.getURL('/tabs/welcome.html'),
@@ -82,7 +86,7 @@ chrome.runtime.onInstalled.addListener((object) => {
             // 确保至少有一个标签页是活动的
             if (tabs.length > 0) {
                 // 发送消息到content脚本
-                chrome.tabs.sendMessage(tabs[0].id, { action: "active_extention_launcher" }, (response) => {
+                chrome.tabs.sendMessage(tabs[0].id, { action: 'active_extention_launcher' }, (response) => {
                     console.log(response.result); // 接收并打印content脚本发送的响应
                 });
             }
@@ -98,7 +102,7 @@ chrome.action.onClicked.addListener(() => {
         // 确保至少有一个标签页是活动的
         if (tabs.length > 0) {
             // 发送消息到content脚本
-            chrome.tabs.sendMessage(tabs[0].id, { action: "active_extention_launcher" }, (response) => {
+            chrome.tabs.sendMessage(tabs[0].id, { action: 'active_extention_launcher' }, (response) => {
                 console.log(response.result); // 接收并打印content脚本发送的响应
             });
         }
@@ -179,7 +183,7 @@ const handleOpenOptionsPage = ({ request, sendResponse }) => {
  */
 const handleOpenExtensionDetails = ({ request, sendResponse }) => {
     const { extensionId } = request;
-    const detailsUrl = `chrome://extensions/?id=${extensionId}`;
+    const detailsUrl = `chrome://extensions/?id=${ extensionId }`;
     chrome.tabs.create({ url: detailsUrl });
     setRecentlyData({
         value: 'open_detail_page',
@@ -432,14 +436,23 @@ const handleSoloRunExt = async ({ request, sendResponse }) => {
 
 
 const handleCreateTabPage = ({ request, sendResponse }) => {
-	const { pageUrl, active } = request;
-	chrome.tabs.create({
-			url: pageUrl,
-			active: active,
-	});
-	sendResponse({ status: 'create tab page' });
+    const { pageUrl, active } = request;
+    chrome.tabs.create({
+        url: pageUrl,
+        active: active,
+    });
+    sendResponse({ status: 'create tab page' });
 };
 
+const handleSetBrowser = ({ request, sendResponse }) => {
+    const { browserType } = request;
+    setBrowserType(browserType);
+    sendResponse({ status: 'set browser' });
+};
+
+const handleGetBrowser = ({ sendResponse }) => {
+    sendResponse({ browserType: getBrowserType() ?? 'chrome' });
+};
 const ACTICON_MAP = {
     get_extensions: getExtensions,
     enable_extension: handleEnableExtension,
@@ -462,7 +475,10 @@ const ACTICON_MAP = {
     [AC_ADD_RECENTLYS]: handleAddRecently,
     [AC_CLEAR_RECENTLYS]: handleClearRecentlys,
     [AC_SOLO_RUN]: handleSoloRunExt,
-		[AC_CREATE_TAB]: handleCreateTabPage,
+    [AC_CREATE_TAB]: handleCreateTabPage,
+    [AC_SET_BROWSER]: handleSetBrowser,
+    [AC_GET_BROWSER]: handleGetBrowser,
+
 };
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // 获取插件列表
@@ -526,3 +542,5 @@ chrome.commands.onCommand.addListener((command) => {
         });
     });
 });
+
+

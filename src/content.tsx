@@ -7,7 +7,8 @@ import {RaycastCMDK} from '~component/cmdk/menu';
 import {CMDKWrapper} from '~component/common';
 import injectToaster from '~toaster';
 import EventBus from '~utils/event-bus';
-import { getMutliLevelProperty } from '~utils/util';
+import {getBrowser, getMutliLevelProperty, isArc} from '~utils/util';
+import {handleSetBrowser} from '~utils/actions';
 
 // import FocusLock from 'react-focus-lock';
 export const config: PlasmoCSConfig = {
@@ -24,41 +25,58 @@ export const getStyle = () => {
 
 const eventBus = EventBus.getInstace();
 
-eventBus.initState({ dialogs: [] }, {
-  openSnap: (state) => {
-    state.dialogs.push('snap_dialog');
-    return state;
-  },
-  closeSnap: (state) => {
-    state.dialogs = state.dialogs.filter( (item) => item !== 'snap_dialog');
-    return  state;
-  },
-  openSubCommand: (state) => {
-    state.dialogs.push('sub_command');
-    return  state;
-  },
-  closeSubCommand: (state) => {
-    state.dialogs = state.dialogs.filter( (item) => item !== 'sub_command');
-    return state;
-  },
-	openSnapCommand: (state) => {
-    state.dialogs.push('snap_command');
-    return state;
-  },
-  closeSnapCommand: (state) => {
-    state.dialogs = state.dialogs.filter( (item) => item !== 'snap_command');
-    return  state;
-  },
-  openLauncher: (state) => {
-    if (!state.dialogs.includes('launcher')) {
-      state.dialogs.push('launcher');
+setTimeout(() => {
+    // 先检测是否是arc环境
+    const isArcEnv = isArc();
+    // 如果是 就设置为arc,return
+    console.log('isArcEnv', isArcEnv);
+    if (isArcEnv) {
+        handleSetBrowser('arc');
+        return;
     }
-    return state;
-  },
-  closeLauncher: (state) => {
-    state.dialogs = state.dialogs.filter((item) => item !== 'launcher');
-    return state;
-  },
+
+    // 如果不是arc环境，就从navigator.userAgent中获取浏览器类型
+    const detectFromNavigator = getBrowser();
+    console.log('detectFromNavigator', detectFromNavigator);
+    handleSetBrowser(detectFromNavigator);
+
+}, 3000);
+
+eventBus.initState({ dialogs: [] }, {
+    openSnap: (state) => {
+        state.dialogs.push('snap_dialog');
+        return state;
+    },
+    closeSnap: (state) => {
+        state.dialogs = state.dialogs.filter((item) => item !== 'snap_dialog');
+        return state;
+    },
+    openSubCommand: (state) => {
+        state.dialogs.push('sub_command');
+        return state;
+    },
+    closeSubCommand: (state) => {
+        state.dialogs = state.dialogs.filter((item) => item !== 'sub_command');
+        return state;
+    },
+    openSnapCommand: (state) => {
+        state.dialogs.push('snap_command');
+        return state;
+    },
+    closeSnapCommand: (state) => {
+        state.dialogs = state.dialogs.filter((item) => item !== 'snap_command');
+        return state;
+    },
+    openLauncher: (state) => {
+        if (!state.dialogs.includes('launcher')) {
+            state.dialogs.push('launcher');
+        }
+        return state;
+    },
+    closeLauncher: (state) => {
+        state.dialogs = state.dialogs.filter((item) => item !== 'launcher');
+        return state;
+    },
 });
 
 const PlasmoOverlay = () => {
@@ -77,48 +95,48 @@ const PlasmoOverlay = () => {
     chrome.runtime.onMessage.addListener(handelMsgBybg);
 
     React.useEffect(() => {
-      // 初始化组件或功能
-      injectToaster();
-      if (focusRef && focusRef.current) {
-          console.log('focusRef---', focusRef);
-      }
-  
-      const updateLauncherState = () => {
-          const state = eventBus.getState();
-          console.log('state', state);
-          setOpen(state.dialogs.includes('launcher'));
-      };
-  
-      // 监听可能影响 dialogs 数组的事件
-      eventBus.on('openLauncher', updateLauncherState);
-      eventBus.on('closeLauncher', updateLauncherState);
-  
-      return () => {
-          eventBus.off('openLauncher', updateLauncherState);
-          eventBus.off('closeLauncher', updateLauncherState);
-      };
-  }, []);
+        // 初始化组件或功能
+        injectToaster();
+        if (focusRef && focusRef.current) {
+            console.log('focusRef---', focusRef);
+        }
 
-  React.useEffect(() => {
-    // <Escape> to close
-    function listener(e: KeyboardEvent) {
-        if (e.key === 'Escape') {
-            e.preventDefault();
+        const updateLauncherState = () => {
             const state = eventBus.getState();
-            console.log('state---', state);
-            if (getMutliLevelProperty(state, 'dialogs', []).length === 0) {
-                setOpen(false);
-            } else {
-                eventBus.emit('close');
+            console.log('state', state);
+            setOpen(state.dialogs.includes('launcher'));
+        };
+
+        // 监听可能影响 dialogs 数组的事件
+        eventBus.on('openLauncher', updateLauncherState);
+        eventBus.on('closeLauncher', updateLauncherState);
+
+        return () => {
+            eventBus.off('openLauncher', updateLauncherState);
+            eventBus.off('closeLauncher', updateLauncherState);
+        };
+    }, []);
+
+    React.useEffect(() => {
+        // <Escape> to close
+        function listener(e: KeyboardEvent) {
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                const state = eventBus.getState();
+                console.log('state---', state);
+                if (getMutliLevelProperty(state, 'dialogs', []).length === 0) {
+                    setOpen(false);
+                } else {
+                    eventBus.emit('close');
+                }
             }
         }
-    }
 
-    document.addEventListener('keydown', listener);
-    return () => document.removeEventListener('keydown', listener);
-}, []);
+        document.addEventListener('keydown', listener);
+        return () => document.removeEventListener('keydown', listener);
+    }, []);
 
-  
+
     useEffect(() => {
         if (open && focusRef.current) {
             focusRef.current.focus();

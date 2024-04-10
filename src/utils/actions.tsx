@@ -10,7 +10,8 @@ import RefreshExtensionInfo
     from 'react:~component/asset/refresh_entension_infomation.svg';
 import {
     ActivatePluginIcon,
-    CopyNameIcon, DetailPageIcon,
+    CopyNameIcon,
+    DetailPageIcon,
     DisableIcon,
     EnableIcon,
     ExecuteRecentActionIcon,
@@ -21,7 +22,7 @@ import {
     StoreIcon,
     UninstallIcon,
 } from '~component/icons';
-import {AC_CLEAR_RECENTLYS, ENABLE_ALL_EXTENSION} from '~config/actions';
+import {AC_CLEAR_RECENTLYS, AC_SET_BROWSER, ENABLE_ALL_EXTENSION} from '~config/actions';
 import {handleExtUpdateDone} from '~utils/management';
 import {footerTip} from '~component/cmdk/footer-tip';
 
@@ -395,4 +396,25 @@ export const getCommandMetaMap = () => {
         mapping[item.value] = item;
     });
     return mapping;
+};
+
+
+// 设置当前的浏览器
+// 打开插件快捷键页面
+export const handleSetBrowser = (
+    browserType: string,
+): Promise<[null | Error, any]> => {
+    return new Promise((resolve) => {
+        chrome.runtime
+            .sendMessage({
+                action: AC_SET_BROWSER
+                , browserType,
+            })
+            .then(async (response) => {
+                resolve([null, response]);
+            })
+            .catch((err) => {
+                resolve([err, null]);
+            });
+    });
 };

@@ -626,6 +626,7 @@ export function RaycastCMDK() {
             case 'open_detail_page':
                 handleDoExtDetail(extInfo);
                 closeLauncher();
+                break;
             case 'solo_run_extension':
                 onHandleSoloRun(extId);
                 break;

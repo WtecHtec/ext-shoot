@@ -112,3 +112,12 @@ export const getSelectSnapId = () => {
 export const setSelectSnapIdBtStorge = (snapid) => {
     return storage.set('select_snap_id', snapid);
 };
+
+
+export const getBrowserType = () => {
+    return storage.get('browser_type');
+};
+
+export const setBrowserType = (type) => {
+    return storage.set('browser_type', type);
+};

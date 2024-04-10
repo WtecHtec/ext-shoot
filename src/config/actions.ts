@@ -15,3 +15,6 @@ export const AC_CLEAR_RECENTLYS = 'ac_clear_recently';
 export const AC_SOLO_RUN = 'ac_solo_run';
 
 export const AC_CREATE_TAB = 'ac_create_tab';
+
+export const AC_SET_BROWSER = 'ac_set_browser';
+export const AC_GET_BROWSER = 'ac_get_browser';

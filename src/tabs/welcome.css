@@ -1,0 +1,10 @@
+.tag-info {
+	margin: 0 4px;
+	display: inline-block;
+	background-color: rgba(175, 184, 193, 0.2);
+	padding: 0 4px;
+}
+
+.txt {
+	font-weight: 400;
+}

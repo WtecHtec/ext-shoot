@@ -833,7 +833,7 @@ export function RaycastCMDK() {
                 const [curenValue, isCommand] = getItemByCommandList(value);
                 onCommandHandle(curenValue, isCommand);
                 // 只有不是命令时，关闭launcher
-                !isCommand && closeLauncher();
+                (!isCommand && closeLauncher());
             }
         }
     };

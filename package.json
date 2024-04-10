@@ -75,7 +75,8 @@
     "permissions": [
       "tabs",
       "management",
-      "unlimitedStorage"
+      "unlimitedStorage",
+			"declarativeNetRequest"
     ],
     "web_accessible_resources": [
       {

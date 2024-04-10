@@ -25,7 +25,8 @@ import {
     setSnapshot,
 } from '~utils/local.storage';
 import { getId } from '~utils/util';
-
+// 用于存储上一次检查时的插件列表  
+let previousExtensions = [];
 
 chrome.runtime.onInstalled.addListener((object) => {
     // Inject shoot on install
@@ -126,6 +127,28 @@ const getExtensions = ({ sendResponse }) => {
                 ...(extendInfo[id] || {}),
             });
         }
+				// 检查是否有新插件
+				const currentExtensions = extensions.map(extension => extension.id);  
+				if (previousExtensions.length ) {
+					const recentlyData: any = await getRecentlyData() || [];
+					const newExtensions = currentExtensions.filter(id => !previousExtensions.includes(id));  
+					if (newExtensions.length > 0) {
+						for (let i = 0; i < newExtensions.length; i++) {
+							const fdrecent = recentlyData.find(item => item && item.extIds && item.extIds.includes(newExtensions[i]) );
+							// 如果已经在最近使用，则跳过
+							if (fdrecent) continue;
+							const extensionId = newExtensions[i];
+							const detailsUrl = `chrome://extensions/?id=${extensionId}`;
+							await setRecentlyData({
+									value: 'open_detail_page',
+									extIds: [extensionId],
+									name: `Open Detail Page`,
+									pendingUrl: detailsUrl,
+							});
+						}
+					}
+				}
+				previousExtensions = currentExtensions;
         sendResponse({ extensions: result });
     });
 };

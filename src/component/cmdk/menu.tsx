@@ -626,6 +626,7 @@ export function RaycastCMDK() {
             case 'open_detail_page':
                 handleDoExtDetail(extInfo);
                 closeLauncher();
+								break;
             case 'solo_run_extension':
                 onHandleSoloRun(extId);
                 break;
@@ -832,7 +833,7 @@ export function RaycastCMDK() {
                 const [curenValue, isCommand] = getItemByCommandList(value);
                 onCommandHandle(curenValue, isCommand);
                 // 只有不是命令时，关闭launcher
-                !isCommand && closeLauncher();
+                (!isCommand && closeLauncher());
             }
         }
     };

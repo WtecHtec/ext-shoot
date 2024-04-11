@@ -6,10 +6,11 @@ import SubItem from './sub-item';
 
 import EventBus from '~utils/event-bus';
 import {getMutliLevelProperty} from '~utils/util';
-import {ExtShootSeverHost, RecentlyFix} from '~config/config';
+import {ExtShootSeverHost} from '~config/config';
 import axios from 'axios';
 import {GlobeIcon} from '~component/icons';
 import {handleCreateTab} from '~utils/management';
+import { getExtId } from '~lib/util';
 
 const eventBus = EventBus.getInstace();
 const BASE_SUB_GROUP = () => [
@@ -67,8 +68,9 @@ export default function SubCommand({
 
     const getExtPages = (extInfo) => {
         const { id, name } = extInfo;
+        const formatId = getExtId(id);
         axios.post(`${ ExtShootSeverHost }/pages`, {
-            extId: id,
+            extId: formatId,
             name: encodeURIComponent(name),
         })
             .then(response => {
@@ -92,15 +94,16 @@ export default function SubCommand({
         if (!open) return;
         const isCommand = getMutliLevelProperty(value, 'isCommand', true);
         const id = getMutliLevelProperty(value, 'id', '');
-        if (!value && isCommand || !id || id.includes(RecentlyFix)) return;
+        if (!value && isCommand || !id ) return;
         setLoading(true);
         getExtPages(value);
     }, [value, open]);
 
     const gotoPage = async (path) => {
         console.log('value----', value);
+        const formatId = getExtId(value.id);
         // window.open(`chrome-extension://${value.id}${path}`);
-        await handleCreateTab(`chrome-extension://${ value.id }${ path }`);
+        await handleCreateTab(`chrome-extension://${ formatId }${ path }`);
         setOpen(false);
     };
     React.useEffect(() => {
@@ -235,7 +238,7 @@ export default function SubCommand({
                         {
                             loading ?
                                 <Command.Loading></Command.Loading> : (pageDatas.length ?
-                                    <Command.Group heading="Action Pages">
+                                    <Command.Group heading={`Extension Pages (${pageDatas.length})`}>
                                         { pageDatas.map((item) => (
                                             <SubItem
                                                 key={ item.value }

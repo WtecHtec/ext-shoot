@@ -44,6 +44,7 @@ import FooterTip, {footerTip} from '~component/cmdk/footer-tip';
 import Search from './search-store';
 import {
     ExtShootSeverHost,
+    MarkId,
     RecentlyFix,
     RecentSaveNumber,
     SearchFix,
@@ -52,19 +53,15 @@ import SnapshotCommand from './snapshot-command';
 import {getSelectSnapId, setSelectSnapIdBtStorge} from '~utils/local.storage';
 import {EXTSS_TUTORIAL_URL} from '~utils/constant';
 import EventBus from '~utils/event-bus';
+import { getExtId } from '~lib/util';
 
 const eventBus = EventBus.getInstace();
 
-const MarkId = '@_';
 const acMap = getAllActionMap();
 const acMap_command = getSubCommandActionMap();
 const acMap_Extension = getSubExtensionActionMap;
 const commandMetaMap = getCommandMetaMap();
 
-const getExtId = (id) => {
-    const ids = id?.split(MarkId);
-    return ids[ids.length - 1];
-};
 
 const BASE_GROUP = () => [
     {
@@ -823,6 +820,7 @@ export function RaycastCMDK() {
 
     /** 底部  Open Extension Page 按钮点击事件、 回车事件处理 */
     const onBottomOpenExtPage = (value) => {
+        console.log('value',value);
         if (value.includes(SearchFix) && storeSearchRef && storeSearchRef.current) {
             storeSearchRef.current.onSearch();
         } else {

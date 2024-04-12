@@ -225,7 +225,7 @@ export function RaycastCMDK() {
                     item.enabled = extMapping[extIds[0]].enabled;
                     item.name = `${ extMapping[extIds[0]].name }` || '';
                     item.icon = extMapping[extIds[0]].icon;
-                    item.actIcon = acMap[value]?.icon;
+                    item.actIcon = acMap[value]?.icon || <GlobeIcon></GlobeIcon>;
                 } else if (extIds && extIds.length > 0 && commandMetaMap[extIds[0]]) {
                     item.status = true;
                     item.icon = commandMetaMap[value]?.icon;

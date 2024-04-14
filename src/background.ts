@@ -128,6 +128,7 @@ const getExtensions = ({ sendResponse }) => {
                 icon: iconData[id] || '',
                 installType,
                 enabled,
+								isSelf: id === chrome.runtime.id,
                 ...(extendInfo[id] || {}),
             });
         }
@@ -164,6 +165,8 @@ const getExtensions = ({ sendResponse }) => {
 const handleEnableExtension = ({ request, sendResponse }) => {
     const { extensionId, status } = request;
     chrome.management.setEnabled(extensionId, status, () => {
+				// 跳过自己
+				if (extensionId === chrome.runtime.id) return;
         sendResponse({ status: 'Extension enabled' });
     });
 };
@@ -175,6 +178,8 @@ const handleEnableExtension = ({ request, sendResponse }) => {
 const handleUninstallExtension = ({ request, sendResponse }) => {
     const { extensionId } = request;
     try {
+				// 跳过自己
+				if (extensionId === chrome.runtime.id) return;
         chrome.management.uninstall(extensionId, {}, () => {
             console.log('取消卸载', chrome.runtime.lastError);
             sendResponse({ status: chrome.runtime.lastError ? 'error' : 'success' });

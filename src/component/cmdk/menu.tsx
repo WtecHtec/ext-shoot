@@ -413,7 +413,8 @@ export function RaycastCMDK() {
         await handlePluginStatus(extInfo.id, status);
         getExtensionDatas();
         footerTip('success', status ? 'Enable Plugin Success' : 'Disable Plugin Success', 2000);
-    };
+				window.location.reload();
+			};
 
     /**
      * 执行一次禁用、启用插件模拟刷新插件(开发状态)
@@ -782,7 +783,7 @@ export function RaycastCMDK() {
             return Object.keys(acMap_command);
         }
 
-        const { installType, enabled, isCommand } = getSubCnmandItem(value) || {};
+        const { installType, enabled, isCommand, isSelf } = getSubCnmandItem(value) || {};
 
         if (isCommand) {
             return ['execute_command'];
@@ -790,8 +791,13 @@ export function RaycastCMDK() {
             return ['execute_recent_action'];
         }
 
-        const actionKeys = Object.keys(acMap_Extension());
-        const filterDisabledOrEnabledPlugin = (item) => item !== (enabled ? 'enable_plugin' : 'disable_plugin');
+        const actionKeys = Object.keys(acMap_Extension()).filter(key => {
+					if (isSelf) {
+						return !['enable_plugin', 'disable_plugin',  'uninstall_plugin'].includes(key);
+					}
+					return true;
+				});
+        const filterDisabledOrEnabledPlugin = (item) =>  item !== (enabled ? 'enable_plugin' : 'disable_plugin');
 
         if (installType !== 'development') {
             return actionKeys.filter(filterDisabledOrEnabledPlugin);

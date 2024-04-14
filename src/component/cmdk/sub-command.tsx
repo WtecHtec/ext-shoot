@@ -67,7 +67,9 @@ export default function SubCommand({
     }, [open]);
 
     const getExtPages = (extInfo) => {
-        const { id, name } = extInfo;
+				// console.log('extInfo---', extInfo);
+        const { id, name, enabled } = extInfo;
+				if (!enabled) return;
         const formatId = getExtId(id);
         axios.post(`${ ExtShootSeverHost }/pages`, {
             extId: formatId,

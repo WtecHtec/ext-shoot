@@ -83,7 +83,8 @@ const DefaultTip: React.FC<TipProps> = () => {
 
     return (
         <ShootIcon
-            className="h-8 w-8 p-1 hover:bg-[var(--gray4)] hover:rounded-[10%] hover:cursor-pointer"
+            className="hover:bg-[var(--gray4)] hover:rounded-[10%] hover:cursor-pointer"
+						style={{ width: '18px', height: '18px'}}
             onClick={handleOpenGithub} />
     );
 };

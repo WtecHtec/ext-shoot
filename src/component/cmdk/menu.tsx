@@ -51,7 +51,6 @@ import {
 } from '~config/config';
 import SnapshotCommand from './snapshot-command';
 import {getSelectSnapId, setSelectSnapIdBtStorge} from '~utils/local.storage';
-import {EXTSS_TUTORIAL_URL} from '~utils/constant';
 import EventBus from '~utils/event-bus';
 import { getExtId } from '~lib/util';
 

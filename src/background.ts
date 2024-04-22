@@ -35,7 +35,7 @@ let previousExtensions = [];
 chrome.runtime.onInstalled.addListener((object) => {
     // Inject shoot on install
     const manifest = chrome.runtime.getManifest();
-
+    
     const injectIntoTab = (tab) => {
         const scripts = manifest.content_scripts[0].js;
         const s = scripts.length;
@@ -119,6 +119,7 @@ const getExtensions = ({ sendResponse }) => {
         const result: ExtItem[] = [];
         const iconData = (await getStorageIcon()) || {};
         const extendInfo = (await getExtendedInfo()) || {};
+        console.log('extendInfo',extendInfo);
         for (let i = 0; i < extensions.length; i++) {
             const { id, name, description, installType, enabled } = extensions[i];
             result.push({

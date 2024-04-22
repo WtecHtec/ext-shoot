@@ -29,7 +29,7 @@ setTimeout(() => {
     // 先检测是否是arc环境
     const isArcEnv = isArc();
     // 如果是 就设置为arc,return
-    console.log('isArcEnv', isArcEnv);
+    // console.log('isArcEnv', isArcEnv);
     if (isArcEnv) {
         handleSetBrowser('arc');
         return;
@@ -97,9 +97,9 @@ const PlasmoOverlay = () => {
     React.useEffect(() => {
         // 初始化组件或功能
         injectToaster();
-        if (focusRef && focusRef.current) {
-            console.log('focusRef---', focusRef);
-        }
+        // if (focusRef && focusRef.current) {
+        //     console.log('focusRef---', focusRef);
+        // }
 
         const updateLauncherState = () => {
             const state = eventBus.getState();

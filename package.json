@@ -13,9 +13,8 @@
     "build": "plasmo build ",
     "package": "plasmo package",
     "zip:firefox": "pnpm build --target=firefox-mv2 --zip",
-    "zip:chrome": "pnpm build --target=chrome-mv3 --zip",
-    "zip:edge": "pnpm build --target=edge-mv3 --zip",
-		"zip:chrome:prod": "pnpm build && node script/remove-log.js --target=chrome-mv3-prod --zip",
+    "zip:edge": "pnpm build && node script/remove-log.js --target=edge-mv3 --zip",
+		"zip:chrome": "pnpm build && node script/remove-log.js --target=chrome-mv3-prod --zip",
     "fix": "eslint . --ext .ts,.tsx",
     "re:log": "node script/remove-log.js"
   },

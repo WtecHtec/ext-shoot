@@ -457,9 +457,9 @@ export function RaycastCMDK() {
                 toast('Need Start Local Server', {
                     description: 'npx extss start',
                     action: {
-                        label: 'More',
+                        label: 'Copy',
                         onClick: () => {
-                            window.open(EXTSS_TUTORIAL_URL);
+                        navigator.clipboard.writeText('npx extss start');
                         },
                     },
                     duration: 8000,
@@ -494,9 +494,9 @@ export function RaycastCMDK() {
                 toast('Need Start Local Server', {
                     description: 'npx extss start',
                     action: {
-                        label: 'More',
+                        label: 'Copy',
                         onClick: () => {
-                            window.open(EXTSS_TUTORIAL_URL);
+                            navigator.clipboard.writeText('npx extss start');
                         },
                     },
                     duration: 8000,

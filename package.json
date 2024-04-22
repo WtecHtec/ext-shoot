@@ -61,10 +61,16 @@
     "postcss": "8.4.33",
     "pre-commit": "^1.2.2",
     "prettier": "^3.2.4",
+    "simple-git-hooks": "^2.11.1",
     "typescript": "5.3.3",
     "webextension-polyfill": "^0.10.0",
     "windy-radix-palette": "0.6.1"
   },
+
+    "simple-git-hooks": {
+      "pre-commit": "npm run fix"
+    },
+  
   "pre-commit": [
     "fix"
   ],
@@ -76,7 +82,7 @@
       "tabs",
       "management",
       "unlimitedStorage",
-			"declarativeNetRequest"
+      "declarativeNetRequest"
     ],
     "web_accessible_resources": [
       {

@@ -41,7 +41,7 @@ import SubCommand from './sub-command';
 import SnapshotDialog from './snapshot-dialog';
 import {ExtItem} from '~utils/ext.interface';
 import FooterTip, {footerTip} from '~component/cmdk/footer-tip';
-import Search from './search-store';
+import Search from './search-group';
 import {
     ExtShootSeverHost,
     MarkId,

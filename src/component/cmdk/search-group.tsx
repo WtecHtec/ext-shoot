@@ -52,6 +52,7 @@ const Search = React.forwardRef(({ search }: { search: string}, ref) => {
 			} }>
 				<GoogleStoreIcon></GoogleStoreIcon>
 				{ `Search Chrome Store` }
+				<span cmdk-raycast-sub="" style={{ flexShrink: 0}}> GPTsMotion</span>
 				<span cmdk-raycast-meta="" style={{ flexShrink: 0}}> Command</span>
 		</Command.Item> 
 		<InstantOpen search={search} ref={ref}></InstantOpen>

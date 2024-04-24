@@ -115,6 +115,7 @@ const Search = React.forwardRef(({ search }: { search: string }, ref) => {
 		}}>
 		<LinkIcon></LinkIcon>
 		{`Instant Open`}
+		<span cmdk-raycast-sub="" style={{ flexShrink: 0}}> GPTsMotion</span>
 		<span cmdk-raycast-meta="" style={{ flexShrink: 0 }}> Command</span>
 
 	</Command.Item>;

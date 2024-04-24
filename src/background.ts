@@ -95,7 +95,7 @@ chrome.runtime.onInstalled.addListener((object) => {
     }
 });
 
-// // 点击icon的时候，打开插件主页
+// 点击icon的时候，打开插件主页
 chrome.action.onClicked.addListener(() => {
     // 模拟发送Action的命令
     // 获取当前活动的标签页
@@ -474,6 +474,7 @@ const handleCreateTabPage = ({ request, sendResponse }) => {
 };
 
 const handleSetBrowser = ({ request, sendResponse }) => {
+		console.log('AC_SET_BROWSER----', request);
     const { browserType } = request;
     setBrowserType(browserType);
     sendResponse({ status: 'set browser' });

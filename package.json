@@ -10,15 +10,20 @@
   ],
   "scripts": {
     "dev": "plasmo dev",
-    "build": "plasmo build ",
+    "build": "plasmo build",
     "package": "plasmo package",
     "zip:firefox": "pnpm build --target=firefox-mv2 --zip",
-    "zip:edge": "pnpm build && node script/remove-log.js --target=edge-mv3 --zip",
-		"zip:chrome": "pnpm build && node script/remove-log.js --target=chrome-mv3-prod --zip",
+    "zip:edge": "pnpm build && node script/build.js --target=edge-mv3 --zip",
+    "zip:chrome": "pnpm build && node script/build.js --target=chrome-mv3-prod --zip",
     "fix": "eslint . --ext .ts,.tsx",
-    "re:log": "node script/remove-log.js"
+		"mv2:build": "plasmo build --target=chrome-mv2 && node script/build.js --target=chrome-mv2-prod --mv2",
+		"test-prod": "node script/build.js --target=test-prod --mv2"
   },
   "dependencies": {
+    "@babel/generator": "^7.24.4",
+    "@babel/parser": "^7.24.4",
+    "@babel/traverse": "^7.24.1",
+    "@babel/types": "^7.24.0",
     "@plasmohq/messaging": "^0.6.2",
     "@plasmohq/storage": "^1.9.3",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -36,6 +41,7 @@
     "cmdk": "^1.0.0",
     "esbuild": "^0.20.2",
     "framer-motion": "^11.0.8",
+    "fs-extra": "^11.2.0",
     "glob": "^10.3.12",
     "lucide-react": "^0.358.0",
     "plasmo": "^0.74.2",
@@ -71,11 +77,9 @@
     "webextension-polyfill": "^0.10.0",
     "windy-radix-palette": "0.6.1"
   },
-
-    "simple-git-hooks": {
-      "pre-commit": "npm run fix"
-    },
-  
+  "simple-git-hooks": {
+    "pre-commit": "npm run fix"
+  },
   "pre-commit": [
     "fix"
   ],

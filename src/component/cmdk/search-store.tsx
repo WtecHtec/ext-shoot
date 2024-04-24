@@ -33,6 +33,7 @@ const Search = React.forwardRef(({ search }: { search: string}, ref) => {
 		setStoreInfo(STORE_MAP[browser] || storeInfo);
 	}, []);
 	const onSearch = () => {
+		console.log('onSearch');
 		window.open(`${storeInfo.url}${search}`);
 		handleAddRecently({
 			value: `${SearchFix}${search}`,
@@ -41,7 +42,7 @@ const Search = React.forwardRef(({ search }: { search: string}, ref) => {
 			name: `Search Extensions for "${search}" on ${storeInfo.lable}`,
 		});
 	};
-	return <Command.Group heading="Web Store">
+	return <Command.Group heading={`Use "${search}" with ... `}>
 			<Command.Item
 			value={ `${SearchFix}${search}` }
 			keywords={[SearchFix, search]}
@@ -49,7 +50,7 @@ const Search = React.forwardRef(({ search }: { search: string}, ref) => {
 				onSearch();
 			} }>
 				<GoogleStoreIcon></GoogleStoreIcon>
-				{ `Search Store for "${search}"` }
+				{ `Search Chrome Store` }
 				<span cmdk-raycast-meta="" style={{ flexShrink: 0}}> Command</span>
 		</Command.Item> 
 	</Command.Group>;

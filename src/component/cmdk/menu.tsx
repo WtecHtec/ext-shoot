@@ -825,20 +825,24 @@ export function RaycastCMDK() {
 
     /** 底部  Open Extension Page 按钮点击事件、 回车事件处理 */
     const onBottomOpenExtPage = (value) => {
-        console.log('value',value);
-        if (value.includes(SearchFix) && storeSearchRef && storeSearchRef.current) {
-            storeSearchRef.current.onSearch();
+        // console.log('bottom',value);
+        // console.log('value',value);
+        // console.log('storeSearchRef',storeSearchRef);
+        
+        if (value.includes(RecentlyFix)) {
+            // 处理记录数据
+            handleRecentEvent(value);
         } else {
-            if (value.includes(RecentlyFix)) {
-                // 处理记录数据
-                handleRecentEvent(value);
-            } else {
-                const [curenValue, isCommand] = getItemByCommandList(value);
-                onCommandHandle(curenValue, isCommand);
-                // 只有不是命令时，关闭launcher
-                (!isCommand && closeLauncher());
-            }
+            const [curenValue, isCommand] = getItemByCommandList(value);
+            onCommandHandle(curenValue, isCommand);
+            // 只有不是命令时，关闭launcher
+            (!isCommand && closeLauncher());
         }
+        // if (value.includes(SearchFix) && storeSearchRef && storeSearchRef.current) {
+        //     // storeSearchRef.current.onSearch();
+        //     // console.log('23213213',23213213);
+        // } else {
+        // }
     };
     return (
         <div className="ext-shoot" ref={ extShootRef }>
@@ -954,6 +958,7 @@ export function RaycastCMDK() {
                             : null
                     }
                     {
+                        // use search word use ...                        
                         search ? <Search search={ search }
                                          ref={ storeSearchRef }></Search> : null
                     }

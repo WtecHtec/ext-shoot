@@ -6,6 +6,7 @@ import { getBrowser } from '~utils/util';
 import { handleAddRecently } from '~utils/management';
 import { SearchFix } from '~config/config';
 import { GoogleStoreIcon } from '~component/icons';
+import InstantOpen from './instant-open';
 const Search = React.forwardRef(({ search }: { search: string}, ref) => {
 	const [storeInfo, setStoreInfo] = React.useState({
 		lable: 'chrome store',
@@ -53,6 +54,7 @@ const Search = React.forwardRef(({ search }: { search: string}, ref) => {
 				{ `Search Chrome Store` }
 				<span cmdk-raycast-meta="" style={{ flexShrink: 0}}> Command</span>
 		</Command.Item> 
+		<InstantOpen search={search} ref={ref}></InstantOpen>
 	</Command.Group>;
 });
 export default Search;

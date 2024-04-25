@@ -3,11 +3,9 @@ import { searchManager } from './SearchManager';
 import { BackIcon } from '~component/icons';
 import { Command } from 'cmdk';
 
-const SearchComponent: React.FC = () => {
+const SearchComponent = ({ inputRef }: { inputRef: React.RefObject<HTMLInputElement> }) => {
     const [search, setSearch] = useState(searchManager.content);
     const [placeholder] = useState(searchManager.placeholderText);
-
-    const inputRef = searchManager.inputRef;
 
     useEffect(() => {
         const unsubscribe = searchManager.subscribe((newSearch) => {

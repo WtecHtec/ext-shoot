@@ -866,7 +866,7 @@ export function RaycastCMDK() {
                 filter={onCommandFilter}>
                 <div cmdk-raycast-top-shine="" />
                 <div className='flex items-center justify-start'>
-                   <SearchComponent/>
+                   <SearchComponent inputRef={inputRef}/>
                     {
 
                         // 只有数量大于1时，才显示快照选择

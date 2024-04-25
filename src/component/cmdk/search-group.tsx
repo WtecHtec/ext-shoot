@@ -1,14 +1,15 @@
 /* eslint-disable react/display-name */
 
 import React from 'react';
-import { MagnifyingGlassIcon} from '@radix-ui/react-icons';
 import {Command} from 'cmdk';
 import { getBrowser } from '~utils/util';
 import { handleAddRecently } from '~utils/management';
 import { SearchFix } from '~config/config';
+import { GoogleStoreIcon } from '~component/icons';
+import InstantOpen from './instant-open';
 const Search = React.forwardRef(({ search }: { search: string}, ref) => {
 	const [storeInfo, setStoreInfo] = React.useState({
-		lable: 'chromewebstore.google.com',
+		lable: 'chrome store',
 		url: 'https://chromewebstore.google.com/search/',
 	});
 	React.useImperativeHandle(ref, () => ({
@@ -17,11 +18,11 @@ const Search = React.forwardRef(({ search }: { search: string}, ref) => {
 	React.useEffect(() => {
 		const STORE_MAP = {
 			chrome: {
-				lable: 'chromewebstore.google.com',
+				lable: 'chrome store',
 				url: 'https://chromewebstore.google.com/search/'
 			},
 			arc: {
-				lable: 'chromewebstore.google.com',
+				lable: 'chrome store',
 				url: 'https://chromewebstore.google.com/search/'
 			},
 			edge: {
@@ -33,24 +34,28 @@ const Search = React.forwardRef(({ search }: { search: string}, ref) => {
 		setStoreInfo(STORE_MAP[browser] || storeInfo);
 	}, []);
 	const onSearch = () => {
+		console.log('onSearch');
 		window.open(`${storeInfo.url}${search}`);
 		handleAddRecently({
 			value: `${SearchFix}${search}`,
 			extIds: [`${storeInfo.url}${search}`],
 			isCommand: true,
-			name: `Views search results for "${search}" on ${storeInfo.lable}`,
+			name: `Search Extensions for "${search}" on ${storeInfo.lable}`,
 		});
 	};
-	return <Command.Group heading="Web Store">
+	return <Command.Group heading={`Use "${search}" with ... `}>
 			<Command.Item
 			value={ `${SearchFix}${search}` }
 			keywords={[SearchFix, search]}
 			onSelect={ () => {
 				onSearch();
 			} }>
-				<MagnifyingGlassIcon></MagnifyingGlassIcon>
-				{ `Views search results for "${search}" on ${storeInfo.lable}` }
+				<GoogleStoreIcon></GoogleStoreIcon>
+				{ `Search Chrome Store` }
+				<span cmdk-raycast-sub="" style={{ flexShrink: 0}}> GPTsMotion</span>
+				<span cmdk-raycast-meta="" style={{ flexShrink: 0}}> Command</span>
 		</Command.Item> 
+		<InstantOpen search={search} ref={ref}></InstantOpen>
 	</Command.Group>;
 });
 export default Search;

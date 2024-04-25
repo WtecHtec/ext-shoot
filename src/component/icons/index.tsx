@@ -1,43 +1,46 @@
-import React, {SVGProps, useEffect, useState} from 'react';
+import React, { SVGProps, useEffect, useState } from "react";
 
 export function Logo({
-                         children,
-                         size = '20px',
-                     }: {
+    children,
+    size = "20px"
+}: {
     children: React.ReactNode
     size?: string
 }) {
     return (
         <div
             className="blurLogo"
-            style={ {
+            style={{
                 width: size,
-                height: size,
-            } }>
+                height: size
+            }}>
             <div className="bg" aria-hidden>
-                { children }
+                {children}
             </div>
-            <div className="inner">{ children }</div>
+            <div className="inner">{children}</div>
         </div>
     );
 }
 
-
 export function ShootEmptyIcon() {
     return (
-
-        <svg width="28"
-             height="28" viewBox="0 0 479 479" fill="none"
-             xmlns="http://www.w3.org/2000/svg">
+        <svg
+            width="28"
+            height="28"
+            viewBox="0 0 479 479"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M104.781 134.72L374.219 89.8135V142.204L104.781 187.11V134.72ZM104.781 239.501L374.219 194.595V246.985L104.781 291.892V239.501ZM104.781 344.282L374.219 299.376V351.767L104.781 396.673V344.282Z"
-                fill="#888888" stroke="#888888" stroke-width="29.9375"
+                fill="#888888"
+                stroke="#888888"
+                stroke-width="29.9375"
                 strokeLinecap="round"
-                strokeLinejoin="round"/>
+                strokeLinejoin="round"
+            />
         </svg>
     );
 }
-
 
 export function CopyIcon() {
     return (
@@ -115,7 +118,7 @@ export function ShootIcon(props: SVGProps<SVGSVGElement>) {
             height="512"
             viewBox="0 0 512 512"
             fill="none"
-            { ...props }
+            {...props}
             xmlns="http://www.w3.org/2000/svg">
             <rect
                 width="361.149"
@@ -257,8 +260,8 @@ export function HammerIcon() {
     );
 }
 
-export function ExtensionIcon({ base64 = '' }: { base64?: string }) {
-    const [iconUrl, setIconUrl] = useState('');
+export function ExtensionIcon({ base64 = "" }: { base64?: string }) {
+    const [iconUrl, setIconUrl] = useState("");
 
     // useEffect(() => {
     //     handleGetExtensionIcon(extensionId, iconSize).then(([err, response]) => {
@@ -280,7 +283,7 @@ export function ExtensionIcon({ base64 = '' }: { base64?: string }) {
 
     return (
         <Logo>
-            <img src={ iconUrl } crossOrigin="anonymous"></img>
+            <img src={iconUrl} crossOrigin="anonymous"></img>
         </Logo>
     );
 }
@@ -313,7 +316,7 @@ export function ExecuteRecentActionIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <g fill="none" stroke="currentColor" strokeWidth="2">
                 <path
                     strokeLinecap="round"
@@ -336,17 +339,15 @@ export function CopyNameIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <g
                 fill="none"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2">
-                <path
-                    d="M18.327 7.286h-8.044a1.932 1.932 0 0 0-1.925 1.938v10.088c0 1.07.862 1.938 1.925 1.938h8.044a1.932 1.932 0 0 0 1.925-1.938V9.224c0-1.07-.862-1.938-1.925-1.938"></path>
-                <path
-                    d="M15.642 7.286V4.688c0-.514-.203-1.007-.564-1.37a1.918 1.918 0 0 0-1.361-.568H5.673c-.51 0-1 .204-1.36.568a1.945 1.945 0 0 0-.565 1.37v10.088c0 .514.203 1.007.564 1.37c.361.364.85.568 1.361.568h2.685"></path>
+                <path d="M18.327 7.286h-8.044a1.932 1.932 0 0 0-1.925 1.938v10.088c0 1.07.862 1.938 1.925 1.938h8.044a1.932 1.932 0 0 0 1.925-1.938V9.224c0-1.07-.862-1.938-1.925-1.938"></path>
+                <path d="M15.642 7.286V4.688c0-.514-.203-1.007-.564-1.37a1.918 1.918 0 0 0-1.361-.568H5.673c-.51 0-1 .204-1.36.568a1.945 1.945 0 0 0-.565 1.37v10.088c0 .514.203 1.007.564 1.37c.361.364.85.568 1.361.568h2.685"></path>
             </g>
         </svg>
     );
@@ -354,11 +355,19 @@ export function CopyNameIcon(props: SVGProps<SVGSVGElement>) {
 
 export function SoloModeIcon(props: SVGProps<SVGSVGElement>) {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em"
-             viewBox="0 0 24 24" { ...props }>
-            <path fill="none" stroke="currentColor" stroke-linecap="round"
-                  stroke-linejoin="round" stroke-width="2"
-                  d="M6.644 15.894a3.894 3.894 0 1 0 0-7.788a3.894 3.894 0 0 0 0 7.788m10.712 0a3.894 3.894 0 1 0 0-7.788a3.894 3.894 0 0 0 0 7.788m-10.712 0h10.712"></path>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1.8em"
+            height="1.8em"
+            viewBox="0 0 24 24"
+            {...props}>
+            <path
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6.644 15.894a3.894 3.894 0 1 0 0-7.788a3.894 3.894 0 0 0 0 7.788m10.712 0a3.894 3.894 0 1 0 0-7.788a3.894 3.894 0 0 0 0 7.788m-10.712 0h10.712"></path>
         </svg>
     );
 }
@@ -370,35 +379,38 @@ export function ShowInFinderIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <g
                 fill="none"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2">
-                <path
-                    d="M7.375 16.047h9.25m4.625-6.164v7.698a3.083 3.083 0 0 1-3.083 3.083H5.833a3.083 3.083 0 0 1-3.083-3.083V6.419a3.083 3.083 0 0 1 3.083-3.083h3.084a3.083 3.083 0 0 1 2.57 1.377l.873 1.326a1.748 1.748 0 0 0 1.449.77h4.358a3.084 3.084 0 0 1 3.083 3.074"></path>
-                <path
-                    d="m11.517 4.723l6.927-1.11a1.531 1.531 0 0 1 1.778 1.521v2.457"></path>
+                <path d="M7.375 16.047h9.25m4.625-6.164v7.698a3.083 3.083 0 0 1-3.083 3.083H5.833a3.083 3.083 0 0 1-3.083-3.083V6.419a3.083 3.083 0 0 1 3.083-3.083h3.084a3.083 3.083 0 0 1 2.57 1.377l.873 1.326a1.748 1.748 0 0 0 1.449.77h4.358a3.084 3.084 0 0 1 3.083 3.074"></path>
+                <path d="m11.517 4.723l6.927-1.11a1.531 1.531 0 0 1 1.778 1.521v2.457"></path>
             </g>
         </svg>
     );
 }
 
-
 export function ActivatePluginIcon(props: SVGProps<SVGSVGElement>) {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="1.8em"
-             height="1.8em"
-             viewBox="0 0 24 24" { ...props }>
-            <path fill="none" stroke="currentColor" stroke-linecap="round"
-                  stroke-linejoin="round" stroke-width="2"
-                  d="m6.244 3.114l12.298 8.66A.693.693 0 0 1 18.346 13l-4.62.877a.565.565 0 0 0-.334.82l2.31 4.377a.693.693 0 0 1-.22.981l-1.663.866a.693.693 0 0 1-.935-.289l-2.31-4.387a.577.577 0 0 0-.866-.232L6.325 19.27a.692.692 0 0 1-1.155-.554V3.703a.693.693 0 0 1 1.074-.589"></path>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1.8em"
+            height="1.8em"
+            viewBox="0 0 24 24"
+            {...props}>
+            <path
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m6.244 3.114l12.298 8.66A.693.693 0 0 1 18.346 13l-4.62.877a.565.565 0 0 0-.334.82l2.31 4.377a.693.693 0 0 1-.22.981l-1.663.866a.693.693 0 0 1-.935-.289l-2.31-4.387a.577.577 0 0 0-.866-.232L6.325 19.27a.692.692 0 0 1-1.155-.554V3.703a.693.693 0 0 1 1.074-.589"></path>
         </svg>
     );
 }
-
 
 export function FreshIcon(props: SVGProps<SVGSVGElement>) {
     return (
@@ -407,7 +419,7 @@ export function FreshIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <g
                 fill="none"
                 stroke="currentColor"
@@ -431,7 +443,7 @@ export function StarItIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <path
                 fill="none"
                 stroke="currentColor"
@@ -445,20 +457,24 @@ export function StarItIcon(props: SVGProps<SVGSVGElement>) {
 
 export function DetailPageIcon(props: SVGProps<SVGSVGElement>) {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="1.8em"
-             height="1.8em"
-             viewBox="0 0 24 24" { ...props }>
-            <g fill="none" stroke="currentColor" stroke-linecap="round"
-               stroke-linejoin="round" stroke-width="2">
-                <path
-                    d="M14.85 12h-5.7a1.9 1.9 0 0 0-1.9 1.9v2.85c0 1.05.85 1.9 1.9 1.9h5.7a1.9 1.9 0 0 0 1.9-1.9V13.9a1.9 1.9 0 0 0-1.9-1.9M7.668 4.999v1.89m2.85-1.89v1.89m2.85-1.89v1.89"></path>
-                <path
-                    d="M18.222 6.633v3.135h1.615V17.7a3.866 3.866 0 0 1-3.923 3.8H8.086a3.866 3.866 0 0 1-3.923-3.8V6.3a3.866 3.866 0 0 1 3.923-3.8h7.828a3.866 3.866 0 0 1 3.923 3.8v.333z"></path>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1.8em"
+            height="1.8em"
+            viewBox="0 0 24 24"
+            {...props}>
+            <g
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2">
+                <path d="M14.85 12h-5.7a1.9 1.9 0 0 0-1.9 1.9v2.85c0 1.05.85 1.9 1.9 1.9h5.7a1.9 1.9 0 0 0 1.9-1.9V13.9a1.9 1.9 0 0 0-1.9-1.9M7.668 4.999v1.89m2.85-1.89v1.89m2.85-1.89v1.89"></path>
+                <path d="M18.222 6.633v3.135h1.615V17.7a3.866 3.866 0 0 1-3.923 3.8H8.086a3.866 3.866 0 0 1-3.923-3.8V6.3a3.866 3.866 0 0 1 3.923-3.8h7.828a3.866 3.866 0 0 1 3.923 3.8v.333z"></path>
             </g>
         </svg>
     );
 }
-
 
 export function UninstallIcon(props: SVGProps<SVGSVGElement>) {
     return (
@@ -467,17 +483,15 @@ export function UninstallIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <g
                 fill="none"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2">
-                <path
-                    d="M5.47 6.015v12.514a2.72 2.72 0 0 0 2.721 2.721h7.618a2.72 2.72 0 0 0 2.72-2.72V6.014m-15.235.001h17.412"></path>
-                <path
-                    d="M8.735 6.015V4.382a1.632 1.632 0 0 1 1.633-1.632h3.264a1.632 1.632 0 0 1 1.633 1.632v1.633m-5.984 6.081h5.438m-5.438 4.353h5.438"></path>
+                <path d="M5.47 6.015v12.514a2.72 2.72 0 0 0 2.721 2.721h7.618a2.72 2.72 0 0 0 2.72-2.72V6.014m-15.235.001h17.412"></path>
+                <path d="M8.735 6.015V4.382a1.632 1.632 0 0 1 1.633-1.632h3.264a1.632 1.632 0 0 1 1.633 1.632v1.633m-5.984 6.081h5.438m-5.438 4.353h5.438"></path>
             </g>
         </svg>
     );
@@ -490,7 +504,7 @@ export function EnableIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <g
                 fill="none"
                 stroke="currentColor"
@@ -512,7 +526,7 @@ export function DisableIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <g
                 fill="none"
                 stroke="currentColor"
@@ -533,73 +547,178 @@ export function CameraIcon(props: SVGProps<SVGSVGElement>) {
             width="1.8em"
             height="1.8em"
             viewBox="0 0 24 24"
-            { ...props }>
+            {...props}>
             <g
                 fill="none"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2">
-                <path
-                    d="M5.833 19.708h12.334a3.083 3.083 0 0 0 3.083-3.083V9.431a3.083 3.083 0 0 0-3.083-3.084h-1.419c-.408 0-.8-.163-1.09-.452l-1.15-1.151a1.542 1.542 0 0 0-1.09-.452h-2.836c-.41 0-.8.163-1.09.452l-1.15 1.151c-.29.29-.682.452-1.09.452H5.833A3.083 3.083 0 0 0 2.75 9.431v7.194a3.083 3.083 0 0 0 3.083 3.083"></path>
-                <path
-                    d="M12 16.625a4.111 4.111 0 1 0 0-8.222a4.111 4.111 0 0 0 0 8.222"></path>
+                <path d="M5.833 19.708h12.334a3.083 3.083 0 0 0 3.083-3.083V9.431a3.083 3.083 0 0 0-3.083-3.084h-1.419c-.408 0-.8-.163-1.09-.452l-1.15-1.151a1.542 1.542 0 0 0-1.09-.452h-2.836c-.41 0-.8.163-1.09.452l-1.15 1.151c-.29.29-.682.452-1.09.452H5.833A3.083 3.083 0 0 0 2.75 9.431v7.194a3.083 3.083 0 0 0 3.083 3.083"></path>
+                <path d="M12 16.625a4.111 4.111 0 1 0 0-8.222a4.111 4.111 0 0 0 0 8.222"></path>
             </g>
         </svg>
     );
 }
 
-
 export function SuccessIcon(props: SVGProps<SVGSVGElement>) {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="1.8em"
-             height="1.8em"
-             viewBox="0 0 24 24" { ...props }>
-            <g fill="none" stroke="currentColor" strokeLinecap="round"
-               strokeLinejoin="round" strokeWidth="2">
-                <path
-                    d="m6.9 12.087l2.664 2.663a1.009 1.009 0 0 0 1.433 0l5.367-5.368"></path>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1.8em"
+            height="1.8em"
+            viewBox="0 0 24 24"
+            {...props}>
+            <g
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2">
+                <path d="m6.9 12.087l2.664 2.663a1.009 1.009 0 0 0 1.433 0l5.367-5.368"></path>
                 <path d="M12 21.5a9.5 9.5 0 1 0 0-19a9.5 9.5 0 0 0 0 19"></path>
             </g>
         </svg>
     );
 }
 
-
 export function ErrorIcon(props: SVGProps<SVGSVGElement>) {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="1.8em"
-             height="1.8em"
-             viewBox="0 0 24 24" { ...props }>
-            <path fill="none" stroke="currentColor" strokeLinecap="round"
-                  strokeLinejoin="round" stroke-width="2"
-                  d="m15.958 8.042l-7.916 7.916m7.916 0L8.042 8.042M12 21.5a9.5 9.5 0 1 0 0-19a9.5 9.5 0 0 0 0 19"></path>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1.8em"
+            height="1.8em"
+            viewBox="0 0 24 24"
+            {...props}>
+            <path
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                stroke-width="2"
+                d="m15.958 8.042l-7.916 7.916m7.916 0L8.042 8.042M12 21.5a9.5 9.5 0 1 0 0-19a9.5 9.5 0 0 0 0 19"></path>
         </svg>
     );
 }
 
-
 export function GlobeIcon() {
-    return (<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                 viewBox="0 0 24 24">
-        <path fill="currentColor" fill-rule="evenodd"
-              d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12m2 0a8 8 0 1 0 16 0a8 8 0 0 0-16 0m4.252-1.552c.243-.508.643-1.948.932-1.948c.288 0 .183.723.441.786c.217.053.05-.323.653-.39s1.26.302 1.26.302s.712.177 1.369 0c0 0-.347-.526.078-.698c.424-.172 1.002.464 1.023.875c.021.411-.944.687-.944.687l.944.567s.277-.878.867-.887c.525-.01 1.183.95.875 1.383c-.308.433-.506.135-.506.135s-.94.952-1.236 1.123c-.295.17-.708 0-.708 0s-.175.324 0 .473c.355.366 1.277.73 1.277.73s2.835.461 2.923 1.039c.088.578-2.256 3.5-2.625 3.5H14c-.357-.63.577-2.644.577-2.644s-.48-.532-.577-.856c-.096-.324.186-.894.186-.894l-1.279-.589s-.68 0-1.017-.267c-.337-.267-.515-1.75-.515-1.75l-1.22-.894s-1.06 1.346-1.405 1.174c-.346-.172-.74-.45-.498-.957m6.57-2.098c-.844 0-2.875-1.074-2.534-1.65c0-.826 2.135-.702 2.593-.702c.458 0 1.58.354 2.203.85c.623.495-.263 1.203-.572 1.502c-.31.3-.845 0-1.69 0"/>
-    </svg>);
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24">
+            <path
+                fill="currentColor"
+                fill-rule="evenodd"
+                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12m2 0a8 8 0 1 0 16 0a8 8 0 0 0-16 0m4.252-1.552c.243-.508.643-1.948.932-1.948c.288 0 .183.723.441.786c.217.053.05-.323.653-.39s1.26.302 1.26.302s.712.177 1.369 0c0 0-.347-.526.078-.698c.424-.172 1.002.464 1.023.875c.021.411-.944.687-.944.687l.944.567s.277-.878.867-.887c.525-.01 1.183.95.875 1.383c-.308.433-.506.135-.506.135s-.94.952-1.236 1.123c-.295.17-.708 0-.708 0s-.175.324 0 .473c.355.366 1.277.73 1.277.73s2.835.461 2.923 1.039c.088.578-2.256 3.5-2.625 3.5H14c-.357-.63.577-2.644.577-2.644s-.48-.532-.577-.856c-.096-.324.186-.894.186-.894l-1.279-.589s-.68 0-1.017-.267c-.337-.267-.515-1.75-.515-1.75l-1.22-.894s-1.06 1.346-1.405 1.174c-.346-.172-.74-.45-.498-.957m6.57-2.098c-.844 0-2.875-1.074-2.534-1.65c0-.826 2.135-.702 2.593-.702c.458 0 1.58.354 2.203.85c.623.495-.263 1.203-.572 1.502c-.31.3-.845 0-1.69 0"
+            />
+        </svg>
+    );
 }
 
 export function StoreIcon(props: SVGProps<SVGSVGElement>) {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="32"
-             height="32"
-             viewBox="0 0 24 24" { ...props }>
-            <g fill="none" stroke="currentColor" stroke-linecap="round"
-               stroke-linejoin="round" stroke-width="2">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            {...props}>
+            <g
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2">
                 <path d="M12 21.5a9.5 9.5 0 1 0 0-19a9.5 9.5 0 0 0 0 19"></path>
-                <path
-                    d="m7.778 16.222l1.942-5.837a1.056 1.056 0 0 1 .675-.665l5.827-1.942l-1.942 5.837a1.055 1.055 0 0 1-.665.665z"></path>
+                <path d="m7.778 16.222l1.942-5.837a1.056 1.056 0 0 1 .675-.665l5.827-1.942l-1.942 5.837a1.055 1.055 0 0 1-.665.665z"></path>
             </g>
         </svg>
     );
 }
 
+export function GoogleStoreIcon(props: SVGProps<SVGSVGElement>) {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            viewBox="0 0 256 256"
+            {...props}>
+            <path
+                fill="#FFF"
+                d="M128.003 199.216c39.335 0 71.221-31.888 71.221-71.223c0-39.335-31.886-71.223-71.221-71.223c-39.335 0-71.222 31.888-71.222 71.223c0 39.335 31.887 71.223 71.222 71.223"></path>
+            <path
+                fill="#229342"
+                d="M35.89 92.997c-5.313-9.203-11.558-18.862-18.736-28.977a127.98 127.98 0 0 0 110.857 191.981c11.78-16.523 19.78-28.437 23.996-35.74c8.099-14.028 18.573-34.112 31.423-60.251v-.015a63.993 63.993 0 0 1-110.857.017c-17.453-32.548-29.68-54.887-36.683-67.015"></path>
+            <path
+                fill="#FBC116"
+                d="M128.008 255.996A127.972 127.972 0 0 0 256 127.997A127.983 127.983 0 0 0 238.837 64c-24.248-2.39-42.143-3.585-53.686-3.585c-13.088 0-32.139 1.195-57.152 3.585l-.014.01a63.993 63.993 0 0 1 55.444 31.987a63.993 63.993 0 0 1-.001 64.01z"></path>
+            <path
+                fill="#1A73E8"
+                d="M128.003 178.677c27.984 0 50.669-22.685 50.669-50.67c0-27.986-22.685-50.67-50.67-50.67c-27.983 0-50.669 22.686-50.669 50.67s22.686 50.67 50.67 50.67"></path>
+            <path
+                fill="#E33B2E"
+                d="M128.003 64.004H238.84a127.973 127.973 0 0 0-221.685.015l55.419 95.99l.015.008a63.993 63.993 0 0 1 55.415-96.014z"></path>
+        </svg>
+    );
+}
 
+export function BackIcon(props: SVGProps<SVGSVGElement>) {
+    return (
+        <svg
+            viewBox="0 0 512 512"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+            className=""
+            {...props}>
+            <rect
+                id="r4"
+                x={0}
+                y={0}
+                rx={128}
+                width={512}
+                height={512}
+                fill="#D1D1D1"
+                strokeWidth={0}
+                strokeOpacity="100%"
+                paintOrder="stroke"
+            />
+            <clipPath id="clip">
+                <use xlinkHref="#r4" />
+            </clipPath>
+            <defs>
+                <radialGradient
+                    id="r6"
+                    cx={0}
+                    cy={0}
+                    r={1}
+                    gradientUnits="userSpaceOnUse"
+                    gradientTransform="translate(256) rotate(90) scale(512)">
+                    <stop stopColor="white" />
+                    <stop offset={1} stopColor="#141414" stopOpacity={0} />
+                </radialGradient>
+            </defs>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 16 16"
+                width={352}
+                height={352}
+                x={80}
+                y={80}
+                alignmentBaseline="middle"
+                style={{ color: "#141414" }}>
+                <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    d="M6.25 4.75 2.75 8m0 0 3.5 3.25M2.75 8h10.5"
+                />
+            </svg>
+        </svg>
+    );
+}

@@ -102,7 +102,6 @@ const Search = React.forwardRef(({ search }: { search: string }, ref) => {
 	}));
 
 	const onSearch = () => {
-		console.log('onSearch');
 		const normalizedLink = normalizeLink(search);
 		window.open(normalizedLink);
 	};

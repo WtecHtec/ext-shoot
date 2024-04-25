@@ -100,7 +100,6 @@ export function RaycastCMDK() {
     const [container, setContainer] = React.useState(null);
     const [snapshotOpen, setSnapshotOpen] = React.useState(false);
     const [recentlys, setRecentlys] = React.useState([]);
-    const storeSearchRef = React.useRef(null);
     const extShootRef = React.useRef(null);
 
     const [inAppMode,setInAppMode] = React.useState(searchManager.ifInApp); // 是否进入应用
@@ -849,9 +848,7 @@ export function RaycastCMDK() {
 
     /** 底部  Open Extension Page 按钮点击事件、 回车事件处理 */
     const onBottomOpenExtPage = (value) => {
-        // console.log('bottom',value);
-        // console.log('value',value);
-        // console.log('storeSearchRef',storeSearchRef);
+       
 
         if (value.includes(RecentlyFix)) {
             // 处理记录数据
@@ -862,11 +859,7 @@ export function RaycastCMDK() {
             // 只有不是命令时，关闭launcher
             (!isCommand && closeLauncher());
         }
-        // if (value.includes(SearchFix) && storeSearchRef && storeSearchRef.current) {
-        //     // storeSearchRef.current.onSearch();
-        //     // console.log('23213213',23213213);
-        // } else {
-        // }
+       
     };
     return (
         <div className="ext-shoot" ref={extShootRef}>
@@ -976,7 +969,7 @@ export function RaycastCMDK() {
                     {
                         // use search word use ...                        
                         search ? <Search search={search}
-                            ref={storeSearchRef}></Search> : null
+                            ></Search> : null
                     }
                 </Command.List> 
                 }

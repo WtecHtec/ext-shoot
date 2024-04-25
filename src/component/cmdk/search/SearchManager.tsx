@@ -7,7 +7,7 @@ class SearchManager {
     private subscribers: SearchSubscriber[] = [];
     private search: string = "";
     private placeholder: string = "Search...";
-    private inApp: boolean = true;
+    private inApp: boolean = false;
     public inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 
     public subscribe(callback: SearchSubscriber): () => void {
@@ -29,9 +29,18 @@ class SearchManager {
         this.notify();
     }
 
+    // app mode
     public setInApp(inApp: boolean): void {
         this.inApp = inApp;
         this.notify();
+    }
+
+    public loadApp(): void {
+        this.setInApp(true);
+    }
+
+    public exitApp(): void {
+        this.setInApp(false);
     }
 
     public get content(): string {

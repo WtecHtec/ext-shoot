@@ -103,13 +103,17 @@ export function RaycastCMDK() {
     const storeSearchRef = React.useRef(null);
     const extShootRef = React.useRef(null);
 
+    const [inAppMode,setInAppMode] = React.useState(searchManager.ifInApp); // 是否进入应用
+
 
     /**
      * 获取input输入框的值
      */
     useEffect(() => {
-        const unsubscribe = searchManager.subscribe((newSearch) => {
+        const unsubscribe = searchManager.subscribe((newSearch,_,__,inApp) => {
             setSearch(newSearch);
+            setInAppMode(inApp);
+
             // inputRef_.current.focus();
             });
         return unsubscribe; // Cleanup on unmount
@@ -889,8 +893,9 @@ export function RaycastCMDK() {
                     }
                 </div>
                 <hr cmdk-raycast-loader="" />
-                <Command.List ref={listRef}>
-                    <Command.Empty>No results found.</Command.Empty>
+                <div className='min-h-[380px]'>
+                {  <Command.List ref={listRef} hidden={inAppMode}>
+                    <Command.Empty> No results found. </Command.Empty>
                     {
                         extDatas.length > 0 ? extDatas?.map(({ children, name }) => {
                             return <>
@@ -969,8 +974,11 @@ export function RaycastCMDK() {
                         search ? <Search search={search}
                             ref={storeSearchRef}></Search> : null
                     }
-                </Command.List>
+                </Command.List> 
+                }
 
+                </div>
+               
                 <div cmdk-raycast-footer="">
 
                     <FooterTip />

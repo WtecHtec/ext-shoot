@@ -24,7 +24,7 @@ import {
 } from '~component/icons';
 import {AC_CLEAR_RECENTLYS, AC_SET_BROWSER, ENABLE_ALL_EXTENSION} from '~config/actions';
 import {handleExtUpdateDone} from '~utils/management';
-import {footerTip} from '~component/cmdk/footer-tip';
+import {footerTip} from '~component/cmdk/tip/footer-tip';
 
 /**
  * 禁用其他插件

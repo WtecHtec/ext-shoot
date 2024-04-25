@@ -40,7 +40,7 @@ import Item from './item';
 import SubCommand from './sub-command';
 import SnapshotDialog from './snapshot-dialog';
 import { ExtItem } from '~utils/ext.interface';
-import FooterTip, { footerTip } from '~component/cmdk/footer-tip';
+import FooterTip, { footerTip } from '~component/cmdk/tip/footer-tip';
 import Search from './search-group';
 import {
     ExtShootSeverHost,

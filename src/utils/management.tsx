@@ -186,6 +186,7 @@ export const handleUninstallPlugin = (extensionId): Promise<[any, any]> => {
         chrome.runtime.sendMessage(
             { action: 'uninstall_extension', extensionId },
         ).then(async (response) => {
+            
             resolve([null, response.status === 'success']);
         }).catch(err => {
             resolve([err, null]);

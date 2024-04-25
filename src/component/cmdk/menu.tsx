@@ -431,8 +431,12 @@ export function RaycastCMDK() {
         const extInfo = getExtensionDeatilById(extId);
         await handlePluginStatus(extInfo.id, status);
         getExtensionDatas();
-        footerTip('success', status ? 'Enable Plugin Success' : 'Disable Plugin Success', 2000);
+        toast(status ? 'Enable Plugin Success' : 'Disable Plugin Success',{
+            duration: 1000,
+        });
+        setTimeout(() => {
         window.location.reload();
+        },1000);
     };
 
     /**

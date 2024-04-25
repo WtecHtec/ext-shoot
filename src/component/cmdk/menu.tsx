@@ -302,21 +302,21 @@ export function RaycastCMDK() {
         getExtensionDatas();
         getAllCommands();
 
-        function inputListener(event) {
-            if ([27, 37, 38, 39, 40, 13].includes(event.keyCode)
-                || (event.metaKey && event.key.toLocaleUpperCase() === 'K')) return;
-            if (event.metaKey) return;
-            // 阻止事件冒泡
-            event.stopPropagation();
-        }
+        // function inputListener(event) {
+        //     if ([27, 37, 38, 39, 40, 13].includes(event.keyCode)
+        //         || (event.metaKey && event.key.toLocaleUpperCase() === 'K')) return;
+        //     if (event.metaKey) return;
+        //     // 阻止事件冒泡
+        //     event.stopPropagation();
+        // }
 
-        if (inputRef && inputRef.current) {
-            inputRef?.current.addEventListener('keydown', inputListener);
-        }
+        // if (inputRef && inputRef.current) {
+        //     inputRef?.current.addEventListener('keydown', inputListener);
+        // }
         return () => {
-            if (inputRef?.current) {
-                inputRef?.current.removeEventListener('keydown', inputListener);
-            }
+            // if (inputRef?.current) {
+            //     inputRef?.current.removeEventListener('keydown', inputListener);
+            // }
         };
     }, []);
 

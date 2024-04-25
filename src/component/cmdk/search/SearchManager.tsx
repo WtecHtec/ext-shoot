@@ -1,19 +1,19 @@
 import React from 'react';
 
 interface SearchSubscriber {
-    (search: string, inputRef: React.RefObject<HTMLInputElement>, placeholder: string): void;
-}
+    (search: string, inputRef: React.RefObject<HTMLInputElement>, placeholder: string, inApp: boolean): void; }
 
 class SearchManager {
     private subscribers: SearchSubscriber[] = [];
     private search: string = "";
     private placeholder: string = "Search...";
+    private inApp: boolean = true;
     public inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 
     public subscribe(callback: SearchSubscriber): () => void {
         this.subscribers.push(callback);
         // Immediately invoke callback to provide initial state
-        callback(this.search, this.inputRef, this.placeholder);
+        callback(this.search, this.inputRef, this.placeholder, this.inApp);
         return () => {
             this.subscribers = this.subscribers.filter(sub => sub !== callback);
         };
@@ -26,6 +26,11 @@ class SearchManager {
 
     public setPlaceholder(placeholder: string): void {
         this.placeholder = placeholder;
+        this.notify();
+    }
+
+    public setInApp(inApp: boolean): void {
+        this.inApp = inApp;
         this.notify();
     }
 
@@ -42,8 +47,12 @@ class SearchManager {
         return this.placeholder;
     }
 
+    public get ifInApp(): boolean {
+        return this.inApp;
+    }
+
     private notify(): void {
-        this.subscribers.forEach(callback => callback(this.search, this.inputRef, this.placeholder));
+        this.subscribers.forEach(callback => callback(this.search, this.inputRef, this.placeholder, this.inApp));
     }
 }
 

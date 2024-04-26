@@ -81,6 +81,7 @@ const Search = ({ search }: { search: string }) => {
 	const onSearch = () => {
 		appManager.startApp('Store Search');
 	};
+	
 	return <Command.Item
 		key={`${PREFIX}${search}`}
 		value={`${PREFIX}${search}`}

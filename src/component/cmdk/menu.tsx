@@ -111,9 +111,8 @@ export function RaycastCMDK() {
      * 获取input输入框的值
      */
     useEffect(() => {
-        const unsubscribe = searchManager.subscribe(({ search, inApp }) => {
+        const unsubscribe = searchManager.subscribe(({ search }) => {
             setSearch(search);
-            setInAppMode(inApp);
         });
         return unsubscribe; // Cleanup on unmount
     }, []);
@@ -983,8 +982,11 @@ export function RaycastCMDK() {
                 </Command.List> 
                 }
                 {
-                    // 应用内界面 w
+                    <>
+                       {/* <StoreSearch.App /> */}
                     <AppUI/>
+                    </>
+                   
                 }
                 </div>
                 <div cmdk-raycast-footer="">

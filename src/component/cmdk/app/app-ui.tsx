@@ -3,13 +3,15 @@ import React, { useEffect, useState } from 'react';
 // Simulated plugin imports
 import storeSearch from '~app/store-search';
 import { appManager } from './app-manager';
-import { MotionPlugin } from './app';
 
 // Define a plugin interface
-
+interface Plugin {
+    name: string;
+    App: React.ComponentType<any>;
+}
 
 // Example plugin objects, assuming imports are objects with 'name' and 'component'
-const plugins: MotionPlugin[] = [
+const plugins: Plugin[] = [
     storeSearch
 ];
 

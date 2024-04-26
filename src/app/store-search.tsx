@@ -4,19 +4,20 @@ import React from 'react';
 
 function StoreSearch() {
     return (
-        <div>
             <Command.List>
                 <Command.Item
-                    keywords={['chrome', 'store', 'search']}
-                    onSelect={() => { console.log('Search Chrome Store'); }}>test xxxxx</Command.Item>
+                    key = 'test 1'
+                    keywords={['chrome', 'store', '']}
+                    onSelect={() => { console.log('Search Chrome Store'); }}>test 1</Command.Item>
                 <Command.Item
+                    key = 'test 2'
                     keywords={['chrome', 'store', 'search']}
-                    onSelect={() => { console.log('Search Chrome Store'); }}>test xxxxx</Command.Item>
+                    onSelect={() => { console.log('Search Chrome Store'); }}>test 2</Command.Item>
                 <Command.Item
+                    key = 'test 3'
                     keywords={['chrome', 'store', 'search']}
-                    onSelect={() => { console.log('Search Chrome Store'); }}>test xxxxx</Command.Item>
+                    onSelect={() => { console.log('Search Chrome Store'); }}>test 3</Command.Item>
             </Command.List>
-        </div>
     );
 }
 

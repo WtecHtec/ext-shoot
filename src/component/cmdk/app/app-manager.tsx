@@ -63,6 +63,7 @@ class AppManager {
     
     // Method to start an app
     public startApp(appName: string): void {
+        console.log('this.state.registeredApps',this.state.registeredApps);
         if (this.state.registeredApps.includes(appName)) {
             this.state.activeApp = appName;
             this.state.inAppMode = true;

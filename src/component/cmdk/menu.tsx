@@ -40,7 +40,7 @@ import Item from './item';
 import SubCommand from './sub-command';
 import SnapshotDialog from './snapshot-dialog';
 import { ExtItem } from '~utils/ext.interface';
-import FooterTip, { footerTip } from '~component/cmdk/tip/footer-tip';
+import FooterTip ,{footerTip}from '~component/cmdk/tip/tip-ui';
 import Search from './search-group';
 import {
     ExtShootSeverHost,
@@ -53,8 +53,8 @@ import SnapshotCommand from './snapshot-command';
 import { getSelectSnapId, setSelectSnapIdBtStorge } from '~utils/local.storage';
 import EventBus from '~utils/event-bus';
 import { getExtId } from '~lib/util';
-import { searchManager } from './search/SearchManager';
-import SearchComponent from './search/SearchUI';
+import { searchManager } from './search/search-manager';
+import SearchComponent from './search/search-ui';
 
 const eventBus = EventBus.getInstace();
 

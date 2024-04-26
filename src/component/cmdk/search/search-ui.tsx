@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { searchManager } from './SearchManager';
+import { searchManager } from './search-manager';
 import { BackIcon } from '~component/icons';
 import { Command } from 'cmdk';
 

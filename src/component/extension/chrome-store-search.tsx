@@ -83,11 +83,7 @@ function chromeStoreLink(word: string): string {
 }
 
 
-const Search = React.forwardRef(({ search }: { search: string }, ref) => {
-	React.useImperativeHandle(ref, () => ({
-		onSearch,
-	}));
-
+const Search = ({ search }: { search: string }) => {
 	const onSearch = () => {
 		const normalizedLink = chromeStoreLink(search);
 		window.open(normalizedLink);
@@ -105,5 +101,5 @@ const Search = React.forwardRef(({ search }: { search: string }, ref) => {
 		<span cmdk-raycast-meta="" style={{ flexShrink: 0 }}> Command</span>
 
 	</Command.Item>;
-});
+};
 export default Search;

@@ -2,6 +2,7 @@
 
 import React, { SVGProps } from 'react';
 import { Command } from 'cmdk';
+import { appManager } from '~component/cmdk/app/app-manager';
 
 const PREFIX = 'ChromeStoreSearch';
 
@@ -76,17 +77,9 @@ function AppIcon(props: SVGProps<SVGSVGElement>) {
 	);
 }
 
-
-function chromeStoreLink(word: string): string {
-	const link = `https://chromewebstore.google.com/search/${word}`;
-	return link;
-}
-
-
 const Search = ({ search }: { search: string }) => {
 	const onSearch = () => {
-		const normalizedLink = chromeStoreLink(search);
-		window.open(normalizedLink);
+		appManager.startApp('Store Search');
 	};
 	return <Command.Item
 		key={`${PREFIX}${search}`}

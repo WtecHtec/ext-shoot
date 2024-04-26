@@ -55,6 +55,8 @@ import EventBus from '~utils/event-bus';
 import { getExtId } from '~lib/util';
 import { searchManager } from './search/search-manager';
 import SearchComponent from './search/search-ui';
+import AppUI from './app/app-ui';
+import { appManager } from './app/app-manager';
 
 const eventBus = EventBus.getInstace();
 
@@ -116,6 +118,15 @@ export function RaycastCMDK() {
         return unsubscribe; // Cleanup on unmount
     }, []);
 
+    useEffect(() => {
+        // 使用新的接口调用方式
+        const unsubscribe = appManager.subscribe(({ inAppMode }) => {
+            setInAppMode(inAppMode);
+        });
+        return unsubscribe; // Cleanup on unmount
+    }, []);
+
+    
     /**
      * 获取插件数据
      * id: {
@@ -888,7 +899,7 @@ export function RaycastCMDK() {
                     }
                 </div>
                 <hr cmdk-raycast-loader="" />
-                <div className='min-h-[380px]'>
+                <div className='h-[380px]'>
                 {  <Command.List ref={listRef} hidden={inAppMode}>
                     <Command.Empty> No results found. </Command.Empty>
                     {
@@ -971,9 +982,11 @@ export function RaycastCMDK() {
                     }
                 </Command.List> 
                 }
-
+                {
+                    // 应用内界面 w
+                    <AppUI/>
+                }
                 </div>
-               
                 <div cmdk-raycast-footer="">
 
                     <FooterTip />

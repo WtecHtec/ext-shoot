@@ -2,32 +2,37 @@ import React, { useEffect, useState } from 'react';
 import { searchManager } from './search-manager';
 import { BackIcon } from '~component/icons';
 import { Command } from 'cmdk';
+import { appManager } from '../app/app-manager';
 
 const SearchComponent = ({ inputRef }: { inputRef: React.RefObject<HTMLInputElement> }) => {
     const [search, setSearch] = useState(searchManager.content);
     const [placeholder] = useState(searchManager.placeholderText);
-    const [inApp, setInApp] = useState<boolean>(searchManager.ifInApp);
+    const [inApp, setInApp] = useState<boolean>(appManager.ifInApp);
 
     useEffect(() => {
         // 使用新的接口调用方式
-        const unsubscribe = searchManager.subscribe(({ search, inApp }) => {
+        const unsubscribe = searchManager.subscribe(({ search }) => {
             setSearch(search);
-            setInApp(inApp);
         });
-
         return unsubscribe; // Cleanup on unmount
     }, []);
+
+
+    useEffect(() => {
+        // 使用新的接口调用方式
+        const unsubscribe = appManager.subscribe(({ inAppMode }) => {
+            setInApp(inAppMode);
+        });
+        return unsubscribe; // Cleanup on unmount
+    }, []);
+
 
     const handleSearchChange = (value: string) => {
         searchManager.setSearch(value);
     };
 
-    const handleInAppChange = (value:boolean) =>{
-        searchManager.setInApp(value);
-    };
-
     const exitAppMode = ()=>{
-        handleInAppChange(false);
+        appManager.exitApp();
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

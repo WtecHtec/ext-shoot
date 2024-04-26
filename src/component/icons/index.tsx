@@ -34,7 +34,7 @@ export function ShootEmptyIcon() {
                 d="M104.781 134.72L374.219 89.8135V142.204L104.781 187.11V134.72ZM104.781 239.501L374.219 194.595V246.985L104.781 291.892V239.501ZM104.781 344.282L374.219 299.376V351.767L104.781 396.673V344.282Z"
                 fill="#888888"
                 stroke="#888888"
-                stroke-width="29.9375"
+                strokeWidth="29.9375"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
@@ -366,7 +366,7 @@ export function SoloModeIcon(props: SVGProps<SVGSVGElement>) {
                 stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                stroke-width="2"
+                strokeWidth="2"
                 d="M6.644 15.894a3.894 3.894 0 1 0 0-7.788a3.894 3.894 0 0 0 0 7.788m10.712 0a3.894 3.894 0 1 0 0-7.788a3.894 3.894 0 0 0 0 7.788m-10.712 0h10.712"></path>
         </svg>
     );
@@ -406,7 +406,7 @@ export function ActivatePluginIcon(props: SVGProps<SVGSVGElement>) {
                 stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                stroke-width="2"
+                strokeWidth="2"
                 d="m6.244 3.114l12.298 8.66A.693.693 0 0 1 18.346 13l-4.62.877a.565.565 0 0 0-.334.82l2.31 4.377a.693.693 0 0 1-.22.981l-1.663.866a.693.693 0 0 1-.935-.289l-2.31-4.387a.577.577 0 0 0-.866-.232L6.325 19.27a.692.692 0 0 1-1.155-.554V3.703a.693.693 0 0 1 1.074-.589"></path>
         </svg>
     );
@@ -468,7 +468,7 @@ export function DetailPageIcon(props: SVGProps<SVGSVGElement>) {
                 stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                stroke-width="2">
+                strokeWidth="2">
                 <path d="M14.85 12h-5.7a1.9 1.9 0 0 0-1.9 1.9v2.85c0 1.05.85 1.9 1.9 1.9h5.7a1.9 1.9 0 0 0 1.9-1.9V13.9a1.9 1.9 0 0 0-1.9-1.9M7.668 4.999v1.89m2.85-1.89v1.89m2.85-1.89v1.89"></path>
                 <path d="M18.222 6.633v3.135h1.615V17.7a3.866 3.866 0 0 1-3.923 3.8H8.086a3.866 3.866 0 0 1-3.923-3.8V6.3a3.866 3.866 0 0 1 3.923-3.8h7.828a3.866 3.866 0 0 1 3.923 3.8v.333z"></path>
             </g>
@@ -595,7 +595,7 @@ export function ErrorIcon(props: SVGProps<SVGSVGElement>) {
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                stroke-width="2"
+                strokeWidth="2"
                 d="m15.958 8.042l-7.916 7.916m7.916 0L8.042 8.042M12 21.5a9.5 9.5 0 1 0 0-19a9.5 9.5 0 0 0 0 19"></path>
         </svg>
     );
@@ -630,7 +630,7 @@ export function StoreIcon(props: SVGProps<SVGSVGElement>) {
                 stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                stroke-width="2">
+                strokeWidth="2">
                 <path d="M12 21.5a9.5 9.5 0 1 0 0-19a9.5 9.5 0 0 0 0 19"></path>
                 <path d="m7.778 16.222l1.942-5.837a1.056 1.056 0 0 1 .675-.665l5.827-1.942l-1.942 5.837a1.055 1.055 0 0 1-.665.665z"></path>
             </g>

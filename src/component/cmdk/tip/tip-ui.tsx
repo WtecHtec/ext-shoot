@@ -2,13 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { ErrorIcon, LineSpinnerIcon, ShootIcon, SuccessIcon } from '~component/icons';
 import { GITHUB_URL } from '~utils/constant';
 import { AnimatePresence, motion } from 'framer-motion';
-import { statusManager } from './tip-manager';
+import { StatusMessage, statusManager } from './tip-manager';
 
-
-interface StatusMessage {
-    type: 'success' | 'error' | 'loading' | 'default' | 'tip';
-    message: string;
-}
 
 export const footerTip = (type: 'success' | 'error' | 'loading' | 'tip', message: string, duration?: number): void => {
     statusManager.updateStatus(type, message, duration);

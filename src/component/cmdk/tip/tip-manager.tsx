@@ -1,3 +1,8 @@
+
+export interface StatusMessage {
+    type: 'success' | 'error' | 'loading' | 'default' | 'tip';
+    message: string;
+}
 class StatusObserver {
     private subscribers: Array<(status: StatusMessage) => void> = [];
     private currentStatus: StatusMessage = { type: 'default', message: 'Ready' };

@@ -3,6 +3,7 @@
 import React, { SVGProps } from 'react';
 import { Command } from 'cmdk';
 import { appManager } from '~component/cmdk/app/app-manager';
+import { searchManager } from '~component/cmdk/search/search-manager';
 
 const PREFIX = 'ChromeStoreSearch';
 
@@ -80,6 +81,7 @@ function AppIcon(props: SVGProps<SVGSVGElement>) {
 const Search = ({ search }: { search: string }) => {
 	const onSearch = () => {
 		appManager.startApp('Store Search');
+		searchManager.clearSearch();
 	};
 	
 	return <Command.Item

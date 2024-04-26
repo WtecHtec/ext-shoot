@@ -96,9 +96,11 @@ class SearchManager {
     // Set the search content
     public set content(search: string) {
         this.state.search = search;
-
     }
 
+    public clearSearch(): void {
+        this.state.search = '';
+    }
     // Get the current placeholder
     public get placeholderText(): string {
         return this.state.placeholder;

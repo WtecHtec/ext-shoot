@@ -109,12 +109,10 @@ export function RaycastCMDK() {
      * 获取input输入框的值
      */
     useEffect(() => {
-        const unsubscribe = searchManager.subscribe((newSearch,_,__,inApp) => {
-            setSearch(newSearch);
+        const unsubscribe = searchManager.subscribe(({ search, inApp }) => {
+            setSearch(search);
             setInAppMode(inApp);
-
-            // inputRef_.current.focus();
-            });
+        });
         return unsubscribe; // Cleanup on unmount
     }, []);
 

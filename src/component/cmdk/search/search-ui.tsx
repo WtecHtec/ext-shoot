@@ -9,10 +9,12 @@ const SearchComponent = ({ inputRef }: { inputRef: React.RefObject<HTMLInputElem
     const [inApp, setInApp] = useState<boolean>(searchManager.ifInApp);
 
     useEffect(() => {
-        const unsubscribe = searchManager.subscribe((newSearch, newInputRef,newPlaceholder, newInApp) => {
-            setSearch(newSearch);
-            setInApp(newInApp);
+        // 使用新的接口调用方式
+        const unsubscribe = searchManager.subscribe(({ search, inApp }) => {
+            setSearch(search);
+            setInApp(inApp);
         });
+
         return unsubscribe; // Cleanup on unmount
     }, []);
 

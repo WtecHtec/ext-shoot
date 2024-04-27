@@ -15,7 +15,7 @@
     "zip:firefox": "pnpm build --target=firefox-mv2 --zip",
     "zip:edge": "pnpm build && node script/remove-log.js --target=edge-mv3 --zip",
 		"zip:chrome": "pnpm build && node script/remove-log.js --target=chrome-mv3-prod --zip",
-    "fix": "eslint . --ext .ts,.tsx",
+    "fix": "eslint . --ext .ts,.tsx --fix",
     "re:log": "node script/remove-log.js"
   },
   "dependencies": {

@@ -97,7 +97,6 @@ export function RaycastCMDK() {
     const [loaded, setLoaded] = React.useState(false);
     const inputRef = React.useRef<HTMLInputElement | null>(null);
     const listRef = React.useRef(null);
-    // const [search, setSearch] = useState(null);
     const [search, setSearch] = useState(searchManager.content);
 
     const [container, setContainer] = React.useState(null);
@@ -114,6 +113,8 @@ export function RaycastCMDK() {
     useEffect(() => {
         const unsubscribe = searchManager.subscribe(({ search }) => {
             setSearch(search);
+        },{
+            target:["search"],
         });
         return unsubscribe; // Cleanup on unmount
     }, []);

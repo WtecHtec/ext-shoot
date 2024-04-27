@@ -2,7 +2,7 @@ import * as Popover from '@radix-ui/react-popover';
 import {Command} from 'cmdk';
 
 import React from 'react';
-import SubItem from './sub-item';
+import SubItem from '../sub-item';
 
 import EventBus from '~utils/event-bus';
 import {getMutliLevelProperty} from '~utils/util';
@@ -31,7 +31,7 @@ const BASE_SUB_GROUP = () => [
     },
 ];
 
-export default function SubCommand({
+export default function ActionUi({
                                        inputRef,
                                        listRef,
                                        selectName,
@@ -193,7 +193,7 @@ export default function SubCommand({
                     inputRef?.current?.focus();
                 } }>
                 <Command>
-                    <div className={ 'sub_command_title' }>{ selectName }</div>
+                    <h1 className={ 'sub_command_title' }>{ selectName }</h1>
                     <Command.List>
                         <Command.Empty>No Results</Command.Empty>
                         { subCommands.filter(({ value }) => {

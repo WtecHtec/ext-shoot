@@ -1,11 +1,15 @@
 .ext-shoot {
   --font-sans: "Inter", --apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
   Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  --app-bg: var(--gray1);
+  --app-bg: var(--gray-bg);
+  --blur: 12px;
   --cmdk-shadow: 0 16px 70px rgb(0 0 0 / 20%);
 
   --lowContrast: #ffffff;
   --highContrast: #000000;
+  --gray-bg: rgba(255 , 255, 255, 0.9);
+  --gray-bg-footer : rgba(252, 252, 252, 1);
+  --gray-item-active: #c7c7c760;
 
   --gray1: hsl(0, 0%, 99%);
   --gray2: hsl(0, 0%, 97.3%);
@@ -97,7 +101,8 @@
   [cmdk-root] {
     max-width: 640px;
     width: 100%;
-    background: var(--gray1);
+    background: var(--app-bg);
+    backdrop-filter: blur(var(--blur));
     border-radius: 12px;
     padding: 8px 0;
     font-family: var(--font-sans);
@@ -245,7 +250,7 @@
     transition-property: none;
 
     &[data-selected="true"] {
-      background: var(--gray4);
+      background: var(--gray-item-active);
       color: var(--gray12);
     }
 
@@ -256,7 +261,7 @@
 
     &:active {
       transition-property: background;
-      background: var(--gray4);
+      background: var(--gray-item-active);
     }
 
     &:first-child {
@@ -309,7 +314,7 @@
     margin-right: 8px;
 
     &:hover {
-      background: var(--gray4);
+      background: var(--gray-item-active);
 
       kbd {
         background: var(--gray7);
@@ -368,7 +373,7 @@
 
     &[aria-expanded="true"],
     &:hover {
-      background: var(--gray4);
+      background: var(--gray-item-active);
 
       kbd {
         background: var(--gray7);
@@ -403,7 +408,7 @@
     width: 640px;
     padding-left: 2px;
     position: absolute;
-    background: var(--gray1);
+    background: var(--gray-bg-footer);
     bottom: 0px;
     border-top: 1px solid var(--gray6);
     border-radius: 0 0 12px 12px;
@@ -425,9 +430,9 @@
       margin: 0 4px 0px 12px;
     }
 
-    @media (prefers-color-scheme: dark) {
-      background: var(--gray2);
-    }
+    // @media (prefers-color-scheme: dark) {
+    //   background: var(--gray2);
+    // }
   }
 
   [cmdk-dialog] {

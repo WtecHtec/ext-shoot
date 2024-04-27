@@ -37,7 +37,8 @@ import {
 import {  ExtensionIcon, GlobeIcon, Logo, ShootIcon } from '../icons';
 import { deepCopyByJson, getMutliLevelProperty } from '~utils/util';
 import Item from './item';
-import SubCommand from './sub-command';
+import SubCommand from './action/action-ui';
+import Action from './action/action-ui-refactor';
 import SnapshotDialog from './snapshot-dialog';
 import { ExtItem } from '~utils/ext.interface';
 import FooterTip ,{footerTip}from '~component/cmdk/tip/tip-ui';
@@ -96,7 +97,6 @@ export function RaycastCMDK() {
     const [loaded, setLoaded] = React.useState(false);
     const inputRef = React.useRef<HTMLInputElement | null>(null);
     const listRef = React.useRef(null);
-    // const [search, setSearch] = useState(null);
     const [search, setSearch] = useState(searchManager.content);
 
     const [container, setContainer] = React.useState(null);
@@ -113,6 +113,8 @@ export function RaycastCMDK() {
     useEffect(() => {
         const unsubscribe = searchManager.subscribe(({ search }) => {
             setSearch(search);
+        },{
+            target:["search"],
         });
         return unsubscribe; // Cleanup on unmount
     }, []);
@@ -125,7 +127,7 @@ export function RaycastCMDK() {
         return unsubscribe; // Cleanup on unmount
     }, []);
 
-    
+
     /**
      * 获取插件数据
      * id: {
@@ -856,7 +858,7 @@ export function RaycastCMDK() {
 
     /** 底部  Open Extension Page 按钮点击事件、 回车事件处理 */
     const onBottomOpenExtPage = (value) => {
-       
+
 
         if (value.includes(RecentlyFix)) {
             // 处理记录数据
@@ -867,7 +869,7 @@ export function RaycastCMDK() {
             // 只有不是命令时，关闭launcher
             (!isCommand && closeLauncher());
         }
-       
+
     };
     return (
         <div className="ext-shoot" ref={extShootRef}>
@@ -975,18 +977,18 @@ export function RaycastCMDK() {
                             : null
                     }
                     {
-                        // use search word use ...                        
+                        // use search word use ...
                         search ? <Search search={search}
                             ></Search> : null
                     }
-                </Command.List> 
+                </Command.List>
                 }
                 {
                     <>
                        {/* <StoreSearch.App /> */}
                     <AppUI/>
                     </>
-                   
+
                 }
                 </div>
                 <div cmdk-raycast-footer="">
@@ -1003,7 +1005,19 @@ export function RaycastCMDK() {
                     </button>
 
                     <hr />
-
+                    
+                    <Action
+                     subCommands={subCommands}
+                     listRef={listRef}
+                     selectName={getItemByCommandList(value)[0]?.name}
+                     value={getItemByCommandList(value)[0]}
+                     inputRef={inputRef}
+                     extShootRef={extShootRef}
+                     includeCommands={getCommandsByType(value)}
+                     onClickItem={(subcommand) => {
+                         handelPatibleSubCommand(subcommand, value);
+                     }}
+                     />
                     <SubCommand
                         subCommands={subCommands}
                         listRef={listRef}

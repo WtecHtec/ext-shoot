@@ -14,8 +14,8 @@
     "package": "plasmo package",
     "zip:firefox": "pnpm build --target=firefox-mv2 --zip",
     "zip:edge": "pnpm build && node script/remove-log.js --target=edge-mv3 --zip",
-		"zip:chrome": "pnpm build && node script/remove-log.js --target=chrome-mv3-prod --zip",
-    "fix": "eslint . --ext .ts,.tsx",
+    "zip:chrome": "pnpm build && node script/remove-log.js --target=chrome-mv3-prod --zip",
+    "fix": "eslint . --ext .ts,.tsx --fix",
     "re:log": "node script/remove-log.js"
   },
   "dependencies": {
@@ -37,6 +37,7 @@
     "esbuild": "^0.20.2",
     "framer-motion": "^11.0.8",
     "glob": "^10.3.12",
+    "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.358.0",
     "plasmo": "^0.74.2",
     "react": "18.2.0",
@@ -71,11 +72,9 @@
     "webextension-polyfill": "^0.10.0",
     "windy-radix-palette": "0.6.1"
   },
-
-    "simple-git-hooks": {
-      "pre-commit": "npm run fix"
-    },
-  
+  "simple-git-hooks": {
+    "pre-commit": "npm run fix"
+  },
   "pre-commit": [
     "fix"
   ],

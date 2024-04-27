@@ -1,3 +1,4 @@
+import { StateManager } from "../core/manager.core";
 
 // Define the App state interface
 interface AppState {
@@ -6,53 +7,25 @@ interface AppState {
     registeredApps: string[];
 }
 
-// Define the subscriber function type, which accepts a parameter of type AppState
-interface AppSubscriber {
-    (state: AppState): void;
-}
+class AppManager extends StateManager<AppState> {
 
-// Define the AppManager class using the Singleton pattern
-class AppManager {
-    private static instance: AppManager;
-    private subscribers: AppSubscriber[] = [];
-    public state: AppState;
+    private static instance: AppManager | null = null;
 
-    // Private constructor to enforce singleton
     private constructor() {
-        this.state = new Proxy({
+        super({
             inAppMode: false,
             activeApp: '',
             registeredApps: []
-        }, {
-            set: (target, property, value) => {
-                target[property] = value;
-                this.notify();
-                return true;
-            }
         });
     }
 
-    // Method to allow components to subscribe to state changes
-    public subscribe(callback: AppSubscriber): () => void {
-        this.subscribers.push(callback);
-        callback(this.state); // Immediately call the callback with the current state
-        return () => {
-            this.subscribers = this.subscribers.filter(sub => sub !== callback);
-        };
-    }
-
-    // Notify all subscribers of the state change
-    private notify(): void {
-        this.subscribers.forEach(callback => callback(this.state));
-    }
-
-    // Static method to get the singleton instance
     public static getInstance(): AppManager {
         if (!AppManager.instance) {
             AppManager.instance = new AppManager();
         }
         return AppManager.instance;
     }
+
 
     // Method to register a new app
     public registerApp(appName: string): void {

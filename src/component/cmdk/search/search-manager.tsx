@@ -1,4 +1,5 @@
 import React from 'react';
+import { StateManager } from '../core/manager.core';
 
 // Define the interface of the search state
 interface SearchState {
@@ -8,52 +9,19 @@ interface SearchState {
     inApp: boolean;
 }
 
-// Define the interface of the subscriber function type, which accepts a parameter of type SearchState
-interface SearchSubscriber {
-    (data: SearchState): void;
-}
-
-// Define the SearchManager class
-class SearchManager {
-    private static instance: SearchManager;
-    private subscribers: SearchSubscriber[] = [];
-    public state: SearchState;
+class SearchManager extends StateManager<SearchState> {
     public inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+    private static instance: SearchManager | null = null;
 
-
-    // Use a private constructor to ensure compliance with the singleton pattern
     private constructor() {
-        this.state = new Proxy({
+        super({
             search: "",
             placeholder: "Search...",
             inApp: false,
-            inputRef: this.inputRef
-        }, {
-            set: (target, property, value) => {
-                target[property] = value;
-                this.notify();
-                return true;
-            }
+            inputRef: React.createRef()
         });
     }
 
-
-    // Allow external functions to join the search change processing through subscription
-    public subscribe(callback: SearchSubscriber): () => void {
-        this.subscribers.push(callback);
-        // Call the callback immediately with the current state to ensure that the initialization state is handled correctly
-        callback(this.state);
-        // Return a function to cancel the subscription later
-        return () => {
-            this.subscribers = this.subscribers.filter(sub => sub !== callback);
-        };
-    }
-
-    // Notify all subscribers of the latest state
-    private notify(): void {
-        this.subscribers.forEach(callback => callback(this.state));
-    }
-    // Provide a static method to get an instance of the class
     public static getInstance(): SearchManager {
         if (!SearchManager.instance) {
             SearchManager.instance = new SearchManager();
@@ -61,57 +29,45 @@ class SearchManager {
         return SearchManager.instance;
     }
 
-
-    // Set the search content and notify the subscribers
+    // 设置搜索内容并通知订阅者
     public setSearch(search: string): void {
         this.state.search = search;
     }
 
-    // Set the placeholder and notify the subscribers
+    // 设置占位符并通知订阅者
     public setPlaceholder(placeholder: string): void {
         this.state.placeholder = placeholder;
     }
 
-    // Set whether to search in the app and notify the subscribers
+    // 设置是否在应用程序内搜索并通知订阅者
     public setInApp(inApp: boolean): void {
         this.state.inApp = inApp;
-        this.notify();
     }
 
-    // Start the app mode
-    public loadApp(): void {
-        this.setInApp(true);
+    // 清除搜索内容
+    public clearSearch(): void {
+        this.state.search = '';
     }
 
-    // Exit the app mode
-    public exitApp(): void {
-        this.setInApp(false);
-    }
-
-    // Get the current search content
+    // 获取当前搜索内容
     public get content(): string {
         return this.state.search;
     }
 
-    // Set the search content
+    // 设置搜索内容
     public set content(search: string) {
-        this.state.search = search;
+        this.setSearch(search);
     }
 
-    public clearSearch(): void {
-        this.state.search = '';
-    }
-    // Get the current placeholder
+    // 获取当前占位符
     public get placeholderText(): string {
         return this.state.placeholder;
     }
 
-    // Get whether to search in the app
+    // 获取是否在应用程序内搜索
     public get ifInApp(): boolean {
         return this.state.inApp;
     }
-
 }
 
-// Create a globally available instance
 export const searchManager = SearchManager.getInstance();

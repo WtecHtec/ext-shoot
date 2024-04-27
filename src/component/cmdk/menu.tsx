@@ -37,7 +37,7 @@ import {
 import {  ExtensionIcon, GlobeIcon, Logo, ShootIcon } from '../icons';
 import { deepCopyByJson, getMutliLevelProperty } from '~utils/util';
 import Item from './item';
-// import SubCommand from './action/action-ui';
+import SubCommand from './action/action-ui';
 import Action from './action/action-ui-refactor';
 import SnapshotDialog from './snapshot-dialog';
 import { ExtItem } from '~utils/ext.interface';
@@ -1017,7 +1017,7 @@ export function RaycastCMDK() {
                          handelPatibleSubCommand(subcommand, value);
                      }}
                      />
-                    {/* <SubCommand
+                    <SubCommand
                         subCommands={subCommands}
                         listRef={listRef}
                         selectName={getItemByCommandList(value)[0]?.name}
@@ -1028,7 +1028,7 @@ export function RaycastCMDK() {
                         onClickItem={(subcommand) => {
                             handelPatibleSubCommand(subcommand, value);
                         }}
-                    /> */}
+                    />
                 </div>
             </Command>
             <SnapshotDialog listRef={listRef} snapOpen={snapshotOpen}

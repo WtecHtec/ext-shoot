@@ -5,9 +5,12 @@ class StateManager<T extends object>{
     constructor(initialState: T) {
         this.state = new Proxy(initialState, {
             set: (target, property, value) => {
-                target[property] = value;
-                this.notify();
-                return true;
+                const oldValue = target[property];
+                if (oldValue !== value) {
+                    target[property] = value;
+                    this.notify();
+                    return true;
+                }
             }
         });
     }

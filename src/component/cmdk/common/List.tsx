@@ -2,10 +2,10 @@
 
 import { Command } from 'cmdk';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ExtensionIcon } from '~component/icons';
 import { DEFAULT_AUTHOR } from '../core/constant';
-
+import { actionManager } from '../action';
 
 interface ListItemProps {
     id: string;
@@ -27,6 +27,7 @@ export function Item({
     author,
     type,
     icon,
+    actions,
     children,
     keywords,
     onSelect,
@@ -53,14 +54,25 @@ export function Item({
         return type;
     };
 
+    const handleSelect = () => {
+        typeof onSelect === 'function' && onSelect();
+    };
+
+    const registerActionPanel = () => {
+        actionManager.registerAction(id, actions);
+        actionManager.logAllActions();
+    };
+    useEffect(() => {
+        registerActionPanel();
+    }, []);
+
     return (
         <Command.Item
-            key={id}
             className={cls ? cls : ''}
             value={id}
             keywords={keywords}
             onSelect={() => {
-                typeof onSelect === 'function' && onSelect();
+                handleSelect();
             }}>
             {renderIcon()}
             <div>
@@ -69,7 +81,7 @@ export function Item({
             </div>
             {children}
             <span cmdk-raycast-sub="" style={{ flexShrink: 0 }}> {renderAuthor()}</span>
-		<span cmdk-raycast-meta="" style={{ flexShrink: 0 }}> {renderKind()}</span>
+            <span cmdk-raycast-meta="" style={{ flexShrink: 0 }}> {renderKind()}</span>
         </Command.Item>
     );
 }

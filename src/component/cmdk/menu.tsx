@@ -1060,7 +1060,6 @@ export function RaycastCMDK() {
 
           <Action
             listRef={listRef}
-            selectName={getItemByCommandList(value)[0]?.name}
             value={getItemByCommandList(value)[0]}
             inputRef={inputRef}
             extShootRef={extShootRef}

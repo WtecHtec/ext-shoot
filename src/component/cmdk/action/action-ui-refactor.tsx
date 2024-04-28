@@ -28,7 +28,9 @@ export default function ActionUi({
   const [placeholder, setPlaceholder] = React.useState(
     actionManager.placeholder
   );
-  const [, setSelectCmd] = React.useState(appManager.selectCmd);
+  const [selectCmd, setSelectCmd] = React.useState(appManager.selectCmd);
+
+  const [SelectActions, setSelectActions] = React.useState(actionManager.getAction(title) as any);
 
   React.useEffect(() => {
     const unsubscribe = actionManager.subscribe(({ title, placeholder }) => {
@@ -39,6 +41,16 @@ export default function ActionUi({
       unsubscribe(); // Clean up the subscription when the component unmounts
     };
   }, []);
+
+  React.useEffect(() => {
+    const unsubscribe = appManager.subscribe(({ selectCmd }) => {
+      setSelectActions(actionManager.getAction(selectCmd));
+    });
+    return () => {
+      unsubscribe(); // Clean up the subscription when the component unmounts
+    };
+  }, []);
+
 
   React.useEffect(() => {
     const unsubscribe = appManager.subscribe(
@@ -160,11 +172,12 @@ export default function ActionUi({
           inputRef?.current?.focus();
         }}>
         <Command>
-          <h1 className={"sub_command_title"}>{title}</h1>
+          <h1 className={"sub_command_title"}>{selectCmd}</h1>
+          
           <Command.List>
             <Command.Empty>No Results</Command.Empty>
+            {SelectActions && React.cloneElement(SelectActions, { title: 'Actions' })}
           </Command.List>
-
           <Command.Input
             autoFocus
             ref={subCommandInputRef}

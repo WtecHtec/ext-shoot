@@ -19,9 +19,8 @@ class StateManager<T extends object>{
                 if (oldValue !== value) {
                     target[property] = value;
                     this.notify(key);
-                    return true;
                 }
-                return false;
+                return true;
             }
         });
     }
@@ -45,14 +44,6 @@ class StateManager<T extends object>{
                 callback(this.state);
             }
         });
-    }
-
-    private debounce(func: (state: T) => void, wait: number): (state: T) => void {
-        let timeout: NodeJS.Timeout | null = null;
-        return (state: T) => {
-            if (timeout) clearTimeout(timeout);
-            timeout = setTimeout(() => func(state), wait);
-        };
     }
 
 }

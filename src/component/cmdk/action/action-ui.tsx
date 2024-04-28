@@ -175,6 +175,7 @@ export default function ActionUi({
     return (
         <Popover.Root open={ open } onOpenChange={ setOpen }>
             <Popover.Trigger
+            hidden={true}
                 cmdk-raycast-subcommand-trigger=""
                 onClick={ () => setOpen(true) }
                 aria-expanded={ open }>

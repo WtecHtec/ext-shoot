@@ -2,8 +2,9 @@ import { StateManager } from "../core/manager.core";
 
 // Define the App state interface
 interface AppState {
-    inAppMode: boolean;
-    activeApp: string;
+    inAppMode: boolean; // 是否在app模式下
+    activeApp: string; // 切换进入子应用
+    selectCmd: string;// 选中的app,包括主应用和子应用
     registeredApps: string[];
 }
 
@@ -14,6 +15,7 @@ class AppManager extends StateManager<AppState> {
     private constructor() {
         super({
             inAppMode: false,
+            selectCmd: '',
             activeApp: '',
             registeredApps: []
         });
@@ -55,6 +57,14 @@ class AppManager extends StateManager<AppState> {
 
     public get activeApp(): string {
         return this.state.activeApp;
+    }
+
+    public get selectCmd(): string {
+        return this.state.selectCmd;
+    }
+
+    public changeSelectCmd(appName: string): void {
+        this.state.selectCmd = appName;
     }
 }
 

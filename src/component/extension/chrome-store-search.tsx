@@ -92,8 +92,8 @@ const Search = ({ search }: { search: string }) => {
 			icon={<AppIcon></AppIcon>}
 			onSelect={onSearch}
 			actions={
-				<ActionPanel>
-					<ActionPanel.Section title="Actions">
+				<ActionPanel head="Chrome Store">
+					<ActionPanel.Section >
 						<Action.OpenInBrowser
 							url={`https://chrome.google.com/webstore/search/${search}`}
 						/>

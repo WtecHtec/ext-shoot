@@ -44,6 +44,7 @@ class ActionManager extends StateManager<ActionState> {
         // console.log('id',id);
         this.state.actionsMap.set(id, action);
     }
+
     // WIP active action panel 显示异常
     public registerActionWithDebounce(id: string, action: React.ReactNode, debounceTime: number): void {
         const debouncedAction = debounce(() => {

@@ -1,11 +1,22 @@
 import { Command } from 'cmdk';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { actionManager } from '../action';
 
 interface ActionPanelProps {
+    head?: string;
     children?: React.ReactNode;
 }
 
-const ActionPanel = ({ children }: ActionPanelProps) => {
+const ActionPanel = ({ children, head }: ActionPanelProps) => {
+    const registeActionTitle = () => {
+        console.log('title', head);
+        actionManager.updateTitle(head);
+    };
+
+    useEffect(() => {
+        registeActionTitle();
+    }, []);
+
     return (
         <div className='pt-2'>
             {children}

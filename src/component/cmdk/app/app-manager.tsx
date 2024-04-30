@@ -1,5 +1,4 @@
 import { StateManager } from "../core/manager.core";
-
 // Define the App state interface
 interface AppState {
     inAppMode: boolean; // 是否在app模式下
@@ -35,10 +34,10 @@ class AppManager extends StateManager<AppState> {
             this.state.registeredApps.push(appName);
         }
     }
-    
+
     // Method to start an app
     public startApp(appName: string): void {
-        console.log('this.state.registeredApps',this.state.registeredApps);
+        console.log('this.state.registeredApps', this.state.registeredApps);
         if (this.state.registeredApps.includes(appName)) {
             this.state.activeApp = appName;
             this.state.inAppMode = true;

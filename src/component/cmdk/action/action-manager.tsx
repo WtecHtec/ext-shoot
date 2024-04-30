@@ -41,10 +41,9 @@ class ActionManager extends StateManager<ActionState> {
 
     // Method to register actions
     public registerAction(id: string, action: React.ReactNode): void {
-        console.log('id',id);
+        // console.log('id',id);
         this.state.actionsMap.set(id, action);
     }
-
     public getAction(id: string): React.ReactNode | undefined {
         return this.state.actionsMap.get(id);
     }
@@ -58,11 +57,11 @@ class ActionManager extends StateManager<ActionState> {
         this.state.actionPanel = newActionPanel;
     }
 
-    public get title(){
+    public get title() {
         return this.state.title;
     }
 
-    public get placeholder(){
+    public get placeholder() {
         return this.state.placeholder;
     }
 }

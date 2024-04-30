@@ -60,7 +60,7 @@ export function Item({
 
     const registerActionPanel = () => {
         actionManager.registerAction(id, actions);
-        actionManager.logAllActions();
+        // actionManager.logAllActions();
     };
     useEffect(() => {
         registerActionPanel();

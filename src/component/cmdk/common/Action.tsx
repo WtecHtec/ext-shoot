@@ -1,6 +1,7 @@
 import { Command } from "cmdk";
 import React from "react";
 import { CopyNameIcon, ExtensionIcon, StoreIcon } from "~component/icons";
+import { ShortCutKBD, Shortcut } from "./ShortCut";
 
 interface ActionPanelProps {
     value: string;
@@ -9,6 +10,7 @@ interface ActionPanelProps {
     icon?: string | React.ReactNode;
     children?: React.ReactNode;
     cls?: string;
+    Shortcut?: Shortcut;
 }
 
 const BaseAction = (
@@ -16,6 +18,7 @@ const BaseAction = (
         value,
         keywords,
         onSelect,
+        Shortcut,
         icon,
         cls = '',
     }: ActionPanelProps
@@ -35,8 +38,23 @@ const BaseAction = (
         typeof onSelect === 'function' && onSelect();
     };
 
+
     const renderValue = () => {
         return value;
+    };
+    const renderShortcut = () => {
+        return (
+            <div cmdk-raycast-submenu-shortcuts="">
+                {Shortcut
+                    ? <ShortCutKBD
+                        Shortcut={{
+                            key: Shortcut.key,
+                            modifiers: Shortcut.modifiers
+                        }}
+                    />
+                    : null}
+            </div>
+        );
     };
     return <Command.Item
         className={cls ? cls : ''}
@@ -47,6 +65,7 @@ const BaseAction = (
         }}>
         {renderIcon()}
         {renderValue()}
+        {renderShortcut()}
     </Command.Item >;
 
 };
@@ -81,12 +100,13 @@ const OpenInBrowser = (
 interface CopyToClipboardProps {
     content: string;
     title?: string;
-    shortcut?: string;
+    shortcut?: Shortcut;
 }
 const CopyToClipboard = (
     {
         content,
         title,
+        shortcut
     }: CopyToClipboardProps
 ) => {
     if (!title) {
@@ -97,6 +117,7 @@ const CopyToClipboard = (
             value={title}
             keywords={['copy', 'clipboard']}
             icon={<CopyNameIcon />}
+            Shortcut={shortcut}
             onSelect={() => {
                 navigator.clipboard.writeText(content);
             }}

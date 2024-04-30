@@ -15,7 +15,8 @@ import {
     ENABLE_ALL_EXTENSION,
     EXT_UPDATE_DONE,
 } from '~config/actions';
-import {ExtItem} from '~utils/ext.interface';
+import { UNINSTALL_URL } from '~constant';
+import { ExtItem } from '~utils/ext.interface';
 import {
     clearRecentlyData,
     getBrowserType,
@@ -35,7 +36,7 @@ let previousExtensions = [];
 chrome.runtime.onInstalled.addListener((object) => {
     // Inject shoot on install
     const manifest = chrome.runtime.getManifest();
-    
+
     const injectIntoTab = (tab) => {
         const scripts = manifest.content_scripts[0].js;
         const s = scripts.length;
@@ -79,7 +80,25 @@ chrome.runtime.onInstalled.addListener((object) => {
     );
 
     if (object.reason === 'install') {
-        // chrome.tabs.create({ url: FIRST_URL });
+        // Clear storage
+        chrome.storage.local.clear();
+
+        const locale = chrome.i18n.getUILanguage();
+
+        if (locale.includes("en")) {
+            chrome.runtime.setUninstallURL(
+                UNINSTALL_URL +
+                chrome.runtime.getManifest().version
+            );
+        } else {
+            chrome.runtime.setUninstallURL(
+                "http://translate.google.com/translate?js=n&sl=auto&tl=" +
+                locale +
+                `&u=${UNINSTALL_URL}?version=` +
+                chrome.runtime.getManifest().version
+            );
+        }
+
         chrome.tabs.create({
             url: chrome.runtime.getURL('/tabs/welcome.html'),
         });
@@ -119,7 +138,7 @@ const getExtensions = ({ sendResponse }) => {
         const result: ExtItem[] = [];
         const iconData = (await getStorageIcon()) || {};
         const extendInfo = (await getExtendedInfo()) || {};
-        console.log('extendInfo',extendInfo);
+        console.log('extendInfo', extendInfo);
         for (let i = 0; i < extensions.length; i++) {
             const { id, name, description, installType, enabled } = extensions[i];
             result.push({
@@ -129,32 +148,32 @@ const getExtensions = ({ sendResponse }) => {
                 icon: iconData[id] || '',
                 installType,
                 enabled,
-								isSelf: id === chrome.runtime.id,
+                isSelf: id === chrome.runtime.id,
                 ...(extendInfo[id] || {}),
             });
         }
-				// 检查是否有新插件
-				const currentExtensions = extensions.map(extension => extension.id);
-				if (previousExtensions.length ) {
-					const recentlyData: any = await getRecentlyData() || [];
-					const newExtensions = currentExtensions.filter(id => !previousExtensions.includes(id));
-					if (newExtensions.length > 0) {
-						for (let i = 0; i < newExtensions.length; i++) {
-							const fdrecent = recentlyData.find(item => item && item.extIds && item.extIds.includes(newExtensions[i]) );
-							// 如果已经在最近使用，则跳过
-							if (fdrecent) continue;
-							const extensionId = newExtensions[i];
-							const detailsUrl = `chrome://extensions/?id=${extensionId}`;
-							await setRecentlyData({
-									value: 'open_detail_page',
-									extIds: [extensionId],
-									name: `Open Detail Page`,
-									pendingUrl: detailsUrl,
-							});
-						}
-					}
-				}
-				previousExtensions = currentExtensions;
+        // 检查是否有新插件
+        const currentExtensions = extensions.map(extension => extension.id);
+        if (previousExtensions.length) {
+            const recentlyData: any = await getRecentlyData() || [];
+            const newExtensions = currentExtensions.filter(id => !previousExtensions.includes(id));
+            if (newExtensions.length > 0) {
+                for (let i = 0; i < newExtensions.length; i++) {
+                    const fdrecent = recentlyData.find(item => item && item.extIds && item.extIds.includes(newExtensions[i]));
+                    // 如果已经在最近使用，则跳过
+                    if (fdrecent) continue;
+                    const extensionId = newExtensions[i];
+                    const detailsUrl = `chrome://extensions/?id=${extensionId}`;
+                    await setRecentlyData({
+                        value: 'open_detail_page',
+                        extIds: [extensionId],
+                        name: `Open Detail Page`,
+                        pendingUrl: detailsUrl,
+                    });
+                }
+            }
+        }
+        previousExtensions = currentExtensions;
         sendResponse({ extensions: result });
     });
 };
@@ -166,8 +185,8 @@ const getExtensions = ({ sendResponse }) => {
 const handleEnableExtension = ({ request, sendResponse }) => {
     const { extensionId, status } = request;
     chrome.management.setEnabled(extensionId, status, () => {
-				// 跳过自己
-				if (extensionId === chrome.runtime.id) return;
+        // 跳过自己
+        if (extensionId === chrome.runtime.id) return;
         sendResponse({ status: 'Extension enabled' });
     });
 };
@@ -179,8 +198,8 @@ const handleEnableExtension = ({ request, sendResponse }) => {
 const handleUninstallExtension = ({ request, sendResponse }) => {
     const { extensionId } = request;
     try {
-				// 跳过自己
-				if (extensionId === chrome.runtime.id) return;
+        // 跳过自己
+        if (extensionId === chrome.runtime.id) return;
         chrome.management.uninstall(extensionId, {}, () => {
             console.log('取消卸载', chrome.runtime.lastError);
             sendResponse({ status: chrome.runtime.lastError ? 'error' : 'success' });
@@ -212,7 +231,7 @@ const handleOpenOptionsPage = ({ request, sendResponse }) => {
  */
 const handleOpenExtensionDetails = ({ request, sendResponse }) => {
     const { extensionId } = request;
-    const detailsUrl = `chrome://extensions/?id=${ extensionId }`;
+    const detailsUrl = `chrome://extensions/?id=${extensionId}`;
     chrome.tabs.create({ url: detailsUrl });
     setRecentlyData({
         value: 'open_detail_page',

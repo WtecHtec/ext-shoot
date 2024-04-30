@@ -77,7 +77,6 @@ export function Item({
             {renderIcon()}
             <div>
                 <h3>{title}</h3>
-                {/* <p>{item.description}</p> */}
             </div>
             {children}
             <span cmdk-raycast-sub="" style={{ flexShrink: 0 }}> {renderAuthor()}</span>

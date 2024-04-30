@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 
 import { Command } from 'cmdk';
-
 import React, { useEffect } from 'react';
 import { ExtensionIcon } from '~component/icons';
 import { DEFAULT_AUTHOR } from '../core/constant';

@@ -173,7 +173,7 @@ export default function ActionUi({
         }}>
         <Command>
           <h1 className={"sub_command_title"}>{selectCmd}</h1>
-          
+
           <Command.List>
             <Command.Empty>No Results</Command.Empty>
             {SelectActions && React.cloneElement(SelectActions, { title: 'Actions' })}

@@ -1,6 +1,6 @@
 import { StateManager } from "../core/manager.core";
 import React from 'react';
-
+import debounce from "lodash.debounce";
 // Define the Action state interface
 interface ActionState {
     title: string;
@@ -44,6 +44,15 @@ class ActionManager extends StateManager<ActionState> {
         // console.log('id',id);
         this.state.actionsMap.set(id, action);
     }
+    // WIP active action panel 显示异常
+    public registerActionWithDebounce(id: string, action: React.ReactNode, debounceTime: number): void {
+        const debouncedAction = debounce(() => {
+            actionManager.logAllActions();
+            actionManager.registerAction(id, action);
+        }, debounceTime);
+        debouncedAction();
+    }
+
     public getAction(id: string): React.ReactNode | undefined {
         return this.state.actionsMap.get(id);
     }

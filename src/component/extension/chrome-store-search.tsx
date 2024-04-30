@@ -77,6 +77,7 @@ function AppIcon(props: SVGProps<SVGSVGElement>) {
 
 const Search = ({ search }: { search: string }) => {
 	const onSearch = () => {
+		// 增加防抖，避免高频率调用
 		appManager.startApp("Store Search");
 		// 如果是 use 。。。 with 的话，这里可以传入第二个参数，不用清除
 		searchManager.clearSearch();

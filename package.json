@@ -1,6 +1,6 @@
 {
   "name": "extension-shoot",
-  "displayName": "Ext Shoot",
+  "displayName": "MotionShot",
   "version": "0.0.2",
   "description": "A blazingly fast extension launcher for browser",
   "author": "River.<laolei@forkway.cn>",

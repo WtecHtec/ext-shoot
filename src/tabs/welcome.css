@@ -1,10 +1,224 @@
-.tag-info {
-	margin: 0 4px;
-	display: inline-block;
-	background-color: rgba(175, 184, 193, 0.2);
-	padding: 0 4px;
+@font-face {
+  font-family: "Satoshi-Bold";
+  font-weight: normal;
+  font-style: normal;
+  src: url("~src/component/asset/font/Satoshi-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Satoshi-Medium";
+  font-weight: normal;
+  font-style: normal;
+  src: url("~src/component/asset/font/Satoshi-Medium.ttf") format("truetype");
 }
 
-.txt {
-	font-weight: 400;
+body {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background-color: #f6f7fb !important;
+  background: url("~src/component/asset/helper/pattern-svg.svg") repeat;
+  background-size: 62px 23.5px;
+  animation: moveBackground 138s linear infinite;
+  transform: rotate(0deg);
+
+  --gray5: hsl(0, 0%, 90.9%);
+  --gray6: hsl(0, 0%, 88.7%);
+  --gray7: hsl(0, 0%, 85.8%);
+  --gray8: hsl(0, 0%, 78%);
+  --gray9: hsl(0, 0%, 56.1%);
+  --gray10: hsl(0, 0%, 52.3%);
+  --gray11: hsl(0, 0%, 43.5%);
+
+  kbd {
+    font-family: "Satoshi-Bold";
+    background: var(--gray5);
+    color: var(--gray11);
+    height: 20px;
+    width: 14px;
+    border-radius: 4px;
+    padding: 0 4px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:not(:first-of-type) {
+      margin-left: 2px;
+    }
+  }
+}
+
+.setupInfo {
+  margin-top: 20px;
+}
+
+a {
+  text-decoration: none !important;
+  color: #4c7de2;
+}
+
+@keyframes moveBackground {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+.setupLogo {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 200px;
+}
+
+.setupBackground {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.setupContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  height: fit-content;
+  background-color: #fff;
+  border-radius: 30px;
+  padding: 50px;
+  gap: 80px;
+  font-family: "Satoshi-Medium", sans-serif;
+}
+
+.setupImage {
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.setupImage video {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.setupText {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.setupEmoji {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.setupTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #29292f;
+  font-family: "Satoshi-Bold", sans-serif !important;
+  letter-spacing: -0.5px;
+}
+
+.setupDescription {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 10px;
+  color: #6e7684;
+  font-size: 14px;
+}
+
+.setupStep {
+  margin-bottom: 10px;
+  vertical-align: middle;
+}
+
+.setupStep span {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  border-radius: 30px;
+  display: inline-flex;
+  vertical-align: middle;
+  margin: 0 3px;
+  background-color: #f4f2f2;
+}
+
+.setupStep .shortcut {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 20px;
+  display: inline-flex;
+  vertical-align: middle;
+  margin: 0 3px;
+}
+
+.setupStep .icon {
+  width: 100%;
+  text-align: center;
+  display: block;
+}
+
+.center {
+  text-align: center !important;
+}
+
+.setupText.center {
+  width: auto !important;
+}
+
+.setupContainer.center {
+  width: 40% !important;
+}
+
+@media only screen and (max-width: 800px) {
+  .setupContainer {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .setupText,
+  .setupImage {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .setupContainer {
+    width: 80% !important;
+    padding: 20px !important;
+  }
+  .setupTitle {
+    font-size: 18px !important;
+  }
+  .setupDescription {
+    font-size: 12px !important;
+  }
+  .setupStep {
+    font-size: 12px !important;
+  }
 }

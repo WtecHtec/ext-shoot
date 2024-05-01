@@ -1,55 +1,89 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useUpdateIcon from '~hooks/useUpdateIcon';
 import "~tabs/welcome.css";
+import LogoWithUrl from 'react:~component/asset/logo-with-title.svg';
+import PuzzleIcon from 'react:~component/asset/helper/puzzle.svg';
+import PinIcon from 'react:~component/asset/helper/pin.svg';
+import pinVideo from 'url:../component/asset/helper/pin.mp4';
+import { ShootIcon } from '~component/icons';
+
+// 设置 headeing 标签的样式
+
 export default function WelcomeRender() {
 
-  useUpdateIcon();
+	useUpdateIcon();
 
-  return (
-      <div
-          style={ {
-              display: 'flex',
-              flexDirection: 'column',
-              padding: 16,
-          } }>
-          <h2>The next-generation extension management platform for developers</h2>
-          <h2>🔍 Search and Reach Instantly</h2>
-					<ul style={ { listStyleType:'disc', margin: '0', padding: '0 0 0 16px' } }>
-						<li><h2 className="txt">Efficient keyword-matched plugin search <span className="tag-info"> default shortcut Command+I </span></h2></li>
-						<li><h2 className="txt">Automatically sorts by usage habits and timing, prioritizing frequently used extensions</h2></li>
-						<li><h2 className="txt">Complete search and installation within one interface, without leaving the console</h2></li>
-					</ul>
-          <h2> ⚡️ Quick Access</h2>
-					<ul style={ { listStyleType:'disc', margin: '0', padding: '0 0 0 16px' } }>
-						<li> <h2 className="txt"> Activate and launch extensions in one step</h2> </li>
-						<li> <h2 className="txt"> Displays all custom extension pages for quick navigation</h2> </li>
-						<li> <h2 className="txt"> One-click management of extensions, including enabling, disabling, and uninstalling </h2> </li>
-					</ul>
-          
-          <h2> 🗂️ Extension Management  </h2>
-					<ul style={ { listStyleType:'disc', margin: '0', padding: '0 0 0 16px' } }>
-						<li><h2 className="txt"> Supports extension runtime snapshots, enabling or disabling in bulk</h2> </li>
-						<li><h2 className="txt"> Flexible rule matching to equip each website with the best extension</h2> </li>
-					</ul>
-          
-					<h2> 🛠️ Exclusive for Developers  </h2>
-					<ul style={ { listStyleType:'disc', margin: '0', padding: '0 0 0 16px' } }>
-						<li><h2 className="txt"> One-click access to the plugin source code, supporting both local and network downloads</h2> </li>
-						<li><h2 className="txt"> Independent Solo running mode to ensure a clean testing environment</h2> </li>
-						<li><h2 className="txt">Easily copy extension titles and IDs to improve development efficiency</h2></li>
-					</ul>
-         
-					<h2> 🚀 Smooth Experience </h2>
-					<ul style={ { listStyleType:'disc', margin: '0', padding: '0 0 0 16px' } }>
-						<li><h2 className="txt"> Minimalist design, lightweight operation, reducing resource burden</h2> </li>
-						<li><h2 className="txt"> Compatible with multiple browsers, including Chrome, Edge, and Arc</h2> </li>
-						<li><h2 className="txt">Rule import feature, facilitating seamless migration from other extension managers</h2></li>
-					</ul>
-					<h2>💁 Additional Notes  </h2>
-					<ul style={ { listStyleType:'disc', margin: '0', padding: '0 0 0 16px' } }>
-						<li><h2 className="txt"> <span className="tag-info"> Show in Finder. </span> Need to start service. <a href="https://www.npmjs.com/package/extss">extss</a></h2> </li>
-					</ul>
-         <h2>💌 Extenion Shoot, reshaping your extension management experience!</h2>
-      </div>
-  );
+	const [setupComplete] = useState(false);
+
+	// 修改 head 标签的内容
+	document.title = "MotionShot - First Steps";
+
+	return (
+
+		<div className="setupBackground">
+			{
+				!setupComplete && PinTutior()
+			}
+
+			<div className="setupLogo" >
+				<LogoWithUrl />
+			</div>
+		</div>
+
+
+	);
 }
+
+const PinTutior = () => {
+	return (
+		<div className="setupContainer">
+			<div className="setupImage">
+				<video src={pinVideo} autoPlay loop muted />
+			</div>
+			<div className="setupText">
+				<div className="setupEmoji">👋</div>
+				<div className="setupTitle">
+					Get started with MotionShot in three simple steps:
+				</div>
+				<div className="setupDescription">
+					<div className="setupStep">
+						1- Find the
+						{" "}
+						<span>
+							<PuzzleIcon className='icon' />
+						</span>
+						{" "}
+						extensions panel
+					</div>
+					<div className="setupStep">
+						2- Press the
+						{" "}
+						<span>
+							<PinIcon className='icon' />
+						</span>{" "}
+						pin icon
+					</div>
+					<div className="setupStep">
+						3- Click on the
+						{" "}
+						<span>
+							<ShootIcon className='w-2 icon' />
+						</span>
+						{" "}
+						MotionShot to start
+					</div>
+					<div className="setupStep">
+						4- Press shortcut
+						{" "}
+						<div className='shortcut'>
+							<kbd>⌘</kbd>
+							<kbd>I</kbd>
+						</div>
+						{" "}
+						to launch qucikly
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};

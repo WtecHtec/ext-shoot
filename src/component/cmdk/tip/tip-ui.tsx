@@ -39,7 +39,7 @@ const DefaultTip: React.FC<TipProps> = () => {
 
   return (
     <ShootIcon
-      className="hover:bg-[var(--gray4)] hover:rounded-[10%] hover:cursor-pointer"
+      className="hover:bg-[var(--gray4)] hover:rounded-[10%] hover:cursor-pointer ml-1"
       style={{ width: "18px", height: "18px" }}
       onClick={handleOpenGithub}
     />
@@ -64,7 +64,7 @@ const ErrorTip: React.FC<TipProps> = ({ msg }) => {
 
 const Tip: React.FC<TipProps> = ({ msg }) => {
   return (
-    <div className="flex px-1">
+    <div className="flex px-1 ml-1">
       <ShootIcon />
       <span className="pl-2 text-[14px] font-[400]">{msg}</span>
     </div>

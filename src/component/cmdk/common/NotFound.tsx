@@ -1,15 +1,15 @@
-import { Command } from "cmdk"
-import React from "react"
+import { Command } from "cmdk";
+import React from "react";
 
-import { NotFoundIcon } from "~component/icons"
+import { NotFoundIcon } from "~component/icons";
 
 const BaseNotFound = ({ child }: { child: React.ReactNode }) => {
-  return <Command.Empty> {child}</Command.Empty>
-}
+  return <Command.Empty> {child}</Command.Empty>;
+};
 
 const TextNotFound = ({ text = "No results found" }: { text?: string }) => {
-  return <BaseNotFound child={<span className="">{text}</span>} />
-}
+  return <BaseNotFound child={<span className="">{text}</span>} />;
+};
 
 const NotFoundWithIcon = ({
   icon,
@@ -19,7 +19,7 @@ const NotFoundWithIcon = ({
   text?: string
 }) => {
   if (icon === undefined) {
-    icon = <NotFoundIcon className="w-16" />
+    icon = <NotFoundIcon className="w-16" />;
   }
   return (
     <BaseNotFound
@@ -30,13 +30,13 @@ const NotFoundWithIcon = ({
         </>
       }
     />
-  )
-}
+  );
+};
 
 const NotFound = {
   BaseNotFound,
   TextNotFound,
   NotFoundWithIcon
-}
+};
 
-export default NotFound
+export default NotFound;

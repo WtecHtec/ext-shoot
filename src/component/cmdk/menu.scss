@@ -185,7 +185,7 @@
     }
   }
 
-  [cmdk-raycast-top-shine] {
+  [cmdk-motionshot-top-shine] {
     .dark & {
       background: linear-gradient(
         90deg,
@@ -204,7 +204,7 @@
     }
   }
 
-  [cmdk-raycast-loader] {
+  [cmdk-motionshot-loader] {
     --loader-color: var(--gray9);
     border: 0;
     width: 100%;
@@ -284,12 +284,12 @@
     }
   }
 
-  [cmdk-raycast-sub] {
+  [cmdk-motionshot-sub] {
     margin-left: 4px;
     color: var(--gray11);
     font-size: 13px;
   }
-  [cmdk-raycast-meta] {
+  [cmdk-motionshot-meta] {
     margin-left: auto;
     color: var(--gray11);
     font-size: 13px;
@@ -306,8 +306,8 @@
     scrollbar-width: none;
   }
 
-  [cmdk-raycast-open-trigger],
-  [cmdk-raycast-subcommand-trigger] {
+  [cmdk-motionshot-open-trigger],
+  [cmdk-motionshot-subcommand-trigger] {
     color: var(--gray11);
     padding: 0px 4px 0px 8px;
     border-radius: 6px;
@@ -326,8 +326,8 @@
     }
   }
 
-  [cmdk-raycast-clipboard-icon],
-  [cmdk-raycast-hammer-icon] {
+  [cmdk-motionshot-clipboard-icon],
+  [cmdk-motionshot-hammer-icon] {
     width: 20px;
     height: 20px;
     border-radius: 6px;
@@ -342,21 +342,21 @@
     }
   }
 
-  [cmdk-raycast-clipboard-icon] {
+  [cmdk-motionshot-clipboard-icon] {
     background: linear-gradient(to bottom, #f55354, #eb4646);
   }
 
-  [cmdk-raycast-hammer-icon] {
+  [cmdk-motionshot-hammer-icon] {
     background: linear-gradient(to bottom, #6cb9a3, #2c6459);
   }
 
-  [cmdk-raycast-open-trigger] {
+  [cmdk-motionshot-open-trigger] {
     display: flex;
     align-items: center;
     color: var(--gray12);
   }
 
-  [cmdk-raycast-subcommand-trigger] {
+  [cmdk-motionshot-subcommand-trigger] {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -405,7 +405,7 @@
     align-items: center;
   }
 
-  [cmdk-raycast-footer] {
+  [cmdk-motionshot-footer] {
     display: flex;
     height: 40px;
     align-items: center;
@@ -504,7 +504,7 @@
   }
 }
 
-.raycast-submenu {
+.motionshot-submenu {
   [cmdk-root] {
     display: flex;
     flex-direction: column;
@@ -565,7 +565,7 @@
       background: var(--gray5);
       color: var(--gray12);
 
-      [cmdk-raycast-submenu-shortcuts] kbd {
+      [cmdk-motionshot-submenu-shortcuts] kbd {
         background: var(--gray7);
       }
     }
@@ -584,7 +584,7 @@
       // -webkit-filter: grayscale(1);
     }
 
-    [cmdk-raycast-submenu-shortcuts] {
+    [cmdk-motionshot-submenu-shortcuts] {
       margin-right: 6px;
       display: flex;
       margin-left: auto;
@@ -686,7 +686,7 @@
 }
 
 @media (max-width: 640px) {
-  .raycast {
+  .motionshot {
     [cmdk-input] {
       font-size: 16px;
     }

@@ -13,7 +13,7 @@ type ListProps = {
      */
     children: React.ReactNode,
     /**
-     * Toggles Raycast filtering. When true, Raycast will use the query in the search bar to filter the items. When false, the extension needs to take care of the filtering.
+     * Toggles MotionShot filtering. When true, MotionShot will use the query in the search bar to filter the items. When false, the extension needs to take care of the filtering.
      */
     filtering: boolean | { keepSectionOrder: boolean },
     /**
@@ -25,7 +25,7 @@ type ListProps = {
      */
     isShowingDetail: boolean,
     /**
-     * The main title for that view displayed in Raycast
+     * The main title for that view displayed in MotionShot
      */
     navigationTitle: string,
     /**

@@ -114,7 +114,7 @@ export default function SnapshotCommand({
 	return (
 		<Popover.Root open={open} onOpenChange={setOpen}>
 			<Popover.Trigger
-				cmdk-raycast-subcommand-trigger=""
+				cmdk-motionshot-subcommand-trigger=""
 				onClick={() => setOpen(true)}
 				aria-expanded={open}>
 				<div className="snap-picker">
@@ -125,7 +125,7 @@ export default function SnapshotCommand({
 			<Popover.Content
 				side="top"
 				align="end"
-				className="raycast-submenu"
+				className="motionshot-submenu"
 				sideOffset={16}
 				alignOffset={0}
 				onCloseAutoFocus={(e) => {

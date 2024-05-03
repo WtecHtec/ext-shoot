@@ -44,7 +44,7 @@ const BaseAction = (
     };
     const renderShortcut = () => {
         return (
-            <div cmdk-raycast-submenu-shortcuts="">
+            <div cmdk-motionshot-submenu-shortcuts="">
                 {Shortcut
                     ? <ShortCutKBD
                         Shortcut={{

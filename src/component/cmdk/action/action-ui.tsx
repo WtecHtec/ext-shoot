@@ -176,7 +176,7 @@ export default function ActionUi({
         <Popover.Root open={ open } onOpenChange={ setOpen }>
             <Popover.Trigger
             hidden={true}
-                cmdk-raycast-subcommand-trigger=""
+                cmdk-motionshot-subcommand-trigger=""
                 onClick={ () => setOpen(true) }
                 aria-expanded={ open }>
                 Actions
@@ -186,7 +186,7 @@ export default function ActionUi({
             <Popover.Content
                 side="top"
                 align="end"
-                className="raycast-submenu"
+                className="motionshot-submenu"
                 sideOffset={ 16 }
                 alignOffset={ 0 }
                 onCloseAutoFocus={ (e) => {

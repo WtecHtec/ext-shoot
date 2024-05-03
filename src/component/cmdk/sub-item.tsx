@@ -29,7 +29,7 @@ export default function SubItem({
 				typeof commandHandle === 'function' && commandHandle(value);
 			}}>
 			{children}
-			<div  cmdk-raycast-submenu-shortcuts="">
+			<div  cmdk-motionshot-submenu-shortcuts="">
 				{shortcut
 					? shortcut.split(getPlatform() === 'mac' ? '' : ' ').map((key) => {
 						return <kbd key={key}>{key}</kbd>;

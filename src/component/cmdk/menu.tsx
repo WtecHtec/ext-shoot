@@ -81,7 +81,7 @@ const BASE_GROUP = () => [
   }
 ];
 
-export function RaycastCMDK() {
+export function MotionShotCMDK() {
   const [value, setValue] = React.useState("");
   const [extDatas, setExtDatas] = React.useState([]); // 页面显示数据
   const [originDatas, setOriginDatas] = React.useState([]); // 扩展源数据, 全部
@@ -924,7 +924,7 @@ export function RaycastCMDK() {
         value={value}
         onValueChange={(v) => handleChangeSelectCmd(v)}
         filter={onCommandFilter}>
-        <div cmdk-raycast-top-shine="" />
+        <div cmdk-motionshot-top-shine="" />
         <div className="flex items-center justify-start">
           <SearchComponent inputRef={inputRef} />
           {
@@ -956,7 +956,7 @@ export function RaycastCMDK() {
             )
           }
         </div>
-        <hr cmdk-raycast-loader="" />
+        <hr cmdk-motionshot-loader="" />
         <div className="h-[380px]">
           {
             <Command.List ref={listRef} hidden={inAppMode}>
@@ -1043,12 +1043,12 @@ export function RaycastCMDK() {
             </>
           }
         </div>
-        <div cmdk-raycast-footer="">
+        <div cmdk-motionshot-footer="">
           <FooterTip />
           <hr />
 
           <button
-            cmdk-raycast-open-trigger=""
+            cmdk-motionshot-open-trigger=""
             onClick={() => {
               onBottomOpenExtPage(value);
             }}>

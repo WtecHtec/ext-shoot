@@ -194,7 +194,7 @@ export function StarIcon() {
 
 export function ClipboardIcon() {
     return (
-        <div cmdk-raycast-clipboard-icon="">
+        <div cmdk-motionshot-clipboard-icon="">
             <svg
                 width="32"
                 height="32"
@@ -231,7 +231,7 @@ export function UpdateInfoIcon() {
 
 export function HammerIcon() {
     return (
-        <div cmdk-raycast-hammer-icon="">
+        <div cmdk-motionshot-hammer-icon="">
             <svg
                 width="32"
                 height="32"

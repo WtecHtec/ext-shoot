@@ -3,7 +3,7 @@ import cssText from 'data-text:~style.css';
 import type {PlasmoCSConfig} from 'plasmo';
 import React, {useEffect, useRef} from 'react';
 
-import {RaycastCMDK} from '~component/cmdk/menu';
+import {MotionShotCMDK} from '~component/cmdk/menu';
 import {CMDKWrapper} from '~component/common';
 import injectToaster from '~toaster';
 import EventBus from '~utils/event-bus';
@@ -150,7 +150,7 @@ const PlasmoOverlay = () => {
                 className="fixed z-50 flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
                 { open ? (
                     <CMDKWrapper>
-                        <RaycastCMDK/>
+                        <MotionShotCMDK/>
                     </CMDKWrapper>
                 ) : null }
             </div>

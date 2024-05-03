@@ -78,8 +78,8 @@ export function Item({
                 <h3>{title}</h3>
             </div>
             {children}
-            <span cmdk-raycast-sub="" style={{ flexShrink: 0 }}> {renderAuthor()}</span>
-            <span cmdk-raycast-meta="" style={{ flexShrink: 0 }}> {renderKind()}</span>
+            <span cmdk-motionshot-sub="" style={{ flexShrink: 0 }}> {renderAuthor()}</span>
+            <span cmdk-motionshot-meta="" style={{ flexShrink: 0 }}> {renderKind()}</span>
         </Command.Item>
     );
 }

@@ -1,13 +1,13 @@
 import React from 'react';
-import DisableAllIcon from 'react:~component/asset/disable-all-extension.svg';
-import EnableAllIcon from 'react:~component/asset/enable-all-extension.svg';
-import ExtensionHomePageIcon from 'react:~component/asset/extension-homepage.svg';
-import ExtensionShortcutIcon from 'react:~component/asset/extension-shortcut.svg';
-import ExtensionClearRecentIcon from 'react:~component/asset/clear-recent.svg';
-import ExtensionAddSnapShot from 'react:~component/asset/snapshoot.svg';
+import DisableAllIcon from 'react:~asset/disable-all-extension.svg';
+import EnableAllIcon from 'react:~asset/enable-all-extension.svg';
+import ExtensionHomePageIcon from 'react:~asset/extension-homepage.svg';
+import ExtensionShortcutIcon from 'react:~asset/extension-shortcut.svg';
+import ExtensionClearRecentIcon from 'react:~asset/clear-recent.svg';
+import ExtensionAddSnapShot from 'react:~asset/snapshoot.svg';
 
 import RefreshExtensionInfo
-    from 'react:~component/asset/refresh_entension_infomation.svg';
+    from 'react:~asset/refresh_entension_infomation.svg';
 import {
     ActivatePluginIcon,
     CopyNameIcon,

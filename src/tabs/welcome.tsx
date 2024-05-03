@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import useUpdateIcon from '~hooks/useUpdateIcon';
 import "~tabs/welcome.css";
-import LogoWithUrl from 'react:~component/asset/logo-with-title.svg';
-import PuzzleIcon from 'react:~component/asset/helper/puzzle.svg';
-import PinIcon from 'react:~component/asset/helper/pin.svg';
-import pinVideo from 'url:../component/asset/helper/pin.mp4';
+import LogoWithUrl from 'react:~asset/logo-with-title.svg';
+import PuzzleIcon from 'react:~asset/helper/puzzle.svg';
+import PinIcon from 'react:~asset/helper/pin.svg';
+import pinVideo from 'url:../asset/helper/pin.mp4';
 import { ShootIcon } from '~component/icons';
 
 // 设置 headeing 标签的样式

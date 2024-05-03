@@ -2,13 +2,13 @@
   font-family: "Satoshi-Bold";
   font-weight: normal;
   font-style: normal;
-  src: url("~src/component/asset/font/Satoshi-Bold.ttf") format("truetype");
+  src: url("~src/asset/font/Satoshi-Bold.ttf") format("truetype");
 }
 @font-face {
   font-family: "Satoshi-Medium";
   font-weight: normal;
   font-style: normal;
-  src: url("~src/component/asset/font/Satoshi-Medium.ttf") format("truetype");
+  src: url("~src/asset/font/Satoshi-Medium.ttf") format("truetype");
 }
 
 body {
@@ -17,7 +17,7 @@ body {
   padding: 0;
   min-height: 100%;
   background-color: #f6f7fb !important;
-  background: url("~src/component/asset/helper/pattern-svg.svg") repeat;
+  background: url("~src/asset/helper/pattern-svg.svg") repeat;
   background-size: 62px 23.5px;
   animation: moveBackground 138s linear infinite;
   transform: rotate(0deg);

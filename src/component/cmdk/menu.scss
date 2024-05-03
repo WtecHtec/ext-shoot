@@ -460,11 +460,14 @@
   [cmdk-empty] {
     font-size: 14px;
     display: flex;
+    flex-direction: column;
+    row-gap: 2px;
     align-items: center;
     justify-content: center;
-    height: 64px;
+    height: 300px;
     white-space: pre-wrap;
     color: var(--gray11);
+    font-weight: 600;
   }
 }
 

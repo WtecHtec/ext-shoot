@@ -62,15 +62,13 @@ type OptionalListProps = Partial<ListProps>;
 
 
 export default function List(props: OptionalListProps) {
-    console.log(props);
-    const{children} = props;
+    const { children } = props;
     return (
         <div>
-            
-        {
-            children
-        }
-        
+            {
+                children
+            }
+
         </div>
     );
 }

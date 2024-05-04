@@ -22,8 +22,8 @@ import {
     StoreIcon,
     UninstallIcon,
 } from '~component/icons';
-import {AC_CLEAR_RECENTLYS, AC_SET_BROWSER, ENABLE_ALL_EXTENSION} from '~config/actions';
-import {handleExtUpdateDone} from '~utils/management';
+import { AC_CLEAR_RECENTLYS, AC_SET_BROWSER, ENABLE_ALL_EXTENSION } from '~config/actions';
+import { handleExtUpdateDone } from '~utils/management';
 import { footerTip } from '~component/cmdk/tip/tip-ui';
 
 /**
@@ -145,7 +145,7 @@ export const CommandMeta = [
         name: 'Update Extension Information',
         value: 'update_extension_info',
         keywords: ['update', 'extension', 'info', 'Update Extension Information'],
-        icon: <RefreshExtensionInfo/>,
+        icon: <RefreshExtensionInfo />,
         desc: 'Update Extension Information',
         refresh: true,
         handle: HandleIconUpdate,
@@ -154,7 +154,7 @@ export const CommandMeta = [
         name: 'Disable all Extension',
         value: 'disable_all_extension',
         keywords: ['ban', 'disable', 'Disable all Extension'],
-        icon: <DisableAllIcon/>,
+        icon: <DisableAllIcon />,
         desc: 'Disable all extensions in the browser',
         refresh: true,
         handle: handleDisableAllExtension,
@@ -163,7 +163,7 @@ export const CommandMeta = [
         name: 'Enable all Extension',
         value: 'enable_all_extension',
         keywords: ['enable', 'Enable all Extension'],
-        icon: <EnableAllIcon/>,
+        icon: <EnableAllIcon />,
         refresh: true,
         desc: 'Enable all extensions in the browser',
         handle: handleEnableAllExtension,
@@ -173,7 +173,7 @@ export const CommandMeta = [
         name: 'Open Extension HomePage',
         value: 'open_extension_home_page',
         keywords: ['open', 'extension', 'home', 'Open Extension HomePage'],
-        icon: <ExtensionHomePageIcon/>,
+        icon: <ExtensionHomePageIcon />,
         desc: 'Open Extension Page',
         handle: handleOpenExtensionPage,
     },
@@ -189,7 +189,7 @@ export const CommandMeta = [
             'keybindings',
             'keyboard',
         ],
-        icon: <ExtensionShortcutIcon/>,
+        icon: <ExtensionShortcutIcon />,
         desc: 'Change Extenion Shortcuts',
         handle: handleOpenExtensionShortcutsPage,
     },
@@ -198,7 +198,7 @@ export const CommandMeta = [
         name: 'Clear Recently Accessed',
         value: 'clear_recently',
         keywords: ['clear', 'recently', 'Clear Recently Accessed', 'recent', 'reset'],
-        icon: <ExtensionClearRecentIcon/>,
+        icon: <ExtensionClearRecentIcon />,
         desc: 'Clear Recently Access',
         handle: handleClearRecently,
     },
@@ -206,7 +206,7 @@ export const CommandMeta = [
         name: 'Add Snapshot',
         value: 'add_snapshot',
         keywords: ['create', 'snapshot', 'Add Snapshot'],
-        icon: <ExtensionAddSnapShot/>,
+        icon: <ExtensionAddSnapShot />,
         desc: 'Create Snapshot',
         handle: null,
 
@@ -235,7 +235,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
     // },
     {
         shortcut: '',
-        icon: <ActivatePluginIcon/>,
+        icon: <ActivatePluginIcon />,
         name: 'Active Plugin',
         desc: 'Active Plugin',
         value: 'active_plugin',
@@ -244,7 +244,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
     },
     {
         shortcut: '',
-        icon: <FreshIcon/>,
+        icon: <FreshIcon />,
         name: 'Reload Plugin',
         desc: 'Reload plugin',
         value: 'reload_plugin',
@@ -253,7 +253,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
     },
     {
         shortcut: '',
-        icon: <StarItIcon/>,
+        icon: <StarItIcon />,
         name: 'Add to Favorites',
         desc: 'Add to Favorites',
         value: 'add_to_favorites',
@@ -262,7 +262,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
     },
     {
         shortcut: '',
-        icon: <StoreIcon/>,
+        icon: <StoreIcon />,
         name: 'Open In Web Store',
         desc: 'Open In Web Store',
         value: 'open_in_web_store',
@@ -271,7 +271,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
     },
     {
         shortcut: '',
-        icon: <DetailPageIcon/>,
+        icon: <DetailPageIcon />,
         name: 'Open Detail Page',
         desc: 'Open Detail Page',
         value: 'open_detail_page',
@@ -281,7 +281,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
 
     {
         shortcut: '',
-        icon: <ShowInFinderIcon/>,
+        icon: <ShowInFinderIcon />,
         name: 'Show in Finder',
         desc: 'Show in Finder',
         value: 'show_in_finder',
@@ -291,7 +291,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
 
     {
         shortcut: '',
-        icon: <CopyNameIcon/>,
+        icon: <CopyNameIcon />,
         name: 'Copy Plugin ID',
         desc: 'Copy Plugin ID',
         value: 'copy_plugin_id',
@@ -300,7 +300,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
     },
     {
         shortcut: '',
-        icon: <CopyNameIcon/>,
+        icon: <CopyNameIcon />,
         name: 'Copy Plugin Name',
         desc: 'Copy Plugin Name',
         value: 'copy_plugin_name',
@@ -309,7 +309,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
     },
     {
         shortcut: '',
-        icon: <SoloModeIcon/>,
+        icon: <SoloModeIcon />,
         name: 'Solo Run Extension',
         desc: 'Solo Run Extension',
         value: 'solo_run_extension',
@@ -319,7 +319,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
 
     {
         shortcut: '',
-        icon: <DisableIcon/>,
+        icon: <DisableIcon />,
         name: 'Disable Plugin',
         desc: 'Disable Plugin',
         value: 'disable_plugin',
@@ -328,7 +328,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
     },
     {
         shortcut: '',
-        icon: <EnableIcon/>,
+        icon: <EnableIcon />,
         name: 'Enable Plugin',
         desc: 'Enable Plugin',
         value: 'enable_plugin',
@@ -337,7 +337,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
     },
     {
         shortcut: '',
-        icon: <UninstallIcon/>,
+        icon: <UninstallIcon />,
         name: 'Uninstall Plugin',
         desc: 'Uninstall Plugin',
         value: 'uninstall_plugin',
@@ -350,7 +350,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
 export const SUB_COMMAND_ACTIONS: Array<SubItemAction> = [
     {
         shortcut: '↵',
-        icon: <ExecuteRecentActionIcon/>,
+        icon: <ExecuteRecentActionIcon />,
         name: 'Execute Command',
         desc: 'Execute Command',
         value: 'execute_command',
@@ -391,7 +391,7 @@ export const getAllActionMap = () => {
 export const getCommandMetaMap = () => {
     const mapping = {};
     CommandMeta.forEach(item => {
-        // 给所有的command加一个label command 用于搜所
+        // 给所有的command加一个label command 用于搜索
         item.keywords.push('command');
         mapping[item.value] = item;
     });

@@ -1,4 +1,7 @@
 /* eslint-disable react/no-unknown-property */
+/* eslint-disable no-unused-vars */
+/* eslint-disable */
+
 
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 // import * as Select from '@radix-ui/react-select';
@@ -55,6 +58,8 @@ import { searchManager } from "./search/search-manager";
 import SearchComponent from "./search/search-ui";
 import SnapshotCommand from "./snapshot-command";
 import SnapshotDialog from "./snapshot-dialog";
+import ExtensionWithSearch from "./search-group";
+import { CommandUI } from "./command/command-ui";
 
 const eventBus = EventBus.getInstace();
 
@@ -961,58 +966,60 @@ export function MotionShotCMDK() {
           {
             <Command.List ref={listRef} hidden={inAppMode}>
               <NotFound.NotFoundWithIcon />
-              {extDatas.length > 0
+              {/* {extDatas.length > 0
                 ? extDatas?.map(({ children, name }) => {
-                    return (
-                      <>
-                        {children && children.length > 0 ? (
-                          <>
-                            <Command.Group
-                              heading={`${name}(${children.length})`}>
-                              {children?.map((item) => {
-                                const {
-                                  id,
-                                  name,
-                                  icon,
-                                  enabled,
-                                  isCommand,
-                                  actIcon
-                                } = item;
-                                return (
-                                  <Item
-                                    value={id}
-                                    key={id}
-                                    keywords={[...name.split(" "), name]}
-                                    commandHandle={() =>
-                                      handelPatibleSubCommand(
-                                        "execute_recent_action",
-                                        id
-                                      )
-                                    }
-                                    isCommand={isCommand}
-                                    cls={!enabled && "grayscale"}>
-                                    {icon ? (
-                                      isCommand ? (
-                                        icon
-                                      ) : (
-                                        <ExtensionIcon base64={icon} />
-                                      )
+                  return (
+                    <>
+                      {children && children.length > 0 ? (
+                        <>
+                          <Command.Group
+                            heading={`${name}(${children.length})`}>
+                            {children?.map((item) => {
+                              const {
+                                id,
+                                name,
+                                icon,
+                                enabled,
+                                isCommand,
+                                actIcon
+                              } = item;
+                              return (
+                                <Item
+                                  value={id}
+                                  key={id}
+                                  keywords={[...name.split(" "), name]}
+                                  commandHandle={() =>
+                                    handelPatibleSubCommand(
+                                      "execute_recent_action",
+                                      id
+                                    )
+                                  }
+                                  isCommand={isCommand}
+                                  cls={!enabled && "grayscale"}>
+                                  {icon ? (
+                                    isCommand ? (
+                                      icon
                                     ) : (
-                                      <ShootIcon></ShootIcon>
-                                    )}
-                                    <div className="truncate">{name}</div>
-                                    <div>{actIcon ? actIcon : null}</div>
-                                  </Item>
-                                );
-                              })}
-                            </Command.Group>
-                          </>
-                        ) : null}
-                      </>
-                    );
-                  })
-                : null}
-              {loaded ? (
+                                      <ExtensionIcon base64={icon} />
+                                    )
+                                  ) : (
+                                    <ShootIcon></ShootIcon>
+                                  )}
+                                  <div className="truncate">{name}</div>
+                                  <div>{actIcon ? actIcon : null}</div>
+                                </Item>
+                              );
+                            })}
+                          </Command.Group>
+                        </>
+                      ) : null}
+                    </>
+                  );
+                })
+                : null} */}
+              {<CommandUI />}
+
+              {/* {loaded ? (
                 <Command.Group heading="Commands">
                   {CommandMeta.map((item) => {
                     const { value, keywords, icon, name } = item;
@@ -1029,16 +1036,14 @@ export function MotionShotCMDK() {
                     );
                   })}
                 </Command.Group>
-              ) : null}
+              ) : null} */}
               {
-                // use search word use ...
-                // search ? <Search search={search}></Search> : null
+                search ? <ExtensionWithSearch search={search}></ExtensionWithSearch> : null
               }
             </Command.List>
           }
           {
             <>
-              {/* <StoreSearch.App /> */}
               <AppUI />
             </>
           }

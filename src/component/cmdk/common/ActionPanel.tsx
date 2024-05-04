@@ -9,7 +9,7 @@ interface ActionPanelProps {
 
 const ActionPanel = ({ children, head }: ActionPanelProps) => {
     const registeActionTitle = () => {
-        console.log('title', head);
+        // console.log('title', head);
         actionManager.updateTitle(head);
     };
 

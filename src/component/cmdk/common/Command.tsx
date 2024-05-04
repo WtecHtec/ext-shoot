@@ -1,5 +1,7 @@
 import React from "react";
 import List from "./List";
+import { commandManager } from "../command/command-manager";
+// import { commandManager } from "../command/command-manager";
 
 interface CommandPanelProps {
     children: React.ReactNode;
@@ -19,14 +21,13 @@ const CommandPanel: React.FC<CommandPanelProps> = ({ children, title, icon }) =>
             if (!('icon' in childProps) && icon) {
                 newProps.icon = icon;
             }
-            console.log('childProps.name', childProps.name);
-            // 注册命令
+            const newEle = React.cloneElement(child, newProps);
             if (childProps.name) {
-                // commandManager.registerCommand(childProps.name, child.type as React.ComponentType<any>);
+                commandManager.registerCommand(childProps.name, () => newEle as any);
             }
-            return React.cloneElement(child, newProps);
+            return <></>;
         }
-        return child;
+        return <></>;
     });
 
     return <>{enhancedChildren}</>;

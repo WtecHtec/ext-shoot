@@ -4,6 +4,12 @@ import { commandManager } from './command-manager';
 import React, { useEffect } from 'react';
 // import '~extension';
 
+const LoadExtension = () => {
+    return (
+        <CommandPanel_ />
+    );
+};
+
 const CommandUI = () => {
     const [commands, setCommands] = React.useState(commandManager.commandNames);
 
@@ -22,7 +28,7 @@ const CommandUI = () => {
 
     return (<>
 
-        {< CommandPanel_ />}
+        {< LoadExtension />}
         {
             commands.map(key => {
                 const PluginComponent = commandManager.getCommand(key);

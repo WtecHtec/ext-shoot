@@ -1,53 +1,31 @@
 import React from "react";
-import RefreshExtensionInfo from "react:~asset/refresh_entension_infomation.svg";
+import ExtensionLogo from "react:./icon.svg";
 
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
-import { HandleIconUpdate } from "~utils/actions";
-
-const ExtensionManager = {
-  commands: [
-    {
-      name: "Disable all Extension",
-      value: "disable_all_extension",
-      keywords: ["ban", "disable", "Disable all Extension"],
-      // icon: <DisableAllIcon />,
-      description: "Disable all extensions in the browser",
-      refresh: true
-      // handle: handleDisableAllExtension,
-    }
-  ]
-};
-
-// const UpdateExtension: React.FC = () => {
-//     return (
-//         <Command.SimpleCommand
-//             name='update-extension-info'
-//             title='Update Extension Information'
-//             keywords={['update', 'extension', 'info', 'Update Extension Information']}
-//             handle={HandleIconUpdate}
-//             icon={<RefreshExtensionInfo />}
-//         />);
-// };
-
-// commandManager.registerCommand('UpdateExtension', UpdateExtension);
+import { HandleIconUpdate, handleDisableAllExtension } from "~utils/actions";
 
 const CommandPanel_ = () => {
-  return (
-    <CommandPanel title="extenison-manager">
-      <Command.SimpleCommand
-        name="update-extension-info"
-        title="Update Extension Information"
-        keywords={[
-          "update",
-          "extension",
-          "info",
-          "Update Extension Information"
-        ]}
-        handle={HandleIconUpdate}
-        icon={<RefreshExtensionInfo />}
-      />
-    </CommandPanel>
-  );
+    return (
+        <CommandPanel title="extenison-manager" icon={<ExtensionLogo />}>
+            <Command.SimpleCommand
+                name="update-extension-info"
+                title="Update Extension Information"
+                keywords={[
+                    "update",
+                    "extension",
+                    "info",
+                    "Update Extension Information"
+                ]}
+                handle={HandleIconUpdate}
+            />
+            <Command.SimpleCommand
+                name="disable-all-extension"
+                title="Disable All Extensions"
+                keywords={["disable", "all", "extensions", "Disable All Extensions"]}
+                handle={() => handleDisableAllExtension}
+            />
+        </CommandPanel>
+    );
 };
 
 // 用于注册 CommandPanel_ 中的所有子组件的函数
@@ -65,4 +43,4 @@ const CommandPanel_ = () => {
 // // 调用 registerCommands 来注册组件
 // registerCommands();
 
-export { ExtensionManager, CommandPanel_ };
+export { CommandPanel_ };

@@ -30,7 +30,7 @@ import { footerTip } from '~component/cmdk/tip/tip-ui';
  * 禁用其他插件
  * @returns
  */
-const handleDisableAllExtension = (
+export const handleDisableAllExtension = (
     params: any,
 ): Promise<[null | Error, any]> => {
     return new Promise((resolve) => {

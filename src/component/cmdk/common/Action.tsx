@@ -1,6 +1,6 @@
 import { Command } from "cmdk";
 import React from "react";
-import { CopyNameIcon, ExtensionIcon, StoreIcon } from "~component/icons";
+import { ActivatePluginIcon, CopyNameIcon, ExecuteIcon, ExtensionIcon, StoreIcon } from "~component/icons";
 import { ShortCutKBD, Shortcut } from "./ShortCut";
 
 interface ActionPanelProps {
@@ -125,11 +125,37 @@ const CopyToClipboard = (
     );
 };
 
+interface ExecuteCommandProps {
+    handle: () => void;
+}
+const ExecuteCommand = (
+    {
+        handle
+    }: ExecuteCommandProps
+) => {
+    return (
+        <BaseAction
+            value={'Execute Command'}
+            keywords={['execute', 'command']}
+            icon={<ExecuteIcon />}
+            onSelect={() => {
+                handle();
+            }}
+            Shortcut={
+                {
+                    key: 'return'
+                }
+
+            }
+        />
+    );
+};
 
 const Action = {
     BaseAction,
     OpenInBrowser,
     CopyToClipboard,
+    ExecuteCommand,
 };
 
 

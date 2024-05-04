@@ -6,10 +6,10 @@ import { HandleIconUpdate, handleDisableAllExtension } from "~utils/actions";
 
 const CommandPanel_ = () => {
     return (
-        <CommandPanel title="extenison-manager" icon={<ExtensionLogo />}>
+        <CommandPanel title="Extenison Manager" icon={<ExtensionLogo />}>
             <Command.SimpleCommand
                 name="update-extension-info"
-                title="Update Extension Information"
+                title="Update Information"
                 keywords={[
                     "update",
                     "extension",
@@ -27,20 +27,5 @@ const CommandPanel_ = () => {
         </CommandPanel>
     );
 };
-
-// 用于注册 CommandPanel_ 中的所有子组件的函数
-// const registerCommands = () => {
-//     const commands = React.Children.toArray((<CommandPanel_ />).props.children);
-//     console.log('commands2222', commands);
-//     commands.forEach(command => {
-//         if (React.isValidElement(command) && command.props.name) {
-//             const { name } = command.props;
-//             commandManager.registerCommand(name, command as any);
-//         }
-//     });
-// };
-
-// // 调用 registerCommands 来注册组件
-// registerCommands();
 
 export { CommandPanel_ };

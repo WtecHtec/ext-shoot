@@ -7,7 +7,7 @@ export interface Shortcut {
     /**
      * The modifier keys of the keyboard shortcut.
      */
-    modifiers: KeyModifier[];
+    modifiers?: KeyModifier[];
     /**
      * The key of the keyboard shortcut.
      */
@@ -33,14 +33,32 @@ const ShortCutKBD = ({ Shortcut }: { Shortcut: Shortcut }) => {
         return key.toUpperCase();
     };
 
+    const keyMap = {
+        return: '⏎',
+        delete: '⌫',
+        deleteForward: '⌦',
+        arrowUp: '↑',
+        arrowDown: '↓',
+        arrowLeft: '←',
+        arrowRight: '→',
+    };
+
+    const keyRender = () => {
+        if (keyMap[key]) {
+            return keyMap[key];
+        }
+        return upercaseKey(key);
+    };
+
+
     return (
         <>
-            {modifiers.map((modifier) => {
+            {modifiers && modifiers.map((modifier) => {
                 return <kbd key={modifier}>
                     {modifierMap[modifier]}
                 </kbd>;
             })}
-            <kbd>{upercaseKey(key)}</kbd>
+            <kbd>{keyRender()}</kbd>
         </>
     );
 };

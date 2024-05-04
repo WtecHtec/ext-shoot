@@ -1,6 +1,8 @@
 import React from "react";
 import List from "./List";
 import { commandManager } from "../command/command-manager";
+import { ActionPanel } from "./ActionPanel";
+import { Action } from "./Action";
 // import { commandManager } from "../command/command-manager";
 
 interface CommandPanelProps {
@@ -67,6 +69,16 @@ const SimpleCommand = ({
                 () => {
                     handle();
                 }
+            }
+            actions={
+                <ActionPanel head={title}>
+                    <ActionPanel.Section >
+                        <Action.ExecuteCommand
+                            handle={handle}
+                        />
+
+                    </ActionPanel.Section>
+                </ActionPanel>
             }
         />);
 

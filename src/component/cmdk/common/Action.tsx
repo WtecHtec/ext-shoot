@@ -1,6 +1,6 @@
 import { Command } from "cmdk";
 import React from "react";
-import { ActivatePluginIcon, CopyNameIcon, ExecuteIcon, ExtensionIcon, StoreIcon } from "~component/icons";
+import { CopyNameIcon, ExecuteIcon, ExtensionIcon, StoreIcon } from "~component/icons";
 import { ShortCutKBD, Shortcut } from "./ShortCut";
 
 interface ActionPanelProps {

@@ -30,15 +30,10 @@ import { footerTip } from '~component/cmdk/tip/tip-ui';
  * 禁用其他插件
  * @returns
  */
-export const handleDisableAllExtension = (
-    params: any,
-): Promise<[null | Error, any]> => {
+export const handleDisableAllExtension = (): Promise<[null | Error, any]> => {
     return new Promise((resolve) => {
-        // todo Notification
-        const { extDatas, snapType } = params;
-        const extIds = [...extDatas];
         chrome.runtime
-            .sendMessage({ action: 'disable_all_extension', snapType, extIds })
+            .sendMessage({ action: 'disable_all_extension', snapType: "all", extIds: null })
             .then(async (response) => {
                 footerTip('success', 'Disable All Extension Success', 3000);
                 resolve([null, response]);
@@ -51,10 +46,31 @@ export const handleDisableAllExtension = (
 };
 
 /**
+ * 启用其他插件
+ * @returns
+ */
+export const handleEnableAllExtension = (): Promise<[null | Error, any]> => {
+    return new Promise((resolve) => {
+        // todo Notification
+        chrome.runtime
+            .sendMessage({ action: ENABLE_ALL_EXTENSION, snapType: "all", extIds: null })
+            .then(async (response) => {
+                footerTip('success', 'Enable All Extension Success', 3000);
+                resolve([null, response]);
+            })
+            .catch((err) => {
+                footerTip('error', 'Enable All Extension Error', 3000);
+                resolve([err, null]);
+            });
+    });
+};
+
+
+/**
  * 打开插件设置页面
  * @returns
  */
-const handleOpenExtensionPage = (): Promise<[null | Error, any]> => {
+export const handleOpenExtensionPage = (): Promise<[null | Error, any]> => {
     return new Promise((resolve) => {
         chrome.runtime
             .sendMessage({ action: 'open_extension_homepage' })
@@ -68,7 +84,7 @@ const handleOpenExtensionPage = (): Promise<[null | Error, any]> => {
 };
 
 // 打开插件快捷键页面
-const handleOpenExtensionShortcutsPage = (): Promise<[null | Error, any]> => {
+export const handleOpenExtensionShortcutsPage = (): Promise<[null | Error, any]> => {
     return new Promise((resolve) => {
         chrome.runtime
             .sendMessage({ action: 'open_extension_shortcuts' })
@@ -83,7 +99,7 @@ const handleOpenExtensionShortcutsPage = (): Promise<[null | Error, any]> => {
 
 // 清楚最近使用
 // 打开插件快捷键页面
-const handleClearRecently = (): Promise<[null | Error, any]> => {
+export const handleClearRecently = (): Promise<[null | Error, any]> => {
     return new Promise((resolve) => {
         chrome.runtime
             .sendMessage({ action: AC_CLEAR_RECENTLYS })
@@ -98,29 +114,6 @@ const handleClearRecently = (): Promise<[null | Error, any]> => {
     });
 };
 
-/**
- * 启用其他插件
- * @returns
- */
-const handleEnableAllExtension = (
-    params: any,
-): Promise<[null | Error, any]> => {
-    const { extDatas, snapType } = params;
-    const extIds = [...extDatas];
-    return new Promise((resolve) => {
-        // todo Notification
-        chrome.runtime
-            .sendMessage({ action: ENABLE_ALL_EXTENSION, snapType, extIds })
-            .then(async (response) => {
-                footerTip('success', 'Enable All Extension Success', 3000);
-                resolve([null, response]);
-            })
-            .catch((err) => {
-                footerTip('error', 'Enable All Extension Error', 3000);
-                resolve([err, null]);
-            });
-    });
-};
 
 // 更新插件信息
 // const handleUpdateExtensionInfo = (): Promise<[null | Error, any]> => {

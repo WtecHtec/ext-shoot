@@ -2,15 +2,15 @@
 import { CommandPanel_ } from '~extension';
 import { commandManager } from './command-manager';
 import React, { useEffect } from 'react';
-// import '~extension';
 
-const LoadExtension = () => {
+
+const ExtensionLoader = () => {
     return (
         <CommandPanel_ />
     );
 };
 
-const CommandUI = () => {
+const ExtensionRender = () => {
     const [commands, setCommands] = React.useState(commandManager.commandNames);
 
     useEffect(() => {
@@ -21,21 +21,24 @@ const CommandUI = () => {
             unsubscribe(); // Clean up the subscription when the component unmounts
         };
     }, []);
+    return (
+        <>
+            {
+                commands.map(key => {
+                    const PluginComponent = commandManager.getCommand(key);
+                    return <PluginComponent key={key} />;
+                })
+            }
+        </>
+    );
+};
+const CommandUI = () => {
 
-    // useEffect(() => {
-    //     console.log('commands22222', commands);
-    // }, []);
-
-    return (<>
-
-        {< LoadExtension />}
-        {
-            commands.map(key => {
-                const PluginComponent = commandManager.getCommand(key);
-                // console.log('PluginComponent', PluginComponent);
-                return <PluginComponent key={key} />;
-            })}
-    </>
+    return (
+        <>
+            {< ExtensionLoader />}
+            {<ExtensionRender />}
+        </>
     );
 };
 

@@ -2,7 +2,12 @@ import React from "react";
 import ExtensionLogo from "react:./icon.svg";
 
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
-import { HandleIconUpdate, handleDisableAllExtension, handleEnableAllExtension, handleOpenExtensionPage, handleOpenExtensionShortcutsPage } from "~utils/actions";
+import {
+    handleDisableAllExtension,
+    handleEnableAllExtension,
+    HandleIconUpdate, handleOpenExtensionPage,
+    handleOpenExtensionShortcutsPage,
+} from '~extension/extension-manager/handler';
 
 const CommandPanel_ = () => {
     return (
@@ -37,7 +42,7 @@ const CommandPanel_ = () => {
             />
             <Command.SimpleCommand
                 name="open_extension_home_page"
-                title="Extension HomePage"
+                title="Extension Page"
                 keywords={['open', 'extension', 'home', 'Open Extension HomePage']}
                 description="Open Extension Page"
                 handle={() => { handleOpenExtensionPage(); }}

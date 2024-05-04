@@ -6,8 +6,7 @@ import ExtensionShortcutIcon from 'react:~asset/extension-shortcut.svg';
 import ExtensionClearRecentIcon from 'react:~asset/clear-recent.svg';
 import ExtensionAddSnapShot from 'react:~asset/snapshoot.svg';
 
-import RefreshExtensionInfo
-    from 'react:~asset/refresh_entension_infomation.svg';
+import RefreshExtensionInfo from 'react:~asset/refresh_entension_infomation.svg';
 import {
     ActivatePluginIcon,
     CopyNameIcon,
@@ -22,80 +21,16 @@ import {
     StoreIcon,
     UninstallIcon,
 } from '~component/icons';
-import { AC_CLEAR_RECENTLYS, AC_SET_BROWSER, ENABLE_ALL_EXTENSION } from '~config/actions';
-import { handleExtUpdateDone } from '~utils/management';
-import { footerTip } from '~component/cmdk/tip/tip-ui';
+import {AC_CLEAR_RECENTLYS, AC_SET_BROWSER} from '~config/actions';
+import {footerTip} from '~component/cmdk/tip/tip-ui';
+import {
+    handleDisableAllExtension,
+    handleEnableAllExtension,
+    HandleIconUpdate,
+    handleOpenExtensionPage,
+    handleOpenExtensionShortcutsPage,
+} from '~extension/extension-manager/handler';
 
-/**
- * 禁用其他插件
- * @returns
- */
-export const handleDisableAllExtension = (): Promise<[null | Error, any]> => {
-    return new Promise((resolve) => {
-        chrome.runtime
-            .sendMessage({ action: 'disable_all_extension', snapType: "all", extIds: null })
-            .then(async (response) => {
-                footerTip('success', 'Disable All Extension Success', 3000);
-                resolve([null, response]);
-            })
-            .catch((err) => {
-                footerTip('error', 'Disable All Extension Error', 3000);
-                resolve([err, null]);
-            });
-    });
-};
-
-/**
- * 启用其他插件
- * @returns
- */
-export const handleEnableAllExtension = (): Promise<[null | Error, any]> => {
-    return new Promise((resolve) => {
-        // todo Notification
-        chrome.runtime
-            .sendMessage({ action: ENABLE_ALL_EXTENSION, snapType: "all", extIds: null })
-            .then(async (response) => {
-                footerTip('success', 'Enable All Extension Success', 3000);
-                resolve([null, response]);
-            })
-            .catch((err) => {
-                footerTip('error', 'Enable All Extension Error', 3000);
-                resolve([err, null]);
-            });
-    });
-};
-
-
-/**
- * 打开插件设置页面
- * @returns
- */
-export const handleOpenExtensionPage = (): Promise<[null | Error, any]> => {
-    return new Promise((resolve) => {
-        chrome.runtime
-            .sendMessage({ action: 'open_extension_homepage' })
-            .then(async (response) => {
-                resolve([null, response]);
-            })
-            .catch((err) => {
-                resolve([err, null]);
-            });
-    });
-};
-
-// 打开插件快捷键页面
-export const handleOpenExtensionShortcutsPage = (): Promise<[null | Error, any]> => {
-    return new Promise((resolve) => {
-        chrome.runtime
-            .sendMessage({ action: 'open_extension_shortcuts' })
-            .then(async (response) => {
-                resolve([null, response]);
-            })
-            .catch((err) => {
-                resolve([err, null]);
-            });
-    });
-};
 
 // 清楚最近使用
 // 打开插件快捷键页面
@@ -129,10 +64,6 @@ export const handleClearRecently = (): Promise<[null | Error, any]> => {
 //     });
 // };
 
-export const HandleIconUpdate = () => {
-    footerTip('loading', 'Update Extension Info ...', 5000);
-    handleExtUpdateDone();
-};
 export const CommandMeta = [
     {
         name: 'Update Extension Information',

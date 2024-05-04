@@ -7,7 +7,8 @@ import {
     handleEnableAllExtension,
     HandleIconUpdate, handleOpenExtensionPage,
     handleOpenExtensionShortcutsPage,
-} from '~extension/extension-manager/handler';
+} from './handler';
+import { GoogleStoreIcon } from "~component/icons";
 
 const CommandPanel_ = () => {
     return (
@@ -60,6 +61,17 @@ const CommandPanel_ = () => {
                 ]}
                 description="Change Extenion Shortcuts"
                 handle={() => { handleOpenExtensionShortcutsPage(); }}
+            />
+            {/* chrome store page */}
+            <Command.SimpleCommand
+                name="open_chrome_store"
+                title="Chrome Store Pagek"
+                keywords={['chrome', 'store', 'open', 'Chrome Store']}
+                description="Open Chrome Store"
+                icon={<GoogleStoreIcon />}
+                handle={() => {
+                    window.open('https://chrome.google.com/webstore/category/extensions');
+                }}
             />
 
 

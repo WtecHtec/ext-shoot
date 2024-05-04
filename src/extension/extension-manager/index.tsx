@@ -62,10 +62,9 @@ const CommandPanel_ = () => {
                 description="Change Extenion Shortcuts"
                 handle={() => { handleOpenExtensionShortcutsPage(); }}
             />
-            {/* chrome store page */}
             <Command.SimpleCommand
                 name="open_chrome_store"
-                title="Chrome Store Pagek"
+                title="Chrome Store Page"
                 keywords={['chrome', 'store', 'open', 'Chrome Store']}
                 description="Open Chrome Store"
                 icon={<GoogleStoreIcon />}

@@ -840,49 +840,6 @@ export function MotionShotCMDK() {
     }
   };
 
-  // filter sub command
-  // return  action name list
-  // const getCommandsByType = (value) => {
-  //   const commandMetaItem = CommandMeta.find(
-  //     (action) => action?.value === value
-  //   )
-  //   if (commandMetaItem) {
-  //     return Object.keys(acMap_command)
-  //   }
-
-  //   const { installType, enabled, isCommand, isSelf } =
-  //     getSubCnmandItem(value) || {}
-
-  //   if (isCommand) {
-  //     return ["execute_command"]
-  //   } else if (value.includes(SearchFix)) {
-  //     return ["execute_recent_action"]
-  //   }
-
-  //   const actionKeys = Object.keys(acMap_Extension()).filter((key) => {
-  //     if (isSelf) {
-  //       return ![
-  //         "enable_plugin",
-  //         "disable_plugin",
-  //         "uninstall_plugin"
-  //       ].includes(key)
-  //     }
-  //     return true
-  //   })
-  //   const filterDisabledOrEnabledPlugin = (item) =>
-  //     item !== (enabled ? "enable_plugin" : "disable_plugin")
-
-  //   if (installType !== "development") {
-  //     return actionKeys.filter(filterDisabledOrEnabledPlugin)
-  //   }
-
-  //   // For development mode plugins, exclude 'open_in_web_store'
-  //   return actionKeys.filter(
-  //     (item) =>
-  //       item !== "open_in_web_store" && filterDisabledOrEnabledPlugin(item)
-  //   )
-  // }
-
   /**
    * 排除最近使用、dev、favorite
    */
@@ -1017,25 +974,6 @@ export function MotionShotCMDK() {
                 })
                 : null} */}
               {<CommandUI />}
-
-              {/* {loaded ? (
-                <Command.Group heading="Commands">
-                  {CommandMeta.map((item) => {
-                    const { value, keywords, icon, name } = item;
-                    return (
-                      <Item
-                        key={value}
-                        isCommand
-                        value={value}
-                        keywords={keywords}
-                        commandHandle={() => onCommandHandle(item, true)}>
-                        <Logo>{icon}</Logo>
-                        {name}
-                      </Item>
-                    );
-                  })}
-                </Command.Group>
-              ) : null} */}
               {
                 search ? <ExtensionWithSearch search={search}></ExtensionWithSearch> : null
               }

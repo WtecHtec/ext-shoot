@@ -296,10 +296,10 @@
   }
 
   [cmdk-list] {
-    max-height: 393px;
+    max-height: 320px;
     overflow: auto;
     overscroll-behavior: contain;
-    scroll-padding-block-end: 40px;
+    scroll-padding-block-end: 80px;
     transition: 100ms ease;
     transition-property: height;
     padding: 0 8px 40px;

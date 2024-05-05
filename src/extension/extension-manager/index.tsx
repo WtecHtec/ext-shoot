@@ -10,7 +10,7 @@ import {
 } from './handler';
 import { GoogleStoreIcon } from "~component/icons";
 
-const CommandPanel_ = () => {
+const ExtensionManagerCommand = () => {
     return (
         <CommandPanel title="Extenison Manager" icon={<ExtensionLogo />}>
             <Command.SimpleCommand
@@ -63,7 +63,39 @@ const CommandPanel_ = () => {
                 handle={() => { handleOpenExtensionShortcutsPage(); }}
             />
             <Command.SimpleCommand
-                name="open_chrome_store"
+                name="open_chrome_stor2e"
+                title="Chrome Store Page"
+                keywords={['chrome', 'store', 'open', 'Chrome Store']}
+                description="Open Chrome Store"
+                icon={<GoogleStoreIcon />}
+                handle={() => {
+                    window.open('https://chrome.google.com/webstore/category/extensions');
+                }}
+            />
+
+            <Command.SimpleCommand
+                name="open_extension_home_page2"
+                title="Extension Page"
+                keywords={['open', 'extension', 'home', 'Open Extension HomePage']}
+                description="Open Extension Page"
+                handle={() => { handleOpenExtensionPage(); }}
+            />
+            <Command.SimpleCommand
+                name="change_extension_shortcuts2"
+                title="Shortcuts Page"
+                keywords={[
+                    'shortcuts',
+                    'Change Extenion Shortcuts',
+                    'key',
+                    'keymap',
+                    'keybindings',
+                    'keyboard'
+                ]}
+                description="Change Extenion Shortcuts"
+                handle={() => { handleOpenExtensionShortcutsPage(); }}
+            />
+            <Command.SimpleCommand
+                name="open_chrome_store2"
                 title="Chrome Store Page"
                 keywords={['chrome', 'store', 'open', 'Chrome Store']}
                 description="Open Chrome Store"
@@ -78,4 +110,4 @@ const CommandPanel_ = () => {
     );
 };
 
-export { CommandPanel_ };
+export { ExtensionManagerCommand };

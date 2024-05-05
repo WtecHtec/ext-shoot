@@ -1,12 +1,15 @@
 
-import { CommandPanel_ } from '~extension';
+import { ExtensionManagerCommand } from '~extension';
 import { commandManager } from './command-manager';
 import React, { useEffect } from 'react';
 
 
 const ExtensionLoader = () => {
     return (
-        <CommandPanel_ />
+        <>
+            <ExtensionManagerCommand />
+            {/* <ExtensionLauncher /> */}
+        </>
     );
 };
 

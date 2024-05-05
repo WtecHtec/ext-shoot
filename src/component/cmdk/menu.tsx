@@ -918,7 +918,7 @@ export function MotionShotCMDK() {
           }
         </div>
         <hr cmdk-motionshot-loader="" />
-        <div className="h-[380px]">
+        <>
           {
             <Command.List ref={listRef} hidden={inAppMode}>
               <NotFound.NotFoundWithIcon />
@@ -974,9 +974,9 @@ export function MotionShotCMDK() {
                 })
                 : null} */}
               {<CommandUI />}
-              {
+              {/* {
                 search ? <ExtensionWithSearch search={search}></ExtensionWithSearch> : null
-              }
+              } */}
             </Command.List>
           }
           {
@@ -984,11 +984,10 @@ export function MotionShotCMDK() {
               <AppUI />
             </>
           }
-        </div>
+        </>
         <div cmdk-motionshot-footer="">
           <FooterTip />
           <hr />
-
           <button
             cmdk-motionshot-open-trigger=""
             onClick={() => {
@@ -997,27 +996,13 @@ export function MotionShotCMDK() {
             Execute Recent Action
             <kbd>↵</kbd>
           </button>
-
           <hr />
-
           <Action
             listRef={listRef}
             value={getItemByCommandList(value)[0]}
             inputRef={inputRef}
             extShootRef={extShootRef}
           />
-          {/* <SubCommand
-                        subCommands={subCommands}
-                        listRef={listRef}
-                        selectName={getItemByCommandList(value)[0]?.name}
-                        value={getItemByCommandList(value)[0]}
-                        inputRef={inputRef}
-                        extShootRef={extShootRef}
-                        includeCommands={getCommandsByType(value)}
-                        onClickItem={(subcommand) => {
-                            handelPatibleSubCommand(subcommand, value);
-                        }}
-                    /> */}
         </div>
       </Command>
       <SnapshotDialog

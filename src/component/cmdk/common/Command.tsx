@@ -2,6 +2,7 @@ import React from "react";
 import List from "./List";
 import { ActionPanel } from "./ActionPanel";
 import { Action } from "./Action";
+import { ActivatePluginIcon, ExtensionIcon } from "~component/icons";
 // import { commandManager } from "../command/command-manager";
 
 interface CommandPanelProps {
@@ -83,8 +84,59 @@ const SimpleCommand = ({
 
 };
 
+
+interface ExtensionCommandProps extends BaseCommand {
+    children?: React.ReactNode
+    iconUrl?: string,
+    handle: () => void;
+}
+const ExtensionCommand = ({
+    children,
+    name,
+    title,
+    keywords,
+    description,
+    iconUrl,
+    handle,
+}: ExtensionCommandProps) => {
+    return (
+        <List.Item
+            id={name}
+            key={name}
+            title={title}
+            subtitle={description}
+            keywords={keywords}
+            icon={<ExtensionIcon base64={iconUrl} />}
+            author={null}
+            type={'Extension'}
+            actions={
+                <ActionPanel head={title}>
+                    <ActionPanel.Section>
+                        <Action.BaseAction
+                            value="Active Extension"
+                            keywords={["Active Extension"]}
+                            icon={<ActivatePluginIcon />}
+                            onSelect={() => handle()} />
+                    </ActionPanel.Section>
+                </ActionPanel>
+            }
+        >
+            {children}
+        </List.Item>
+    );
+};
+
+// placehold command on first render
+const PlaceholderCommand = () => {
+    return (
+        <List.Item cls='!hidden' id={"placeholder"} key={"placeholder"} title={"placeholder"} />
+    );
+};
+
 const Command = {
     SimpleCommand,
+    ExtensionCommand,
+    PlaceholderCommand,
 };
 
 export {

@@ -29,14 +29,13 @@ export default function App() {
             {
                 extDatas.map((item, index) => {
                     return (
-                        <Command.SimpleCommand
+                        <Command.ExtensionCommand
                             key={index + '-' + item.id}
                             name={item.id}
                             title={item.name}
                             keywords={[item.name]}
-                            handle={() => {
-                                console.log('open extension', item.id);
-                            }}
+                            iconUrl={item.icon}
+
                         />
                     );
                 })

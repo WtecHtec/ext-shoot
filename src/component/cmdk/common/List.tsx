@@ -12,7 +12,7 @@ interface ListItemProps {
     subtitle?: string;
     keywords?: string[];
     type?: string;
-    author?: string;
+    author?: string | null,
     actions?: React.ReactNode;
     icon?: string | React.ReactNode;
     children?: React.ReactNode;
@@ -44,6 +44,7 @@ export function Item({
     };
 
     const renderAuthor = () => {
+        if (author === null) return "";
         if (!author) return DEFAULT_AUTHOR;
         return author;
     };

@@ -2,13 +2,15 @@
 import { ExtensionLauncher, ExtensionManagerCommand } from '~extension';
 import { commandManager } from './command-manager';
 import React, { useEffect } from 'react';
+import { Command } from '../common/Command';
 
 
 const ExtensionLoader = () => {
     return (
         <>
-            <ExtensionManagerCommand />
+            <Command.PlaceholderCommand />
             <ExtensionLauncher />
+            <ExtensionManagerCommand />
         </>
     );
 };

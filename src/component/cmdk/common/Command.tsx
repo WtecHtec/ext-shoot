@@ -1,6 +1,5 @@
 import React from "react";
 import List from "./List";
-import { commandManager } from "../command/command-manager";
 import { ActionPanel } from "./ActionPanel";
 import { Action } from "./Action";
 // import { commandManager } from "../command/command-manager";
@@ -24,12 +23,12 @@ const CommandPanel: React.FC<CommandPanelProps> = ({ children, title, icon }) =>
                 newProps.icon = icon;
             }
             const newEle = React.cloneElement(child, newProps);
-            if (childProps.name) {
-                commandManager.registerCommand(childProps.name, () => newEle as any);
-            }
-            return <></>;
+            // if (childProps.name) {
+            // commandManager.registerCommand(childProps.name, () => newEle as any);
+            // }
+            return newEle;
         }
-        return <></>;
+        return child;
     });
 
     return <>{enhancedChildren}</>;

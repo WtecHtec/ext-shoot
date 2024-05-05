@@ -1,5 +1,5 @@
 <svg width="200" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="">
-    <rect id="r4" width="512" height="512" x="0" y="0" rx="128" fill="url(#r5)" stroke="#FFFFFF" stroke-width="0" stroke-opacity="100%"
+    <rect id="r4" width="512" height="512" x="0" y="0" rx="128" fill="url(#r5)" stroke="#FFFFFF" strokeWidth="0" stroke-opacity="100%"
         paint-order="stroke"></rect>
     <clipPath id="clip">
         <use xlink:href="#r4"></use>

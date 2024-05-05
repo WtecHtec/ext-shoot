@@ -974,7 +974,7 @@ export function MotionShotCMDK() {
                 : null} */}
               {<CommandUI />}
               {
-                // search ? <ExtensionWithSearch search={search}></ExtensionWithSearch> : null
+                search ? <ExtensionWithSearch search={search}></ExtensionWithSearch> : null
               }
             </Command.List>
           }

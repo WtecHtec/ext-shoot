@@ -454,21 +454,6 @@ export function MotionShotCMDK() {
     }
   };
 
-  /**
-   * 禁用、启用插件
-   * @param status
-   */
-  const onHanldePulginStatus = async (extId, status) => {
-    const extInfo = getExtensionDeatilById(extId);
-    await handlePluginStatus(extInfo.id, status);
-    getExtensionDatas();
-    toast(status ? "Enable Plugin Success" : "Disable Plugin Success", {
-      duration: 1000
-    });
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
-  };
 
   /**
    * 执行一次禁用、启用插件模拟刷新插件(开发状态)
@@ -523,42 +508,7 @@ export function MotionShotCMDK() {
       });
   };
 
-  // 激活插件 /activeExtention name
-  const onHandleActiveExtension = (extId) => {
-    const extInfo = getExtensionDeatilById(extId);
-    const { extId: id, name, enabled } = extInfo;
-    if (!enabled) {
-      // 激活插件前，先启用插件
-      onHanldePulginStatus(extId, true);
-      // 刷新当前网页 才能注入插件
-      window.location.reload();
-    }
-    axios
-      .post(`${ExtShootSeverHost}/active-extension`, {
-        extId: id,
-        name: name
-      })
-      .then((response) => {
-        console.log(response.data);
-        toast("Active Plugin Success", {
-          duration: 2000
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-        toast("Need Start Local Server", {
-          description: "npx extss start",
-          action: {
-            label: "Copy",
-            onClick: () => {
-              navigator.clipboard.writeText("npx extss start");
-            }
-          },
-          duration: 8000,
-          closeButton: true
-        });
-      });
-  };
+
 
   /**
    * 卸载

@@ -1,6 +1,7 @@
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
 import React, { useEffect } from "react";
 import { getExtensionAll } from "~utils/management";
+import { onHandleActiveExtension } from "./handle";
 
 export default function App() {
 
@@ -35,7 +36,13 @@ export default function App() {
                             title={item.name}
                             keywords={[item.name]}
                             iconUrl={item.icon}
-
+                            handle={() => {
+                                onHandleActiveExtension({
+                                    id: item.id,
+                                    name: item.name,
+                                    enabled: item.enabled,
+                                });
+                            }}
                         />
                     );
                 })

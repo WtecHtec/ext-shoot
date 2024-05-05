@@ -108,6 +108,11 @@ const ExtensionCommand = ({
             keywords={keywords}
             icon={<ExtensionIcon base64={iconUrl} />}
             author={null}
+            onSelect={
+                () => {
+                    handle();
+                }
+            }
             type={'Extension'}
             actions={
                 <ActionPanel head={title}>

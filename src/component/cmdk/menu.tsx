@@ -121,7 +121,6 @@ export function MotionShotCMDK() {
   }, []);
 
   useEffect(() => {
-    // 使用新的接口调用方式
     const unsubscribe = appManager.subscribe(({ inAppMode }) => {
       setInAppMode(inAppMode);
     });
@@ -974,9 +973,9 @@ export function MotionShotCMDK() {
                 })
                 : null} */}
               {<CommandUI />}
-              {/* {
-                search ? <ExtensionWithSearch search={search}></ExtensionWithSearch> : null
-              } */}
+              {
+                // search ? <ExtensionWithSearch search={search}></ExtensionWithSearch> : null
+              }
             </Command.List>
           }
           {

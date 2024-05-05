@@ -1,4 +1,5 @@
-import { StateManager } from "../core/manager.core";
+import {StateManager} from '../core/manager.core';
+
 // Define the App state interface
 interface CommandState {
     commands: string[];
@@ -13,7 +14,7 @@ class CommandManager extends StateManager<CommandState> {
     private constructor() {
         super({
             commands: [],
-            registeredCommandMaps: new Map()
+            registeredCommandMaps: new Map(),
         });
     }
 
@@ -26,10 +27,10 @@ class CommandManager extends StateManager<CommandState> {
 
     // Method to register a new command
     public registerCommand(commandName: string, command: React.ComponentType<any>): void {
-        if (!this.state.registeredCommandMaps.has(commandName)) {
-            this.state.registeredCommandMaps.set(commandName, command);
-            this.state.commands.push(commandName);
-        }
+        this.state.registeredCommandMaps.set(commandName, command);
+        this.state.commands.push(commandName);
+        // 去重
+        this.state.commands = Array.from(new Set(this.state.commands));
     }
 
     // Method to get a command

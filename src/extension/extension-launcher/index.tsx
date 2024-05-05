@@ -1,6 +1,7 @@
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
 import React, { useEffect } from "react";
 import { getExtensionAll } from "~utils/management";
+import { ExtensionIcon } from '~component/icons';
 
 export default function App() {
 
@@ -27,13 +28,14 @@ export default function App() {
     return (
         <CommandPanel title="Extenison">
             {
-                extDatas.map((item, index) => {
+                extDatas.map((item) => {
                     return (
                         <Command.SimpleCommand
-                            key={index + '-' + item.id}
+                            key={item.id}
                             name={item.id}
                             title={item.name}
-                            keywords={[item.name]}
+                            keywords={['extension', item.name]}
+                            icon={<ExtensionIcon base64={item.icon} />}
                             handle={() => {
                                 console.log('open extension', item.id);
                             }}
@@ -41,19 +43,6 @@ export default function App() {
                     );
                 })
             }
-            {/* <Command.SimpleCommand
-                name="222-extension-info"
-                title="222 Information"
-                keywords={[
-                    "update",
-                    "extension",
-                    "info",
-                    "Update Extension Information"
-                ]}
-                handle={() => {
-                    console.log('update-extension-info');
-                }}
-            /> */}
         </CommandPanel>
     );
 

@@ -6,7 +6,7 @@ import { toast } from "sonner/dist";
  * 禁用、启用插件
  * @param status
  */
-const onHanldePulginStatus = async (id, status) => {
+export const onHanldePulginStatus = async ({ id, status }) => {
     await handlePluginStatus(id, status);
     // getExtensionDatas();
     toast(status ? "Enable Plugin Success" : "Disable Plugin Success", {
@@ -21,7 +21,7 @@ const onHanldePulginStatus = async (id, status) => {
 export const onHandleActiveExtension = ({ id, name, enabled }: { id: string, name: string, enabled: boolean }) => {
     if (!enabled) {
         // 激活插件前，先启用插件
-        onHanldePulginStatus(id, true);
+        onHanldePulginStatus({ id, status: true });
         // 刷新当前网页 才能注入插件
         window.location.reload();
     }

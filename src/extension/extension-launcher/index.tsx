@@ -1,11 +1,11 @@
 import { CommandPanel } from "~component/cmdk/common/Command";
 import React, { useEffect } from "react";
 import { getExtensionAll } from "~utils/management";
-import { onHandleActiveExtension, onHandleShowInFinder } from "./handle";
+import { onHandleActiveExtension, onHandleShowInFinder, onHanldePulginStatus } from "./handle";
 import { ExtensionCommand } from "./command-item";
 import { ActionPanel } from "~component/cmdk/common/ActionPanel";
 import { Action } from "~component/cmdk/common/Action";
-import { ActivatePluginIcon, ShowInFinderIcon } from "~component/icons";
+import { ActivatePluginIcon, EnableIcon, ShowInFinderIcon } from "~component/icons";
 
 export default function App() {
 
@@ -67,6 +67,15 @@ export default function App() {
                                             onSelect={() => onHandleShowInFinder({
                                                 id: item.id,
                                                 name: item.name,
+                                            })} />
+
+                                        <Action.BaseAction
+                                            value="Toggle Extension Status"
+                                            keywords={["toggle", "enable"]}
+                                            icon={<EnableIcon />}
+                                            onSelect={() => onHanldePulginStatus({
+                                                id: item.id,
+                                                status: !item.enabled,
                                             })} />
                                     </ActionPanel.Section>
                                 </ActionPanel>

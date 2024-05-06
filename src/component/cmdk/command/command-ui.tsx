@@ -38,11 +38,11 @@ function ExtensionWithSearchLoader() {
 
 const ExtensionLoader = () => {
     return (
-        <>
+        <CommandCMDK.Group heading={'Results'}>
             <Command.PlaceholderCommand />
             <ExtensionLauncher />
             <ExtensionManagerCommand />
-        </>
+        </CommandCMDK.Group>
     );
 };
 

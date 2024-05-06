@@ -12,34 +12,34 @@ import { searchManager } from "~component/cmdk/search/search-manager";
 const PREFIX = "HistorySearch";
 
 const Search = ({ search }: { search: string }) => {
-  const onSearch = () => {
-    // 增加防抖，避免高频率调用
-    appManager.startApp("History Search");
-    // 如果是 use 。。。 with 的话，这里可以传入第二个参数，不用清除
-    searchManager.clearSearch();
-  };
+    const onSearch = () => {
+        // 增加防抖，避免高频率调用
+        appManager.startApp("History Search");
+        // 如果是 use 。。。 with 的话，这里可以传入第二个参数，不用清除
+        searchManager.clearSearch();
+    };
 
-  return (
-    <List.Item
-      key={`${PREFIX}${search}`}
-      id={`${PREFIX}${search}`}
-      keywords={["open", "history", "store", search]}
-      title="History Search"
-      icon={<ExtensionLogo />}
-      onSelect={onSearch}
-      author="WtecHtec"
-      actions={
-        <ActionPanel head="History Store">
-          <ActionPanel.Section>
-            <Action.ExecuteCommand
-              handle={() => {
-                onSearch();
-              }}
-            />
-          </ActionPanel.Section>
-        </ActionPanel>
-      }
-    />
-  );
+    return (
+        <List.Item
+            key={`${PREFIX}${search}`}
+            id={`${PREFIX}${search}`}
+            keywords={["history", "search", search]}
+            title="History Search"
+            icon={<ExtensionLogo />}
+            onSelect={onSearch}
+            author="WtecHtec"
+            actions={
+                <ActionPanel head="History Store">
+                    <ActionPanel.Section>
+                        <Action.ExecuteCommand
+                            handle={() => {
+                                onSearch();
+                            }}
+                        />
+                    </ActionPanel.Section>
+                </ActionPanel>
+            }
+        />
+    );
 };
 export default Search;

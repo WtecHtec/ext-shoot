@@ -87,7 +87,7 @@ const Search = ({ search }: { search: string }) => {
 		<List.Item
 			key={`${PREFIX}${search}`}
 			id={`${PREFIX}${search}`}
-			keywords={["open", "chrome", "store", search]}
+			keywords={["chrome", search]}
 			title="Chrome Store"
 			icon={<AppIcon></AppIcon>}
 			onSelect={onSearch}

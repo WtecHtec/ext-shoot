@@ -58,7 +58,7 @@ import SearchComponent from "./search/search-ui";
 import SnapshotCommand from "./snapshot-command";
 import SnapshotDialog from "./snapshot-dialog";
 import ExtensionWithSearch from "./search-group";
-import { CommandUI } from "./command/command-ui";
+import { CommandUI, ExtensionWithSearchLoader } from "./command/command-ui";
 
 const eventBus = EventBus.getInstace();
 
@@ -869,7 +869,7 @@ export function MotionShotCMDK() {
         <hr cmdk-motionshot-loader="" />
         <>
           {
-            <Command.List ref={listRef} hidden={inAppMode} >
+            <Command.List ref={listRef} hidden={inAppMode}  >
               <NotFound.NotFoundWithIcon />
               {/* {extDatas.length > 0
                 ? extDatas?.map(({ children, name }) => {
@@ -923,6 +923,7 @@ export function MotionShotCMDK() {
                 })
                 : null} */}
               {<CommandUI />}
+
             </Command.List>
           }
           {

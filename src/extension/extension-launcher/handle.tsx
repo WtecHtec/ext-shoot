@@ -51,3 +51,35 @@ export const onHandleActiveExtension = ({ id, name, enabled }: { id: string, nam
             });
         });
 };
+
+
+/**
+ * 打开插件文件夹路径
+ */
+export const onHandleShowInFinder = ({ id, name }) => {
+    axios
+        .post(`${ExtShootSeverHost}/open-extension`, {
+            extId: id,
+            name: encodeURIComponent(name)
+        })
+        .then((response) => {
+            console.log(response.data);
+            toast("Open Plugin Folder Success", {
+                duration: 2000
+            });
+        })
+        .catch((error) => {
+            console.error(error);
+            toast("Need Start Local Server", {
+                description: "npx extss start",
+                action: {
+                    label: "Copy",
+                    onClick: () => {
+                        navigator.clipboard.writeText("npx extss start");
+                    }
+                },
+                duration: 8000,
+                closeButton: true
+            });
+        });
+};

@@ -1,7 +1,11 @@
-import { Command, CommandPanel } from "~component/cmdk/common/Command";
+import { CommandPanel } from "~component/cmdk/common/Command";
 import React, { useEffect } from "react";
 import { getExtensionAll } from "~utils/management";
-import { onHandleActiveExtension } from "./handle";
+import { onHandleActiveExtension, onHandleShowInFinder } from "./handle";
+import { ExtensionCommand } from "./command-item";
+import { ActionPanel } from "~component/cmdk/common/ActionPanel";
+import { Action } from "~component/cmdk/common/Action";
+import { ActivatePluginIcon, ShowInFinderIcon } from "~component/icons";
 
 export default function App() {
 
@@ -30,7 +34,7 @@ export default function App() {
             {
                 extDatas.map((item, index) => {
                     return (
-                        <Command.ExtensionCommand
+                        <ExtensionCommand
                             key={index + '-' + item.id}
                             name={item.id}
                             title={item.name}
@@ -44,6 +48,30 @@ export default function App() {
                                     enabled: item.enabled,
                                 });
                             }}
+                            actions={
+                                <ActionPanel head={item.name}>
+                                    <ActionPanel.Section>
+                                        <Action.BaseAction
+                                            value="Active Extension"
+                                            keywords={["Active Extension"]}
+                                            icon={<ActivatePluginIcon />}
+                                            onSelect={() => onHandleActiveExtension({
+                                                id: item.id,
+                                                name: item.name,
+                                                enabled: item.enabled,
+                                            })} />
+                                        <Action.BaseAction
+                                            value="Show In Finder "
+                                            keywords={["show", "finder"]}
+                                            icon={<ShowInFinderIcon />}
+                                            onSelect={() => onHandleShowInFinder({
+                                                id: item.id,
+                                                name: item.name,
+                                            })} />
+                                    </ActionPanel.Section>
+                                </ActionPanel>
+
+                            }
                         />
                     );
                 })

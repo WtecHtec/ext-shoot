@@ -870,7 +870,7 @@ export function MotionShotCMDK() {
         <hr cmdk-motionshot-loader="" />
         <>
           {
-            <Command.List ref={listRef} hidden={inAppMode}>
+            <Command.List ref={listRef} hidden={inAppMode} >
               <NotFound.NotFoundWithIcon />
               {/* {extDatas.length > 0
                 ? extDatas?.map(({ children, name }) => {

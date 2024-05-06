@@ -89,6 +89,7 @@ interface ExtensionCommandProps extends BaseCommand {
     children?: React.ReactNode
     iconUrl?: string,
     handle: () => void;
+    cls?: string;
 }
 const ExtensionCommand = ({
     children,
@@ -98,12 +99,14 @@ const ExtensionCommand = ({
     description,
     iconUrl,
     handle,
+    cls,
 }: ExtensionCommandProps) => {
     return (
         <List.Item
             id={name}
             key={name}
             title={title}
+            cls={cls}
             subtitle={description}
             keywords={keywords}
             icon={<ExtensionIcon base64={iconUrl} />}

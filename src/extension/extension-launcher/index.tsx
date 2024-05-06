@@ -36,6 +36,7 @@ export default function App() {
                             title={item.name}
                             keywords={[item.name]}
                             iconUrl={item.icon}
+                            cls={!item.enabled && "grayscale"}
                             handle={() => {
                                 onHandleActiveExtension({
                                     id: item.id,

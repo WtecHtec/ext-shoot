@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 // Simulated plugin imports
 import storeSearch from '~app/store-search';
+import HistorySearch from '~extension/history-search/app';
 import { appManager } from './app-manager';
 
 // Define a plugin interface
@@ -12,7 +13,7 @@ interface Plugin {
 
 // Example plugin objects, assuming imports are objects with 'name' and 'component'
 const plugins: Plugin[] = [
-    storeSearch
+    storeSearch, HistorySearch
 ];
 
 // Create a mapping from plugin names to their React components
@@ -23,10 +24,10 @@ const pluginComponents: { [key: string]: React.ComponentType<any> } = plugins.re
 
 const AppUI: React.FC = () => {
     const [activeAppName, setActiveAppName] = useState(appManager.activeApp || '');
-    const [inApp,setInApp] = useState<boolean>(appManager.ifInApp);
+    const [inApp, setInApp] = useState<boolean>(appManager.ifInApp);
 
     useEffect(() => {
-        const unsubscribe = appManager.subscribe(({ activeApp,inAppMode}) => {
+        const unsubscribe = appManager.subscribe(({ activeApp, inAppMode }) => {
             setActiveAppName(activeApp);
             setInApp(inAppMode);
         });

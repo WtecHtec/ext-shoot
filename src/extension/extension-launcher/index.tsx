@@ -1,7 +1,7 @@
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
 import React, { useEffect } from "react";
 import { getExtensionAll } from "~utils/management";
-// import { ExtensionIcon } from '~component/icons';
+import { onHandleActiveExtension } from "./handle";
 
 export default function App() {
 
@@ -28,18 +28,39 @@ export default function App() {
     return (
         <CommandPanel title="Extenison">
             {
-                extDatas.map((item) => {
+                extDatas.map((item, index) => {
                     return (
                         <Command.ExtensionCommand
-                            key={item.id}
+                            key={index + '-' + item.id}
                             name={item.id}
                             title={item.name}
-                            keywords={['extension', item.name]}
+                            keywords={[item.name]}
                             iconUrl={item.icon}
+                            cls={!item.enabled && "grayscale"}
+                            handle={() => {
+                                onHandleActiveExtension({
+                                    id: item.id,
+                                    name: item.name,
+                                    enabled: item.enabled,
+                                });
+                            }}
                         />
                     );
                 })
             }
+            {/* <Command.SimpleCommand
+                name="222-extension-info"
+                title="222 Information"
+                keywords={[
+                    "update",
+                    "extension",
+                    "info",
+                    "Update Extension Information"
+                ]}
+                handle={() => {
+                    console.log('update-extension-info');
+                }}
+            /> */}
         </CommandPanel>
     );
 

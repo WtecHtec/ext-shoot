@@ -1,7 +1,8 @@
 
 import { ExtensionLauncher, ExtensionManagerCommand } from '~extension';
-import React, { } from 'react';
-import { Command } from '~component/cmdk/common/Command';
+import { commandManager } from './command-manager';
+import React, { useEffect } from 'react';
+import { Command } from '../common/Command';
 
 
 const ExtensionLoader = () => {
@@ -14,41 +15,34 @@ const ExtensionLoader = () => {
     );
 };
 
-// const ExtensionRender = () => {
-//     const [commands, setCommands] = React.useState(commandManager.commandNames);
-//     const [registeredCommandMaps, setRegisteredCommandMaps] = React.useState(commandManager.allCommands);
-//     useEffect(() => {
-//         const unsubscribe = commandManager.subscribe(({ commands, registeredCommandMaps }) => {
-//             setCommands(commands);
-//             setRegisteredCommandMaps(registeredCommandMaps);
-//             console.log('registeredCommandMaps', registeredCommandMaps);
-//         });
-//         return () => {
-//             unsubscribe(); // Clean up the subscription when the component unmounts
-//         };
-//     }, []);
+export const ExtensionRender = () => {
+    const [commands, setCommands] = React.useState(commandManager.commandNames);
 
-//     useEffect(() => {
-//         console.log('commands updated', registeredCommandMaps);
-
-//     }, [registeredCommandMaps]);
-
-
-// return (
-//     <>
-//         {
-//             commands.map((key) => {
-//                 const Command = registeredCommandMaps[key];
-//                 return <Command key={key} />;
-//             })
-//         }
-//     </>
-// );
-const CommandUI = () => {
+    useEffect(() => {
+        const unsubscribe = commandManager.subscribe(({ commands }) => {
+            setCommands(commands);
+        });
+        return () => {
+            unsubscribe(); // Clean up the subscription when the component unmounts
+        };
+    }, []);
     return (
         <>
-            {/* {<ExtensionRender />} */}
+            {
+                commands.map(key => {
+                    const PluginComponent = commandManager.getCommand(key);
+                    return <PluginComponent key={key} />;
+                })
+            }
+        </>
+    );
+};
+const CommandUI = () => {
+
+    return (
+        <>
             {< ExtensionLoader />}
+            {/* {<ExtensionRender />} */}
         </>
     );
 };

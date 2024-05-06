@@ -1,27 +1,23 @@
 /* eslint-disable react/no-unknown-property */
 
-import classnames from "classnames";
-import { Command } from "cmdk";
-import React, { useEffect } from "react";
-
-import { ExtensionIcon } from "~component/icons";
-
-import { actionManager } from "../action";
-import { DEFAULT_AUTHOR } from "../core/constant";
+import { Command } from 'cmdk';
+import React, { useEffect } from 'react';
+import { ExtensionIcon } from '~component/icons';
+import { DEFAULT_AUTHOR } from '../core/constant';
+import { actionManager } from '../action';
 
 interface ListItemProps {
-    id: string
-    title: string
-    subtitle?: string
-    keywords?: string[]
-    type?: string
-    author?: string | 'no-show'
-    actions?: React.ReactNode
-    icon?: string | React.ReactNode
-    children?: React.ReactNode
-    onSelect?: any
-    cls?: string
-    props?: any
+    id: string;
+    title: string;
+    subtitle?: string;
+    keywords?: string[];
+    type?: string;
+    author?: string | null,
+    actions?: React.ReactNode;
+    icon?: string | React.ReactNode;
+    children?: React.ReactNode;
+    onSelect?: any;
+    cls?: string;
 }
 
 export function Item({
@@ -34,12 +30,12 @@ export function Item({
     children,
     keywords,
     onSelect,
-    cls = "",
-    props
+    cls = '',
 }: ListItemProps) {
+
     const renderIcon = () => {
         if (!icon) return null;
-        if (typeof icon === "string") {
+        if (typeof icon === 'string') {
             return <ExtensionIcon base64={icon} />;
         }
         if (React.isValidElement(icon)) {
@@ -48,18 +44,18 @@ export function Item({
     };
 
     const renderAuthor = () => {
-        if (author === 'no-show') return '';
+        if (author === null) return "";
         if (!author) return DEFAULT_AUTHOR;
         return author;
     };
 
     const renderKind = () => {
-        if (!type) return "Command";
+        if (!type) return 'Command';
         return type;
     };
 
     const handleSelect = () => {
-        typeof onSelect === "function" && onSelect();
+        typeof onSelect === 'function' && onSelect();
     };
 
     const registerActionPanel = () => {
@@ -72,8 +68,8 @@ export function Item({
 
     return (
         <Command.Item
-            className={classnames("ListItem", cls)}
-            {...props}
+            className={cls ? cls : ''}
+            value={id}
             keywords={keywords}
             onSelect={() => {
                 handleSelect();
@@ -83,14 +79,8 @@ export function Item({
                 <h3>{title}</h3>
             </div>
             {children}
-            <span cmdk-motionshot-sub="" style={{ flexShrink: 0 }}>
-                {" "}
-                {renderAuthor()}
-            </span>
-            <span cmdk-motionshot-meta="" style={{ flexShrink: 0 }}>
-                {" "}
-                {renderKind()}
-            </span>
+            <span cmdk-motionshot-sub="" style={{ flexShrink: 0 }}> {renderAuthor()}</span>
+            <span cmdk-motionshot-meta="" style={{ flexShrink: 0 }}> {renderKind()}</span>
         </Command.Item>
     );
 }

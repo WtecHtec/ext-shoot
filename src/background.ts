@@ -14,6 +14,8 @@ import {
     AC_SOLO_RUN,
     ENABLE_ALL_EXTENSION,
     EXT_UPDATE_DONE,
+		AC_SET_SNAPSEEK,
+		AC_GET_SNAPSEEK,
 } from '~config/actions';
 import { UNINSTALL_URL } from '~constant';
 import { ExtItem } from '~utils/ext.interface';
@@ -22,11 +24,13 @@ import {
     getBrowserType,
     getExtendedInfo,
     getRecentlyData,
+    getSnapseek,
     getSnapshots,
     getStorageIcon,
     setBrowserType,
     setExtendedInfo,
     setRecentlyData,
+    setSnapseek,
     setSnapshot,
 } from '~utils/local.storage';
 import { getId } from '~utils/util';
@@ -501,6 +505,31 @@ const handleSetBrowser = ({ request, sendResponse }) => {
 const handleGetBrowser = ({ sendResponse }) => {
     sendResponse({ browserType: getBrowserType() ?? 'chrome' });
 };
+
+const handleSetSnapseek = async ({ request, sendResponse }) => {
+	console.log('request----', request);
+	await setSnapseek(request.data);
+	sendResponse({ statue: true});
+};
+
+const handleGetSnapseek = async ({ sendResponse }) => {
+		// 过滤过期数据
+		const MAX_TIME = 7 * 24 * 60 * 60 * 1000;
+		const snapData = await getSnapseek();
+		console.log('handleGetSnapseek--', snapData);
+		const result = {};
+		if (snapData && Object.keys(snapData).length) {
+			const keys = Object.keys(snapData).filter(item => {
+				return new Date(item).getTime() + MAX_TIME >= new Date().getTime();
+			});
+			keys.map(key => {
+				snapData[key] && snapData[key].sort(( a, b) => b.time - a.time);
+				result[key] = snapData[key];
+			});
+		}
+		sendResponse({ data: result, statue: true});
+};
+
 const ACTICON_MAP = {
     get_extensions: getExtensions,
     enable_extension: handleEnableExtension,
@@ -526,6 +555,8 @@ const ACTICON_MAP = {
     [AC_CREATE_TAB]: handleCreateTabPage,
     [AC_SET_BROWSER]: handleSetBrowser,
     [AC_GET_BROWSER]: handleGetBrowser,
+		[AC_SET_SNAPSEEK]: handleSetSnapseek,
+		[AC_GET_SNAPSEEK]: handleGetSnapseek,
 
 };
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {

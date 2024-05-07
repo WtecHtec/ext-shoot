@@ -7,8 +7,9 @@ import {MotionShotCMDK} from '~component/cmdk/menu';
 import {CMDKWrapper} from '~component/common';
 import injectToaster from '~toaster';
 import EventBus from '~utils/event-bus';
-import {getBrowser, getMutliLevelProperty, isArc} from '~utils/util';
+import { getBrowser, getMutliLevelProperty, isArc} from '~utils/util';
 import {handleSetBrowser} from '~utils/actions';
+import { listerSnapSeekData } from '~extension/history-search/content';
 
 // import FocusLock from 'react-focus-lock';
 export const config: PlasmoCSConfig = {
@@ -78,6 +79,9 @@ eventBus.initState({ dialogs: [] }, {
         return state;
     },
 });
+
+
+listerSnapSeekData();
 
 const PlasmoOverlay = () => {
     // for dev

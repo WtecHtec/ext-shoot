@@ -9,6 +9,8 @@ import {
     AC_SNAPSHOT_CREATE,
     AC_SOLO_RUN,
     EXT_UPDATE_DONE,
+		AC_GET_SNAPSEEK,
+		AC_SET_SNAPSEEK,
 } from '~config/actions';
 import {ExtItem, RecentlyItem} from '~utils/ext.interface';
 
@@ -256,3 +258,29 @@ export const handleCreateTab = (pageUrl, active = true): Promise<[any, any]> => 
 	});
 };
 
+
+export const getSnapSeekData = (): Promise<[any, any]>  =>{
+	return new Promise(resolve => {
+		chrome.runtime.sendMessage( { action: AC_GET_SNAPSEEK,},).then( async (data) => {
+			if (data && data.data) {
+				resolve([null, data.data]);
+			} else {
+				resolve([null, {}]);
+			}
+		}).catch((err) => {
+			console.log('error', err);
+			resolve([err, null]);
+		});
+	});
+};
+
+export function saveSnapSeekData(data) {
+	return new Promise(resolve => {
+		chrome.runtime.sendMessage( { action: AC_SET_SNAPSEEK, data},).then( async () => {
+			resolve([null, {}]);
+		}).catch((err) => {
+			console.log('error', err);
+			resolve([err, null]);
+		});
+	});
+}

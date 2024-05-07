@@ -4,6 +4,7 @@ import {
     EXT_SNAPSHOT_CACHE,
     EXTENDED_INFO_CACHE,
     ICON_CACHE,
+		SNAPSEEK_KEY,
 } from '~config/cache.config';
 import {getId, getMutliLevelProperty} from './util';
 import {RecentlyItem} from './ext.interface';
@@ -120,4 +121,13 @@ export const getBrowserType = () => {
 
 export const setBrowserType = (type) => {
     return storage.set('browser_type', type);
+};
+
+
+export const setSnapseek = (data) => {
+	return storage.set(SNAPSEEK_KEY, data);
+};
+
+export const getSnapseek = () => {
+	return storage.get(SNAPSEEK_KEY);
 };

@@ -17,8 +17,10 @@ const Search = ({ search }: { search: string }) => {
         appManager.startApp("History Search");
         // 如果是 use 。。。 with 的话，这里可以传入第二个参数，不用清除
         searchManager.clearSearch();
+				console.log(`history search: ${search}`);
     };
 
+	
     return (
         <List.Item
             key={`${PREFIX}${search}`}

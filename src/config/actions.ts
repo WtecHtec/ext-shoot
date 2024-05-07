@@ -18,3 +18,6 @@ export const AC_CREATE_TAB = 'ac_create_tab';
 
 export const AC_SET_BROWSER = 'ac_set_browser';
 export const AC_GET_BROWSER = 'ac_get_browser';
+
+export const AC_GET_SNAPSEEK = 'ac_get_snapseek';
+export const AC_SET_SNAPSEEK = 'ac_set_snapseek';

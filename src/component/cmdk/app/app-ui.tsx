@@ -45,7 +45,7 @@ const AppUI: React.FC = () => {
     const ActiveAppComponent = activeAppName ? pluginComponents[activeAppName] : null;
 
     return (
-        <div hidden={!inApp}>
+        <div hidden={!inApp} style={{ padding: '0 8px 40px'}}>
             {ActiveAppComponent ? <ActiveAppComponent /> : <p>No active app.</p>}
         </div>
     );

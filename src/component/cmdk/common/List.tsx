@@ -18,6 +18,7 @@ interface ListItemProps {
     children?: React.ReactNode;
     onSelect?: any;
     cls?: string;
+		right?: string | React.ReactNode;
 }
 
 export function Item({
@@ -85,6 +86,64 @@ export function Item({
     );
 }
 
-const List = { Item };
+const InfoItem = (
+	{
+		id,
+		onSelect,
+		icon,
+		title,
+		right,
+		subtitle,
+		children,
+	}: ListItemProps
+) => {
+	const renderIcon = () => {
+		if (!icon) return null;
+		if (typeof icon === 'string') {
+				return <ExtensionIcon base64={icon} />;
+		}
+		if (React.isValidElement(icon)) {
+				return icon;
+		}
+	};
+	const renderRight = () => {
+		if (!right) return null;
+		if (typeof right === 'string') {
+			return <div className="snap-seek-item-url" rel="noreferrer"> { right }</div>;
+		}
+		if (React.isValidElement(right)) {
+			return right;
+		}
+	};
+	const handleSelect = () => {
+		typeof onSelect === 'function' && onSelect();
+	};
+	const renderChildren = ()=>{
+		if (!children && !subtitle) return null;
+		if (React.isValidElement(children)) {
+			return children;
+		}
+		if (subtitle) {
+			return <div className="snap-seek-text-content">{subtitle}</div>;
+		}
+		return null;
+	};
+	return (<>
+		<div key={id} onClick={ handleSelect } snap-seek-cmdk-item="">
+			<div className="snap-seek-item"> 
+				{renderIcon()}
+				<div className="snap-seek-item-title">{title}</div>	
+				{renderRight()}
+			</div>
+			{ renderChildren() }
+		</div>
+	</>);
+};
+
+const Tag = ({ content }: { content: string| React.ReactNode }) => {
+	return  <div className="snap-seek-item-search-tag" > { content  }</div>;
+};
+
+const List = { Item, InfoItem, Tag };
 
 export default List;

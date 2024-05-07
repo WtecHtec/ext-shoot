@@ -3,7 +3,7 @@
 	box-sizing: border-box;
 	background-color: #fff;
 	flex: 1;
-	max-height: 500px;
+	max-height: 400px;
 	min-height: 200px;
 	overflow-y: auto;
 }
@@ -81,7 +81,7 @@
 	flex-wrap: wrap;
 }
 
-.snap-seek-item-search .tag {
+.snap-seek-item-search-tag {
 	border: 1px solid #f5f5f5;
 	border-radius: 4px;
 	padding: 2px;
@@ -90,7 +90,7 @@
 	flex-shrink: 0;
 }
 
-.snap-seek-item-search span {
+.snap-seek-item-search-tag span {
 	background-color: yellow;
 }
 

@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
+import List from '~component/cmdk/common/List';
 import { searchManager } from '~component/cmdk/search/search-manager';
 import { GlobeIcon } from '~component/icons';
 import useDebounce from '~hooks/useDebounce';
@@ -43,7 +44,6 @@ function HistorySearch() {
 	}, 500);
 
 	useEffect(() => {
-
 		getSnapSeekData().then((data) => {
 			const [, snapsData] = data;
 			setDisplayData(snapsData);
@@ -68,27 +68,32 @@ function HistorySearch() {
 									<div snap-seek-cmdk-group-heading="">{item}</div> 
 									{
 										displayData[item].map(({ title, url,  icon, searchTags, text}) =>
-											<div key={title} onClick={() => window.open(url, '_blank')} snap-seek-cmdk-item="">
-													<div className="snap-seek-item"> 
-													{
-														icon 
+											<>
+												<List.InfoItem 
+													id={title}
+													key={title}
+													title={title}
+													icon={icon 
 															? <img className="snap-seek-item-img" src={icon.replace(/http[s]:/, '') }></img> 
-															: 	<GlobeIcon className="snap-seek-item-img"></GlobeIcon>
-													}
-														<div className="snap-seek-item-title">{title}</div>	
-														<a href={url} target="_blank" className="snap-seek-item-url" rel="noreferrer"> { url }</a> 
-													</div>
+															: <GlobeIcon className="snap-seek-item-img"></GlobeIcon>}
+													right={url}
+													onSelect={() => window.open(url, '_blank')}
+													subtitle={text}
+												>
 													{
 														searchTags  && searchTags.length
-															? <div className="snap-seek-item-search">
-																{searchTags.map((tag) => <div key={tag} className="tag" >{tag[0]} <span>{tag[1]}</span> {tag[2]}</div>) }
-															</div>
-															: <div className="snap-seek-text-content">{text}</div>
+														? <div className="snap-seek-item-search">
+															{searchTags.map((tag) => 
+																<List.Tag key={tag} content={ <>{tag[0]} <span>{tag[1]}</span> {tag[2]} </>} /> 
+															) }
+														</div>
+														: null
 													}
-												</div>
+												</List.InfoItem>
+											</>
 											)
 										}
-								</div>
+									</div>
 							}
 					</>)
 			}

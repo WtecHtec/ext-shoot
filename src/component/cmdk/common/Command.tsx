@@ -21,12 +21,17 @@ const CommandPanel: React.FC<CommandPanelProps> = ({
     const enhancedChildren = React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
             const childProps = child.props;
-            const newProps: { extension?: string; icon?: React.ReactNode } = {};
+            const newProps: { extension?: string; icon?: React.ReactNode, name?: string } = {};
             if (!("extension" in childProps) && title) {
                 newProps.extension = title;
             }
             if (!("icon" in childProps) && icon) {
                 newProps.icon = icon;
+            }
+
+            // 给子组件的 name 属性添加前缀
+            if (childProps.name) {
+                newProps.name = `${title}-${childProps.name}`;
             }
             const newEle = React.cloneElement(child, newProps);
             // if (childProps.name) {

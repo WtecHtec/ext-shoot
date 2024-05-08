@@ -1,15 +1,15 @@
 import * as Popover from '@radix-ui/react-popover';
-import {Command} from 'cmdk';
+import { Command } from 'cmdk';
 
 import React from 'react';
 import SubItem from '../sub-item';
 
 import EventBus from '~utils/event-bus';
-import {getMutliLevelProperty} from '~utils/util';
-import {ExtShootSeverHost} from '~config/config';
+import { getMutliLevelProperty } from '~utils/util';
+import { ExtShootSeverHost } from '~config/config';
 import axios from 'axios';
-import {GlobeIcon} from '~component/icons';
-import {handleCreateTab} from '~utils/management';
+import { GlobeIcon } from '~component/icons';
+import { handleCreateTab } from '~utils/management';
 import { getExtId } from '~lib/util';
 
 const eventBus = EventBus.getInstace();
@@ -32,15 +32,15 @@ const BASE_SUB_GROUP = () => [
 ];
 
 export default function ActionUi({
-                                       inputRef,
-                                       listRef,
-                                       selectName,
-                                       onClickItem,
-                                       subCommands,
-                                       extShootRef,
-                                       value,
-                                       includeCommands = [],
-                                   }: {
+    inputRef,
+    listRef,
+    selectName,
+    onClickItem,
+    subCommands,
+    extShootRef,
+    value,
+    includeCommands = [],
+}: {
     inputRef: React.RefObject<HTMLInputElement>
     listRef: React.RefObject<HTMLElement>
     extShootRef: React.RefObject<HTMLElement>
@@ -67,11 +67,11 @@ export default function ActionUi({
     }, [open]);
 
     const getExtPages = (extInfo) => {
-				// console.log('extInfo---', extInfo);
+        // console.log('extInfo---', extInfo);
         const { id, name, enabled } = extInfo;
-				if (!enabled) return;
+        if (!enabled) return;
         const formatId = getExtId(id);
-        axios.post(`${ ExtShootSeverHost }/pages`, {
+        axios.post(`${ExtShootSeverHost}/pages`, {
             extId: formatId,
             name: encodeURIComponent(name),
         })
@@ -96,7 +96,7 @@ export default function ActionUi({
         if (!open) return;
         const isCommand = getMutliLevelProperty(value, 'isCommand', true);
         const id = getMutliLevelProperty(value, 'id', '');
-        if (!value && isCommand || !id ) return;
+        if (!value && isCommand || !id) return;
         setLoading(true);
         getExtPages(value);
     }, [value, open]);
@@ -105,7 +105,7 @@ export default function ActionUi({
         console.log('value----', value);
         const formatId = getExtId(value.id);
         // window.open(`chrome-extension://${value.id}${path}`);
-        await handleCreateTab(`chrome-extension://${ formatId }${ path }`);
+        await handleCreateTab(`chrome-extension://${formatId}${path}`);
         setOpen(false);
     };
     React.useEffect(() => {
@@ -173,12 +173,12 @@ export default function ActionUi({
     }, [open, listRef]);
 
     return (
-        <Popover.Root open={ open } onOpenChange={ setOpen }>
+        <Popover.Root open={open} onOpenChange={setOpen}>
             <Popover.Trigger
-            hidden={true}
+                hidden={true}
                 cmdk-motionshot-subcommand-trigger=""
-                onClick={ () => setOpen(true) }
-                aria-expanded={ open }>
+                onClick={() => setOpen(true)}
+                aria-expanded={open}>
                 Actions
                 <kbd>⌘</kbd>
                 <kbd>K</kbd>
@@ -187,17 +187,17 @@ export default function ActionUi({
                 side="top"
                 align="end"
                 className="motionshot-submenu"
-                sideOffset={ 16 }
-                alignOffset={ 0 }
-                onCloseAutoFocus={ (e) => {
+                sideOffset={16}
+                alignOffset={0}
+                onCloseAutoFocus={(e) => {
                     e.preventDefault();
                     inputRef?.current?.focus();
-                } }>
+                }}>
                 <Command>
-                    <h1 className={ 'sub_command_title' }>{ selectName }</h1>
+                    <h1 className={'sub_command_title'}>{selectName}</h1>
                     <Command.List>
                         <Command.Empty>No Results</Command.Empty>
-                        { subCommands.filter(({ value }) => {
+                        {subCommands.filter(({ value }) => {
                             if (Array.isArray(includeCommands) && includeCommands.length) {
                                 return includeCommands.includes(value);
                             }
@@ -215,56 +215,56 @@ export default function ActionUi({
                             }
                             return groups;
                         }, BASE_SUB_GROUP()).map((group) => (
-                            group?.children.length ? <Command.Group key={ group.key }
-                                                                    style={ { overflow: 'auto' } }>
-                                    { group.children.map((item) => (
-                                        <SubItem
-                                            key={ item.value }
-                                            value={ item.value }
-                                            style={ {
-                                                color: item.group === 'danger' ? 'red' : '',
-                                            } }
-                                            keywords={ item.keywords }
-                                            shortcut={ item.shortcut }
-                                            commandHandle={ (value) => {
-                                                setOpen(v => !v);
-                                                typeof onClickItem === 'function' && onClickItem(value);
-                                            } }>
-                                            { item.icon }
-                                            { item.name }
-                                        </SubItem>
-                                    )) }
-                                </Command.Group>
+                            group?.children.length ? <Command.Group key={group.key}
+                                style={{ overflow: 'auto' }}>
+                                {group.children.map((item) => (
+                                    <SubItem
+                                        key={item.value}
+                                        value={item.value}
+                                        style={{
+                                            color: item.group === 'danger' ? 'red' : '',
+                                        }}
+                                        keywords={item.keywords}
+                                        shortcut={item.shortcut}
+                                        commandHandle={(value) => {
+                                            setOpen(v => !v);
+                                            typeof onClickItem === 'function' && onClickItem(value);
+                                        }}>
+                                        {item.icon}
+                                        {item.name}
+                                    </SubItem>
+                                ))}
+                            </Command.Group>
                                 : null
-                        )) }
+                        ))}
 
                         {
                             loading ?
                                 <Command.Loading></Command.Loading> : (pageDatas.length ?
                                     <Command.Group heading={`Extension Pages (${pageDatas.length})`}>
-                                        { pageDatas.map((item) => (
+                                        {pageDatas.map((item) => (
                                             <SubItem
-                                                key={ item.value }
-                                                value={ item.value }
-                                                keywords={ item.keywords }
-                                                shortcut={ item.shortcut }
-                                                commandHandle={ () => {
+                                                key={item.value}
+                                                value={item.value}
+                                                keywords={item.keywords}
+                                                shortcut={item.shortcut}
+                                                commandHandle={() => {
                                                     setOpen(v => !v);
                                                     gotoPage(item.value);
-                                                } }>
+                                                }}>
                                                 <GlobeIcon></GlobeIcon>
-                                                { item.name }
+                                                {item.name}
                                             </SubItem>
-                                        )) }
+                                        ))}
                                     </Command.Group> : null)
                         }
                     </Command.List>
 
                     <Command.Input
                         autoFocus
-                        ref={ subCommandInputRef }
+                        ref={subCommandInputRef}
                         placeholder="Search for actions..."
-                        tabIndex={ -2 }
+                        tabIndex={-2}
                         id="subCommandInput"
                     />
                 </Command>

@@ -95,7 +95,6 @@ const closeCurrentTab = () => {
     getCurrentTab().then(closeTab);
 };
 
-
 export const methods = {
     getCurrentTab,
     reloadTab,

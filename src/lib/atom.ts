@@ -1,27 +1,38 @@
 // atom-common.ts
-export const createModuleProxy = (moduleName, methods) => {
-    const handler = {
-        get(target, propKey) {
-            return function (...args) {
-                return new Promise((resolve, reject) => {
-                    chrome.runtime.sendMessage({
-                        moduleName: moduleName,
-                        methodName: propKey,
-                        args: args
-                    }, response => {
-                        if (chrome.runtime.lastError) {
-                            reject(chrome.runtime.lastError);
-                        } else {
-                            console.log(`Method response ${propKey}:`, response.result);  // Debug: 输出方法返回值
-                            resolve(response.result);
-                        }
+type Methods = {
+    [key: string]: (...args: any[]) => any;
+};
+
+export function createModuleProxy<T extends Methods>(
+    moduleName: string,
+    methods: T
+): { [K in keyof T]: (...args: Parameters<T[K]>) => Promise<ReturnType<T[K]>> } {
+    const handler: ProxyHandler<T> = {
+        get(target, propKey, receiver) {
+            const originalMethod = target[propKey as keyof T];
+            if (typeof originalMethod === 'function') {
+                return function (...args: any[]) {
+                    return new Promise((resolve, reject) => {
+                        chrome.runtime.sendMessage({
+                            moduleName: moduleName,
+                            methodName: propKey,
+                            args: args
+                        }, response => {
+                            if (chrome.runtime.lastError) {
+                                reject(chrome.runtime.lastError);
+                            } else {
+                                console.log(`Method response ${String(propKey)}:`, response.result);
+                                resolve(response.result);
+                            }
+                        });
                     });
-                });
-            };
+                };
+            }
+            return Reflect.get(target, propKey, receiver);
         }
     };
     return new Proxy(methods, handler);
-};
+}
 
 // atom.ts
 

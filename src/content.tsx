@@ -1,14 +1,13 @@
 import componentStyles from 'data-text:~style.all.scss';
 import cssText from 'data-text:~style.css';
-import type {PlasmoCSConfig} from 'plasmo';
-import React, {useEffect, useRef} from 'react';
+import type { PlasmoCSConfig } from 'plasmo';
+import React, { useEffect, useRef } from 'react';
 
-import {MotionShotCMDK} from '~component/cmdk/menu';
-import {CMDKWrapper} from '~component/common';
-import injectToaster from '~toaster';
+import { MotionShotCMDK } from '~component/cmdk/menu';
+import { CMDKWrapper } from '~component/common';
 import EventBus from '~utils/event-bus';
-import { getBrowser, getMutliLevelProperty, isArc} from '~utils/util';
-import {handleSetBrowser} from '~utils/actions';
+import { getBrowser, getMutliLevelProperty, isArc } from '~utils/util';
+import { handleSetBrowser } from '~utils/actions';
 import { listerSnapSeekData } from '~extension/history-search/content';
 
 // import FocusLock from 'react-focus-lock';
@@ -100,10 +99,6 @@ const PlasmoOverlay = () => {
 
     React.useEffect(() => {
         // 初始化组件或功能
-        injectToaster();
-        // if (focusRef && focusRef.current) {
-        //     console.log('focusRef---', focusRef);
-        // }
 
         const updateLauncherState = () => {
             const state = eventBus.getState();
@@ -149,14 +144,14 @@ const PlasmoOverlay = () => {
     return (
         <>
             <div
-                ref={ focusRef }
+                ref={focusRef}
                 // style={ { display: open ? 'block' : 'none' } }
                 className="fixed z-50 flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-                { open ? (
+                {open ? (
                     <CMDKWrapper>
-                        <MotionShotCMDK/>
+                        <MotionShotCMDK />
                     </CMDKWrapper>
-                ) : null }
+                ) : null}
             </div>
         </>
     );

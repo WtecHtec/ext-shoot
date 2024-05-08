@@ -14,8 +14,8 @@ import {
     AC_SOLO_RUN,
     ENABLE_ALL_EXTENSION,
     EXT_UPDATE_DONE,
-		AC_SET_SNAPSEEK,
-		AC_GET_SNAPSEEK,
+    AC_SET_SNAPSEEK,
+    AC_GET_SNAPSEEK,
 } from '~config/actions';
 import { UNINSTALL_URL } from '~constant';
 import { ExtItem } from '~utils/ext.interface';
@@ -36,6 +36,7 @@ import {
 import { getId } from '~utils/util';
 // 用于存储上一次检查时的插件列表
 let previousExtensions = [];
+
 
 chrome.runtime.onInstalled.addListener((object) => {
     // Inject shoot on install
@@ -507,27 +508,27 @@ const handleGetBrowser = ({ sendResponse }) => {
 };
 
 const handleSetSnapseek = async ({ request, sendResponse }) => {
-	console.log('request----', request);
-	await setSnapseek(request.data);
-	sendResponse({ statue: true});
+    console.log('request----', request);
+    await setSnapseek(request.data);
+    sendResponse({ statue: true });
 };
 
 const handleGetSnapseek = async ({ sendResponse }) => {
-		// 过滤过期数据
-		const MAX_TIME = 7 * 24 * 60 * 60 * 1000;
-		const snapData = await getSnapseek();
-		console.log('handleGetSnapseek--', snapData);
-		const result = {};
-		if (snapData && Object.keys(snapData).length) {
-			const keys = Object.keys(snapData).filter(item => {
-				return new Date(item).getTime() + MAX_TIME >= new Date().getTime();
-			});
-			keys.map(key => {
-				snapData[key] && snapData[key].sort(( a, b) => b.time - a.time);
-				result[key] = snapData[key];
-			});
-		}
-		sendResponse({ data: result, statue: true});
+    // 过滤过期数据
+    const MAX_TIME = 7 * 24 * 60 * 60 * 1000;
+    const snapData = await getSnapseek();
+    console.log('handleGetSnapseek--', snapData);
+    const result = {};
+    if (snapData && Object.keys(snapData).length) {
+        const keys = Object.keys(snapData).filter(item => {
+            return new Date(item).getTime() + MAX_TIME >= new Date().getTime();
+        });
+        keys.map(key => {
+            snapData[key] && snapData[key].sort((a, b) => b.time - a.time);
+            result[key] = snapData[key];
+        });
+    }
+    sendResponse({ data: result, statue: true });
 };
 
 const ACTICON_MAP = {
@@ -555,8 +556,8 @@ const ACTICON_MAP = {
     [AC_CREATE_TAB]: handleCreateTabPage,
     [AC_SET_BROWSER]: handleSetBrowser,
     [AC_GET_BROWSER]: handleGetBrowser,
-		[AC_SET_SNAPSEEK]: handleSetSnapseek,
-		[AC_GET_SNAPSEEK]: handleGetSnapseek,
+    [AC_SET_SNAPSEEK]: handleSetSnapseek,
+    [AC_GET_SNAPSEEK]: handleGetSnapseek,
 
 };
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -622,4 +623,9 @@ chrome.commands.onCommand.addListener((command) => {
     });
 });
 
+import { Atom } from './lib/atom';
+import tabManage from './lib/atoms/browser-tab-manager/';
 
+const atom = new Atom();
+atom.load(tabManage);
+atom.listen();

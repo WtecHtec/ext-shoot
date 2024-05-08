@@ -8,6 +8,7 @@ import { searchManager } from '../search/search-manager';
 import { Command as CommandCMDK } from 'cmdk';
 import ChromeStoreWebSearch from '~extension/chrome-store-web-search';
 import InstantOpen from '~extension/instant-open';
+import TestAction from '~extension/test-action';
 import ChromeStoreSearch from '~extension/chrome-store-search';
 import HistorySearch from '~extension/history-search';
 
@@ -32,6 +33,7 @@ function ExtensionWithSearchLoader() {
             <ChromeStoreSearch search={search}></ChromeStoreSearch>
             <ChromeStoreWebSearch search={search}></ChromeStoreWebSearch>
             <InstantOpen search={search}></InstantOpen>
+            <TestAction search={search} />
         </CommandCMDK.Group>
     );
 }

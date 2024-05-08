@@ -2,8 +2,9 @@
 
 import React, { SVGProps } from 'react';
 import { Command } from 'cmdk';
+import tabManage from '~lib/atoms/browser-tab-manager';
 
-const PREFIX = 'InstantOpen';
+const PREFIX = 'test-action';
 function LinkIcon(props: SVGProps<SVGSVGElement>) {
 	return (
 		<svg
@@ -84,27 +85,17 @@ function LinkIcon(props: SVGProps<SVGSVGElement>) {
 	);
 }
 
-function normalizeLink(link: string): string {
-	let normalizedLink = link.trim();
-	if (!link.startsWith('http://') && !link.startsWith('https://')) {
-		link = `https://www.google.com/search?q=${encodeURIComponent(link)}`;
-		return link;
-	}
-	const url = new URL(link);
-	normalizedLink = url.href;
-	return normalizedLink;
-}
-
-
 const Search = React.forwardRef(({ search }: { search: string }, ref) => {
+
 	React.useImperativeHandle(ref, () => ({
 		onSearch,
 	}));
 
 	const onSearch = () => {
-		const normalizedLink = normalizeLink(search);
-		window.open(normalizedLink);
+		const video = tabManage.action;
+		video.duplicateTab();
 	};
+
 	return <Command.Item
 		key={`${PREFIX}${search}`}
 		value={`${PREFIX}${search}`}
@@ -113,7 +104,7 @@ const Search = React.forwardRef(({ search }: { search: string }, ref) => {
 			onSearch();
 		}}>
 		<LinkIcon></LinkIcon>
-		{`Instant Open`}
+		{`Test Action`}
 		<span cmdk-motionshot-sub="" style={{ flexShrink: 0 }}> GPTsMotion</span>
 		<span cmdk-motionshot-meta="" style={{ flexShrink: 0 }}> Command</span>
 

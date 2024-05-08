@@ -92,8 +92,8 @@ const Search = React.forwardRef(({ search }: { search: string }, ref) => {
 	}));
 
 	const onSearch = () => {
-		const video = tabManage.action;
-		video.duplicateTab();
+		const tabAction = tabManage.action;
+		tabAction.duplicateTab();
 	};
 
 	return <Command.Item

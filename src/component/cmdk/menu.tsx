@@ -839,61 +839,9 @@ export function MotionShotCMDK() {
         <hr cmdk-motionshot-loader="" />
         <>
           {
-            <Command.List ref={listRef} hidden={inAppMode}  >
+            <Command.List ref={listRef} hidden={inAppMode}>
               <NotFound.NotFoundWithIcon />
-              {/* {extDatas.length > 0
-                ? extDatas?.map(({ children, name }) => {
-                  return (
-                    <>
-                      {children && children.length > 0 ? (
-                        <>
-                          <Command.Group
-                            heading={`${name}(${children.length})`}>
-                            {children?.map((item) => {
-                              const {
-                                id,
-                                name,
-                                icon,
-                                enabled,
-                                isCommand,
-                                actIcon
-                              } = item;
-                              return (
-                                <Item
-                                  value={id}
-                                  key={id}
-                                  keywords={[...name.split(" "), name]}
-                                  commandHandle={() =>
-                                    handelPatibleSubCommand(
-                                      "execute_recent_action",
-                                      id
-                                    )
-                                  }
-                                  isCommand={isCommand}
-                                  cls={!enabled && "grayscale"}>
-                                  {icon ? (
-                                    isCommand ? (
-                                      icon
-                                    ) : (
-                                      <ExtensionIcon base64={icon} />
-                                    )
-                                  ) : (
-                                    <ShootIcon></ShootIcon>
-                                  )}
-                                  <div className="truncate">{name}</div>
-                                  <div>{actIcon ? actIcon : null}</div>
-                                </Item>
-                              );
-                            })}
-                          </Command.Group>
-                        </>
-                      ) : null}
-                    </>
-                  );
-                })
-                : null} */}
-              {<CommandUI />}
-
+              <CommandUI />
             </Command.List>
           }
           {

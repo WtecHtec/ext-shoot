@@ -1,30 +1,30 @@
-import { Command as CommandCMDK } from "cmdk"
-import React, { useEffect, useState } from "react"
+import { Command as CommandCMDK } from "cmdk";
+import React, { useEffect, useState } from "react";
 
-import { ExtensionManagerCommand } from "~extension"
-import ChromeStoreSearch from "~extension/chrome-store-search"
-import ChromeStoreWebSearch from "~extension/chrome-store-web-search"
-import HistorySearch from "~extension/history-search"
-import InstantOpen from "~extension/instant-open"
-import TableManager from "~extension/tab-manager"
-import TestAction from "~extension/test-action"
+import { ExtensionManagerCommand } from "~extension";
+import ChromeStoreSearch from "~extension/chrome-store-search";
+import ChromeStoreWebSearch from "~extension/chrome-store-web-search";
+import HistorySearch from "~extension/history-search";
+import InstantOpen from "~extension/instant-open";
+import TableManager from "~extension/tab-manager";
+import TestAction from "~extension/test-action";
 
-import { Command } from "../common/Command"
-import { searchManager } from "../search/search-manager"
+import { Command } from "../common/Command";
+import { searchManager } from "../search/search-manager";
 
 function ExtensionWithSearchLoader() {
-  const [search, setSearch] = useState(searchManager.content)
+  const [search, setSearch] = useState(searchManager.content);
   useEffect(() => {
     const unsubscribe = searchManager.subscribe(
       ({ search }) => {
-        setSearch(search)
+        setSearch(search);
       },
       {
         target: ["search"]
       }
-    )
-    return unsubscribe // Cleanup on unmount
-  }, [])
+    );
+    return unsubscribe; // Cleanup on unmount
+  }, []);
 
   return (
     search && (
@@ -36,7 +36,7 @@ function ExtensionWithSearchLoader() {
         <TestAction search={search} />
       </CommandCMDK.Group>
     )
-  )
+  );
 }
 
 const ExtensionLoader = () => {
@@ -47,8 +47,8 @@ const ExtensionLoader = () => {
       <ExtensionManagerCommand />
       <TableManager />
     </CommandCMDK.Group>
-  )
-}
+  );
+};
 
 const CommandUI = () => {
   return (
@@ -56,7 +56,7 @@ const CommandUI = () => {
       <ExtensionLoader />
       <ExtensionWithSearchLoader />
     </>
-  )
-}
+  );
+};
 
-export { CommandUI }
+export { CommandUI };

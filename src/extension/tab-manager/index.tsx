@@ -43,6 +43,7 @@ const TabManagerComand = () => {
           () => {
             const currentTab = TabAction.getCurrentTab();
             TabAction.goBack(currentTab);
+
           }
         }
       />

@@ -87,7 +87,8 @@
       "management",
       "sessions",
       "unlimitedStorage",
-      "declarativeNetRequest"
+      "declarativeNetRequest",
+			"bookmarks"
     ],
     "web_accessible_resources": [
       {

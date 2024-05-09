@@ -3,7 +3,7 @@ import cssText from 'data-text:~style.css';
 import type { PlasmoCSConfig } from 'plasmo';
 import React, { useEffect, useRef } from 'react';
 
-import { MotionShotCMDK } from '~component/cmdk/menu';
+import { MotionShotCMDK } from '~component/cmdk';
 import { CMDKWrapper } from '~component/common';
 import EventBus from '~component/cmdk/core/event-bus';
 import { getBrowser, getMutliLevelProperty, isArc } from '~utils/util';

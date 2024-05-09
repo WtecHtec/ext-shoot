@@ -12,7 +12,6 @@ const TabManagerComand = () => {
         name="reload-page"
         title="Reload Page"
         endAfterRun
-
         keywords={[
           "reload",
           "refresh",
@@ -74,6 +73,31 @@ const TabManagerComand = () => {
           }
         }
       />
+      <Command.SimpleCommand
+        name="close-current-page"
+        title="Close Current Page"
+        keywords={["close", "Close Current Page"]}
+        description="Close the current "
+        endAfterRun
+        handle={
+          async () => {
+            TabAction.closeCurrentTab();
+          }
+        }
+      />
+      <Command.SimpleCommand
+        name="restore-last-page"
+        title="Restore Last Page"
+        keywords={["restore", "Restore Last Page"]}
+        description="Restore the last closed tab"
+        endAfterRun
+        handle={
+          async () => {
+            TabAction.openLastClosedTab();
+          }
+        }
+      />
+
 
     </CommandPanel>
   );

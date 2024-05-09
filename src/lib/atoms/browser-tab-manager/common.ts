@@ -109,6 +109,17 @@ const closeCurrentTab = () => {
     getCurrentTab().then(closeTab);
 };
 
+
+const openLastClosedTab = () => {
+    chrome.sessions.restore(null, (session) => {
+        if (session && session.tab) {
+            console.log("Last closed tab reopened successfully:", session.tab);
+        } else {
+            console.log("Failed to reopen the last closed tab.");
+        }
+    });
+};
+
 export const methods = {
     getCurrentTab,
     reloadTab,
@@ -123,4 +134,5 @@ export const methods = {
     togglePinTab,
     closeTab,
     closeCurrentTab,
+    openLastClosedTab,
 };

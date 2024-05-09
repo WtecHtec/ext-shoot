@@ -13,45 +13,36 @@ export const ExitAndClearSearch = () => {
     searchManager.clearSearch();
     exitPanel();
 };
-interface CommandPanelProps {
-    children: React.ReactNode
-    title?: string
-    icon?: React.ReactNode
+
+// 扩展 BaseCommand 用于新属性
+interface CommandProps extends BaseCommand {
+    extension?: string;
+    icon?: React.ReactNode;
 }
 
-const CommandPanel: React.FC<CommandPanelProps> = ({
+const CommandPanel: React.FC<{ children: React.ReactNode, title?: string, icon?: React.ReactNode }> = ({
     children,
     title,
     icon
 }) => {
-    // 映射子组件，为没有指定 extension 或 icon 的子组件添加这些属性
     const enhancedChildren = React.Children.map(children, (child) => {
-        if (React.isValidElement(child)) {
+        if (React.isValidElement<BaseCommand>(child)) {
             const childProps = child.props;
-            const newProps: { extension?: string; icon?: React.ReactNode, name?: string } = {};
-            if (!("extension" in childProps) && title) {
-                newProps.extension = title;
-            }
-            if (!("icon" in childProps) && icon) {
-                newProps.icon = icon;
-            }
-
-            // 给子组件的 name 属性添加前缀
-            if (childProps.name) {
-                newProps.name = `${title}-${childProps.name}`;
-            }
-            const newEle = React.cloneElement(child, newProps);
-            // if (childProps.name) {
-            // commandManager.registerCommand(childProps.name, () => newEle as any);
-            // }
-            return newEle;
+            // 使用展开操作符简化属性的合并和覆盖
+            const newProps: CommandProps = {
+                ...childProps,
+                extension: childProps.extension ?? title,
+                icon: childProps.icon ?? icon,
+                name: childProps.name ? `${title}-${childProps.name}` : childProps.name,
+                keywords: childProps.keywords ? childProps.keywords.map(keyword => `${title}-${keyword}`) : childProps.keywords
+            };
+            return React.cloneElement(child, newProps);
         }
         return child;
     });
 
     return <>{enhancedChildren}</>;
 };
-
 export interface BaseCommand {
     name: string
     title?: string

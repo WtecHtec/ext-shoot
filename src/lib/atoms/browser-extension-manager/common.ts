@@ -1,5 +1,5 @@
 /**
- * 打开插件设置页面
+ * Open the extension settings page
  * @returns
  */
 export const handleOpenExtensionPage = () => {
@@ -9,7 +9,7 @@ export const handleOpenExtensionPage = () => {
 
 
 /**
- * 打开插件快捷键页面
+ * Open the extension shortcuts page
  * */
 export const handleOpenExtensionShortcutsPage = () => {
 	const magUrl = `chrome://extensions/shortcuts`;
@@ -17,7 +17,7 @@ export const handleOpenExtensionShortcutsPage = () => {
 };
 
 /**
- * 刷新插件图标
+ * Refresh the extension icon
  * @param param0 
  */
 const handleUpdateExtIcon = () => {
@@ -29,12 +29,11 @@ const handleUpdateExtIcon = () => {
 
 
 /**
- * 启用所有插件
+ * Enable all extensions
  * @param param0 
  */
 const handleEnableAllExtensions = () => {
 	chrome.management.getAll().then((extensions) => {
-			// 跳过自己
 			extensions.forEach((ext) => {
 					if (!ext.enabled) {
 						if (ext.id === chrome.runtime.id) return;
@@ -45,12 +44,11 @@ const handleEnableAllExtensions = () => {
 };
 
 /**
- * 禁止所有插件
+ * Disable all extensions
  * @param param0 
  */
 const handleDisableAllExtensions = () => {
 	chrome.management.getAll().then((extensions) => {
-			// 跳过自己
 			extensions.forEach((ext) => {
 					if (ext.enabled) {
 						if (ext.id === chrome.runtime.id) return;

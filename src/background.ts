@@ -625,7 +625,9 @@ chrome.commands.onCommand.addListener((command) => {
 
 import { Atom } from './lib/atom';
 import tabManage from './lib/atoms/browser-tab-manager/';
+import extensionManage from './lib/atoms/browser-extension-manager';
 
 const atom = new Atom();
 atom.load(tabManage);
+atom.load(extensionManage);
 atom.listen();

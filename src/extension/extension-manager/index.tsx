@@ -13,7 +13,7 @@ import {
 
 const ExtensionManagerCommand = () => {
   return (
-    <CommandPanel title="Extenison Manager" icon={<ExtensionLogo />}>
+    <CommandPanel title="Extenison Agent" icon={<ExtensionLogo />}>
       <Command.SimpleCommand
         name="update-extension-info"
         title="Update Information"
@@ -44,7 +44,7 @@ const ExtensionManagerCommand = () => {
       />
       <Command.SimpleCommand
         name="open_extension_home_page"
-        title="Extension Page"
+        title="Open Extension Page"
         keywords={["open", "extension", "home", "Open Extension HomePage"]}
         description="Open Extension Page"
         handle={() => {
@@ -53,7 +53,7 @@ const ExtensionManagerCommand = () => {
       />
       <Command.SimpleCommand
         name="change_extension_shortcuts"
-        title="Shortcuts Page"
+        title="Open Extension Shortcuts Page"
         keywords={[
           "shortcuts",
           "Change Extenion Shortcuts",

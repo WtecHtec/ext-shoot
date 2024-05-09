@@ -3,9 +3,16 @@ import React from "react";
 import { Action } from "./Action";
 import { ActionPanel } from "./ActionPanel";
 import List from "./List";
+import { searchManager } from "../search/search-manager";
+import { exitPanel } from "../panel";
 
 // import { commandManager } from "../command/command-manager";
 
+
+export const ExitAndClearSearch = () => {
+    searchManager.clearSearch();
+    exitPanel();
+};
 interface CommandPanelProps {
     children: React.ReactNode
     title?: string
@@ -57,6 +64,7 @@ export interface BaseCommand {
 
 interface SimpleCommandProps extends BaseCommand {
     handle: () => void
+    endAfterRun?: boolean
 }
 const SimpleCommand = ({
     name,
@@ -64,8 +72,15 @@ const SimpleCommand = ({
     keywords,
     handle,
     icon,
-    extension
+    extension,
+    endAfterRun,
 }: SimpleCommandProps) => {
+
+    const finalHandle = endAfterRun ? () => {
+        handle();
+        ExitAndClearSearch();
+    } : handle;
+
     return (
         <List.Item
             id={name}
@@ -74,13 +89,11 @@ const SimpleCommand = ({
             keywords={keywords}
             icon={icon}
             author={extension}
-            onSelect={() => {
-                handle();
-            }}
+            onSelect={finalHandle}
             actions={
                 <ActionPanel head={title}>
                     <ActionPanel.Section>
-                        <Action.ExecuteCommand handle={handle} />
+                        <Action.ExecuteCommand handle={finalHandle} />
                     </ActionPanel.Section>
                 </ActionPanel>
             }

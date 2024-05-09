@@ -4,7 +4,7 @@ import { Command } from 'cmdk';
 import React from 'react';
 import SubItem from '../sub-item';
 
-import EventBus from '~component/cmdk/core/event-bus';
+import { eventBus } from '~component/cmdk/panel/event-bus';
 import { getMutliLevelProperty } from '~utils/util';
 import { ExtShootSeverHost } from '~config/config';
 import axios from 'axios';
@@ -12,7 +12,6 @@ import { GlobeIcon } from '~component/icons';
 import { handleCreateTab } from '~utils/management';
 import { getExtId } from '~lib/util';
 
-const eventBus = EventBus.getInstace();
 const BASE_SUB_GROUP = () => [
     {
         name: 'common',

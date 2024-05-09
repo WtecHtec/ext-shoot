@@ -27,7 +27,7 @@ import {
   SUB_COMMAND_ACTIONS,
   SUB_EXTENSION_ACTIONS
 } from "~utils/actions";
-import EventBus from "~component/cmdk/core/event-bus";
+import { eventBus } from "~component/cmdk/panel/event-bus";
 import { ExtItem } from "~utils/ext.interface";
 import { getSelectSnapId, setSelectSnapIdBtStorge } from "~utils/local.storage";
 import {
@@ -61,8 +61,8 @@ import ExtensionWithSearch from "./search-group";
 import { CommandUI, ExtensionWithSearchLoader } from "./command/command-ui";
 import injectToaster from "./toast/inject";
 import ToasterComponent from "./toast/toast-ui";
+import { initEscControl } from "./panel/esc-control";
 
-const eventBus = EventBus.getInstace();
 
 const acMap = getAllActionMap();
 // const acMap_command = getSubCommandActionMap()
@@ -796,6 +796,10 @@ export function MotionShotCMDK() {
     appManager.changeSelectCmd(value);
     setValue(value);
   };
+
+  useEffect(() => {
+    initEscControl();
+  })
 
   return (
     <div className="ext-shoot" ref={extShootRef}>

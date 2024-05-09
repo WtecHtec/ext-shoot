@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from 'react';
 
 import { MotionShotCMDK } from '~component/cmdk';
 import { CMDKWrapper } from '~component/common';
-import EventBus from '~component/cmdk/core/event-bus';
+import { eventBus } from '~component/cmdk/panel/event-bus';
 import { getBrowser, getMutliLevelProperty, isArc } from '~utils/util';
 import { handleSetBrowser } from '~utils/actions';
 import { listerSnapSeekData } from '~extension/history-search/content';
@@ -23,7 +23,6 @@ export const getStyle = () => {
     return style;
 };
 
-const eventBus = EventBus.getInstace();
 
 setTimeout(() => {
     // 先检测是否是arc环境
@@ -41,43 +40,6 @@ setTimeout(() => {
     handleSetBrowser(detectFromNavigator);
 
 }, 3000);
-
-eventBus.initState({ dialogs: [] }, {
-    openSnap: (state) => {
-        state.dialogs.push('snap_dialog');
-        return state;
-    },
-    closeSnap: (state) => {
-        state.dialogs = state.dialogs.filter((item) => item !== 'snap_dialog');
-        return state;
-    },
-    openSubCommand: (state) => {
-        state.dialogs.push('sub_command');
-        return state;
-    },
-    closeSubCommand: (state) => {
-        state.dialogs = state.dialogs.filter((item) => item !== 'sub_command');
-        return state;
-    },
-    openSnapCommand: (state) => {
-        state.dialogs.push('snap_command');
-        return state;
-    },
-    closeSnapCommand: (state) => {
-        state.dialogs = state.dialogs.filter((item) => item !== 'snap_command');
-        return state;
-    },
-    openLauncher: (state) => {
-        if (!state.dialogs.includes('launcher')) {
-            state.dialogs.push('launcher');
-        }
-        return state;
-    },
-    closeLauncher: (state) => {
-        state.dialogs = state.dialogs.filter((item) => item !== 'launcher');
-        return state;
-    },
-});
 
 
 listerSnapSeekData();

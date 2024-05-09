@@ -5,9 +5,8 @@ import React from 'react';
 import { ChevronDownIcon, Cross2Icon } from "@radix-ui/react-icons";
 import SelectItem from "./select-item";
 import { getId, getMutliLevelProperty } from "~utils/util";
-import EventBus from '~component/cmdk/core/event-bus';
+import { eventBus } from '~component/cmdk/panel/event-bus';
 
-const eventBus = EventBus.getInstace();
 
 export default function SnapshotDialog({
 	snapOpen,
@@ -33,7 +32,7 @@ export default function SnapshotDialog({
 	const [refresh, setRefresh] = React.useState(0);
 	React.useEffect(() => {
 		setOpen(snapOpen);
-    eventBus.dispath(snapOpen ? 'openSnap' : 'closeSnap');
+		eventBus.dispath(snapOpen ? 'openSnap' : 'closeSnap');
 		const timer = setTimeout(() => {
 			setRefresh(Math.random());
 		}, 300);
@@ -42,32 +41,32 @@ export default function SnapshotDialog({
 		};
 	}, [snapOpen]);
 
-  React.useEffect(() => {
-    function escClose(state) {
-      const dialogs = getMutliLevelProperty(state, 'dialogs', []);
-      if (dialogs.length && dialogs[dialogs.length - 1] === 'snap_dialog') {
-        eventBus.dispath('closeSnap');
-        setOpen(false);
+	React.useEffect(() => {
+		function escClose(state) {
+			const dialogs = getMutliLevelProperty(state, 'dialogs', []);
+			if (dialogs.length && dialogs[dialogs.length - 1] === 'snap_dialog') {
+				eventBus.dispath('closeSnap');
+				setOpen(false);
 				typeof onSnapChange === 'function' && onSnapChange(false);
-      }
-    }
-    eventBus.on('close', escClose);
-    return () => {
-      eventBus.off('close', escClose);
-    };
+			}
+		}
+		eventBus.on('close', escClose);
+		return () => {
+			eventBus.off('close', escClose);
+		};
 	}, []);
 
 
 	React.useEffect(() => {
-    function inputListener (event) {
+		function inputListener(event) {
 			if ([27, 37, 38, 39, 40, 13,].includes(event.keyCode)) return;
-      // 阻止事件冒泡
-      event.stopPropagation();
-    }
+			// 阻止事件冒泡
+			event.stopPropagation();
+		}
 		if (subCommandInputRef.current && open) {
 			subCommandInputRef.current.autofocus = true;
 			subCommandInputRef.current.focus();
-      subCommandInputRef?.current?.addEventListener('keydown', inputListener);
+			subCommandInputRef?.current?.addEventListener('keydown', inputListener);
 		}
 		const el = listRef?.current;
 		if (open) {
@@ -77,11 +76,11 @@ export default function SnapshotDialog({
 			el.style.overflow = '';
 			el.style.pointerEvents = 'all';
 		}
-    return () => {
-      if (subCommandInputRef &&  subCommandInputRef.current) {
-        subCommandInputRef?.current?.removeEventListener('keydown', inputListener);
-      }
-    };
+		return () => {
+			if (subCommandInputRef && subCommandInputRef.current) {
+				subCommandInputRef?.current?.removeEventListener('keydown', inputListener);
+			}
+		};
 	}, [refresh, subCommandInputRef, open, listRef]);
 
 	const onOpenChange = (v) => {
@@ -93,7 +92,7 @@ export default function SnapshotDialog({
 	};
 	const onSave = () => {
 		if (snapName.trim().length < 2) return;
-    setOpen(false);
+		setOpen(false);
 		typeof onSvaeSnap === 'function' &&
 			onSvaeSnap(tabValue, snapId, snapName.trim());
 	};

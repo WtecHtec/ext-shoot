@@ -68,6 +68,7 @@ class SearchManager extends StateManager<SearchState> {
     public get ifInApp(): boolean {
         return this.state.inApp;
     }
+
 }
 
 export const searchManager = SearchManager.getInstance();

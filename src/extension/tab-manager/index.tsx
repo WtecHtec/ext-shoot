@@ -11,6 +11,8 @@ const TabManagerComand = () => {
       <Command.SimpleCommand
         name="reload-page"
         title="Reload Page"
+        endAfterRun
+
         keywords={[
           "reload",
           "refresh",
@@ -27,6 +29,7 @@ const TabManagerComand = () => {
         title="Duplicate Tab"
         keywords={["duplicate", "Duplicate Tab"]}
         description="Duplicate current tab"
+        endAfterRun
         handle={
           () => {
             TabAction.duplicateTab();
@@ -39,6 +42,7 @@ const TabManagerComand = () => {
         title="Go Back"
         keywords={["go back", "Go Back Tab"]}
         description="Go back in the tab history"
+        endAfterRun
         handle={
           async () => {
             TabAction.currentGoBack();
@@ -51,6 +55,7 @@ const TabManagerComand = () => {
         title="Go Forward"
         keywords={["go forward", "Go Forward Tab"]}
         description="Go forward in the tab history"
+        endAfterRun
         handle={
           async () => {
             TabAction.currentGoForward();
@@ -62,6 +67,7 @@ const TabManagerComand = () => {
         title="Pin Tab"
         keywords={["pin", "Pin Tab"]}
         description="Pin the current tab"
+        endAfterRun
         handle={
           async () => {
             TabAction.togglePinTab();

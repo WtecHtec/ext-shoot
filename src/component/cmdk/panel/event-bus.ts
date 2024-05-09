@@ -1,4 +1,4 @@
-export default class EventBus {
+class EventBus {
   static instace: any;
   state: any;
   listener: any;
@@ -7,16 +7,16 @@ export default class EventBus {
     if (!this.instace) {
       this.instace = new EventBus();
     }
-    return this.instace; 
+    return this.instace;
   }
   constructor() {
     this.state = {};
-    this.listener  = {};
+    this.listener = {};
     this.reducer = {};
   }
   initState(initState, reducer) {
-    this.state = {...initState};
-    this.reducer = {...reducer};
+    this.state = { ...initState };
+    this.reducer = { ...reducer };
   }
   on(eventName, fn) {
     if (!eventName || typeof fn !== 'function') return;
@@ -29,7 +29,7 @@ export default class EventBus {
   off(eventName, fn) {
     const fns = this.listener[eventName];
     if (Array.isArray(fns)) {
-      this.listener[eventName] = fns.filter((item)=> item !== fn);
+      this.listener[eventName] = fns.filter((item) => item !== fn);
     }
   }
   emit(eventName, ...arg) {
@@ -50,10 +50,15 @@ export default class EventBus {
         };
       }
     }
-    
+
 
   }
   getState() {
     return this.state;
   }
+
 }
+
+const eventBus = EventBus.getInstace();
+
+export { eventBus };

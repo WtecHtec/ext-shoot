@@ -33,12 +33,16 @@ const switchTab = (tab) => {
 
 /**
  * Go back in the tab history
- * @param tab The tab to go back in
+ * @param tab The tab id to go back in
  */
 const goBack = (tab) => {
-    chrome.tabs.goBack(
-        tab.index
-    );
+    chrome.tabs.goBack(tab.id);
+};
+
+const currentGoBack = () => {
+    getCurrentTab().then((response) => {
+        chrome.tabs.goBack(response.id);
+    });
 };
 
 /**
@@ -46,9 +50,13 @@ const goBack = (tab) => {
  * @param tab The tab to go forward in
  */
 const goForward = (tab) => {
-    chrome.tabs.goForward(
-        tab.index
-    );
+    chrome.tabs.goForward(tab.id);
+};
+
+const currentGoForward = () => {
+    getCurrentTab().then((response) => {
+        chrome.tabs.goForward(response.id);
+    });
 };
 
 /**
@@ -80,6 +88,12 @@ const pinTab = (pin) => {
     });
 };
 
+const togglePinTab = () => {
+    getCurrentTab().then((response) => {
+        chrome.tabs.update(response.id, { "pinned": !response.pinned });
+    });
+};
+
 /**
  * Close the given tab
  * @param tab The tab to close
@@ -100,10 +114,13 @@ export const methods = {
     reloadTab,
     switchTab,
     goBack,
+    currentGoBack,
     goForward,
+    currentGoForward,
     duplicateTab,
     muteTab,
     pinTab,
+    togglePinTab,
     closeTab,
     closeCurrentTab,
 };

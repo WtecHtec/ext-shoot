@@ -36,14 +36,35 @@ const TabManagerComand = () => {
 
       <Command.SimpleCommand
         name="go-back-tab"
-        title="Go Back Tab"
+        title="Go Back"
         keywords={["go back", "Go Back Tab"]}
         description="Go back in the tab history"
         handle={
-          () => {
-            const currentTab = TabAction.getCurrentTab();
-            TabAction.goBack(currentTab);
+          async () => {
+            TabAction.currentGoBack();
+          }
+        }
+      />
 
+      <Command.SimpleCommand
+        name="go-forward-tab"
+        title="Go Forward"
+        keywords={["go forward", "Go Forward Tab"]}
+        description="Go forward in the tab history"
+        handle={
+          async () => {
+            TabAction.currentGoForward();
+          }
+        } />
+
+      <Command.SimpleCommand
+        name="pin-tab"
+        title="Pin Tab"
+        keywords={["pin", "Pin Tab"]}
+        description="Pin the current tab"
+        handle={
+          async () => {
+            TabAction.togglePinTab();
           }
         }
       />

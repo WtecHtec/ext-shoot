@@ -10,7 +10,7 @@ const TabManagerComand = () => {
     <CommandPanel title="Tab Agent" icon={<ExtensionLogo />}>
       <Command.SimpleCommand
         name="reload-page"
-        title="Reload Page"
+        title="Refresh the Page"
         endAfterRun
         keywords={[
           "reload",
@@ -63,7 +63,7 @@ const TabManagerComand = () => {
 
       <Command.SimpleCommand
         name="pin-tab"
-        title="Pin Tab"
+        title="Pin ths Page"
         keywords={["pin", "Pin Tab"]}
         description="Pin the current tab"
         endAfterRun
@@ -75,7 +75,7 @@ const TabManagerComand = () => {
       />
       <Command.SimpleCommand
         name="close-current-page"
-        title="Close Current Page"
+        title="Close Tab"
         keywords={["close", "Close Current Page"]}
         description="Close the current "
         endAfterRun
@@ -87,7 +87,7 @@ const TabManagerComand = () => {
       />
       <Command.SimpleCommand
         name="restore-last-page"
-        title="Restore Last Page"
+        title="Restore Last Close Page"
         keywords={["restore", "Restore Last Page"]}
         description="Restore the last closed tab"
         endAfterRun

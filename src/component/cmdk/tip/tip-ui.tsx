@@ -7,9 +7,9 @@ import {
   ShootIcon,
   SuccessIcon
 } from "~component/icons";
-import { GITHUB_URL } from "~constant";
 
 import { statusManager, StatusMessage } from "./tip-manager";
+import {HOME_PAGE} from '~component/cmdk/core/constant';
 
 export const footerTip = (
   type: "success" | "error" | "loading" | "tip",
@@ -34,7 +34,7 @@ const LoadingTip: React.FC<TipProps> = ({ msg }) => {
 
 const DefaultTip: React.FC<TipProps> = () => {
   function handleOpenGithub(): void {
-    window.open(GITHUB_URL, "_blank");
+    window.open(HOME_PAGE, "_blank");
   }
 
   return (

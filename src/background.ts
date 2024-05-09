@@ -17,7 +17,6 @@ import {
     AC_SET_SNAPSEEK,
     AC_GET_SNAPSEEK,
 } from '~config/actions';
-import { UNINSTALL_URL } from '~constant';
 import { ExtItem } from '~utils/ext.interface';
 import {
     clearRecentlyData,
@@ -625,6 +624,7 @@ chrome.commands.onCommand.addListener((command) => {
 
 import { Atom } from './lib/atom';
 import tabManage from './lib/atoms/browser-tab-manager/';
+import {UNINSTALL_URL} from '~component/cmdk/core/constant';
 
 const atom = new Atom();
 atom.load(tabManage);

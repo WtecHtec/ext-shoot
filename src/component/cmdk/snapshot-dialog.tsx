@@ -5,7 +5,7 @@ import React from 'react';
 import { ChevronDownIcon, Cross2Icon } from "@radix-ui/react-icons";
 import SelectItem from "./select-item";
 import { getId, getMutliLevelProperty } from "~utils/util";
-import EventBus from '~utils/event-bus';
+import EventBus from '~component/cmdk/core/event-bus';
 
 const eventBus = EventBus.getInstace();
 
@@ -56,7 +56,7 @@ export default function SnapshotDialog({
       eventBus.off('close', escClose);
     };
 	}, []);
-  
+
 
 	React.useEffect(() => {
     function inputListener (event) {

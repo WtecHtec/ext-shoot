@@ -4,7 +4,7 @@ import { Command } from 'cmdk';
 import React from 'react';
 import SubItem from '../sub-item';
 
-import EventBus from '~utils/event-bus';
+import EventBus from '~component/cmdk/core/event-bus';
 import { getMutliLevelProperty } from '~utils/util';
 import { ExtShootSeverHost } from '~config/config';
 import axios from 'axios';

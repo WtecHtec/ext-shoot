@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from 'react';
 
 import { MotionShotCMDK } from '~component/cmdk/menu';
 import { CMDKWrapper } from '~component/common';
-import EventBus from '~utils/event-bus';
+import EventBus from '~component/cmdk/core/event-bus';
 import { getBrowser, getMutliLevelProperty, isArc } from '~utils/util';
 import { handleSetBrowser } from '~utils/actions';
 import { listerSnapSeekData } from '~extension/history-search/content';

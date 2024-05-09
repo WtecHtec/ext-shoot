@@ -4,7 +4,7 @@ import { Command } from "cmdk";
 import React from 'react';
 
 
-import EventBus from '~utils/event-bus';
+import EventBus from '~component/cmdk/core/event-bus';
 import { getMutliLevelProperty } from '~utils/util';
 
 import { GlobeIcon } from '~component/icons';
@@ -53,7 +53,7 @@ export default function SnapshotCommand({
 
 	React.useEffect(() => {
     function inputListener (event) {
-			if ([27, 37, 38, 39, 40, 13,].includes(event.keyCode) 
+			if ([27, 37, 38, 39, 40, 13,].includes(event.keyCode)
 				|| (event.metaKey && event.key.toLocaleUpperCase() === 'K')) return;
 			if (event.metaKey) return;
       // 阻止事件冒泡
@@ -118,7 +118,7 @@ export default function SnapshotCommand({
 				onClick={() => setOpen(true)}
 				aria-expanded={open}>
 				<div className="snap-picker">
-					<label>{showLabel}</label> 
+					<label>{showLabel}</label>
 					<ChevronDownIcon/>
 				</div>
 			</Popover.Trigger>
@@ -136,7 +136,7 @@ export default function SnapshotCommand({
 					<Command.List>
 						<Command.Empty>No Results</Command.Empty>
 						{
-							snapshotDatas && snapshotDatas.length ? 
+							snapshotDatas && snapshotDatas.length ?
 							snapshotDatas.map(({ id, name}) => (<Command.Item
 										key={ id }
 										value={ id }

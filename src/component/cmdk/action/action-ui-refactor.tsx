@@ -2,7 +2,7 @@ import * as Popover from "@radix-ui/react-popover";
 import { Command } from "cmdk";
 import React from "react";
 
-import EventBus from "~utils/event-bus";
+import EventBus from "~component/cmdk/core/event-bus";
 import { getMutliLevelProperty } from "~utils/util";
 
 import { appManager } from "../app/app-manager";

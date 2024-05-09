@@ -27,7 +27,7 @@ import {
   SUB_COMMAND_ACTIONS,
   SUB_EXTENSION_ACTIONS
 } from "~utils/actions";
-import EventBus from "~utils/event-bus";
+import EventBus from "~component/cmdk/core/event-bus";
 import { ExtItem } from "~utils/ext.interface";
 import { getSelectSnapId, setSelectSnapIdBtStorge } from "~utils/local.storage";
 import {

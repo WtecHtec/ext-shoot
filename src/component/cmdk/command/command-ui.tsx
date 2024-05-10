@@ -7,6 +7,7 @@ import ChromeStoreWebSearch from "~extension/chrome-store-web-search";
 import HistorySearch from "~extension/history-search";
 import InstantOpen from "~extension/instant-open";
 import TableManager from "~extension/tab-manager";
+import WindowsManager from "~extension/window-agent";
 import TestAction from "~extension/test-action";
 
 import { Command } from "../common/Command";
@@ -46,6 +47,7 @@ const ExtensionLoader = () => {
       {/* <ExtensionLauncher /> */}
       <ExtensionManagerCommand />
       <TableManager />
+      <WindowsManager />
     </CommandCMDK.Group>
   );
 };

@@ -1,13 +1,12 @@
 import React from "react";
 import ExtensionLogo from "data-base64:./icon.png";
-
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
 import tabManage from '~lib/atoms/browser-tab-manager';
 
 const TabAction = tabManage.action;
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="Tab Agent" icon={ExtensionLogo}>
+    <CommandPanel title="Windows Agent" icon={ExtensionLogo}>
       <Command.SimpleCommand
         name="reload-page"
         title="Refresh the Page"

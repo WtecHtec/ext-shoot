@@ -98,6 +98,18 @@ const TabManagerComand = () => {
         }
       />
 
+      {/* muteCurrentTab */}
+      <Command.SimpleCommand
+        name="mute-current-tab"
+        title="Mute Current Tab"
+        keywords={["mute", "Mute Current Tab"]}
+        description="Mute the current tab"
+        endAfterRun
+        handle={
+          async () => {
+            TabAction.toggleMuteTab();
+          }
+        } />
 
     </CommandPanel>
   );

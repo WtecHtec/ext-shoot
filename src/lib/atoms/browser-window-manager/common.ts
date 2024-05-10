@@ -41,7 +41,6 @@ const newWindow = () => {
 const newWindowWithTab = (url) => {
     browser.windows.create({ "url": url });
 };
-
 export const methods = {
     openIncognitoWindow,
     getCurrentWindow,

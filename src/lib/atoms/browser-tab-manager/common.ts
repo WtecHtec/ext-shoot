@@ -69,16 +69,6 @@ const duplicateTab = () => {
 };
 
 /**
- * Mute the current tab
- * @param mute Whether to mute the tab
- */
-const muteTab = (mute) => {
-    getCurrentTab().then((response) => {
-        chrome.tabs.update(response.id, { "muted": mute });
-    });
-};
-
-/**
  * Pin the current tab
  * @param pin Whether to pin the tab
  */
@@ -120,6 +110,14 @@ const openLastClosedTab = () => {
     });
 };
 
+/**
+ * mute the current tab
+ */
+export const toggleMuteTab = () => {
+    getCurrentTab().then((response) => {
+        chrome.tabs.update(response.id, { muted: !response.mutedInfo.muted });
+    });
+};
 export const methods = {
     getCurrentTab,
     reloadTab,
@@ -129,10 +127,10 @@ export const methods = {
     goForward,
     currentGoForward,
     duplicateTab,
-    muteTab,
     pinTab,
     togglePinTab,
     closeTab,
     closeCurrentTab,
     openLastClosedTab,
+    toggleMuteTab
 };

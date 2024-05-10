@@ -1,8 +1,10 @@
+
 /**
  * Open a new incognito window
  */
 const openIncognitoWindow = () => {
-    browser.windows.create({ "incognito": true });
+    console.log('1231', 1231);
+    chrome.windows.create({ "incognito": true });
 };
 
 
@@ -10,14 +12,18 @@ const openIncognitoWindow = () => {
  * get current window
  */
 const getCurrentWindow = () => {
-    return browser.windows.getCurrent();
+    return new Promise((resolve) => {
+        chrome.windows.getCurrent((window) => {
+            resolve(window);
+        });
+    });
 };
 
 /**
  * close the current window
  */
 const closeWindow = (window) => {
-    browser.windows.remove(window.id);
+    chrome.windows.remove(window.id);
 };
 
 /**
@@ -32,15 +38,16 @@ const closeCurrentWindow = () => {
  * new window
  */
 const newWindow = () => {
-    browser.windows.create();
+    chrome.windows.create();
 };
 
 /**
  * new window with tab
  */
 const newWindowWithTab = (url) => {
-    browser.windows.create({ "url": url });
+    chrome.windows.create({ "url": url });
 };
+
 export const methods = {
     openIncognitoWindow,
     getCurrentWindow,

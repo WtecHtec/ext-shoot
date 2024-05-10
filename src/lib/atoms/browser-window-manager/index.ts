@@ -5,7 +5,8 @@ import { methods } from "./common";
 // refer
 // https://developer.chrome.com/docs/extensions/reference/api/tabs?hl=zh-cn
 
-const moduleName = 'windows-manage';
+// need windows permission in  manifest.json
+const moduleName = 'window-manage';
 
 
 export default {

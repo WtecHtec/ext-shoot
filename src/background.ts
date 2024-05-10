@@ -625,9 +625,11 @@ chrome.commands.onCommand.addListener((command) => {
 import { Atom } from './lib/atom';
 import tabManage from './lib/atoms/browser-tab-manager/';
 import extensionManage from './lib/atoms/browser-extension-manager';
-import {UNINSTALL_URL} from '~component/cmdk/core/constant';
+import windowManage from './lib/atoms/browser-window-manager';
+import { UNINSTALL_URL } from '~component/cmdk/core/constant';
 
 const atom = new Atom();
 atom.load(tabManage);
 atom.load(extensionManage);
+atom.load(windowManage);
 atom.listen();

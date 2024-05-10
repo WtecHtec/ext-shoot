@@ -4,7 +4,7 @@ import { debounce, formatDate, getPageInfo } from "~utils/util";
 async function SaveSnapSeek() {
 	const info = getPageInfo();
 	if (!info.title || !info.text || !info.url) return;
-	const [, snapsDataObj ] = await getSnapSeekData();
+	const [, snapsDataObj] = await getSnapSeekData();
 	const dateKey = formatDate(new Date(), 'yyyy-MM-dd');
 	if (!snapsDataObj[dateKey]) {
 		snapsDataObj[dateKey] = [];
@@ -14,7 +14,7 @@ async function SaveSnapSeek() {
 		snapsDataObj[dateKey].splice(fidx, 1);
 	}
 	snapsDataObj[dateKey].push(info);
-	console.log('snapsDataObj---', snapsDataObj);
+	// console.log('snapsDataObj---', snapsDataObj);
 	saveSnapSeekData(snapsDataObj);
 }
 

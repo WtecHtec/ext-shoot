@@ -1,7 +1,7 @@
 import React from "react";
 import ExtensionLogo from "data-base64:./icon.png";
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
-import DataManager from '~lib/atoms/browser-data-manager';
+import DataManager from '~lib/atoms/browser-cache-manager';
 import TabManager from '~lib/atoms/browser-tab-manager';
 
 const dataAction = DataManager.action;

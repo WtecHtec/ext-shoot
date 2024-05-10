@@ -9,6 +9,7 @@ import InstantOpen from "~extension/instant-open";
 import TableManager from "~extension/tab-manager";
 import WindowsManager from "~extension/window-agent";
 import CacheAgent from "~extension/cache-agent";
+import QuickOpen from "~extension/quick-open";
 
 import { Command } from "../common/Command";
 import { searchManager } from "../search/search-manager";
@@ -48,6 +49,7 @@ const ExtensionLoader = () => {
       <TableManager />
       <WindowsManager />
       <CacheAgent />
+      <QuickOpen />
     </CommandCMDK.Group>
   );
 };

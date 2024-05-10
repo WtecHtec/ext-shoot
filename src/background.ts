@@ -626,7 +626,7 @@ import { Atom } from './lib/atom';
 import tabManage from './lib/atoms/browser-tab-manager/';
 import extensionManage from './lib/atoms/browser-extension-manager';
 import windowManage from './lib/atoms/browser-window-manager';
-import BrowserDataManage from './lib/atoms/browser-data-manager';
+import BrowserDataManage from './lib/atoms/browser-cache-manager';
 import { UNINSTALL_URL } from '~component/cmdk/core/constant';
 
 const atom = new Atom();

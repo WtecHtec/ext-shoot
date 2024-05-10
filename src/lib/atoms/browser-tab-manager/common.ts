@@ -118,6 +118,22 @@ export const toggleMuteTab = () => {
         chrome.tabs.update(response.id, { muted: !response.mutedInfo.muted });
     });
 };
+
+
+/**
+ * create a new tab with the given url
+ */
+export const createTab = (url) => {
+    chrome.tabs.create({ url });
+};
+
+/**
+ * create blank tab
+ */
+export const createBlankTab = () => {
+    createTab("chrome://newtab/");
+};
+
 export const methods = {
     getCurrentTab,
     reloadTab,
@@ -132,5 +148,7 @@ export const methods = {
     closeTab,
     closeCurrentTab,
     openLastClosedTab,
-    toggleMuteTab
+    toggleMuteTab,
+    createTab,
+    createBlankTab
 };

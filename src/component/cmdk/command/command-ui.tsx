@@ -8,7 +8,7 @@ import HistorySearch from "~extension/history-search";
 import InstantOpen from "~extension/instant-open";
 import TableManager from "~extension/tab-manager";
 import WindowsManager from "~extension/window-agent";
-import TestAction from "~extension/test-action";
+import CacheAgent from "~extension/cache-agent";
 
 import { Command } from "../common/Command";
 import { searchManager } from "../search/search-manager";
@@ -34,7 +34,6 @@ function ExtensionWithSearchLoader() {
         <ChromeStoreSearch search={search}></ChromeStoreSearch>
         <ChromeStoreWebSearch search={search}></ChromeStoreWebSearch>
         <InstantOpen search={search}></InstantOpen>
-        <TestAction search={search} />
       </CommandCMDK.Group>
     )
   );
@@ -48,6 +47,7 @@ const ExtensionLoader = () => {
       <ExtensionManagerCommand />
       <TableManager />
       <WindowsManager />
+      <CacheAgent />
     </CommandCMDK.Group>
   );
 };

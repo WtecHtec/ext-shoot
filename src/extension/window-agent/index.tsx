@@ -12,12 +12,27 @@ const TabManagerComand = () => {
         title="New Incognito Window"
         keywords={["incognito", "New Incognito Window"]}
         description="Open a new incognito window"
+        endAfterRun
         handle={
           async () => {
             windowAction.openIncognitoWindow();
           }
         }
       />
+
+      <Command.SimpleCommand
+        name="close-current-window"
+        title="Close Current Window"
+        keywords={["close", "Close Current Window"]}
+        description="Close the current window"
+        endAfterRun
+        handle={
+          async () => {
+            windowAction.closeCurrentWindow();
+          }
+        }
+      />
+
     </CommandPanel>
   );
 };

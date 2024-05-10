@@ -25,7 +25,7 @@ const TabManagerComand = () => {
       />
       <Command.SimpleCommand
         name="duplicate-tab"
-        title="Duplicate Tab"
+        title="Duplicate Current Tab"
         keywords={["duplicate", "Duplicate Tab"]}
         description="Duplicate current tab"
         endAfterRun
@@ -75,7 +75,7 @@ const TabManagerComand = () => {
       />
       <Command.SimpleCommand
         name="close-current-page"
-        title="Close Tab"
+        title="Close Current Tab"
         keywords={["close", "Close Current Page"]}
         description="Close the current "
         endAfterRun
@@ -97,8 +97,6 @@ const TabManagerComand = () => {
           }
         }
       />
-
-      {/* muteCurrentTab */}
       <Command.SimpleCommand
         name="mute-current-tab"
         title="Mute Current Tab"

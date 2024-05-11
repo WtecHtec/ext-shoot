@@ -1,27 +1,23 @@
-import React from "react";
 import ExtensionLogo from "data-base64:./icon.png";
-import { Command, CommandPanel } from "~component/cmdk/common/Command";
-import DataManager from '~lib/atoms/browser-cache-manager';
-import TabManager from '~lib/atoms/browser-tab-manager';
+import React from "react";
 
-const dataAction = DataManager.action;
+import { Command, CommandPanel } from "~component/cmdk/common/Command";
+import TabManager from "~lib/atoms/browser-tab-manager";
+
 const tabAction = TabManager.action;
 
 const TabManagerComand = () => {
   return (
     <CommandPanel title="Quick Link" icon={ExtensionLogo}>
-
       <Command.SimpleCommand
         name="open-downloads-page"
         title="Downloads Page"
         keywords={["downloads", "Open Downloads Page"]}
         description="Open the browser's downloads page"
         endAfterRun
-        handle={
-          async () => {
-            await tabAction.createTab('chrome://downloads/');
-          }
-        }
+        handle={async () => {
+          await tabAction.createTab("chrome://downloads/");
+        }}
       />
 
       <Command.SimpleCommand
@@ -30,11 +26,9 @@ const TabManagerComand = () => {
         keywords={["extensions", "Open Extensions Page"]}
         description="Open the browser's extensions page"
         endAfterRun
-        handle={
-          async () => {
-            await tabAction.createTab('chrome://extensions/');
-          }
-        }
+        handle={async () => {
+          await tabAction.createTab("chrome://extensions/");
+        }}
       />
 
       <Command.SimpleCommand
@@ -43,11 +37,9 @@ const TabManagerComand = () => {
         keywords={["history", "Open History Page"]}
         description="Open the browser's history page"
         endAfterRun
-        handle={
-          async () => {
-            await tabAction.createTab('chrome://history/');
-          }
-        }
+        handle={async () => {
+          await tabAction.createTab("chrome://history/");
+        }}
       />
 
       <Command.SimpleCommand
@@ -56,11 +48,9 @@ const TabManagerComand = () => {
         keywords={["settings", "Open Settings Page"]}
         description="Open the browser's settings page"
         endAfterRun
-        handle={
-          async () => {
-            await tabAction.createTab('chrome://settings/');
-          }
-        }
+        handle={async () => {
+          await tabAction.createTab("chrome://settings/");
+        }}
       />
 
       <Command.SimpleCommand
@@ -69,11 +59,9 @@ const TabManagerComand = () => {
         keywords={["bookmarks", "Open Bookmarks Page"]}
         description="Open the browser's bookmarks page"
         endAfterRun
-        handle={
-          async () => {
-            await tabAction.createTab('chrome://bookmarks/');
-          }
-        }
+        handle={async () => {
+          await tabAction.createTab("chrome://bookmarks/");
+        }}
       />
 
       <Command.SimpleCommand
@@ -82,11 +70,9 @@ const TabManagerComand = () => {
         keywords={["shortcuts", "Open Shortcuts Page"]}
         description="Open the browser's shortcuts page"
         endAfterRun
-        handle={
-          async () => {
-            await tabAction.createTab('chrome://extensions/shortcuts');
-          }
-        }
+        handle={async () => {
+          await tabAction.createTab("chrome://extensions/shortcuts");
+        }}
       />
       <Command.SimpleCommand
         name="open-password-manager"
@@ -94,11 +80,9 @@ const TabManagerComand = () => {
         keywords={["password", "Open Password Manager"]}
         description="Open the browser's password manager"
         endAfterRun
-        handle={
-          async () => {
-            await tabAction.createTab('chrome://password-manager');
-          }
-        }
+        handle={async () => {
+          await tabAction.createTab("chrome://password-manager");
+        }}
       />
       <Command.SimpleCommand
         name="open-languages-settings"
@@ -106,11 +90,9 @@ const TabManagerComand = () => {
         keywords={["languages", "Open Languages Settings"]}
         description="Open the browser's language settings page"
         endAfterRun
-        handle={
-          async () => {
-            await tabAction.createTab('chrome://settings/languages');
-          }
-        }
+        handle={async () => {
+          await tabAction.createTab("chrome://settings/languages");
+        }}
       />
     </CommandPanel>
   );

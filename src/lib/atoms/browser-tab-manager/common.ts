@@ -134,6 +134,14 @@ export const createBlankTab = () => {
     createTab("chrome://newtab/");
 };
 
+// change current tab url
+export const changeCurrentTabUrl = (url) => {
+    getCurrentTab().then((response) => {
+        chrome.tabs.update(response.id, { url });
+    });
+};
+
+
 export const methods = {
     getCurrentTab,
     reloadTab,
@@ -150,5 +158,6 @@ export const methods = {
     openLastClosedTab,
     toggleMuteTab,
     createTab,
-    createBlankTab
+    createBlankTab,
+    changeCurrentTabUrl,
 };

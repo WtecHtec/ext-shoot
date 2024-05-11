@@ -1,15 +1,16 @@
 import { Command as CommandCMDK } from "cmdk";
 import React, { useEffect, useState } from "react";
 
-import { ExtensionManagerCommand } from "~extension";
+// import { ExtensionManagerCommand } from "~extension";
 import ChromeStoreSearch from "~extension/chrome-store-search";
 import ChromeStoreWebSearch from "~extension/chrome-store-web-search";
 import HistorySearch from "~extension/history-search";
 import InstantOpen from "~extension/instant-open";
-import TableManager from "~extension/tab-manager";
-import WindowsManager from "~extension/window-agent";
-import CacheAgent from "~extension/cache-agent";
-import QuickOpen from "~extension/quick-open";
+// import TableManager from "~extension/tab-manager";
+// import WindowsManager from "~extension/window-agent";
+// import CacheAgent from "~extension/cache-agent";
+// import QuickOpen from "~extension/quick-open";
+import Jiker from "~extension/jiker";
 
 import { Command } from "../common/Command";
 import { searchManager } from "../search/search-manager";
@@ -45,11 +46,12 @@ const ExtensionLoader = () => {
     <CommandCMDK.Group heading={"Results"}>
       <Command.PlaceholderCommand />
       {/* <ExtensionLauncher /> */}
-      <ExtensionManagerCommand />
+      {/* <ExtensionManagerCommand />
       <TableManager />
       <WindowsManager />
       <CacheAgent />
-      <QuickOpen />
+      <QuickOpen /> */}
+      <Jiker />
     </CommandCMDK.Group>
   );
 };

@@ -23,8 +23,10 @@ const ToasterComponent: FC<ToasterComponentProps> = ({
         root.render(createElement(Toaster, { richColors, position }));
 
         // 组件卸载时，进行清理
-        return () => root.unmount();
-    }, [richColors, position]);
+        return () => {
+            setTimeout(() => root.unmount(), 0);
+        };
+    }, []);
 
     return null;
 };

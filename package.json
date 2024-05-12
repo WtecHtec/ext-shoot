@@ -37,7 +37,9 @@
     "esbuild": "^0.20.2",
     "framer-motion": "^11.0.8",
     "glob": "^10.3.12",
+    "jquery": "^3.7.1",
     "lodash.debounce": "^4.0.8",
+    "lru-cache": "^10.2.2",
     "lucide-react": "^0.358.0",
     "plasmo": "^0.74.2",
     "react": "18.2.0",
@@ -84,17 +86,19 @@
     ],
     "permissions": [
       "tabs",
-      "management",
       "sessions",
-      "unlimitedStorage",
-      "declarativeNetRequest",
+      "scripting",
       "bookmarks",
-      "browsingData"
+      "management",
+      "browsingData",
+      "unlimitedStorage",
+      "declarativeNetRequest"
     ],
     "web_accessible_resources": [
       {
         "resources": [
-          "tabs/icon-render.html"
+          "tabs/icon-render.html",
+          "jquery.min.js"
         ],
         "matches": [
           "<all_urls>"

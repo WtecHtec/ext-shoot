@@ -141,6 +141,22 @@ export const changeCurrentTabUrl = (url) => {
     });
 };
 
+/**
+ * inject script js
+ */
+const injectJQuery = (tabId) => {
+    chrome.scripting.executeScript({
+        target: { tabId: tabId },
+        files: ['jquery.min.js']
+    });
+};
+
+//inject current tab Jquery
+export const injectCurrentTabJQuery = () => {
+    getCurrentTab().then((response) => {
+        injectJQuery(response.id);
+    });
+};
 
 export const methods = {
     getCurrentTab,
@@ -160,4 +176,5 @@ export const methods = {
     createTab,
     createBlankTab,
     changeCurrentTabUrl,
+    injectCurrentTabJQuery
 };

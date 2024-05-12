@@ -1,10 +1,22 @@
 // Function to find and return elements with a class that includes 'content_truncate'
 import $ from 'jquery';
 import { LRUCache } from 'lru-cache';
+import TabManager from "~lib/atoms/browser-tab-manager";
+
 // Function to perform translation
 
 // support lang
 // https://github.com/plainheart/bing-translate-api/blob/HEAD/src/config.json#L9-L30
+
+const tabAction = TabManager.action;
+
+export function checkPostCreatePage() {
+    tabAction.changeCurrentTabUrl("https://web.okjike.com");
+}
+
+export function checkCurrentHomePage() {
+    tabAction.changeCurrentTabUrl("https://web.okjike.com/me");
+}
 
 
 function mightBeChinese(text) {
@@ -65,3 +77,45 @@ export function TranslateToCn(el) {
 }
 
 
+// 获取页面中class为NavBar__ScreenNameText的元素中的文本。
+// 把这个函数命名为这个获取当前jike用户的用户名
+export function getCurrentJikeUserName() {
+    const name = (window as any).__NEXT_DATA__.props?.pageProps?.apolloState.data["$ROOT_QUERY.profile"].screenName;
+    if (!name) {
+        return $('[class*="ScreenNameText"]').text();
+    }
+    return name;
+}
+export function getJikeUserName() {
+    const name = getCurrentJikeUserName();
+    console.log(22222);
+    console.log((window as any));
+    alert(`当前用户是：${name}`);
+    return name;
+}
+
+
+export const toggleTranslateToCnMode = async () => {
+    let rawContentEle;
+    $(document).ready(function () {
+        // 绑定 hover 事件到所有元素
+        $('.border-tint-border').hover(function () {
+            // 鼠标移入，获取当前元素
+            const hoveredElement = $(this);
+            const contentEle = hoveredElement.find("[class*='content_truncate']");
+            rawContentEle = contentEle.html();
+            TranslateToCn(contentEle);
+        }, function () {
+            const hoveredElement = $(this);
+            //find the content element, and change it back to the original content
+            const contentEle = hoveredElement.find("[class*='content_truncate']");
+            contentEle.html(rawContentEle);
+        });
+    });
+};
+
+export function exitTranslateToCnMode() {
+    $(document).ready(function () {
+        $('.border-tint-border').off('mouseenter mouseleave');
+    });
+}

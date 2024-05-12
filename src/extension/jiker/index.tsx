@@ -2,14 +2,7 @@ import ExtensionLogo from "data-base64:./icon.jpg";
 import React from "react";
 
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
-// import DataManager from "~lib/atoms/browser-cache-manager"
-import TabManager from "~lib/atoms/browser-tab-manager";
-import $ from 'jquery';
-import { TranslateToCn } from "./handle";
-
-
-// const dataAction = DataManager.action;
-const tabAction = TabManager.action;
+import { checkPostCreatePage, getJikeUserName, toggleTranslateToCnMode } from "./handle";
 
 const TabManagerComand = () => {
   return (
@@ -20,49 +13,26 @@ const TabManagerComand = () => {
         keywords={["new post", "Open New Post Page"]}
         description="Open Jike's new post page"
         endAfterRun
-        handle={async () => {
-          tabAction.changeCurrentTabUrl("https://web.okjike.com");
-        }}
+        handle={checkPostCreatePage}
       />
 
       <Command.SimpleCommand
         name="test"
         title="沉浸式翻译"
-        keywords={["test", "inject jquery"]}
+        keywords={["沉浸式翻译", "翻译"]}
         description="inject jquery"
         endAfterRun
-        handle={async () => {
-          let rawContentEle;
-          $(document).ready(function () {
-            // 绑定 hover 事件到所有元素
-            $('.border-tint-border').hover(function () {
-              // 鼠标移入，获取当前元素
-              const hoveredElement = $(this);
-              const contentEle = hoveredElement.find("[class*='content_truncate']");
-              rawContentEle = contentEle.html();
-              TranslateToCn(contentEle);
-            }, function () {
-              const hoveredElement = $(this);
-              //find the content element, and change it back to the original content
-              const contentEle = hoveredElement.find("[class*='content_truncate']");
-              contentEle.html(rawContentEle);
-            });
-          });
-
-        }}
+        handle={toggleTranslateToCnMode}
       />
 
-      {/* // stop listening */}
       <Command.SimpleCommand
-        name="stop-listening"
-        title="Stop Listening"
-        keywords={["stop listening", "stop"]}
-        description="Stop listening"
+        name="test-action"
+        title="测试动作"
+        keywords={["test action", "测试"]}
+        description="执行一个简单的测试动作"
         endAfterRun
-        handle={async () => {
-          $(document).ready(function () {
-            $('.border-tint-border').off('mouseenter mouseleave');
-          });
+        handle={() => {
+          getJikeUserName();
         }}
       />
 

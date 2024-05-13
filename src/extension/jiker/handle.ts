@@ -87,14 +87,41 @@ export function getCurrentJikeUserName() {
     }
     return name;
 }
-export async function getJikeUserName() {
-    const name = getCurrentJikeUserName();
+
+/**
+ * 
+ * @returns {
+ * screenName: string,
+ * username: string,
+ * }
+ */
+
+export async function getCurrentUserProfile() {
     // alert(`当前用户是：${name}`);
-    const result = await postTask('(function() { return window.__NEXT_DATA__.props.pageProps.apolloState.data["$ROOT_QUERY.profile"]; })()',
-    );
-    console.log('result', result);
-    // postTask(`console.log(window.__NEXT_DATA__.props.pageProps.apolloState.data["$ROOT_QUERY.profile"].screenName)`);
-    return name;
+    const result = await postTask('(function() { return window.__NEXT_DATA__.props.pageProps.apolloState.data["$ROOT_QUERY.profile"]; })()',) as any;
+    // filter
+    const screenName = result.screenName;
+    const username = result.username;
+    return {
+        screenName,
+        username,
+    };
+}
+
+export const getCurrentUserName = async () => {
+    const result = await getCurrentUserProfile();
+    return result.screenName;
+};
+
+export const getCurrentUserId = async () => {
+    const result = await getCurrentUserProfile();
+    return result.username;
+};
+
+export async function test() {
+    const result = await getCurrentUserId();
+    console.log(result);
+    return result;
 }
 
 

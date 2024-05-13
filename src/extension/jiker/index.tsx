@@ -2,7 +2,7 @@ import ExtensionLogo from "data-base64:./icon.jpg";
 import React from "react";
 
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
-import { checkPostCreatePage, getJikeUserName, toggleTranslateToCnMode } from "./handle";
+import { checkPostCreatePage, test, toggleTranslateToCnMode } from "./handle";
 
 const TabManagerComand = () => {
   return (
@@ -32,7 +32,7 @@ const TabManagerComand = () => {
         description="执行一个简单的测试动作"
         endAfterRun
         handle={() => {
-          getJikeUserName();
+          test();
         }}
       />
 

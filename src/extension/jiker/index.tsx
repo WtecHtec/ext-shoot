@@ -3,7 +3,7 @@ import React from "react";
 
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
 
-import { test } from "./handle";
+import { test, toggleTranslateToCnMode } from "./handle";
 import { switchAccount } from "./switch-account";
 
 const TabManagerComand = () => {
@@ -17,16 +17,6 @@ const TabManagerComand = () => {
         endAfterRun
         handle={checkPostCreatePage}
       /> */}
-
-      {/* <Command.SimpleCommand
-        name="test"
-        title="沉浸式翻译"
-        keywords={["沉浸式翻译", "翻译"]}
-        description="inject jquery"
-        endAfterRun
-        handle={toggleTranslateToCnMode}
-      /> */}
-
       <Command.SimpleCommand
         name="switch-account"
         title="换个账户登陆"
@@ -34,6 +24,15 @@ const TabManagerComand = () => {
         description="切换到另一个账户"
         endAfterRun
         handle={switchAccount}
+      />
+
+      <Command.SimpleCommand
+        name="test"
+        title="沉浸式翻译"
+        keywords={["沉浸式翻译", "翻译"]}
+        description="inject jquery"
+        endAfterRun
+        handle={toggleTranslateToCnMode}
       />
 
       <Command.SimpleCommand

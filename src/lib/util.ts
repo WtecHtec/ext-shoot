@@ -1,15 +1,15 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { MarkId } from "~config/config";
- 
+
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+	return twMerge(clsx(inputs));
 }
 
 
 export const getExtId = (id) => {
-  const ids = id?.split(MarkId);
-  return ids[ids.length - 1] ?? id;
+	const ids = id?.split(MarkId);
+	return ids[ids.length - 1] ?? id;
 };
 
 export const getWebPageStatus = (id, url): Promise<[any, any]> => {
@@ -22,10 +22,11 @@ export const getWebPageStatus = (id, url): Promise<[any, any]> => {
 				const isDeadBookmark =
 					response.status == 404 ||
 					response.status == 410;
-					resolve(['',  { id, isDeadBookmark }]);
+				resolve(['', { id, isDeadBookmark }]);
 			})
 			.catch((error) => {
 				resolve([error, {}]);
 			});
 	});
 };
+

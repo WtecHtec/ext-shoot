@@ -41,6 +41,7 @@
     "lodash.debounce": "^4.0.8",
     "lru-cache": "^10.2.2",
     "lucide-react": "^0.358.0",
+    "nanoid": "^5.0.7",
     "plasmo": "^0.74.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -98,7 +99,7 @@
       {
         "resources": [
           "tabs/icon-render.html",
-          "jquery.min.js"
+          "exec.js"
         ],
         "matches": [
           "<all_urls>"

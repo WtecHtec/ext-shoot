@@ -9,6 +9,7 @@ import { eventBus } from '~component/cmdk/panel/event-bus';
 import { getBrowser, getMutliLevelProperty, isArc } from '~utils/util';
 import { handleSetBrowser } from '~utils/actions';
 import { listerSnapSeekData } from '~extension/history-search/content';
+import ToasterComponent from '~component/cmdk/toast/toast-ui';
 
 // import FocusLock from 'react-focus-lock';
 export const config: PlasmoCSConfig = {
@@ -114,6 +115,7 @@ const PlasmoOverlay = () => {
                         <MotionShotCMDK />
                     </CMDKWrapper>
                 ) : null}
+                <ToasterComponent />
             </div>
         </>
     );

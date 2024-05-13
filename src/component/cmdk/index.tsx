@@ -59,8 +59,6 @@ import SnapshotCommand from "./snapshot-command";
 import SnapshotDialog from "./snapshot-dialog";
 import ExtensionWithSearch from "./search-group";
 import { CommandUI, ExtensionWithSearchLoader } from "./command/command-ui";
-import injectToaster from "./toast/inject";
-import ToasterComponent from "./toast/toast-ui";
 import { initEscControl } from "./panel/esc-control";
 
 
@@ -803,7 +801,6 @@ export function MotionShotCMDK() {
 
   return (
     <div className="ext-shoot" ref={extShootRef}>
-      <ToasterComponent />
       <Command
         value={value}
         onValueChange={(v) => handleChangeSelectCmd(v)}

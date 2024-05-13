@@ -89,9 +89,8 @@ export function getCurrentJikeUserName() {
 }
 export async function getJikeUserName() {
     const name = getCurrentJikeUserName();
-    console.log('name', name);
     // alert(`当前用户是：${name}`);
-    const result = await postTask('(function() { return window.__NEXT_DATA__.props.pageProps.apolloState.data["$ROOT_QUERY.profile"].screenName; })()',
+    const result = await postTask('(function() { return window.__NEXT_DATA__.props.pageProps.apolloState.data["$ROOT_QUERY.profile"]; })()',
     );
     console.log('result', result);
     // postTask(`console.log(window.__NEXT_DATA__.props.pageProps.apolloState.data["$ROOT_QUERY.profile"].screenName)`);

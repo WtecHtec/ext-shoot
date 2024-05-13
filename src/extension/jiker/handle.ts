@@ -78,15 +78,15 @@ export function TranslateToCn(el) {
 }
 
 
-// 获取页面中class为NavBar__ScreenNameText的元素中的文本。
-// 把这个函数命名为这个获取当前jike用户的用户名
-export function getCurrentJikeUserName() {
-    const name = (window as any).__NEXT_DATA__.props?.pageProps?.apolloState.data["$ROOT_QUERY.profile"].screenName;
-    if (!name) {
-        return $('[class*="ScreenNameText"]').text();
-    }
-    return name;
-}
+// // 获取页面中class为NavBar__ScreenNameText的元素中的文本。
+// // 把这个函数命名为这个获取当前jike用户的用户名
+// export function getCurrentJikeUserName() {
+//     const name = (window as any).__NEXT_DATA__.props?.pageProps?.apolloState.data["$ROOT_QUERY.profile"].screenName;
+//     if (!name) {
+//         return $('[class*="ScreenNameText"]').text();
+//     }
+//     return name;
+// }
 
 /**
  * 

@@ -3,10 +3,10 @@ import React from "react";
 
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
 
-import { getUser } from "./download-all-post";
-import { toggleTranslateToCnMode } from "./handle";
+import { testHandle, toggleTranslateToCnMode } from "./handle";
 import { switchAccount } from "./switch-account";
 import { switchTheme } from "./switch-theme";
+import { reEditPost } from "./change-post";
 
 const TabManagerComand = () => {
   return (
@@ -20,8 +20,16 @@ const TabManagerComand = () => {
         handle={checkPostCreatePage}
       /> */}
       <Command.SimpleCommand
+        name="re-edit-post"
+        title="这文案真不行，重新编辑再发布"
+        keywords={["edit post", "编辑帖子"]}
+        description="编辑当前帖子然后重新发布"
+        endAfterRun
+        handle={reEditPost}
+      />
+      <Command.SimpleCommand
         name="switch-account"
-        title="换个账户登陆"
+        title="换一个账户登陆"
         keywords={["switch account", "切换账户"]}
         description="切换到另一个账户"
         endAfterRun
@@ -29,7 +37,7 @@ const TabManagerComand = () => {
       />
       <Command.SimpleCommand
         name="switch-theme"
-        title="换个主题吧"
+        title="换一个主题"
         keywords={["switch theme", "切换主题"]}
         description="切换到另一个主题"
         endAfterRun
@@ -45,6 +53,7 @@ const TabManagerComand = () => {
         handle={toggleTranslateToCnMode}
       />
 
+
       <Command.SimpleCommand
         name="test-action"
         title="测试动作"
@@ -52,7 +61,7 @@ const TabManagerComand = () => {
         description="执行一个简单的测试动作"
         endAfterRun
         handle={() => {
-          getUser();
+          testHandle();
         }}
       />
     </CommandPanel>

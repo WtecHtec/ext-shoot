@@ -4,7 +4,6 @@ import { LRUCache } from 'lru-cache';
 import TabManager from "~lib/atoms/browser-tab-manager";
 import { postTask } from '~lib/exec-task-to-web';
 import cookieManager from '~lib/atoms/browser-cookie-manager';
-import toast from '~component/cmdk/toast';
 
 const cookieActions = cookieManager.action;
 // Function to perform translation
@@ -65,6 +64,11 @@ export function translateText(text, targetLanguage = "zh-Hans") {
     });
 }
 
+/**
+ * 获取博客详情页里面的文案内容
+ * @param 
+ * @returns 
+ */
 export function getTruncateContent(el = $('body')) {
     const contentEle = el.find("[class*='content_truncate']");
     return contentEle;
@@ -81,15 +85,14 @@ export function TranslateToCn(el) {
 }
 
 
-// // 获取页面中class为NavBar__ScreenNameText的元素中的文本。
-// // 把这个函数命名为这个获取当前jike用户的用户名
-// export function getCurrentJikeUserName() {
-//     const name = (window as any).__NEXT_DATA__.props?.pageProps?.apolloState.data["$ROOT_QUERY.profile"].screenName;
-//     if (!name) {
-//         return $('[class*="ScreenNameText"]').text();
-//     }
-//     return name;
-// }
+/**
+ *  获取当前用户的即刻用户名
+ * @label dom
+ * @returns {string} 当前用户的即刻用户名
+ */
+export function getCurrentJikeUserName() {
+    return $('[class*="ScreenNameText"]').text();
+}
 
 /**
  * 
@@ -121,11 +124,6 @@ export const getCurrentUserId = async () => {
     return result.username;
 };
 
-export async function test() {
-    // await updateApiConfig();
-}
-
-
 /**
  *  获取即刻的token
  * @returns {
@@ -148,21 +146,19 @@ export async function getJikeToken() {
 
 
 /**
- *  获取当前帖子详情页的id
- *  只支持 originalPost
- * @returns string | null
+ * 判断当前URL是否为帖子详情页
+ * 支持的URL格式包括:
+ * - https://web.okjike.com/originalPost/{postId}
+ * - https://web.okjike.com/repost/{postId}
+ * @label postDetailPage
+ * @returns {boolean} 如果是帖子详情页返回true，否则返回false
  */
-export function getCurrentPostId() {
-    // 判断是否是 post 详情页
-    // https://web.okjike.com/originalPost/6641efd90a5cbfb8960305c6
+export function isPostDetailPage() {
     const url = window.location.href;
-    if (!url.includes('originalPost')) {
-        toast('请在帖子详情页使用此功能');
-        return null;
-    }
-    const postId = url.split('/').pop();
-    return postId;
+    const postDetailRegex = /https:\/\/web\.okjike\.com\/(originalPost|repost)\/[0-9a-fA-F]+$/;
+    return postDetailRegex.test(url);
 }
+
 
 export const toggleTranslateToCnMode = async () => {
     let rawContentEle;
@@ -183,8 +179,7 @@ export const toggleTranslateToCnMode = async () => {
     });
 };
 
-export function exitTranslateToCnMode() {
-    $(document).ready(function () {
-        $('.border-tint-border').off('mouseenter mouseleave');
-    });
+
+export async function testHandle() {
+
 }

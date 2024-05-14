@@ -627,6 +627,7 @@ import tabManage from './lib/atoms/browser-tab-manager/';
 import extensionManage from './lib/atoms/browser-extension-manager';
 import windowManage from './lib/atoms/browser-window-manager';
 import BrowserDataManage from './lib/atoms/browser-cache-manager';
+import BrowserCookieManage from './lib/atoms/browser-cookie-manager';
 import { UNINSTALL_URL } from '~component/cmdk/core/constant';
 
 const atom = new Atom();
@@ -634,4 +635,6 @@ atom.load(tabManage);
 atom.load(extensionManage);
 atom.load(windowManage);
 atom.load(BrowserDataManage);
+atom.load(BrowserDataManage);
+atom.load(BrowserCookieManage);
 atom.listen();

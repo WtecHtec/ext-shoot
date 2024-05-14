@@ -37,6 +37,7 @@
     "esbuild": "^0.20.2",
     "framer-motion": "^11.0.8",
     "glob": "^10.3.12",
+    "jike-api": "latest",
     "jquery": "^3.7.1",
     "lodash.debounce": "^4.0.8",
     "lru-cache": "^10.2.2",
@@ -62,6 +63,7 @@
     "@typescript-eslint/eslint-plugin": "^7.3.1",
     "@typescript-eslint/parser": "^7.3.1",
     "babel-eslint": "^10.1.0",
+    "crypto-browserify": "^3.12.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
@@ -83,10 +85,12 @@
   ],
   "manifest": {
     "host_permissions": [
-      "https://*/*"
+      "https://*/*",
+      "*://*/*"
     ],
     "permissions": [
       "tabs",
+      "cookies",
       "sessions",
       "scripting",
       "bookmarks",

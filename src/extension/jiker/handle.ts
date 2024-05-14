@@ -3,7 +3,10 @@ import $ from 'jquery';
 import { LRUCache } from 'lru-cache';
 import TabManager from "~lib/atoms/browser-tab-manager";
 import { postTask } from '~lib/exec-task-to-web';
+import cookieManager from '~lib/atoms/browser-cookie-manager';
+import toast from '~component/cmdk/toast';
 
+const cookieActions = cookieManager.action;
 // Function to perform translation
 
 // support lang
@@ -119,11 +122,47 @@ export const getCurrentUserId = async () => {
 };
 
 export async function test() {
-    const result = await getCurrentUserId();
-    console.log(result);
-    return result;
+    // await updateApiConfig();
 }
 
+
+/**
+ *  获取即刻的token
+ * @returns {
+ * x-jike-access-token: string,
+ * x-jike-refresh-token: string,
+ * }
+ */
+export async function getJikeToken() {
+    const result = await cookieActions.getAllCookiesByDomain('.okjike.com');
+    // 过滤出 包含token 的cookie
+    const filteredCookies = result.filter(cookie => cookie.name.includes('token'));
+    // 转为Map
+    const tokenMap = new Map();
+    filteredCookies.forEach(cookie => {
+        tokenMap.set(cookie.name, cookie.value);
+    });
+    return tokenMap;
+
+}
+
+
+/**
+ *  获取当前帖子详情页的id
+ *  只支持 originalPost
+ * @returns string | null
+ */
+export function getCurrentPostId() {
+    // 判断是否是 post 详情页
+    // https://web.okjike.com/originalPost/6641efd90a5cbfb8960305c6
+    const url = window.location.href;
+    if (!url.includes('originalPost')) {
+        toast('请在帖子详情页使用此功能');
+        return null;
+    }
+    const postId = url.split('/').pop();
+    return postId;
+}
 
 export const toggleTranslateToCnMode = async () => {
     let rawContentEle;

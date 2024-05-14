@@ -6,10 +6,10 @@ import ChromeStoreSearch from "~extension/chrome-store-search";
 import ChromeStoreWebSearch from "~extension/chrome-store-web-search";
 import HistorySearch from "~extension/history-search";
 import InstantOpen from "~extension/instant-open";
-// import TableManager from "~extension/tab-manager";
-// import WindowsManager from "~extension/window-agent";
-// import CacheAgent from "~extension/cache-agent";
-// import QuickOpen from "~extension/quick-open";
+import TableManager from "~extension/tab-manager";
+import WindowsManager from "~extension/window-agent";
+import CacheAgent from "~extension/cache-agent";
+import QuickOpen from "~extension/quick-open";
 import Jiker from "~extension/jiker";
 
 import { Command } from "../common/Command";
@@ -45,13 +45,13 @@ const ExtensionLoader = () => {
   return (
     <CommandCMDK.Group heading={"Results"}>
       <Command.PlaceholderCommand />
+      <Jiker />
       {/* <ExtensionLauncher /> */}
-      {/* <ExtensionManagerCommand />
+      {/* <ExtensionManagerCommand /> */}
       <TableManager />
       <WindowsManager />
       <CacheAgent />
-      <QuickOpen /> */}
-      <Jiker />
+      <QuickOpen />
     </CommandCMDK.Group>
   );
 };

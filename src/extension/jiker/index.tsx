@@ -3,8 +3,10 @@ import React from "react";
 
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
 
-import { test, toggleTranslateToCnMode } from "./handle";
+import { getUser } from "./download-all-post";
+import { toggleTranslateToCnMode } from "./handle";
 import { switchAccount } from "./switch-account";
+import { switchTheme } from "./switch-theme";
 
 const TabManagerComand = () => {
   return (
@@ -25,6 +27,14 @@ const TabManagerComand = () => {
         endAfterRun
         handle={switchAccount}
       />
+      <Command.SimpleCommand
+        name="switch-theme"
+        title="换个主题吧"
+        keywords={["switch theme", "切换主题"]}
+        description="切换到另一个主题"
+        endAfterRun
+        handle={switchTheme}
+      />
 
       <Command.SimpleCommand
         name="test"
@@ -42,7 +52,7 @@ const TabManagerComand = () => {
         description="执行一个简单的测试动作"
         endAfterRun
         handle={() => {
-          test();
+          getUser();
         }}
       />
     </CommandPanel>

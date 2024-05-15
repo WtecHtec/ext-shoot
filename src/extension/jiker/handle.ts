@@ -4,7 +4,8 @@ import { LRUCache } from 'lru-cache';
 import TabManager from "~lib/atoms/browser-tab-manager";
 import { postTask } from '~lib/exec-task-to-web';
 import cookieManager from '~lib/atoms/browser-cookie-manager';
-import { getUser } from './api';
+import { getUserAllPosts } from './api';
+import { extractUserIdFromUrl } from './export-post';
 
 const cookieActions = cookieManager.action;
 // Function to perform translation
@@ -193,5 +194,7 @@ export const toggleTranslateToCnMode = async () => {
 
 
 export async function testHandle() {
-    getUser();
+    const userId = extractUserIdFromUrl();
+    const post = await getUserAllPosts(userId,);
+    console.log('post', post);
 }

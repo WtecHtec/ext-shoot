@@ -43,6 +43,45 @@ export const getUser = async () => {
     console.log('list', list.data.data);
 };
 
+export const getUserPosts = async (userId: string, maxNum = 2000) => {
+    const client = await initJikeClient();
+    let allPosts: any[] = [];
+    let loadMoreKey: { lastId: string } | undefined = undefined;
+    const limit = 500;
+
+    while (allPosts.length < maxNum) {
+        const response = await client.apiClient.personalUpdate.single(userId, {
+            limit,
+            loadMoreKey,
+        });
+
+        if (response.status !== 200 || !response.data) {
+            throw new Error(`Failed to fetch user posts: ${response?.statusText}`);
+        }
+
+        allPosts = allPosts.concat(response.data.data);
+
+        if (!response.data.loadMoreKey || allPosts.length >= maxNum) {
+            break;
+        }
+
+        loadMoreKey = response.data.loadMoreKey;
+    }
+
+    if (allPosts.length > maxNum) {
+        allPosts = allPosts.slice(0, maxNum);
+    }
+
+    return allPosts;
+};
+
+export const getUserAllPosts = async (userId: string
+) => {
+    const posts = await getUserPosts(userId, 999999999);
+    return posts;
+};
+
+
 export const getPostDetails = async ({
     postId,
     postType,

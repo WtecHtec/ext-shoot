@@ -13,6 +13,18 @@ const TabManagerComand = () => {
     <CommandPanel title="Jiker" icon={ExtensionLogo}>
 
       <Command.SimpleCommand
+        name="test-action"
+        title="测试动作"
+        keywords={["test action", "测试"]}
+        description="执行一个简单的测试动作"
+        endAfterRun
+        handle={() => {
+          testHandle();
+        }}
+      />
+
+
+      <Command.SimpleCommand
         name="go-home-page"
         title="去首页逛逛"
         keywords={["home", "回到首页"]}
@@ -88,16 +100,6 @@ const TabManagerComand = () => {
       />
 
 
-      <Command.SimpleCommand
-        name="test-action"
-        title="测试动作"
-        keywords={["test action", "测试"]}
-        description="执行一个简单的测试动作"
-        endAfterRun
-        handle={() => {
-          testHandle();
-        }}
-      />
     </CommandPanel>
   );
 };

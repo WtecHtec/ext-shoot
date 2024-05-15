@@ -4,6 +4,7 @@ import { LRUCache } from 'lru-cache';
 import TabManager from "~lib/atoms/browser-tab-manager";
 import { postTask } from '~lib/exec-task-to-web';
 import cookieManager from '~lib/atoms/browser-cookie-manager';
+import { getUser } from './api';
 
 const cookieActions = cookieManager.action;
 // Function to perform translation
@@ -13,14 +14,25 @@ const cookieActions = cookieManager.action;
 
 const tabAction = TabManager.action;
 
-export function checkPostCreatePage() {
+export function gotoPageHome() {
     tabAction.changeCurrentTabUrl("https://web.okjike.com");
 }
 
-export function checkCurrentHomePage() {
+export function gotoPageMe() {
     tabAction.changeCurrentTabUrl("https://web.okjike.com/me");
 }
 
+export function gotoPageRecommend() {
+    tabAction.changeCurrentTabUrl("https://web.okjike.com/recommend");
+}
+
+export function gotoPageCollection() {
+    tabAction.changeCurrentTabUrl("https://web.okjike.com/me/collection");
+}
+
+export function showNotification() {
+    $('div[class*="NavBar___"]:first').click();
+}
 
 function mightBeChinese(text) {
     // 移除所有空白字符
@@ -181,5 +193,5 @@ export const toggleTranslateToCnMode = async () => {
 
 
 export async function testHandle() {
-
+    getUser();
 }

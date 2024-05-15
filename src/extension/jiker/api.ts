@@ -37,8 +37,8 @@ const initJikeClient = async () => {
 
 export const getUser = async () => {
     const client = await initJikeClient();
-    const list = await client.apiClient.personalUpdate.single('27BF807A-FA4D-4B01-AAFD-05FAAA674335', {
-        limit: 100,
+    const list = await client.apiClient.personalUpdate.single('29910575-F12D-4E48-9DDE-B25FE55D1F94', {
+        limit: 10,
     });
     console.log('list', list.data.data);
 };

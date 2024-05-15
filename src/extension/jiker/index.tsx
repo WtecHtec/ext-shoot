@@ -3,7 +3,7 @@ import React from "react";
 
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
 
-import { testHandle, toggleTranslateToCnMode } from "./handle";
+import { gotoPageCollection, gotoPageHome, gotoPageMe, gotoPageRecommend, showNotification, testHandle, toggleTranslateToCnMode } from "./handle";
 import { switchAccount } from "./switch-account";
 import { switchTheme } from "./switch-theme";
 import { reEditPost } from "./change-post";
@@ -11,14 +11,48 @@ import { reEditPost } from "./change-post";
 const TabManagerComand = () => {
   return (
     <CommandPanel title="Jiker" icon={ExtensionLogo}>
-      {/* <Command.SimpleCommand
-        name="new-post-page"
-        title="Open New Post Page"
-        keywords={["new post", "Open New Post Page"]}
-        description="Open Jike's new post page"
+
+      <Command.SimpleCommand
+        name="go-home-page"
+        title="去首页逛逛"
+        keywords={["home", "回到首页"]}
+        description="回到即刻的首页"
         endAfterRun
-        handle={checkPostCreatePage}
-      /> */}
+        handle={gotoPageHome}
+      />
+      <Command.SimpleCommand
+        name="go-me-page"
+        title="去我的个人页面"
+        keywords={["me", "进入我的主页"]}
+        description="进入我的个人主页"
+        endAfterRun
+        handle={gotoPageMe}
+      />
+      <Command.SimpleCommand
+        name="go-recommend-page"
+        title="去推荐页瞧瞧"
+        keywords={["recommend", "查看推荐页"]}
+        description="查看即刻推荐内容"
+        endAfterRun
+        handle={gotoPageRecommend}
+      />
+      <Command.SimpleCommand
+        name="go-collection-page"
+        title="去我的收藏"
+        keywords={["collection", "查看我的收藏"]}
+        description="查看我收藏的帖子"
+        endAfterRun
+        handle={gotoPageCollection}
+      />
+      <Command.SimpleCommand
+        name="trigger-notification"
+        title="看看通知"
+        keywords={["notification", "触发通知"]}
+        description="显示即刻通知"
+        endAfterRun
+        handle={showNotification}
+      />
+
       <Command.SimpleCommand
         name="re-edit-post"
         title="这文案真不行，重新编辑再发布"

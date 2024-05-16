@@ -5,7 +5,8 @@ import TabManager from "~lib/atoms/browser-tab-manager";
 import { postTask } from '~lib/exec-task-to-web';
 import cookieManager from '~lib/atoms/browser-cookie-manager';
 import { getUserAllPosts } from './api';
-import { extractUserIdFromUrl } from './export-post';
+import { abstractUserName, convertToExcel, extractUserIdFromUrl, filterDataArray, isUserDetailPage, triggerDownload } from './export-post';
+import toast from '~component/cmdk/toast';
 
 const cookieActions = cookieManager.action;
 // Function to perform translation
@@ -194,7 +195,20 @@ export const toggleTranslateToCnMode = async () => {
 
 
 export async function testHandle() {
+    if (!isUserDetailPage()) {
+        toast("只能在个人页使用哦");
+        return;
+    }
+    toast("好咧，我要开始咯");
     const userId = extractUserIdFromUrl();
     const post = await getUserAllPosts(userId,);
-    console.log('post', post);
+    // console.log('post', post);
+    const result = filterDataArray(post);
+    // console.log('result', result);
+    const url = await convertToExcel(result);
+    const userName = abstractUserName();
+    // triggerDownload(url, `${userName}_all_post.csv`);
+    triggerDownload(url, `${userName}-posts.xlsx`);
+    toast("活已干完，快去看看吧");
+    // console.log('url', url);
 }

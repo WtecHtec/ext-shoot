@@ -7,10 +7,22 @@ import { gotoPageCollection, gotoPageHome, gotoPageMe, gotoPageRecommend, showNo
 import { switchAccount } from "./switch-account";
 import { switchTheme } from "./switch-theme";
 import { reEditPost } from "./change-post";
+import { exportUserPosts } from "./export-post";
 
 const TabManagerComand = () => {
   return (
     <CommandPanel title="Jiker" icon={ExtensionLogo}>
+
+      <Command.SimpleCommand
+        name="export-person-blog"
+        title="把这个同志的所有博客导出一份表格给我"
+        keywords={["export blog", "导出博客"]}
+        description="导出当前用户的博客"
+        endAfterRun
+        handle={() => {
+          exportUserPosts();
+        }}
+      />
 
       <Command.SimpleCommand
         name="test-action"

@@ -158,6 +158,19 @@ export const injectCurrentTabJQuery = () => {
     });
 };
 
+export const createTabInactive = (url) => {
+    return new Promise((resolve, reject) => {
+        chrome.tabs.create({ url, active: false }, (tab) => {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError);
+            } else {
+                resolve(tab.id);
+            }
+        });
+    });
+};
+
+
 export const methods = {
     getCurrentTab,
     reloadTab,
@@ -176,5 +189,6 @@ export const methods = {
     createTab,
     createBlankTab,
     changeCurrentTabUrl,
-    injectCurrentTabJQuery
+    injectCurrentTabJQuery,
+    createTabInactive,
 };

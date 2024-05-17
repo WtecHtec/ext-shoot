@@ -4,8 +4,6 @@ import { LRUCache } from 'lru-cache';
 import TabManager from "~lib/atoms/browser-tab-manager";
 import { postTask } from '~lib/exec-task-to-web';
 import cookieManager from '~lib/atoms/browser-cookie-manager';
-import { getUserAllPosts } from './api';
-import { abstractUserName, convertToExcel, extractUserIdFromUrl, filterDataArray, isUserDetailPage, triggerDownload } from './export-post';
 import toast from '~component/cmdk/toast';
 
 const cookieActions = cookieManager.action;

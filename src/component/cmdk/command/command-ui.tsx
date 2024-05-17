@@ -11,6 +11,7 @@ import WindowsManager from "~extension/window-agent";
 import CacheAgent from "~extension/cache-agent";
 import QuickOpen from "~extension/quick-open";
 import Jiker from "~extension/jiker";
+import WebTraffic from "~extension/web-traffic";
 
 import { Command } from "../common/Command";
 import { searchManager } from "../search/search-manager";
@@ -45,6 +46,7 @@ const ExtensionLoader = () => {
   return (
     <CommandCMDK.Group heading={"Results"}>
       <Command.PlaceholderCommand />
+      <WebTraffic />
       <Jiker />
       {/* <ExtensionLauncher /> */}
       {/* <ExtensionManagerCommand /> */}

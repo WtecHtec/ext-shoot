@@ -8,10 +8,32 @@ import { switchAccount } from "./switch-account";
 import { switchTheme } from "./switch-theme";
 import { reEditPost } from "./change-post";
 import { exportUserPosts } from "./export-post";
+import { clearUserPosts } from "./clear-post";
 
 const TabManagerComand = () => {
   return (
     <CommandPanel title="Jiker" icon={ExtensionLogo}>
+
+      <Command.SimpleCommand
+        name="test-handle"
+        title="测试"
+        keywords={["test handle", "测试"]}
+        description="测试"
+        endAfterRun
+        handle={testHandle}
+      />
+
+      <Command.SimpleCommand
+        name="clear-posts"
+        title="清空我的历史博客"
+        keywords={["clear posts", "清除博客"]}
+        description="清空当前用户的所有历史博客"
+        endAfterRun
+        handle={() => {
+          clearUserPosts();
+        }}
+      />
+
 
       <Command.SimpleCommand
         name="export-person-blog"
@@ -31,7 +53,7 @@ const TabManagerComand = () => {
         description="执行一个简单的测试动作"
         endAfterRun
         handle={() => {
-          testHandle();
+          clearUserPosts();
         }}
       />
 

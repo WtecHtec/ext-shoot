@@ -145,13 +145,14 @@ export const deletePostById = async ({
     postType
 }: {
     postId: string;
-    postType: "originalPost" | "repost";
+    postType: "originalPost" | "repost" | "REPOST" | "ORIGINAL_POST";
 }) => {
     const client = await initJikeClient();
-
+    console.log('postId', postId);
+    console.log('postType', postType);
     // 确定帖子类型
-    const type_ = postType === "originalPost" ? ApiOptions.PostType.ORIGINAL : ApiOptions.PostType.REPOST;
-
+    const type_ = (postType === "originalPost" || postType === "ORIGINAL_POST")
+        ? ApiOptions.PostType.ORIGINAL : ApiOptions.PostType.REPOST;
     // 删除帖子
     const deleteResult = await client.apiClient.posts.remove(type_, postId);
 

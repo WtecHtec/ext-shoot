@@ -44,6 +44,7 @@ export function extractUserIdFromUrl() {
 const filterMeta = ({
     id,
     user,
+    type,
     createdAt,
     content,
     pictures,
@@ -60,20 +61,21 @@ const filterMeta = ({
     const parsedCreatedAt = new Date(createdAt);
     const formattedDate = parsedCreatedAt.toLocaleDateString(); // Get date
     const formattedTime = parsedCreatedAt.toLocaleTimeString(); // Get time
-
+    const type_ = type === 'ORIGINAL_POST' ? 'originalPost' : 'repost';
     return {
         id,
         user: userName,
-        date: formattedDate,
         topic: topicContent,
         content: content || '',
+        date: formattedDate,
+        time: formattedTime,
         pictures: filteredPictures,
         link: _.get(linkInfo, 'linkUrl', ''),
-        time: formattedTime,
         like: _.defaultTo(likeCount, 0),
         comment: _.defaultTo(commentCount, 0),
         repost: _.defaultTo(repostCount, 0),
         share: _.defaultTo(shareCount, 0),
+        url: `https://web.okjike.com/${type_}/${id}`,
     };
 };
 
@@ -119,9 +121,11 @@ export const convertToExcel = (dataArray) => {
         if (!ws['!cols']) ws['!cols'] = [];
 
         ws['!cols'][0] = { wch: 26 };
-        ws['!cols'][2] = { wch: 10 };
-        ws['!cols'][3] = { wch: 20 };
-        ws['!cols'][4] = { wch: 100 };
+        ws['!cols'][1] = { wch: 18 };
+        ws['!cols'][2] = { wch: 22 };
+        ws['!cols'][3] = { wch: 100 };
+        ws['!cols'][4] = { wch: 12 };
+        ws['!cols'][5] = { wch: 12 };
 
         XLSX.utils.book_append_sheet(wb, ws, "posts");
         // 将工作簿转换为Excel文件的二进制数据

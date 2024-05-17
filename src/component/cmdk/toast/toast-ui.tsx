@@ -20,7 +20,7 @@ const ToasterComponent: FC<ToasterComponentProps> = ({
             document.body.appendChild(div);
         }
         const root = createRoot(div);
-        root.render(createElement(Toaster, { richColors, position }));
+        root.render(createElement(Toaster, { richColors, position, "closeButton": false }));
 
         // 组件卸载时，进行清理
         return () => {

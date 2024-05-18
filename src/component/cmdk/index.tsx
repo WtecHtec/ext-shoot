@@ -58,7 +58,7 @@ import SearchComponent from "./search/search-ui";
 import SnapshotCommand from "./snapshot-command";
 import SnapshotDialog from "./snapshot-dialog";
 import ExtensionWithSearch from "./search-group";
-import { CommandUI, ExtensionWithSearchLoader } from "./command/command-ui";
+import { CommandUI } from "./command/command-ui";
 import { initEscControl } from "./panel/esc-control";
 
 

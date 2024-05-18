@@ -5,6 +5,7 @@ import TabManager from "~lib/atoms/browser-tab-manager";
 import { postTask } from '~lib/exec-task-to-web';
 import cookieManager from '~lib/atoms/browser-cookie-manager';
 import toast from '~component/cmdk/toast';
+import { getPostDetails } from './api';
 
 const cookieActions = cookieManager.action;
 // Function to perform translation
@@ -191,13 +192,36 @@ export const toggleTranslateToCnMode = async () => {
     });
 };
 
+/**
+ * 获取当前帖子详情页的id和类型
+ * 支持 originalPost 和 repost
+ * @label postDetailPage
+ * @returns {postId: string | null, postType: "originalPost" | "repost" } 如果在帖子详情页则返回帖子id和类型，否则返回null
+ */
+export function getCurrentPostMeta() {
+    const url = window.location.href;
+    if (!isPostDetailPage()) {
+        toast('请在帖子详情页使用此功能');
+        return { id: null, type: null };
+    }
+    const urlParts = url.split('/');
+    const postId = urlParts.pop();
+    const postType = urlParts[urlParts.length - 1] as "originalPost" | "repost";
+    return { postId, postType };
+}
+
 
 export async function testHandle() {
-    // if (!isUserDetailPage()) {
-    //     toast("只能在个人页使用哦");
-    //     return;
-    // }
-    // toast("好咧，我要开始咯");
+    if (!isPostDetailPage()) {
+        toast("只能在帖子详情页使用");
+        return;
+    }
+    const { postId, postType } = getCurrentPostMeta();
+    toast("好咧，我要开始咯");
+
+    const data = await getPostDetails({ postId, postType });
+    console.log('data', data);
+
     // const userId = extractUserIdFromUrl();
     // const post = await getUserAllPosts(userId,);
     // // console.log('post', post);
@@ -207,6 +231,8 @@ export async function testHandle() {
     // const userName = abstractUserName();
     // // triggerDownload(url, `${userName}_all_post.csv`);
     // triggerDownload(url, `${userName}-posts.xlsx`);
+
+    // getPostDetails()
     toast("活已干完，快去看看吧");
     // console.log('url', url);
 }

@@ -92,7 +92,7 @@ export const getPostDetails = async ({
     const client = await initJikeClient();
     const type_ = postType === "originalPost" ? ApiOptions.PostType.ORIGINAL : ApiOptions.PostType.REPOST;
     const postDetails = await client.apiClient.posts.get(type_, postId);
-    console.log('Post Details:', postDetails);
+    // console.log('Post Details:', postDetails);
     return postDetails.data.data;
 };
 

@@ -1,13 +1,13 @@
 import { deletePostById, repostWithNewContent } from "./api";
 import $ from 'jquery';
 import toast from '~component/cmdk/toast';
-import { getCurrentJikeUserName, getTruncateContent, isPostDetailPage } from "./handle";
+import { getCurrentJikeUserName, getCurrentPostMeta, getTruncateContent, isPostDetailPage } from "./handle";
 /**
  * 重新创建并发布一个帖子，然后导航到新帖子的URL。
  */
 export async function reCreateAndNavigatePost() {
     // 获取当前帖子的详细信息
-    const { postId, postType } = await getCurrentPostDetails();
+    const { postId, postType } = await getCurrentPostMeta();
 
     // 创建一个含有新内容的新帖子
     const newId = await repostWithNewContent({
@@ -64,25 +64,6 @@ export function addRepostButton() {
     } else {
         console.log('未找到发布按钮，请检查页面元素');
     }
-}
-
-
-/**
- * 获取当前帖子详情页的id和类型
- * 支持 originalPost 和 repost
- * @label postDetailPage
- * @returns {postId: string | null, postType: "originalPost" | "repost" } 如果在帖子详情页则返回帖子id和类型，否则返回null
- */
-export function getCurrentPostDetails() {
-    const url = window.location.href;
-    if (!isPostDetailPage()) {
-        toast('请在帖子详情页使用此功能');
-        return { id: null, type: null };
-    }
-    const urlParts = url.split('/');
-    const postId = urlParts.pop();
-    const postType = urlParts[urlParts.length - 1] as "originalPost" | "repost";
-    return { postId, postType };
 }
 
 

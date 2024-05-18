@@ -193,7 +193,7 @@ const executeScriptInTab = async (tabId, script) => {
                     console.log("Executing script...");
                     // Store the result in window object
                     window.${resultIdentifier} = (${script})();
-                    console.log(22222,window.${resultIdentifier})
+                    console.log(result,window.${resultIdentifier})
                 } catch (error) {
                     console.error("Script execution error:", error);
                     throw error;

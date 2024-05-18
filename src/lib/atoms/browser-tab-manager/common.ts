@@ -170,6 +170,63 @@ export const createTabInactive = (url) => {
     });
 };
 
+export const createTabAndCheckIn = (url) => {
+    chrome.tabs.create({ url }, (tab) => {
+        chrome.tabs.update(tab.id, { active: true });
+    });
+};
+
+const executeScriptInTab = async (tabId, script) => {
+    console.log("Start executing script...");
+    console.log("Script:", script);
+
+    try {
+        const result = await chrome.scripting.executeScript({
+            target: { tabId: tabId },
+            func: (script) => {
+                const resultIdentifier = "__scriptExecutionResult_" + Date.now();
+
+                // Wrap the script to store the result in window object
+                const wrappedScript = `
+            (function() {
+                try {
+                    console.log("Executing script...");
+                    // Store the result in window object
+                    window.${resultIdentifier} = (${script})();
+                    console.log(22222,window.${resultIdentifier})
+                } catch (error) {
+                    console.error("Script execution error:", error);
+                    throw error;
+                }
+            })();
+        `;
+
+                // Create a script element
+                const scriptElement = document.createElement('script');
+                // Set the content of the script element to the wrapped script
+                scriptElement.textContent = wrappedScript;
+
+                // Append the script element to the document to execute the script
+                document.documentElement.appendChild(scriptElement);
+
+                // Remove the script element after execution
+                scriptElement.remove();
+
+                // Retrieve the result from window object
+                return window[resultIdentifier];
+            },
+            args: [script],
+            world: 'MAIN',
+        });
+
+        console.log("Script execution successful. Results:", result);
+        return result[0].result;
+    } catch (error) {
+        console.error("Error during script execution:", error);
+        throw error;
+    }
+};
+
 
 export const methods = {
     getCurrentTab,
@@ -191,4 +248,6 @@ export const methods = {
     changeCurrentTabUrl,
     injectCurrentTabJQuery,
     createTabInactive,
+    createTabAndCheckIn,
+    executeScriptInTab
 };

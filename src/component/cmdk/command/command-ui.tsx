@@ -15,6 +15,7 @@ import WebTraffic from "~extension/web-traffic";
 
 import { Command } from "../common/Command";
 import { searchManager } from "../search/search-manager";
+// import { ExtensionLauncher, ExtensionManagerCommand } from "~extension";
 
 function ExtensionWithSearchLoader() {
   const [search, setSearch] = useState(searchManager.content);

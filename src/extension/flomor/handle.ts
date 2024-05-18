@@ -2,7 +2,6 @@
 import TabManager from "~lib/atoms/browser-tab-manager";
 import $ from 'jquery';
 import toast from "~component/cmdk/toast";
-import exp from "constants";
 
 const tabAction = TabManager.action;
 export async function checkTraffic() {

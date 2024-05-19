@@ -131,14 +131,16 @@ export async function makeContentEditable() {
 
 
 /**
- * 获取编辑之后的帖子里面的内容文案内容
+ * 获取编辑之后的帖子内的内容
  * @label postDetailPage dom
- * return {string} 编辑之后的帖子内容
+ * @returns {string} 编辑之后的帖子文本内容
  */
 export function getEditedPostContent() {
     const contentEle = getTruncateContent();
     const htmlContent = contentEle.html();
-    const textContent = htmlContent.replace(/<br\s*\/?>/gi, '\n');
+    // 修正带有<a>标签的内容，保留超链接文本
+    const cleanedContent = htmlContent.replace(/<a[^>]*>([^<]+)<\/a>/gi, '$1');
+    const textContent = cleanedContent.replace(/<br\s*\/?>/gi, '\n');
     return textContent;
 }
 

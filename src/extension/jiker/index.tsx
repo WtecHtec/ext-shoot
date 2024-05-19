@@ -9,11 +9,22 @@ import { switchTheme } from "./switch-theme";
 import { reEditPost } from "./change-post";
 import { exportUserPosts } from "./export-post";
 import { clearUserPosts } from "./clear-post";
+import { copyContentToClipboard } from "./copy-post";
 
 const TabManagerComand = () => {
   return (
     <CommandPanel title="Jiker" icon={ExtensionLogo}>
 
+      <Command.SimpleCommand
+        name="copy-content"
+        title="复制帖子内容到剪贴板"
+        keywords={["copy content", "复制内容"]}
+        description="将当前内容复制到剪贴板"
+        endAfterRun
+        handle={() => {
+          copyContentToClipboard();
+        }}
+      />
       <Command.SimpleCommand
         name="test-handle"
         title="测试"

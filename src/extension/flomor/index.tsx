@@ -2,14 +2,14 @@ import ExtensionLogo from "data-base64:./icon.png";
 import React from "react";
 
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
-import { saveClipboardToFlomo } from "./handle";
+import { saveClipboardToFlomo, testIt } from "./handle";
 
 
 const TabManagerComand = () => {
   return (
     <CommandPanel title="flomor" icon={ExtensionLogo}>
 
-      {/* 
+
       <Command.SimpleCommand
         name="test"
         title="test"
@@ -19,7 +19,7 @@ const TabManagerComand = () => {
         handle={async () => {
           await testIt();
         }}
-      /> */}
+      />
       <Command.SimpleCommand
         name="saveClipboardToFlomo"
         title="把剪贴板的内容保存为Memo"

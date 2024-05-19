@@ -112,29 +112,9 @@ export function readClipboard() {
     });
 }
 
-export async function testIt() {
-    const text = await readClipboard();
-    if (!text) {
-        toast('剪贴板为空');
-        return;
-    }
-    const html = formatTextToHTML(text as string);
-    await appendToContentEditable(html);
-    await saveMemo();
-}
 
 
-export async function saveClipboardToFlomo() {
-    const text = await readClipboard();
-    if (!text) {
-        toast('剪贴板为空');
-        return;
-    }
-    const html = formatTextToHTML(text as string);
-    await appendToContentEditable(html);
-    await saveMemo();
 
-}
 function formatTextToHTML(text: string): string {
     const lines: string[] = text.split('\n');
     let html: string = '';
@@ -150,4 +130,32 @@ function appendToContentEditable(html: string): void {
 
 export function replaceStateToContentEditable(html: string): void {
     $('.editor-content .ProseMirror').html(html);
+}
+
+export async function saveClipboardToFlomo() {
+    const text = await readClipboard();
+    if (!text) {
+        toast('剪贴板为空');
+        return;
+    }
+    const html = formatTextToHTML(text as string);
+    await appendToContentEditable(html);
+    await saveMemo();
+
+}
+
+
+export async function saveTextToFlomo(text) {
+    if (!text) {
+        toast('文本为空');
+        return;
+    }
+    const html = formatTextToHTML(text);
+    await appendToContentEditable(html);
+    await saveMemo();
+
+}
+
+export async function testIt() {
+    await saveTextToFlomo('Hello, Flomo!');
 }

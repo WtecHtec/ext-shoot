@@ -7,14 +7,23 @@ import { gotoPageCollection, gotoPageHome, gotoPageMe, gotoPageRecommend, showNo
 import { switchAccount } from "./switch-account";
 import { switchTheme } from "./switch-theme";
 import { reEditPost } from "./change-post";
-import { exportUserPosts } from "./export-post";
+import { exportUserPosts, exportUserPostsToFeiShu } from "./export-post";
 import { clearUserPosts } from "./clear-post";
 import { copyContentToClipboard } from "./copy-post";
 
 const TabManagerComand = () => {
   return (
     <CommandPanel title="Jiker" icon={ExtensionLogo}>
-
+			<Command.SimpleCommand
+        name="export-person-blog-feishu"
+        title="把这个同志的所有博客导出到飞书多维表格"
+        keywords={["export blog", "导出博客", "多维表格"]}
+        description="导出当前用户的博客"
+        endAfterRun
+        handle={() => {
+          exportUserPostsToFeiShu();
+        }}
+      />
       <Command.SimpleCommand
         name="copy-content"
         title="复制帖子内容到剪贴板"

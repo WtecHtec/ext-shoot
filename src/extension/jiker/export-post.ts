@@ -170,3 +170,20 @@ export const exportUserPosts = async () => {
     triggerDownload(url, `${userName}-posts.xlsx`);
     toast("活已干完，快去看看吧");
 };
+
+export const exportUserPostsToFeiShu = async () => {
+	if (!isUserDetailPage()) {
+			toast("只能在个人页使用哦");
+			return;
+	}
+	toast("好咧，我要开始咯");
+	const userId = extractUserIdFromUrl();
+	const post = await getUserAllPosts(userId,);
+	// console.log('post', post);
+	const result = filterDataArray(post);
+	// console.log('result', result);
+	chrome.runtime.sendMessage({
+		action: 'ac_create_feishu',
+		data: [ ...result ]
+	});
+};

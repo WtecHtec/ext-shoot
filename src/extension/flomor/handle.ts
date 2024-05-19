@@ -113,8 +113,6 @@ export function readClipboard() {
 }
 
 
-
-
 function formatTextToHTML(text: string): string {
     const lines: string[] = text.split('\n');
     let html: string = '';
@@ -143,7 +141,6 @@ export async function saveClipboardToFlomo() {
     await saveMemo();
 
 }
-
 
 export async function saveTextToFlomo(text) {
     if (!text) {

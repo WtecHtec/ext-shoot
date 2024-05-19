@@ -10,6 +10,8 @@ import { getBrowser, getMutliLevelProperty, isArc } from '~utils/util';
 import { handleSetBrowser } from '~utils/actions';
 import { listerSnapSeekData } from '~extension/history-search/content';
 import ToasterComponent from '~component/cmdk/toast/toast-ui';
+import { functionManager } from '~lib/function-manager';
+import { saveTextToFlomo } from '~extension/flomor/handle';
 
 // import FocusLock from 'react-focus-lock';
 export const config: PlasmoCSConfig = {
@@ -24,6 +26,8 @@ export const getStyle = () => {
     return style;
 };
 
+
+functionManager.registerFunction('saveTextToFlomo', saveTextToFlomo);
 
 setTimeout(() => {
     // 先检测是否是arc环境

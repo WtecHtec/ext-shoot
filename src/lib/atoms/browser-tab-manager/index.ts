@@ -11,3 +11,4 @@ export default {
         ...methods,
     }),
 };
+// crosstabExec(id).init().get().then((res) => {})

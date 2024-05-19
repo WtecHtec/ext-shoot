@@ -1,11 +1,22 @@
 import ExtensionLogo from "data-base64:./icon.png";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
 import { saveClipboardToFlomo, testIt } from "./handle";
 
 
+// export const loadFlomoAction = () => {
+
+//   window.saveClipboardToFlomo = saveClipboardToFlomo;
+//   window.testIt = testIt;
+//   console.log("flomor loaded");
+//   console.log("window.saveClipboardToFlomo", window.saveClipboardToFlomo);
+// };
+
 const TabManagerComand = () => {
+  useEffect(() => {
+    // loadFlomoAction();
+  }, []);
   return (
     <CommandPanel title="flomor" icon={ExtensionLogo}>
 

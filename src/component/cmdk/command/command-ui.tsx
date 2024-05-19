@@ -48,8 +48,8 @@ const ExtensionLoader = () => {
   return (
     <CommandCMDK.Group heading={"Results"}>
       <Command.PlaceholderCommand />
-      <Flomor />
       <Jiker />
+      <Flomor />
       <WebTraffic />
       {/* <ExtensionLauncher /> */}
       {/* <ExtensionManagerCommand /> */}

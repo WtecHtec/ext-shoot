@@ -10,10 +10,32 @@ import { reEditPost } from "./change-post";
 import { exportUserPosts } from "./export-post";
 import { clearUserPosts } from "./clear-post";
 import { copyContentToClipboard } from "./copy-post";
+import { saveContentToFlomo } from "./export-flomo";
 
 const TabManagerComand = () => {
   return (
     <CommandPanel title="Jiker" icon={ExtensionLogo}>
+
+      <Command.SimpleCommand
+        name="test-handle"
+        title="测试"
+        keywords={["test handle", "测试"]}
+        description="测试"
+        endAfterRun
+        handle={testHandle}
+      />
+
+
+      <Command.SimpleCommand
+        name="save-flomo"
+        title="保存帖子到 Flomo"
+        keywords={["flomo", "保存flomo"]}
+        description="在Flomo中保存当前帖子内容"
+        endAfterRun
+        handle={async () => {
+          await saveContentToFlomo();
+        }}
+      />
 
       <Command.SimpleCommand
         name="copy-content"
@@ -25,15 +47,6 @@ const TabManagerComand = () => {
           copyContentToClipboard();
         }}
       />
-      <Command.SimpleCommand
-        name="test-handle"
-        title="测试"
-        keywords={["test handle", "测试"]}
-        description="测试"
-        endAfterRun
-        handle={testHandle}
-      />
-
       <Command.SimpleCommand
         name="clear-posts"
         title="清空我的历史博客"

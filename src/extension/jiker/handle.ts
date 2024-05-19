@@ -6,6 +6,7 @@ import { postTask } from '~lib/exec-task-to-web';
 import cookieManager from '~lib/atoms/browser-cookie-manager';
 import toast from '~component/cmdk/toast';
 import { getPostDetails } from './api';
+import { buildCrossTab } from '~lib/function-manager';
 
 const cookieActions = cookieManager.action;
 // Function to perform translation
@@ -216,23 +217,27 @@ export async function testHandle() {
         toast("只能在帖子详情页使用");
         return;
     }
+
+
     const { postId, postType } = getCurrentPostMeta();
-    toast("好咧，我要开始咯");
+    toast("好咧，我要开动咯");
 
     const data = await getPostDetails({ postId, postType });
-    console.log('data', data);
+    const text = data.content;
+    console.log('data', text);
 
-    // const userId = extractUserIdFromUrl();
-    // const post = await getUserAllPosts(userId,);
-    // // console.log('post', post);
-    // const result = filterDataArray(post);
-    // // console.log('result', result);
-    // const url = await convertToExcel(result);
-    // const userName = abstractUserName();
-    // // triggerDownload(url, `${userName}_all_post.csv`);
-    // triggerDownload(url, `${userName}-posts.xlsx`);
-
+    // const tabId = await tabAction.createTabInactive("https://v.flomoapp.com/mine?tag=Jike");
+    const newPage = await buildCrossTab("https://v.flomoapp.com/mine?tag=Jike");
+    const result = await newPage.actions().saveTextToFlomo(text);
+    console.log('result', result);
+    await newPage.close();
     // getPostDetails()
-    toast("活已干完，快去看看吧");
-    // console.log('url', url);
+    toast("博客已存到 emo", {
+        action: {
+            label: '去看看',
+            onClick: () => {
+                tabAction.createTabAndCheckIn("https://v.flomoapp.com/mine?tag=Jike");
+            }
+        },
+    });
 }

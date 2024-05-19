@@ -88,15 +88,20 @@ const togglePinTab = () => {
  * Close the given tab
  * @param tab The tab to close
  */
-const closeTab = (tab) => {
-    chrome.tabs.remove(tab.id);
+const closeTab = (tabId) => {
+    chrome.tabs.remove(tabId);
 };
+
 
 /**
  * Close the current tab
  */
 const closeCurrentTab = () => {
-    getCurrentTab().then(closeTab);
+    getCurrentTab().then(
+        (response) => {
+            closeTab(response.id);
+        }
+    );
 };
 
 
@@ -176,6 +181,38 @@ export const createTabAndCheckIn = (url) => {
     });
 };
 
+function waitForTabToLoad(tabId) {
+    return new Promise((resolve) => {
+        function onTabUpdated(updatedTabId, changeInfo) {
+            if (updatedTabId === tabId && changeInfo.status === 'complete') {
+                console.log(`Tab ${tabId} has loaded.`);
+                chrome.tabs.onUpdated.removeListener(onTabUpdated);  // 移除监听器避免重复调用
+                resolve(1);  // 解决Promise
+            }
+        }
+        chrome.tabs.onUpdated.addListener(onTabUpdated);
+    });
+}
+
+export const invokeFunctionInTab = async (tabId, functionName, args) => {
+    try {
+        await waitForTabToLoad(tabId);  // 等待标签页加载完成
+        console.log('tabId', tabId, 'Sending message to tab.');
+        console.log('tabId', tabId, 'functionName', functionName, 'args', args);
+        const response = await chrome.tabs.sendMessage(tabId, {
+            type: 'invokeFunction',
+            functionName: functionName,
+            args: args
+        });
+        console.log('Function invocation response:', response);
+        return response;  // 返回函数调用结果
+    } catch (error) {
+        console.error('Error invoking function:', error.message);
+        throw error;  // 抛出异常以便外部捕获
+    }
+};
+
+
 const executeScriptInTab = async (tabId, script) => {
     console.log("Start executing script...");
     console.log("Script:", script);
@@ -249,5 +286,6 @@ export const methods = {
     injectCurrentTabJQuery,
     createTabInactive,
     createTabAndCheckIn,
-    executeScriptInTab
+    executeScriptInTab,
+    invokeFunctionInTab
 };

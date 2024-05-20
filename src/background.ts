@@ -680,8 +680,8 @@ import windowManage from './lib/atoms/browser-window-manager';
 import BrowserDataManage from './lib/atoms/browser-cache-manager';
 import BrowserCookieManage from './lib/atoms/browser-cookie-manager';
 import { UNINSTALL_URL } from '~component/cmdk/core/constant';
-import executeUseageTemp from '~utils/executes/execute.usetemplet';
-import executeExportFeishu from '~utils/executes/execute.export.feishu';
+import executeUseageTemp from '~extension/feishubase/executes/execute.usetemplet';
+import executeExportFeishu from '~extension/feishubase/executes/execute.export.feishu';
 
 
 const atom = new Atom();

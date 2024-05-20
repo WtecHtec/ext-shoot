@@ -28,6 +28,36 @@ const executeUseageTemp = () => {
 				getDom(0);
 			});
 		}
+
+		async getDomByQuery(select, content, delay = 2 * 1000, max = 10) {
+			return new Promise((resolve, reject) => {
+				const getDom = (current) => {
+					const xnds = document.querySelectorAll(select);
+					let dom = null;
+					if (xnds && xnds.length > 0) {
+						content && xnds.forEach((xnd) => {
+							if (xnd.textContent === content) {
+								resolve(xnd);
+								return;
+							}
+						});
+						dom = xnds[0];
+					}
+					if (dom) {
+						resolve(dom);
+						return;
+					} else {
+						if (max < current) {
+							reject('not find dom');
+						}
+						setTimeout(() => {
+							getDom(current + 1);
+						}, delay);
+					}
+			};
+				getDom(0);
+			});
+		}
 		waitPipe(fn, delay = 2 * 1000, ...args) {
 			this.waitevents.push({
 				fn,
@@ -65,7 +95,7 @@ const executeUseageTemp = () => {
 new ExecuteHandle()
 	.waitPipe( async (ctx) => {
 		// step 1: 使用模板
-		const copyBtn = await ctx.getDomByXPath('/html/body/div[1]/div/div[3]/div/div[2]/button');
+		const copyBtn = await ctx.getDomByQuery('.template-mark-banner__content__right button', '使用该模板');
 		copyBtn && copyBtn.click();
 	}, 2 * 1000)
 	.runWait(() => {

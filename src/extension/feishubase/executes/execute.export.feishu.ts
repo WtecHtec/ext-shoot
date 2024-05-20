@@ -28,6 +28,36 @@ const executeExportFeishu = (datas, feishuTableTabId, matchs) => {
 				getDom(0);
 			});
 		}
+
+		async getDomByQuery(select, content, delay = 2 * 1000, max = 10) {
+			return new Promise((resolve, reject) => {
+				const getDom = (current) => {
+					const xnds = document.querySelectorAll(select);
+					let dom = null;
+					if (xnds && xnds.length > 0) {
+						content && xnds.forEach((xnd) => {
+							if (xnd.textContent === content) {
+								resolve(xnd);
+								return;
+							}
+						});
+						dom = xnds[0];
+					}
+					if (dom) {
+						resolve(dom);
+						return;
+					} else {
+						if (max < current) {
+							reject('not find dom');
+						}
+						setTimeout(() => {
+							getDom(current + 1);
+						}, delay);
+					}
+			};
+				getDom(0);
+			});
+		}
 		waitPipe(fn, delay = 2 * 1000, ...args) {
 			this.waitevents.push({
 				fn,
@@ -65,27 +95,27 @@ const executeExportFeishu = (datas, feishuTableTabId, matchs) => {
 new ExecuteHandle()
 	.waitPipe( async (ctx) => {
 		// step 1: 点击插件
-		const copyBtn = await ctx.getDomByXPath('/html/body/div[1]/div/div[2]/div/div/div[2]/div[1]/div[2]/div[2]/div/div[1]/div[2]/button[3]');
+		const copyBtn = await ctx.getDomByQuery('.pc-tools button', '插件');
 		copyBtn && copyBtn.click();
 	}, 2 * 1000)
 	.waitPipe(async (ctx) => {
 		// step 2: 点击自定义插件
-		const copyBtn = await ctx.getDomByXPath('/html/body/div[1]/div/div[6]/div[1]/div[1]/div/div[6]/div[2]/div[2]/div[5]/button[2]');
+		const copyBtn = await ctx.getDomByQuery('span[class="btn-myextention"]', '自定义插件');
 		copyBtn && copyBtn.click();
 	})
 	.waitPipe(async (ctx) => {
 		// step 3: 点击获取授权码
-		const copyBtn = await ctx.getDomByXPath('/html/body/div[1]/div/div[6]/div[1]/div[1]/div/div[6]/div[2]/div[2]/div/div[1]/div/div/div/span[3]');
+		const copyBtn = await ctx.getDomByQuery('span[class="extension-market-link-btn-v4"]', '获取授权码');
 		copyBtn && copyBtn.click();
 	})
 	.waitPipe(async (ctx) => {
-		// step 4: 点击 启用
-		const copyBtn = await ctx.getDomByXPath('/html/body/div[23]/div/div[4]/div/div/div/div[2]/label');
+		// step 4: 点击 启用 
+		const copyBtn = await ctx.getDomByQuery('span[class="ud__checkbox__label-content"]', '启用授权码');
 		copyBtn && copyBtn.click();
 	})
 	.waitPipe(async (ctx) => {
 		// step 5: 拿到授权码
-		const copyBtn = await ctx.getDomByXPath('/html/body/div[23]/div/div[4]/div/div/div/div[2]/div[2]/div/div');
+		const copyBtn = await ctx.getDomByQuery('div[class="open-extension-container__personal-token__content-token-input"]');
 		return copyBtn.innerHTML;
 	})
 	.waitPipe(async (ctx, args) => {

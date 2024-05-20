@@ -38,27 +38,47 @@ export async function checkTraffic() {
  * @label dom
  */
 export const saveMemo = () => {
-    if ((!isInMemoEditePage())) {
-        toast('请在flomo编辑页面使用');
-        return;
-    }
-    // Focus on the editor
-    $('#fl_editor .tiptap.ProseMirror').focus();
+    return new Promise((resolve, reject) => {
+        if (!isInMemoEditePage()) {
+            toast('请在flomo编辑页面使用');
+            reject('不在编辑页面');
+            return;
+        }
 
-    // Create a new KeyboardEvent object to simulate CMD+Enter key press event
-    const event = new KeyboardEvent('keydown', {
-        key: 'Enter',
-        code: 'Enter',
-        keyCode: 13, // Enter key code
-        metaKey: true, // Command key pressed
-        bubbles: true, // Ensure the event bubbles up
-        cancelable: true // Allow the event to be cancelled
+        const countBefore = getCurrentNoteCount();
+        // Focus on the editor
+        $('#fl_editor .tiptap.ProseMirror').focus();
+
+        // Create a new KeyboardEvent to simulate CMD+Enter key press
+        const event = new KeyboardEvent('keydown', {
+            key: 'Enter',
+            code: 'Enter',
+            keyCode: 13, // Enter key code
+            metaKey: true, // Command key pressed (Mac)
+            bubbles: true, // Ensure the event bubbles up
+            cancelable: true // Allow the event to be cancelled
+        });
+
+        // Dispatch the event to the editor
+        $('#fl_editor .tiptap.ProseMirror')[0].dispatchEvent(event);
+
+        // Loop to check if the note count has increased
+        let attempts = 0;
+        const maxAttempts = 10;
+        const interval = setInterval(() => {
+            const currentCount = getCurrentNoteCount();
+            if (currentCount > countBefore) {
+                clearInterval(interval);
+                resolve('笔记保存成功！');
+            } else if (attempts >= maxAttempts) {
+                clearInterval(interval);
+                reject('笔记保存失败，请重试。');
+            }
+            attempts++;
+        }, 200);
     });
-
-    // Dispatch the event to the editor
-    $('#fl_editor .tiptap.ProseMirror')[0].dispatchEvent(event);
-
 };
+
 
 /**
  * 判断是否在flomo的编辑页面
@@ -150,7 +170,16 @@ export async function saveTextToFlomo(text) {
     const html = formatTextToHTML(text);
     await appendToContentEditable(html);
     await saveMemo();
-
+    return '保存到flomo成功';
+}
+// 获取当前主题的帖子数量
+function getCurrentNoteCount(): number {
+    const text: string = $('.total').text();
+    const match: RegExpMatchArray | null = text.match(/\d+/);
+    if (match) {
+        return parseInt(match[0], 10);
+    }
+    return 0;
 }
 
 export async function testIt() {

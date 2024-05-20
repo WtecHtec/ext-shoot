@@ -58,9 +58,10 @@ const PlasmoOverlay = () => {
         const { action } = request;
         if (action === 'active_extention_launcher') {
             setOpen(!open);
+            sendResponse({ result: 'Message processed in content.js' });
         }
         // 发送响应
-        sendResponse({ result: 'Message processed in content.js' });
+        // 不要污染全局反馈
     };
     chrome.runtime.onMessage.addListener(handelMsgBybg);
 

@@ -313,9 +313,10 @@ export function MotionShotCMDK() {
         footerTip("success", "Extension Info Updated Successfully", 3000);
       } else {
         onClickSubItem(action, value);
+
       }
       // 发送响应
-      sendResponse({ result: "Message processed in content.js" });
+      // sendResponse({ result: "Message processed in content.js" });
     };
     chrome.runtime.onMessage.addListener(handelMsgBybg);
     // document.addEventListener('keydown', listener);

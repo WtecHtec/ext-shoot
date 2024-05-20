@@ -75,7 +75,7 @@ export const saveMemo = () => {
                 reject('笔记保存失败，请重试。');
             }
             attempts++;
-        }, 500);
+        }, 200);
     });
 };
 
@@ -170,8 +170,7 @@ export async function saveTextToFlomo(text) {
     const html = formatTextToHTML(text);
     await appendToContentEditable(html);
     await saveMemo();
-
-
+    return '保存到flomo成功';
 }
 // 获取当前主题的帖子数量
 function getCurrentNoteCount(): number {

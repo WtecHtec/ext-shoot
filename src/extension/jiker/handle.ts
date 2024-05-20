@@ -45,6 +45,9 @@ function mightBeChinese(text) {
     return /[\u4e00-\u9fa5]/.test(sample);
 }
 
+export function gotoProductLaunchEvent() {
+    tabAction.changeCurrentTabUrl("https://h5.ruguoapp.com/jk-product-launch-event/today");
+}
 
 // 创建一个 LRU 缓存实例
 const options = {

@@ -3,7 +3,7 @@ import React from "react";
 
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
 
-import { gotoPageCollection, gotoPageHome, gotoPageMe, gotoPageRecommend, showNotification, testHandle, toggleTranslateToCnMode } from "./handle";
+import { gotoPageCollection, gotoPageHome, gotoPageMe, gotoPageRecommend, gotoProductLaunchEvent, showNotification, testHandle, toggleTranslateToCnMode } from "./handle";
 import { switchAccount } from "./switch-account";
 import { switchTheme } from "./switch-theme";
 import { reEditPost } from "./change-post";
@@ -15,7 +15,7 @@ import { saveContentToFlomo } from "./export-flomo";
 const TabManagerComand = () => {
   return (
     <CommandPanel title="Jiker" icon={ExtensionLogo}>
-			<Command.SimpleCommand
+      <Command.SimpleCommand
         name="export-person-blog-feishu"
         title="把这个同志的所有博客导出到飞书多维表格"
         keywords={["export blog", "导出博客", "多维表格"]}
@@ -131,7 +131,14 @@ const TabManagerComand = () => {
         endAfterRun
         handle={showNotification}
       />
-
+      <Command.SimpleCommand
+        name="goto-product-launch-event"
+        title="看看产品发布会"
+        keywords={["product launch", "发布会"]}
+        description="参加新产品的发布会"
+        endAfterRun
+        handle={gotoProductLaunchEvent}
+      />
       <Command.SimpleCommand
         name="re-edit-post"
         title="这文案真不行，重新编辑再发布"

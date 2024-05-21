@@ -28,7 +28,7 @@ const SearchComponent = ({ inputRef }: { inputRef: React.RefObject<HTMLInputElem
 
 
     const handleSearchChange = (value: string) => {
-        searchManager.setSearch(value);
+        searchManager.setSearch(value || ' ');
     };
 
     const exitAppMode = ()=>{
@@ -37,7 +37,7 @@ const SearchComponent = ({ inputRef }: { inputRef: React.RefObject<HTMLInputElem
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (inApp) {
-            if (event.key === 'Backspace' && search === '') {
+            if (event.key === 'Backspace' && (search === ' ' || search === '')) {
                 console.log("Backspace pressed with no content in in-app mode.");
                 exitAppMode();
                 event.stopPropagation();

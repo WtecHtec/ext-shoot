@@ -757,11 +757,24 @@ export function MotionShotCMDK() {
     }
   };
 
+	const defaultSort = (value, search, keywords) => { 
+		if (value === 'Jiker-clear-posts') {
+			console.log('value--', value);
+			return 1000;
+		} 
+		if (value === 'Jiker-test-action') {
+			return 100;
+		}
+		return 1;
+	}
   /**
    * 排除最近使用、dev、favorite
    */
   const onCommandFilter = (value, search, keywords) => {
-    if (!search) return 1;
+    if (search === ' ') {
+			return defaultSort(value, search, keywords);
+		}
+		search = search.substr(1);
     if (
       value.includes("recently_") ||
       value.includes("development@_") ||
@@ -799,6 +812,10 @@ export function MotionShotCMDK() {
   useEffect(() => {
     initEscControl();
   })
+
+	useEffect(() => {
+		console.log('listRef---', listRef);
+	}, [])
 
   return (
     <div className="ext-shoot" ref={extShootRef}>

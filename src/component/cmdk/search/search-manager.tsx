@@ -15,7 +15,7 @@ class SearchManager extends StateManager<SearchState> {
 
     private constructor() {
         super({
-            search: "",
+            search: " ",
             placeholder: "Search...",
             inApp: false,
             inputRef: React.createRef()
@@ -46,7 +46,7 @@ class SearchManager extends StateManager<SearchState> {
 
     // 清除搜索内容
     public clearSearch(): void {
-        this.state.search = '';
+        this.state.search = ' ';
     }
 
     // 获取当前搜索内容

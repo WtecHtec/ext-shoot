@@ -105,7 +105,8 @@
       {
         "resources": [
           "tabs/icon-render.html",
-          "exec.js"
+          "exec.js",
+          "jquery.js"
         ],
         "matches": [
           "<all_urls>"

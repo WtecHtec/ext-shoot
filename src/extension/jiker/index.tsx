@@ -15,6 +15,17 @@ import { saveContentToFlomo } from "./export-flomo";
 const TabManagerComand = () => {
   return (
     <CommandPanel title="Jiker" icon={ExtensionLogo}>
+
+      <Command.SimpleCommand
+        name="test-handle"
+        title="测试"
+        keywords={["test handle", "测试"]}
+        description="测试"
+        endAfterRun
+        handle={testHandle}
+      />
+
+
       <Command.SimpleCommand
         name="export-person-blog-feishu"
         title="把这个同志的所有博客导出到飞书多维表格"
@@ -24,14 +35,6 @@ const TabManagerComand = () => {
         handle={() => {
           exportUserPostsToFeiShu();
         }}
-      />
-      <Command.SimpleCommand
-        name="test-handle"
-        title="测试"
-        keywords={["test handle", "测试"]}
-        description="测试"
-        endAfterRun
-        handle={testHandle}
       />
 
 

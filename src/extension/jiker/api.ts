@@ -1,5 +1,7 @@
+import axios from "axios";
 import { getJikeToken } from "./handle";
 import { JikeClient, ApiOptions } from "jike-api";
+import CryptoJS from 'crypto-js';
 
 // https://jike-api.vercel.app/
 const apiConfig = {
@@ -163,4 +165,113 @@ export const deletePostById = async ({
         console.error('Failed to delete post:', postId);
         return { success: false, message: 'Failed to delete post' };
     }
+};
+
+
+export const getImageAsBlob = async (imageURL: string): Promise<Blob> => {
+    try {
+        const response = await axios({
+            method: 'get',
+            url: imageURL,
+            responseType: 'arraybuffer'
+        });
+        return new Blob([response.data], { type: response.headers['content-type'] });
+    } catch (error) {
+        console.error('Error downloading image:', error);
+        throw error;
+    }
+};
+
+
+// 引入 crypto-js 库
+
+function calculateMD5FromBuffer(arrayBuffer) {
+    // 将 ArrayBuffer 转换为 WordArray
+    const wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
+
+    // 使用 crypto-js 计算 MD5
+    return CryptoJS.MD5(wordArray).toString();
+}
+
+
+// 使用 CryptoJS 来进行 MD5 计算
+export const uploadBlobToJike = async (blob) => {
+    try {
+        // 初始化Jike客户端
+        const client = await initJikeClient();
+
+        // 将Blob转换为ArrayBuffer，并计算MD5
+        const buffer = await blob.arrayBuffer();
+        const md5 = calculateMD5FromBuffer(buffer); // 假设已有此函数，或者需要你使用合适的库来实现
+
+        // 获取上传凭证
+        const tokenResponse = await client.apiClient.upload.token(md5);
+        if (!tokenResponse || !tokenResponse.data || !tokenResponse.data.uptoken) {
+            throw new Error('Failed to retrieve upload token');
+        }
+        const uploadToken = tokenResponse.data.uptoken;
+
+        // 上传图片
+        const uploadResult = await client.apiClient.upload.upload(blob, uploadToken);
+
+        // 检查上传结果并返回
+        if (uploadResult) {
+            console.log('Image uploaded successfully');
+            return {
+                key: uploadResult.key,
+                id: uploadResult.id,
+                fileUrl: uploadResult.fileUrl
+            };
+        } else {
+            throw new Error('Failed to upload image');
+        }
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        throw error;
+    }
+};
+
+export const uploadImageLinkToJike = async (imageURL: string) => {
+    try {
+        // 下载图片
+        const imageBlob = await getImageAsBlob(imageURL);
+        // 上传图片
+        const uploadResult = await uploadBlobToJike(imageBlob);
+
+        console.log('uploadResult', uploadResult);
+
+        return uploadResult;
+    } catch (error) {
+        console.error('Error uploading image link:', error);
+        throw error;
+    }
+
+};
+
+
+export const createTextPost = async (content: string) => {
+    const client = await initJikeClient();
+    const result = await client.apiClient.posts.create(ApiOptions.PostType.ORIGINAL, content);
+    return result;
+};
+
+export const cretatImagesPost = async (content: string, ...imageURLs: string[]) => {
+    const client = await initJikeClient();
+    const imageKeys = await Promise.all(imageURLs.map(url => uploadImageLinkToJike(url)));
+    const result = await client.apiClient.posts.create(ApiOptions.PostType.ORIGINAL, content, { pictureKeys: imageKeys.map(image => image.key) });
+    return result;
+};
+
+export const createPrivateImagesPost = async (content: string, ...imageURLs: string[]) => {
+    const client = await initJikeClient();
+    const imageKeys = await Promise.all(imageURLs.map(url => uploadImageLinkToJike(url)));
+    const result = await client.apiClient.posts.create(ApiOptions.PostType.ORIGINAL, content, { pictureKeys: imageKeys.map(image => image.key), topicId: '5be41ae2a666dd00172d6072' });
+    return result;
+};
+
+
+export const createPrivateTextPost = async (content: string) => {
+    const client = await initJikeClient();
+    const result = await client.apiClient.posts.create(ApiOptions.PostType.ORIGINAL, content, { topicId: '5be41ae2a666dd00172d6072' });
+    return result;
 };

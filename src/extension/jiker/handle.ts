@@ -5,8 +5,7 @@ import TabManager from "~lib/atoms/browser-tab-manager";
 import { postTask } from '~lib/exec-task-to-web';
 import cookieManager from '~lib/atoms/browser-cookie-manager';
 import toast from '~component/cmdk/toast';
-import { getPostDetails } from './api';
-import { buildCrossTab } from '~lib/function-manager';
+import { cretatImagesPost } from './api';
 
 const cookieActions = cookieManager.action;
 // Function to perform translation
@@ -216,31 +215,7 @@ export function getCurrentPostMeta() {
 
 
 export async function testHandle() {
-    if (!isPostDetailPage()) {
-        toast("只能在帖子详情页使用");
-        return;
-    }
-
-
-    const { postId, postType } = getCurrentPostMeta();
-    toast("好咧，我要开动咯");
-
-    const data = await getPostDetails({ postId, postType });
-    const text = data.content;
-    console.log('data', text);
-
-    // const tabId = await tabAction.createTabInactive("https://v.flomoapp.com/mine?tag=Jike");
-    const newPage = await buildCrossTab("https://v.flomoapp.com/mine?tag=Jike");
-    const result = await newPage.actions().saveTextToFlomo(text);
-    console.log('result', result);
-    await newPage.close();
-    // getPostDetails()
-    toast("博客已存到 emo", {
-        action: {
-            label: '去看看',
-            onClick: () => {
-                tabAction.createTabAndCheckIn("https://v.flomoapp.com/mine?tag=Jike");
-            }
-        },
-    });
+    // const re = uploadImageLinkToJike("https://pbs.twimg.com/media/GK52v0jWwAARsVx?format=jpg&name=large");
+    // console.log('re', re);
+    await cretatImagesPost("外婆不知道什么是专科，她一直问食堂的饭菜怎么样", ...["https://pbs.twimg.com/media/GK52v0jWwAARsVx?format=jpg&name=large"]);
 }

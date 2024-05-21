@@ -1,5 +1,5 @@
 import { Command as CommandCMDK } from "cmdk";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // import { ExtensionManagerCommand } from "~extension";
 import ChromeStoreSearch from "~extension/chrome-store-search";
@@ -21,6 +21,7 @@ import { Command } from "../common/Command";
 import { searchManager } from "../search/search-manager";
 import { ExtensionLauncher } from "~extension";
 // import { ExtensionLauncher, ExtensionManagerCommand } from "~extension";
+import $ from 'jquery';
 
 function ExtensionWithSearchLoader() {
   const [search, setSearch] = useState(searchManager.content);
@@ -49,8 +50,22 @@ function ExtensionWithSearchLoader() {
 }
 
 const ExtensionLoader = () => {
+
+	const groupRef = useRef(null);
+	useEffect(() => {
+		if (!groupRef) return;
+		const  groupItems = $(groupRef.current).find('div[cmdk-group-items]');
+		let childrens = groupItems.children();
+		// PlaceholderCommand 需要放在第一个,上下箭头事件
+		const placeholderDom = [...childrens].shift();
+		// 自定义排序逻辑, 针对 dom 绑定数据做处理【data-value】
+		childrens = [...childrens].slice(1).sort((a, b) => {
+			return a.textContent.length - b.textContent.length;
+		});
+		groupItems.empty().append(...[placeholderDom, ...childrens]);
+	}, []);
   return (
-    <CommandCMDK.Group heading={"Results"}>
+    <CommandCMDK.Group ref={groupRef} heading={"Results"}>
       <Command.PlaceholderCommand />
       <DevTools />
       <ChatGPT />

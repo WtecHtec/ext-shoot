@@ -1,9 +1,9 @@
-import ExtensionLogo from "data-base64:./icon.png"
-import React from "react"
+import ExtensionLogo from "data-base64:./icon.png";
+import React from "react";
 
-import { Command, CommandPanel } from "~component/cmdk/common/Command"
+import { Command, CommandPanel } from "~component/cmdk/common/Command";
 
-import { safeInjectJQuery } from "./handle"
+import { safeInjectJQuery } from "./handle";
 
 const TabManagerComand = () => {
   return (
@@ -15,7 +15,7 @@ const TabManagerComand = () => {
         description="Inject JQuery"
         endAfterRun
         handle={async () => {
-          await safeInjectJQuery()
+          await safeInjectJQuery();
         }}
       />
       {/* <Command.SimpleCommand
@@ -29,7 +29,7 @@ const TabManagerComand = () => {
         }}
       /> */}
     </CommandPanel>
-  )
-}
+  );
+};
 
-export default TabManagerComand
+export default TabManagerComand;

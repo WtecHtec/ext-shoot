@@ -14,9 +14,12 @@ import Jiker from "~extension/jiker";
 import WebTraffic from "~extension/web-traffic";
 import Flomor from "~extension/flomor";
 import X from "~extension/x";
+import ChatGPT from "~extension/chatgpt";
+import DevTools from "~extension/devtools";
 
 import { Command } from "../common/Command";
 import { searchManager } from "../search/search-manager";
+import { ExtensionLauncher } from "~extension";
 // import { ExtensionLauncher, ExtensionManagerCommand } from "~extension";
 
 function ExtensionWithSearchLoader() {
@@ -49,11 +52,13 @@ const ExtensionLoader = () => {
   return (
     <CommandCMDK.Group heading={"Results"}>
       <Command.PlaceholderCommand />
+      <DevTools />
+      <ChatGPT />
       <X />
       <Jiker />
       <Flomor />
       <WebTraffic />
-      {/* <ExtensionLauncher /> */}
+      <ExtensionLauncher />
       {/* <ExtensionManagerCommand /> */}
       <TableManager />
       <WindowsManager />

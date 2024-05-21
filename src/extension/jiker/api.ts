@@ -256,13 +256,20 @@ export const createTextPost = async (content: string) => {
 };
 
 export const cretatImagesPost = async (content: string, ...imageURLs: string[]) => {
+    if (!imageURLs) {
+        return createTextPost(content);
+    }
     const client = await initJikeClient();
     const imageKeys = await Promise.all(imageURLs.map(url => uploadImageLinkToJike(url)));
     const result = await client.apiClient.posts.create(ApiOptions.PostType.ORIGINAL, content, { pictureKeys: imageKeys.map(image => image.key) });
     return result;
 };
 
+export const createJikePost = cretatImagesPost;
 export const createPrivateImagesPost = async (content: string, ...imageURLs: string[]) => {
+    if (!imageURLs) {
+        return createTextPost(content);
+    }
     const client = await initJikeClient();
     const imageKeys = await Promise.all(imageURLs.map(url => uploadImageLinkToJike(url)));
     const result = await client.apiClient.posts.create(ApiOptions.PostType.ORIGINAL, content, { pictureKeys: imageKeys.map(image => image.key), topicId: '5be41ae2a666dd00172d6072' });

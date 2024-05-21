@@ -12,6 +12,7 @@ import { listerSnapSeekData } from '~extension/history-search/content';
 import ToasterComponent from '~component/cmdk/toast/toast-ui';
 import { functionManager } from '~lib/function-manager';
 import { saveTextToFlomo } from '~extension/flomor/handle';
+import { createJikePost } from '~extension/jiker/api';
 
 // import FocusLock from 'react-focus-lock';
 export const config: PlasmoCSConfig = {
@@ -28,6 +29,7 @@ export const getStyle = () => {
 
 
 functionManager.registerFunction('saveTextToFlomo', saveTextToFlomo);
+functionManager.registerFunction('createJikePost', createJikePost);
 
 setTimeout(() => {
     // 先检测是否是arc环境

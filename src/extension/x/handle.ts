@@ -2,6 +2,8 @@
 import TabManager from "~lib/atoms/browser-tab-manager";
 import $ from 'jquery';
 import toast from "~component/cmdk/toast";
+import { buildCrossTab } from "~lib/function-manager";
+import { generateOriginalPostUrlByPostId } from "~extension/jiker/handle";
 
 const tabAction = TabManager.action;
 
@@ -58,7 +60,8 @@ function extractTweetInfo(): TweetInfo {
     const authorAtId = $('div[data-testid="User-Name"]').find('div:contains("@")').first().text().trim() || 'Unknown';
 
     // Extract the tweet content
-    const tweetContent = $('div[data-testid="tweetText"]').text().trim() || 'No content';
+    const tweetContent = $('div[data-testid="tweetText"] > span').first().text().trim() || 'No content';
+
 
     // Extract the tweet image URL if it exists
     const tweetImage = $('div[data-testid="tweetPhoto"] img').attr('src') || undefined;
@@ -126,8 +129,27 @@ export function replaceStateToContentEditable(html: string): void {
     $('.editor-content .ProseMirror').html(html);
 }
 
+export async function repostToJike() {
+    const { tweetContent, tweetImage } = await extractTweetInfo();
+    console.log('tweetContent', tweetContent);
+    console.log('tweetImage', tweetImage);
+    const newPage = await buildCrossTab("https://web.okjike.com/");
+    const result = await newPage.actions().createJikePost(tweetContent, tweetImage);
+    console.log('result', result.result.data.data.id);
+    const url = generateOriginalPostUrlByPostId(result.result.data.data.id);
+    console.log('url', url);
+    toast('已将这篇帖子发布到即刻啦', {
+        action: {
+            label: '查看',
+            onClick: () => {
+                tabAction.createTabAndCheckIn(url);
+            }
+        },
+    });
+    await newPage.close();
+}
 
 export async function testIt() {
-    const result = await extractTweetInfo();
-    console.log('result', result);
+
+
 }

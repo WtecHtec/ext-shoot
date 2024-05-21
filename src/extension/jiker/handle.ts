@@ -219,3 +219,7 @@ export async function testHandle() {
     // console.log('re', re);
     await cretatImagesPost("外婆不知道什么是专科，她一直问食堂的饭菜怎么样", ...["https://pbs.twimg.com/media/GK52v0jWwAARsVx?format=jpg&name=large"]);
 }
+
+export const generateOriginalPostUrlByPostId = (postId) => {
+    return `https://web.okjike.com/originalPost/${postId}`;
+};

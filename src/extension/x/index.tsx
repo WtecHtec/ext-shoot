@@ -2,15 +2,13 @@ import ExtensionLogo from "data-base64:./icon.png";
 import React from "react";
 
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
-import { testIt } from "./handle";
 
+import { repostToJike } from "./handle";
 
 const TabManagerComand = () => {
-
   return (
     <CommandPanel title="X" icon={ExtensionLogo}>
-
-      <Command.SimpleCommand
+      {/* <Command.SimpleCommand
         name="test"
         title="test"
         keywords={["test"]}
@@ -19,7 +17,19 @@ const TabManagerComand = () => {
         handle={async () => {
           await testIt();
         }}
+      /> */}
+      {/* repostToJike */}
+      <Command.SimpleCommand
+        name="repostToJike"
+        title="把这篇帖子转发到即刻"
+        keywords={["repost", "jike"]}
+        description="转发到即刻"
+        endAfterRun
+        handle={async () => {
+          await repostToJike();
+        }}
       />
+
       {/* <Command.SimpleCommand
         name="saveClipboardToFlomo"
         title="把剪贴板的内容保存为Memo"
@@ -32,8 +42,6 @@ const TabManagerComand = () => {
       /> */}
     </CommandPanel>
   );
-
-
 };
 
 export default TabManagerComand;

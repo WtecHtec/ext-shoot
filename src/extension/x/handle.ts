@@ -6,62 +6,86 @@ import toast from "~component/cmdk/toast";
 const tabAction = TabManager.action;
 
 /**
- * 保存Memo
+ * 判断是否在twitter的详情页
  * @label dom
  */
-export const saveMemo = () => {
-    if ((!isInMemoEditePage())) {
-        toast('请在flomo编辑页面使用');
-        return;
-    }
-    // Focus on the editor
-    $('#fl_editor .tiptap.ProseMirror').focus();
-
-    // Create a new KeyboardEvent object to simulate CMD+Enter key press event
-    const event = new KeyboardEvent('keydown', {
-        key: 'Enter',
-        code: 'Enter',
-        keyCode: 13, // Enter key code
-        metaKey: true, // Command key pressed
-        bubbles: true, // Ensure the event bubbles up
-        cancelable: true // Allow the event to be cancelled
-    });
-
-    // Dispatch the event to the editor
-    $('#fl_editor .tiptap.ProseMirror')[0].dispatchEvent(event);
-
-};
-
-/**
- * 判断是否在flomo的编辑页面
- * @label dom
- */
-export const isInMemoEditePage = () => {
-    const urlPattern = /^https:\/\/v\.flomoapp\.com\/mine/;
+// https://twitter.com/vercel/status/1791529671055806663
+export const isTwitterDetailPage = () => {
+    const urlPattern = /^https:\/\/twitter\.com\/\w+\/status\/\d+/;
     return urlPattern.test(window.location.href);
 };
 
 
 /**
- * 同步数据
+ * 获取详情页的帖子meta信息
+ * @label dom
+ * @returns {userId: string, postId: string}
  */
-export const syncData = async () => {
-    $('.sync-icon').parent()[0].click();
+export const getCurrentPostMeta = () => {
+    const url = window.location.href;
+    if (!isTwitterDetailPage()) {
+        toast('请在帖子详情页使用此功能');
+        return { userName: null, postId: null };
+    }
+    const urlParts = url.split('/');
+    const postId = urlParts.pop();
+    const userId = urlParts.pop();
+    return { userId, postId };
 };
+
+
+interface TweetInfo {
+    authorName: string;
+    avatarImage: string;
+    authorAtId: string;
+    tweetContent: string;
+    tweetImage?: string;
+}
+/**
+ * 获取详情页的帖子信息
+ * @label dom
+ * @returns {TweetInfo}
+ */
+
+function extractTweetInfo(): TweetInfo {
+    // Extract the author's name
+    const authorName = $('div[data-testid="User-Name"] span span').first().text().trim() || 'Unknown';
+
+    // Extract the avatar URL
+    const avatarImage = $('div[data-testid="Tweet-User-Avatar"] img').attr('src') || '';
+
+    // Extract the author's @ ID
+    const authorAtId = $('div[data-testid="User-Name"]').find('div:contains("@")').first().text().trim() || 'Unknown';
+
+    // Extract the tweet content
+    const tweetContent = $('div[data-testid="tweetText"]').text().trim() || 'No content';
+
+    // Extract the tweet image URL if it exists
+    const tweetImage = $('div[data-testid="tweetPhoto"] img').attr('src') || undefined;
+
+    // Return the structured tweet information
+    return {
+        authorName,
+        avatarImage,
+        authorAtId,
+        tweetContent,
+        tweetImage,
+    };
+}
 
 /**
  * 切换子页面
  * @label dom tab
  */
 export const goto = {
-    wechat: () => {
-        tabAction.changeCurrentTabUrl("https://v.flomoapp.com/mine?source=wechat");
+    home: () => {
+        tabAction.changeCurrentTabUrl("https://twitter.com/home");
     },
-    all: () => {
-        tabAction.changeCurrentTabUrl("https://v.flomoapp.com/mine");
+    expore: () => {
+        tabAction.changeCurrentTabUrl("https://twitter.com/explore");
     },
-    recycle: () => {
-        tabAction.changeCurrentTabUrl("https://v.flomoapp.com/mine?source=recycle");
+    bookmarks: () => {
+        tabAction.changeCurrentTabUrl("https://twitter.com/i/bookmarks");
     }
 };
 
@@ -85,46 +109,25 @@ export function readClipboard() {
 }
 
 
-function formatTextToHTML(text: string): string {
-    const lines: string[] = text.split('\n');
-    let html: string = '';
-    for (let i = 0; i < lines.length; i++) {
-        html += `<p>${lines[i]}</p>`;
-    }
-    return html;
-}
+// function formatTextToHTML(text: string): string {
+//     const lines: string[] = text.split('\n');
+//     let html: string = '';
+//     for (let i = 0; i < lines.length; i++) {
+//         html += `<p>${lines[i]}</p>`;
+//     }
+//     return html;
+// }
 
-function appendToContentEditable(html: string): void {
-    $('.editor-content .ProseMirror').append(html);
-}
+// function appendToContentEditable(html: string): void {
+//     $('.editor-content .ProseMirror').append(html);
+// }
 
 export function replaceStateToContentEditable(html: string): void {
     $('.editor-content .ProseMirror').html(html);
 }
 
-export async function saveClipboardToFlomo() {
-    const text = await readClipboard();
-    if (!text) {
-        toast('剪贴板为空');
-        return;
-    }
-    const html = formatTextToHTML(text as string);
-    await appendToContentEditable(html);
-    await saveMemo();
-
-}
-
-export async function saveTextToFlomo(text) {
-    if (!text) {
-        toast('文本为空');
-        return;
-    }
-    const html = formatTextToHTML(text);
-    await appendToContentEditable(html);
-    await saveMemo();
-
-}
 
 export async function testIt() {
-    await saveTextToFlomo('Hello, Flomo!');
+    const result = await extractTweetInfo();
+    console.log('result', result);
 }

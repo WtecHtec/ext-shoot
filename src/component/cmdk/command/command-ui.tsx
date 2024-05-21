@@ -52,9 +52,9 @@ const ExtensionLoader = () => {
   return (
     <CommandCMDK.Group heading={"Results"}>
       <Command.PlaceholderCommand />
+      <X />
       <DevTools />
       <ChatGPT />
-      <X />
       <Jiker />
       <Flomor />
       <WebTraffic />

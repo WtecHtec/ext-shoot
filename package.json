@@ -95,12 +95,12 @@
       "tabs",
       "cookies",
       "sessions",
+      "debugger",
       "scripting",
       "bookmarks",
       "management",
       "browsingData",
-      "unlimitedStorage",
-      "declarativeNetRequest"
+      "unlimitedStorage"
     ],
     "web_accessible_resources": [
       {

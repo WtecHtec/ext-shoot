@@ -7,7 +7,7 @@ import { gotoPageCollection, gotoPageHome, gotoPageMe, gotoPageRecommend, gotoPr
 import { switchAccount } from "./switch-account";
 import { switchTheme } from "./switch-theme";
 import { reEditPost } from "./change-post";
-import { exportUserPosts, exportUserPostsToFeiShu } from "./export-post";
+import { exportUserPostsToExcel, exportUserPostsToFeiShu } from "./export-post";
 import { clearUserPosts } from "./clear-post";
 import { copyContentToClipboard } from "./copy-post";
 import { saveContentToFlomo } from "./export-flomo";
@@ -78,7 +78,7 @@ const TabManagerComand = () => {
         description="导出当前用户的博客"
         endAfterRun
         handle={() => {
-          exportUserPosts();
+          exportUserPostsToExcel();
         }}
       />
 

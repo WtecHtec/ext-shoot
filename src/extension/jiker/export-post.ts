@@ -71,7 +71,7 @@ const filterMeta = ({
         content: content || '',
         date: formattedDate,
         time: formattedTime,
-        pictures: videoUrl ?? filteredPictures,
+        pictures: videoUrl ? videoUrl : filteredPictures,
         link: _.get(linkInfo, 'linkUrl', ''),
         like: _.defaultTo(likeCount, 0),
         comment: _.defaultTo(commentCount, 0),
@@ -171,45 +171,44 @@ export const triggerDownload = (downloadLink: string, filename: string) => {
 };
 
 
-export const exportUserPosts = async () => {
+const startExportProcess = async () => {
     if (!isUserDetailPage()) {
         toast("这个功能只能在个人列表页使用哦");
-        return;
+        return false;
     }
     toast("好咧，我要开始咯");
+    return true;
+};
+
+const getProcessedUserPosts = async () => {
     const userId = extractUserIdFromUrl();
-    const post = await getUserAllPosts(userId,);
-    // console.log('post', post);
-    const result = filterDataArray(post);
-    // console.log('result', result);
+    const posts = await getUserAllPosts(userId);
+    const postsWithVideo = await addVideoUrl(posts);
+    return filterDataArray(postsWithVideo);
+};
+
+export const exportUserPostsToExcel = async () => {
+    if (!await startExportProcess()) return;
+
+    const result = await getProcessedUserPosts();
+    toast(`一共发现 ${result.length} 篇博客，正在导出中...`);
+    console.log('result', result);
+
     const url = await convertToExcel(result);
     const userName = abstractUserName();
-    // triggerDownload(url, `${userName}_all_post.csv`);
     triggerDownload(url, `${userName}-posts.xlsx`);
     toast("活已干完，快去看看吧");
 };
 
-
 export const exportUserPostsToFeiShu = async () => {
-    if (!isUserDetailPage()) {
-        toast("这个功能只能在个人列表页使用哦");
-        return;
-    }
-    toast("好咧，我要开始咯");
+    if (!await startExportProcess()) return;
 
-    const userId = extractUserIdFromUrl();
-    const post = await getUserAllPosts(userId,);
-    // console.log('post', post);
-    const postWithVideo = await addVideoUrl(post);
-    const result = filterDataArray(postWithVideo);
-
-
+    const result = await getProcessedUserPosts();
+    toast(`一共发现 ${result.length} 篇博客，正在导出中...`);
     console.log('result', result);
 
-    const num = result.length;
-    toast(`这个同志一共写了 ${num} 篇博客，正在导出中...`);
-    // chrome.runtime.sendMessage({
-    //     action: 'ac_create_feishu',
-    //     data: [...result]
-    // });
+    chrome.runtime.sendMessage({
+        action: 'ac_create_feishu',
+        data: [...result]
+    });
 };

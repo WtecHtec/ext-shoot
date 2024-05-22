@@ -282,3 +282,8 @@ export const createPrivateTextPost = async (content: string) => {
     const result = await client.apiClient.posts.create(ApiOptions.PostType.ORIGINAL, content, { topicId: '5be41ae2a666dd00172d6072' });
     return result;
 };
+
+export const getPostsMetail = async (postId: string) => {
+	const client = await initJikeClient()
+	return await client.mediaMeta(postId);
+}

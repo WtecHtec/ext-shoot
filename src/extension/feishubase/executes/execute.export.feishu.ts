@@ -97,7 +97,7 @@ new ExecuteHandle()
 		// step 1: 点击插件
 		const copyBtn = await ctx.getDomByQuery('.pc-tools button', '插件');
 		copyBtn && copyBtn.click();
-	}, 2 * 1000)
+	})
 	.waitPipe(async (ctx) => {
 		// step 2: 点击自定义插件
 		const copyBtn = await ctx.getDomByQuery('span[class="btn-myextention"]', '自定义插件');
@@ -121,7 +121,7 @@ new ExecuteHandle()
 	.waitPipe(async (ctx, args) => {
 		// step 6: 发起请求，关闭授权码弹窗
 
-		window.fetch('http://localhost:3000/jike_insert', {
+		window.fetch('https://jike.zeabur.app/jike_insert', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -135,7 +135,7 @@ new ExecuteHandle()
 				}
 			}),
 		});
-		const copyBtn = await ctx.getDomByXPath('/html/body/div[23]/div/div[4]/div/div/div/div[3]/div/button');
+		const copyBtn = await ctx.getDomByQuery('div[data-focus-lock-disabled="false"] .ud__modal__footer__btns button', '确定');
 		copyBtn && copyBtn.click();
 	})
 	.runWait(() => {

@@ -100,7 +100,9 @@ new ExecuteHandle()
 	}, 2 * 1000)
 	.runWait(() => {
 		console.log('成功');
-		window.close();
+		// setTimeout(() => {
+		// 	window.close();
+		// }, 2 * 1000);
 	}, (...args) => {
 		alert('检查登陆状态或是否被拦截');
 		console.log('失败', ...args);

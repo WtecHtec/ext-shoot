@@ -39,7 +39,7 @@
     "esbuild": "^0.20.2",
     "framer-motion": "^11.0.8",
     "glob": "^10.3.12",
-    "jike-api": "latest",
+    "jike-api": "0.27.3",
     "jquery": "^3.7.1",
     "lodash.debounce": "^4.0.8",
     "lru-cache": "^10.2.2",

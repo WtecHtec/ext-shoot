@@ -88,7 +88,7 @@ export const filterDataArray = (dataArray) => {
 import { Parser } from '@json2csv/plainjs';
 import * as  XLSX from 'xlsx';
 import toast from '~component/cmdk/toast';
-import { getUserAllPosts } from './api';
+import { getPostsMetail, getUserAllPosts } from './api';
 
 
 export const convertToCSV = (dataArray: any[]): string | null => {
@@ -176,12 +176,21 @@ export const exportUserPostsToFeiShu = async () => {
 			toast("只能在个人页使用哦");
 			return;
 	}
-	toast("好咧，我要开始咯");
+	toast("稍等一下,正在整理数据中。");
 	const userId = extractUserIdFromUrl();
 	const post = await getUserAllPosts(userId,);
 	// console.log('post', post);
 	const result = filterDataArray(post);
-	// console.log('result', result);
+  // 获取每个视频的url
+	for (let i = 0 ; i < result.length; i++) {
+		try {
+			const url = await getPostsMetail(result[i].id)
+			url && (result[i].pictures = url)
+		} catch(err) {
+			console.log(err)
+		};
+	}
+	toast("好咧，我要开始咯");
 	chrome.runtime.sendMessage({
 		action: 'ac_create_feishu',
 		data: [ ...result ]

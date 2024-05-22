@@ -182,13 +182,13 @@ export const exportUserPostsToFeiShu = async () => {
 	// console.log('post', post);
 	const result = filterDataArray(post);
   // 获取每个视频的url
-	for (let i = 0 ; i < result.length; i++) {
+	for (let i = 0; i < result.length; i++) {
 		try {
-			const url = await getPostsMetail(result[i].id)
-			url && (result[i].pictures = url)
+			const url = await getPostsMetail(result[i].id);
+			url && (result[i].pictures = url);
 		} catch(err) {
-			console.log(err)
-		};
+			console.log(err);
+		}
 	}
 	toast("好咧，我要开始咯");
 	chrome.runtime.sendMessage({

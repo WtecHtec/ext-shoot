@@ -284,6 +284,6 @@ export const createPrivateTextPost = async (content: string) => {
 };
 
 export const getPostsMetail = async (postId: string) => {
-	const client = await initJikeClient()
+	const client = await initJikeClient();
 	return await client.mediaMeta(postId);
-}
+};

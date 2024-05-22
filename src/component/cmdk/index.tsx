@@ -9,6 +9,7 @@ import * as clipboard from "clipboard-polyfill";
 import { Command } from "cmdk";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner/dist";
+import { motion } from 'framer-motion';
 
 import FooterTip, { footerTip } from "~component/cmdk/tip/tip-ui";
 import { AC_ICON_UPDATED } from "~config/actions";
@@ -800,86 +801,108 @@ export function MotionShotCMDK() {
     initEscControl();
   })
 
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    setAnimate(true);
+    const timer = setTimeout(() => setAnimate(false), 1000);
+    return () => clearTimeout(timer); // Clean up the timeout
+  }, []);
+
   return (
-    <div className="ext-shoot" ref={extShootRef}>
-      <Command
-        value={value}
-        onValueChange={(v) => handleChangeSelectCmd(v)}
-        filter={onCommandFilter}>
-        <div cmdk-motionshot-top-shine="" />
-        <div className="flex items-center justify-start">
-          <SearchComponent inputRef={inputRef} />
-          {
-            // 只有数量大于1时，才显示快照选择
-            snapshots.length > 0 && (
-              <div
-                style={{
-                  flexShrink: 0,
-                  marginLeft: "12px",
-                  position: "relative",
-                  zIndex: 999,
-                  display: "flex",
-                  alignItems: "center"
-                }}>
-                <SnapshotCommand
-                  value={selectSnapId}
-                  inputRef={inputRef}
-                  listRef={listRef}
-                  datas={[
-                    {
-                      id: "all",
-                      name: "All"
-                    },
-                    ...snapshots
-                  ]}
-                  onChange={setSelectSnapId}
-                  extShootRef={extShootRef}></SnapshotCommand>
-              </div>
-            )
-          }
-        </div>
-        <hr cmdk-motionshot-loader="" />
-        <>
-          {
-            <Command.List ref={listRef} hidden={inAppMode}>
-              <NotFound.NotFoundWithIcon />
-              <CommandUI />
-            </Command.List>
-          }
-          {
+      <div className='rootbox'>
+        {animate && (
+            <motion.div
+                className="smoke-effect"
+                initial={{ scale: 1, opacity: 1 }}
+                animate={{
+                  scale: [1, 1.1],
+                  opacity: [1, 0],
+                  boxShadow: ["0px 0px 0px 0px rgba(7, 241, 44, 0)", "0px 0px 10px 10px rgba(7, 241, 44, 0.3)"]
+                }}
+                transition={{ duration: 0.7, ease: "easeOut" }}
+            />
+        )}
+        <div className="ext-shoot" ref={extShootRef}>
+          <Command
+              value={value}
+              onValueChange={(v) => handleChangeSelectCmd(v)}
+              filter={onCommandFilter}>
+            <div cmdk-motionshot-top-shine=""/>
+            <div className="flex items-center justify-start">
+              <SearchComponent inputRef={inputRef}/>
+              {
+                // 只有数量大于1时，才显示快照选择
+                  snapshots.length > 0 && (
+                      <div
+                          style={{
+                            flexShrink: 0,
+                            marginLeft: "12px",
+                            position: "relative",
+                            zIndex: 999,
+                            display: "flex",
+                            alignItems: "center"
+                          }}>
+                        <SnapshotCommand
+                            value={selectSnapId}
+                            inputRef={inputRef}
+                            listRef={listRef}
+                            datas={[
+                              {
+                                id: "all",
+                                name: "All"
+                              },
+                              ...snapshots
+                            ]}
+                            onChange={setSelectSnapId}
+                            extShootRef={extShootRef}></SnapshotCommand>
+                      </div>
+                  )
+              }
+            </div>
+            <hr cmdk-motionshot-loader=""/>
             <>
-              <AppUI />
+              {
+                <Command.List ref={listRef} hidden={inAppMode}>
+                  <NotFound.NotFoundWithIcon/>
+                  <CommandUI/>
+                </Command.List>
+              }
+              {
+                <>
+                  <AppUI/>
+                </>
+              }
             </>
-          }
-        </>
-        <div cmdk-motionshot-footer="">
-          <FooterTip />
-          <hr />
-          <button
-            cmdk-motionshot-open-trigger=""
-            onClick={() => {
-              onBottomOpenExtPage(value);
-            }}>
-            Execute Recent Action
-            <kbd>↵</kbd>
-          </button>
-          <hr />
-          <Action
-            listRef={listRef}
-            value={getItemByCommandList(value)[0]}
-            inputRef={inputRef}
-            extShootRef={extShootRef}
-          />
+            <div cmdk-motionshot-footer="">
+              <FooterTip/>
+              <hr/>
+              <button
+                  cmdk-motionshot-open-trigger=""
+                  onClick={() => {
+                    onBottomOpenExtPage(value);
+                  }}>
+                Execute Recent Action
+                <kbd>↵</kbd>
+              </button>
+              <hr/>
+              <Action
+                  listRef={listRef}
+                  value={getItemByCommandList(value)[0]}
+                  inputRef={inputRef}
+                  extShootRef={extShootRef}
+              />
+            </div>
+          </Command>
+          <SnapshotDialog
+              listRef={listRef}
+              snapOpen={snapshotOpen}
+              snapshots={snapshots}
+              onSnapChange={setSnapshotOpen}
+              container={container}
+              onSvaeSnap={onSvaeSnap}></SnapshotDialog>
+          <div className="container-root" ref={setContainer}></div>
         </div>
-      </Command>
-      <SnapshotDialog
-        listRef={listRef}
-        snapOpen={snapshotOpen}
-        snapshots={snapshots}
-        onSnapChange={setSnapshotOpen}
-        container={container}
-        onSvaeSnap={onSvaeSnap}></SnapshotDialog>
-      <div className="container-root" ref={setContainer}></div>
-    </div>
+      </div>
   );
 }

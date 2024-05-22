@@ -471,6 +471,21 @@
   }
 }
 
+.smoke-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 640px;
+  height: 436px;
+  border-radius: 20px;
+  background-color: rgba(7, 241, 44, 0.3);
+  z-index: 0;
+}
+
+.rootbox{
+  position: relative;
+}
+
 @keyframes loading {
   0% {
     opacity: 0;

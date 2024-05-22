@@ -54,11 +54,13 @@ const filterMeta = ({
     repostCount,
     shareCount,
     topic,
+    video,
 }) => {
     const userName = _.get(user, 'screenName', '');
     const filteredPictures = Array.isArray(pictures) ? pictures.map(({ picUrl }) => picUrl).join(",") : '';
     const topicContent = _.get(topic, 'content', '');
     const parsedCreatedAt = new Date(createdAt);
+    const videoUrl = video ? video : '';
     const formattedDate = parsedCreatedAt.toLocaleDateString(); // Get date
     const formattedTime = parsedCreatedAt.toLocaleTimeString(); // Get time
     const type_ = type === 'ORIGINAL_POST' ? 'originalPost' : 'repost';
@@ -69,7 +71,7 @@ const filterMeta = ({
         content: content || '',
         date: formattedDate,
         time: formattedTime,
-        pictures: filteredPictures,
+        pictures: videoUrl ?? filteredPictures,
         link: _.get(linkInfo, 'linkUrl', ''),
         like: _.defaultTo(likeCount, 0),
         comment: _.defaultTo(commentCount, 0),
@@ -84,6 +86,22 @@ const filterMeta = ({
 export const filterDataArray = (dataArray) => {
     return dataArray.map(filterMeta);
 };
+
+// 获取视频
+export const addVideoUrl = async (dataArray) => {
+    const promises = dataArray.map(async (item) => {
+        if (item.video) {
+            const url = await getPostsMetail(item.id);
+            item.video = url;
+        } else {
+            item.video = '';
+        }
+        return item;
+    });
+
+    return Promise.all(promises);
+};
+
 
 import { Parser } from '@json2csv/plainjs';
 import * as  XLSX from 'xlsx';
@@ -155,7 +173,7 @@ export const triggerDownload = (downloadLink: string, filename: string) => {
 
 export const exportUserPosts = async () => {
     if (!isUserDetailPage()) {
-        toast("只能在个人页使用哦");
+        toast("这个功能只能在个人列表页使用哦");
         return;
     }
     toast("好咧，我要开始咯");
@@ -171,28 +189,27 @@ export const exportUserPosts = async () => {
     toast("活已干完，快去看看吧");
 };
 
+
 export const exportUserPostsToFeiShu = async () => {
-	if (!isUserDetailPage()) {
-			toast("只能在个人页使用哦");
-			return;
-	}
-	toast("稍等一下,正在整理数据中。");
-	const userId = extractUserIdFromUrl();
-	const post = await getUserAllPosts(userId,);
-	// console.log('post', post);
-	const result = filterDataArray(post);
-  // 获取每个视频的url
-	for (let i = 0; i < result.length; i++) {
-		try {
-			const url = await getPostsMetail(result[i].id);
-			url && (result[i].pictures = url);
-		} catch(err) {
-			console.log(err);
-		}
-	}
-	toast("好咧，我要开始咯");
-	chrome.runtime.sendMessage({
-		action: 'ac_create_feishu',
-		data: [ ...result ]
-	});
+    if (!isUserDetailPage()) {
+        toast("这个功能只能在个人列表页使用哦");
+        return;
+    }
+    toast("好咧，我要开始咯");
+
+    const userId = extractUserIdFromUrl();
+    const post = await getUserAllPosts(userId,);
+    // console.log('post', post);
+    const postWithVideo = await addVideoUrl(post);
+    const result = filterDataArray(postWithVideo);
+
+
+    console.log('result', result);
+
+    const num = result.length;
+    toast(`这个同志一共写了 ${num} 篇博客，正在导出中...`);
+    // chrome.runtime.sendMessage({
+    //     action: 'ac_create_feishu',
+    //     data: [...result]
+    // });
 };

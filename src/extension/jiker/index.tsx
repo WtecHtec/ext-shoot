@@ -30,7 +30,7 @@ const TabManagerComand = () => {
         name="export-person-blog-feishu"
         title="把这个同志的所有博客导出到飞书多维表格"
         keywords={["export blog", "导出博客", "多维表格"]}
-        description="导出当前用户的博客"
+        description="导出当前用户的博客到飞书多维表格"
         endAfterRun
         handle={() => {
           exportUserPostsToFeiShu();

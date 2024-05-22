@@ -69,8 +69,8 @@ importers:
         specifier: ^10.3.12
         version: 10.3.12
       jike-api:
-        specifier: latest
-        version: 0.27.2
+        specifier: 0.27.3
+        version: 0.27.3
       jquery:
         specifier: ^3.7.1
         version: 3.7.1
@@ -3261,8 +3261,8 @@ packages:
     resolution: {integrity: sha512-N3yCS/NegsOBokc8GAdM8UcmfsKiSS8cipheD/nivzr700H+nsMOxJjQnvwOcRYVuFkdH0wGUvW2WbXGmrZGbQ==}
     engines: {node: '>=14'}
 
-  jike-api@0.27.2:
-    resolution: {integrity: sha512-kTFvmI4oDoXIuZcC28YuODBE88CY+ttdEF/s6wIcF7tG6aw3efT7SD38bF7jaOf2CKyh5Q3rB5MJe8/UIPy5tA==}
+  jike-api@0.27.3:
+    resolution: {integrity: sha512-6bnNflKgRElZ9ysfQwe0UWYpni2D+bvyQ1gbUVyzyoYurT+N+3M+Ier8GxQfwjx8KM2NvfJNe0gg4Asi39LUQQ==}
     engines: {node: '>=18.12.0'}
 
   jiti@1.21.0:
@@ -8415,7 +8415,7 @@ snapshots:
     optionalDependencies:
       '@pkgjs/parseargs': 0.11.0
 
-  jike-api@0.27.2:
+  jike-api@0.27.3:
     dependencies:
       eventemitter3: 5.0.1
       ky: 1.2.4

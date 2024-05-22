@@ -10,6 +10,16 @@ const getCurrentTab = async () => {
 };
 
 /**
+ * Get current tab id
+ * @returns The current tab id
+ */
+
+const getCurrentTabId = async () => {
+    const tab = await getCurrentTab();
+    return tab.id;
+};
+
+/**
  * Reload the current tab
  */
 const reloadTab = () => {
@@ -267,6 +277,7 @@ const executeScriptInTab = async (tabId, script) => {
 
 export const methods = {
     getCurrentTab,
+    getCurrentTabId,
     reloadTab,
     switchTab,
     goBack,

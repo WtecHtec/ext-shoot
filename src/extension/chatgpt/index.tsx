@@ -14,7 +14,7 @@ const TabManagerComand = () => {
 
       <Command.SimpleCommand
         name="test"
-        title="获取当前用户信息"
+        title="test"
         keywords={["test"]}
         description="test"
         endAfterRun

@@ -41,6 +41,7 @@
     "glob": "^10.3.12",
     "jike-api": "0.27.3",
     "jquery": "^3.7.1",
+    "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "lru-cache": "^10.2.2",
     "lucide-react": "^0.358.0",

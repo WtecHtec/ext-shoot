@@ -22,11 +22,11 @@ jobs:
       #      - name: Build extension
       #        run: pnpm run zip:firefox
       - name: Browser Platform Publisher
-        uses: PlasmoHQ/bpp@v3.6.1
+        uses: PlasmoHQ/bpp@v3.5.0
         with:
           keys: ${{ secrets.BPP_KEYS }}
           chrome-file: build/chrome-mv3-prod.zip
           # edge-file: build/edge-mv3-prod.zip
           #          firefox-file: build/firefox-mv2-prod.zip
-          edge-notes: "Enhancements and bug fixes"
+          # edge-notes: "Enhancements and bug fixes"
           verbose: true

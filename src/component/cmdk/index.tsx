@@ -816,11 +816,11 @@ export function MotionShotCMDK() {
                 className="smoke-effect"
                 initial={{ scale: 1, opacity: 1 }}
                 animate={{
-                  scale: [1, 1.1],
+                  scale: [1, 1.15],
                   opacity: [1, 0],
-                  boxShadow: ["0px 0px 0px 0px rgba(7, 241, 44, 0)", "0px 0px 10px 10px rgba(7, 241, 44, 0.3)"]
+                  boxShadow: ["0px 0px 0px 0px rgba(7, 241, 44, 0)", "0px 0px 40px 20px rgba(7, 241, 44, 0.7)"]
                 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
+                transition={{ duration: 1, ease: "easeOut" }}
             />
         )}
         <div className="ext-shoot" ref={extShootRef}>

@@ -214,7 +214,7 @@ async function detectIfLoginFeishu() {
         toast("请先使用模板哦");
         return false;
     }
-    // await newPage.close();
+    await newPage.close();
     return true;
 }
 

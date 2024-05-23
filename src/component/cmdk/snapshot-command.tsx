@@ -4,13 +4,12 @@ import { Command } from "cmdk";
 import React from 'react';
 
 
-import EventBus from '~utils/event-bus';
+import { eventBus } from '~component/cmdk/panel/event-bus';
 import { getMutliLevelProperty } from '~utils/util';
 
 import { GlobeIcon } from '~component/icons';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 
-const eventBus = EventBus.getInstace();
 
 export default function SnapshotCommand({
 	inputRef,
@@ -24,8 +23,8 @@ export default function SnapshotCommand({
 	listRef: React.RefObject<HTMLElement>
 	extShootRef: React.RefObject<HTMLElement>
 	onChange?: any
-	datas?:any
-	value?:any
+	datas?: any
+	value?: any
 }) {
 
 	const [open, setOpen] = React.useState(false);
@@ -36,7 +35,7 @@ export default function SnapshotCommand({
 	const [valueId, setValueId] = React.useState('');
 	React.useEffect(() => {
 		if (!Array.isArray(datas)) return;
-		const { name } = datas.find(({id}) => id === value) || {};
+		const { name } = datas.find(({ id }) => id === value) || {};
 		name && setShowLabel(name);
 		setSnapshotDatas(datas);
 		setValueId(value);
@@ -52,23 +51,23 @@ export default function SnapshotCommand({
 	}, [open]);
 
 	React.useEffect(() => {
-    function inputListener (event) {
-			if ([27, 37, 38, 39, 40, 13,].includes(event.keyCode) 
+		function inputListener(event) {
+			if ([27, 37, 38, 39, 40, 13,].includes(event.keyCode)
 				|| (event.metaKey && event.key.toLocaleUpperCase() === 'K')) return;
 			if (event.metaKey) return;
-      // 阻止事件冒泡
-      event.stopPropagation();
-    }
+			// 阻止事件冒泡
+			event.stopPropagation();
+		}
 		if (subCommandInputRef.current && open) {
 			subCommandInputRef.current.autofocus = true;
 			subCommandInputRef.current.focus();
-      subCommandInputRef?.current?.addEventListener('keydown', inputListener);
+			subCommandInputRef?.current?.addEventListener('keydown', inputListener);
 		}
-    return () => {
-      if (subCommandInputRef &&  subCommandInputRef.current) {
-        subCommandInputRef?.current?.removeEventListener('keydown', inputListener);
-      }
-    };
+		return () => {
+			if (subCommandInputRef && subCommandInputRef.current) {
+				subCommandInputRef?.current?.removeEventListener('keydown', inputListener);
+			}
+		};
 	}, [refresh, subCommandInputRef, open]);
 
 	React.useEffect(() => {
@@ -80,18 +79,18 @@ export default function SnapshotCommand({
 			// 	e.stopPropagation();
 			// }
 		}
-    function escClose(state) {
-      const dialogs = getMutliLevelProperty(state, 'dialogs',  []);
-      if (dialogs.length && dialogs[dialogs.length - 1] === 'snap_command') {
-        eventBus.dispath('openSnapCommand');
-        setOpen(false);
-      }
-    }
+		function escClose(state) {
+			const dialogs = getMutliLevelProperty(state, 'dialogs', []);
+			if (dialogs.length && dialogs[dialogs.length - 1] === 'snap_command') {
+				eventBus.dispath('openSnapCommand');
+				setOpen(false);
+			}
+		}
 		el && el.addEventListener('keydown', listener);
-    eventBus.on('close', escClose);
+		eventBus.on('close', escClose);
 		return () => {
 			el && el.removeEventListener('keydown', listener);
-      eventBus.off('close', escClose);
+			eventBus.off('close', escClose);
 		};
 	}, [extShootRef]);
 
@@ -101,11 +100,11 @@ export default function SnapshotCommand({
 		if (!el) return;
 
 		if (open) {
-      eventBus.dispath('openSnapCommand');
+			eventBus.dispath('openSnapCommand');
 			el.style.overflow = 'hidden';
 			el.style.pointerEvents = 'none';
 		} else {
-      eventBus.dispath('closeSnapCommand');
+			eventBus.dispath('closeSnapCommand');
 			el.style.overflow = '';
 			el.style.pointerEvents = 'all';
 		}
@@ -114,41 +113,41 @@ export default function SnapshotCommand({
 	return (
 		<Popover.Root open={open} onOpenChange={setOpen}>
 			<Popover.Trigger
-				cmdk-raycast-subcommand-trigger=""
+				cmdk-motionshot-subcommand-trigger=""
 				onClick={() => setOpen(true)}
 				aria-expanded={open}>
 				<div className="snap-picker">
-					<label>{showLabel}</label> 
-					<ChevronDownIcon/>
+					<label>{showLabel}</label>
+					<ChevronDownIcon />
 				</div>
 			</Popover.Trigger>
 			<Popover.Content
 				side="top"
 				align="end"
-				className="raycast-submenu"
+				className="motionshot-submenu"
 				sideOffset={16}
 				alignOffset={0}
 				onCloseAutoFocus={(e) => {
 					e.preventDefault();
 					inputRef?.current?.focus();
 				}}>
-				<Command value={ valueId } onValueChange={setValueId}>
+				<Command value={valueId} onValueChange={setValueId}>
 					<Command.List>
 						<Command.Empty>No Results</Command.Empty>
 						{
-							snapshotDatas && snapshotDatas.length ? 
-							snapshotDatas.map(({ id, name}) => (<Command.Item
-										key={ id }
-										value={ id }
-										keywords={ [name ] }
-										onSelect={ () => {
-											setShowLabel(name);
-											setOpen(false);
-											typeof onChange === 'function' && onChange(id);
-										} }>
-											<GlobeIcon></GlobeIcon>
-											{ name }
-									</Command.Item>)) : null
+							snapshotDatas && snapshotDatas.length ?
+								snapshotDatas.map(({ id, name }) => (<Command.Item
+									key={id}
+									value={id}
+									keywords={[name]}
+									onSelect={() => {
+										setShowLabel(name);
+										setOpen(false);
+										typeof onChange === 'function' && onChange(id);
+									}}>
+									<GlobeIcon></GlobeIcon>
+									{name}
+								</Command.Item>)) : null
 						}
 					</Command.List>
 					<Command.Input

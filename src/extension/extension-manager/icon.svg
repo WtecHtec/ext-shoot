@@ -1,0 +1,22 @@
+<svg width="200" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="">
+    <rect id="r4" width="512" height="512" x="0" y="0" rx="128" fill="url(#r5)" stroke="#FFFFFF" strokeWidth="0" stroke-opacity="100%"
+        paint-order="stroke"></rect>
+    <clipPath id="clip">
+        <use xlink:href="#r4"></use>
+    </clipPath>
+    <defs>
+        <linearGradient id="r5" gradientUnits="userSpaceOnUse" gradientTransform="rotate(180)" style="transform-origin: center center;">
+            <stop stop-color="#CCCFE2"></stop>
+            <stop offset="1" stop-color="#25242B"></stop>
+        </linearGradient>
+        <radialGradient id="r6" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(256) rotate(90) scale(512)">
+            <stop stop-color="white"></stop>
+            <stop offset="1" stop-color="white" stop-opacity="0"></stop>
+        </radialGradient>
+    </defs><svg xmlns="http://www.w3.org/2000/svg" width="352" height="352" viewBox="0 0 512 512" x="80" y="80" alignment-baseline="middle"
+        style="color: rgb(255, 255, 255);">
+        <path fill="currentColor"
+            d="M0 256c0-46.6 12.47-90.4 34.27-128.9L144.1 318.3C166 357.5 207.9 384 256 384c14.3 0 27.1-2.3 40.8-6.6l-76.3 132.2C95.9 492.3 0 385.3 0 256m365.1 65.6c12.3-19.2 18.9-42.5 18.9-65.6c0-38.2-16.8-72.5-43.3-96h152.7c12 29.6 18.6 62.1 18.6 96c0 141.4-114.6 255.1-256 256zM477.8 128H256c-62.9 0-113.7 44.1-125.5 102.7L54.19 98.47C101 38.53 174 0 256 0c94.8 0 177.5 51.48 221.8 128M168 256c0-48.6 39.4-88 88-88s88 39.4 88 88s-39.4 88-88 88s-88-39.4-88-88">
+        </path>
+    </svg>
+</svg>

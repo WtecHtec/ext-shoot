@@ -1,3 +1,4 @@
+
 export const mode: 'dev' | 'pro' =
     process.env.PLASMO_PUBLIC_MODE === 'dev' ? 'dev' : 'pro';
 
@@ -10,3 +11,7 @@ export const RecentSaveNumber = 5;
 export const RecentlyFix = 'recently_';
 
 export const ExtShootSeverHost = 'http://localhost:5698';
+
+export const MarkId = '@_';
+
+export const RecentOpen = 'get_ommands';

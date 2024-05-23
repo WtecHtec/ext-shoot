@@ -29,7 +29,7 @@ export default function Item({
                 typeof commandHandle === 'function' && commandHandle();
             } }>
             { children }
-            <span cmdk-raycast-meta="" style={{ flexShrink: 0}}>{ isCommand ? 'Command' : 'Extension' }</span>
+            <span cmdk-motionshot-meta="" style={{ flexShrink: 0}}>{ isCommand ? 'Command' : 'Extension' }</span>
         </Command.Item>
     );
 }

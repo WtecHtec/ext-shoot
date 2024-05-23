@@ -2,13 +2,18 @@
   "extends": "plasmo/templates/tsconfig.base",
   "exclude": ["node_modules"],
 
-  "include": [".plasmo/index.d.ts", "node_modules/@types/chrome/index.d.ts", "./**/*.ts", "./**/*.tsx"],
+  "include": [
+    ".plasmo/index.d.ts",
+    "node_modules/@types/chrome/index.d.ts",
+    "./**/*.ts",
+    "./**/*.tsx"
+  ],
   "compilerOptions": {
     "verbatimModuleSyntax": false,
-    "jsx": "react", 
+    "jsx": "react",
     "paths": {
       "~*": ["./src/*"]
     },
-    "baseUrl": ".",
+    "baseUrl": "."
   }
 }

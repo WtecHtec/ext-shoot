@@ -1,8 +1,8 @@
 {
   "name": "extension-shoot",
-  "displayName": "Ext Shoot",
-  "version": "0.0.2",
-  "description": "A blazingly fast extension launcher for browser",
+  "displayName": "ext-shoot",
+  "version": "0.0.3",
+  "description": "Ready to Rule Your Favorite Sites? Let's See Who Becomes the Superuser in the AI Era!",
   "author": "River.<laolei@forkway.cn>",
   "contributors": [
     "River",
@@ -10,14 +10,17 @@
   ],
   "scripts": {
     "dev": "plasmo dev",
-    "build": "plasmo build",
+    "build": "plasmo build ",
     "package": "plasmo package",
-    "zip:firefox": "pnpm build --target=firefox-mv2 --zip",
-    "zip:chrome": "pnpm build --target=chrome-mv3 --zip",
-    "zip:edge": "pnpm build --target=edge-mv3 --zip",
-    "fix": "eslint . --ext .ts,.tsx"
+    "build:edge": "pnpm build --target=edge-mv3",
+    "build:chrome": "pnpm build --target=chrome-mv3",
+    "zip:edge": "pnpm build:edge && node script/remove-log.js --path=edge-mv3-prod --zip",
+    "zip:chrome": "pnpm build:chrome && node script/remove-log.js --path=chrome-mv3-prod --zip",
+    "fix": "eslint . --ext .ts,.tsx --fix",
+    "re:log": "node script/remove-log.js"
   },
   "dependencies": {
+    "@json2csv/plainjs": "^7.0.6",
     "@plasmohq/messaging": "^0.6.2",
     "@plasmohq/storage": "^1.9.3",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -26,14 +29,25 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-tabs": "^1.0.4",
     "@stitches/react": "^1.2.8",
+    "adm-zip": "^0.5.12",
     "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.5.1",
     "clipboard-polyfill": "^4.0.2",
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
+    "crypto-js": "^4.2.0",
+    "esbuild": "^0.20.2",
     "framer-motion": "^11.0.8",
+    "glob": "^10.3.12",
+    "jike-api": "0.27.3",
+    "jquery": "^3.7.1",
+    "lodash.debounce": "^4.0.8",
+    "lodash.defaultto": "^4.14.0",
+    "lodash.get": "^4.4.2",
+    "lru-cache": "^10.2.2",
     "lucide-react": "^0.358.0",
+    "nanoid": "^5.0.7",
     "plasmo": "^0.74.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -41,18 +55,22 @@
     "react-locky": "^1.5.7",
     "sonner": "^1.4.3",
     "tailwind-merge": "^2.2.2",
-    "tailwindcss": "3.4.1"
+    "tailwindcss": "3.4.1",
+    "xlsx": "^0.18.5",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "4.1.1",
     "@radix-ui/colors": "2.1.0",
     "@types/chrome": "0.0.258",
+    "@types/jquery": "^3.5.30",
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
     "@typescript-eslint/eslint-plugin": "^7.3.1",
     "@typescript-eslint/parser": "^7.3.1",
     "babel-eslint": "^10.1.0",
+    "crypto-browserify": "^3.12.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
@@ -61,26 +79,39 @@
     "postcss": "8.4.33",
     "pre-commit": "^1.2.2",
     "prettier": "^3.2.4",
+    "simple-git-hooks": "^2.11.1",
     "typescript": "5.3.3",
     "webextension-polyfill": "^0.10.0",
     "windy-radix-palette": "0.6.1"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npm run fix"
   },
   "pre-commit": [
     "fix"
   ],
   "manifest": {
     "host_permissions": [
-      "https://*/*"
+      "https://*/*",
+      "*://*/*"
     ],
     "permissions": [
       "tabs",
+      "cookies",
+      "sessions",
+      "debugger",
+      "scripting",
+      "bookmarks",
       "management",
+      "browsingData",
       "unlimitedStorage"
     ],
     "web_accessible_resources": [
       {
         "resources": [
-          "tabs/icon-render.html"
+          "tabs/icon-render.html",
+          "exec.js",
+          "jquery.js"
         ],
         "matches": [
           "<all_urls>"
@@ -94,42 +125,6 @@
           "mac": "Command+I"
         },
         "description": "Active Extension Launcher"
-      },
-      "show_in_finder": {
-        "suggested_key": {
-          "default": "Shift+Alt+Q"
-        },
-        "description": "Show in Finder"
-      },
-      "copy_plugin_name": {
-        "suggested_key": {
-          "default": "Alt+C"
-        },
-        "description": "Copy Plugin Name"
-      },
-      "copy_plugin_id": {
-        "description": "Copy Plugin ID"
-      },
-      "reload_plugin": {
-        "description": "Copy Plugin Name"
-      },
-      "disable_plugin": {
-        "description": "Disable Plugin"
-      },
-      "enable_plugin": {
-        "description": "Enable Plugin"
-      },
-      "uninstall_plugin": {
-        "description": "Uninstall Plugin"
-      },
-      "open_snapshot_dialog": {
-        "description": "Open Snapshot Dialog"
-      },
-      "add_to_favorites": {
-        "suggested_key": {
-          "default": "Ctrl+Shift+F"
-        },
-        "description": "Add to Favorites"
       }
     }
   }

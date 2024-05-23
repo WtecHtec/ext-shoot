@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import get from 'lodash.get';
+import defaultTo from 'lodash.defaultto';
 import $ from 'jquery';
 
 /**
@@ -56,9 +57,9 @@ const filterMeta = ({
     topic,
     video,
 }) => {
-    const userName = _.get(user, 'screenName', '');
+    const userName = get(user, 'screenName', '');
     const filteredPictures = Array.isArray(pictures) ? pictures.map(({ picUrl }) => picUrl).join(",") : '';
-    const topicContent = _.get(topic, 'content', '');
+    const topicContent = get(topic, 'content', '');
     const parsedCreatedAt = new Date(createdAt);
     const videoUrl = video ? video : '';
     const formattedDate = parsedCreatedAt.toLocaleDateString(); // Get date
@@ -72,11 +73,11 @@ const filterMeta = ({
         date: formattedDate,
         time: formattedTime,
         pictures: videoUrl ? videoUrl : filteredPictures,
-        link: _.get(linkInfo, 'linkUrl', ''),
-        like: _.defaultTo(likeCount, 0),
-        comment: _.defaultTo(commentCount, 0),
-        repost: _.defaultTo(repostCount, 0),
-        share: _.defaultTo(shareCount, 0),
+        link: get(linkInfo, 'linkUrl', ''),
+        like: defaultTo(likeCount, 0),
+        comment: defaultTo(commentCount, 0),
+        repost: defaultTo(repostCount, 0),
+        share: defaultTo(shareCount, 0),
         url: `https://web.okjike.com/${type_}/${id}`,
     };
 };

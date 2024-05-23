@@ -5,15 +5,15 @@
 const esbuild = require('esbuild');
 const { glob } = require('glob');
 const AdmZip = require("adm-zip");
-const yargs = require('yargs/yargs');  
-const { hideBin } = require('yargs/helpers');  
-const argv = yargs(hideBin(process.argv)).argv;  
-  
-const { target , zip } = argv;
+const yargs = require('yargs/yargs');
+const { hideBin } = require('yargs/helpers');
+const argv = yargs(hideBin(process.argv)).argv;
+
+const { path, zip } = argv;
 
 
 async function done() {
-	const jsfiles = await glob(`build/${target || ''}/*/*.js`);
+	const jsfiles = await glob(`build/${path || ''}/*/*.js`);
 	jsfiles.forEach(async (file) => {
 		await esbuild.build({
 			entryPoints: [file],
@@ -22,7 +22,7 @@ async function done() {
 			outfile: file,
 		});
 	});
-	if (zip && target) {
+	if (zip && path) {
 		createZipArchive();
 	}
 }
@@ -30,11 +30,11 @@ done();
 
 
 async function createZipArchive() {
-  const zip = new AdmZip();
-  const outputFile = `build/${target}.zip`;
-  zip.addLocalFolder(`build/${target}`);
-  zip.writeZip(outputFile);
-  console.log(`Created ${outputFile} successfully`);
+	const zip = new AdmZip();
+	const outputFile = `build/${path}.zip`;
+	zip.addLocalFolder(`build/${path}`);
+	zip.writeZip(outputFile);
+	console.log(`Created ${outputFile} successfully`);
 }
 
 

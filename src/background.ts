@@ -531,26 +531,6 @@ const handleGetSnapseek = async ({ sendResponse }) => {
     sendResponse({ data: result, statue: true });
 };
 
-/**
- * 测试 -> 使用飞书模板操作
- * @param param0 
- */
-const handleCreateFeiShu = async ({ request, sendResponse }) => {
-    const pageUrl = 'https://fi0xqe16ql1.feishu.cn/base/TnXEbolXga6ne0s6VjJcszcBntd?table=tblQEj1Pzj8nYCPd&view=vewvTn7Nr7';
-    const tab = await chrome.tabs.create({
-        url: pageUrl,
-        active: false,
-    });
-
-    await chrome.scripting.executeScript({
-        target: { tabId: tab.id, },
-        func: executeUseageTemp,
-        args: [],
-    });
-    jikeBlogDatas = request.data || [];
-    sendResponse({ statue: true });
-};
-
 
 const ACTICON_MAP = {
     get_extensions: getExtensions,
@@ -579,7 +559,6 @@ const ACTICON_MAP = {
     [AC_GET_BROWSER]: handleGetBrowser,
     [AC_SET_SNAPSEEK]: handleSetSnapseek,
     [AC_GET_SNAPSEEK]: handleGetSnapseek,
-    ac_create_feishu: handleCreateFeiShu,
 
 };
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -680,7 +659,6 @@ import windowManage from './lib/atoms/browser-window-manager';
 import BrowserDataManage from './lib/atoms/browser-cache-manager';
 import BrowserCookieManage from './lib/atoms/browser-cookie-manager';
 import { UNINSTALL_URL } from '~component/cmdk/core/constant';
-import executeUseageTemp from '~extension/feishubase/executes/execute.usetemplet';
 import executeExportFeishu from '~extension/feishubase/executes/execute.export.feishu';
 
 chrome.runtime.onMessage.addListener((request: any,) => {

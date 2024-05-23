@@ -107,6 +107,7 @@ import { Parser } from '@json2csv/plainjs';
 import * as  XLSX from 'xlsx';
 import toast from '~component/cmdk/toast';
 import { getPostsMetail, getUserAllPosts } from './api';
+import { buildCrossTab } from '~lib/function-manager';
 
 
 export const convertToCSV = (dataArray: any[]): string | null => {
@@ -200,15 +201,34 @@ export const exportUserPostsToExcel = async () => {
     toast("活已干完，快去看看吧");
 };
 
+
+async function detectIfLoginFeishu() {
+    const newPage = await buildCrossTab("https://fi0xqe16ql1.feishu.cn/base/TnXEbolXga6ne0s6VjJcszcBntd?table=tblQEj1Pzj8nYCPd&view=vewvTn7Nr7");
+    // const { result: ifLogin } = await newPage.actions().isLoggedInFeishu();
+    // if (!ifLogin) {
+    //     toast("请先登录飞书哦");
+    //     return false;
+    // }
+    const { result: ifUseTemplate } = await newPage.actions().executeUseageTemp();
+    if (!ifUseTemplate) {
+        toast("请先使用模板哦");
+        return false;
+    }
+    // await newPage.close();
+    return true;
+}
+
+
 export const exportUserPostsToFeiShu = async () => {
+    if (!await detectIfLoginFeishu()) return;
     if (!await startExportProcess()) return;
 
-    const result = await getProcessedUserPosts();
-    toast(`一共发现 ${result.length} 篇博客，正在导出中...`);
-    console.log('result', result);
+    // const result = await getProcessedUserPosts();
+    // toast(`一共发现 ${result.length} 篇博客，正在导出中...`);
+    // console.log('result', result);
 
-    chrome.runtime.sendMessage({
-        action: 'ac_create_feishu',
-        data: [...result]
-    });
+    // chrome.runtime.sendMessage({
+    //     action: 'ac_create_feishu',
+    //     data: [...result]
+    // });
 };

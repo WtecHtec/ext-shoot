@@ -41,3 +41,6 @@ keys.json
 
 secret.txt
 key.json
+
+yarn.lock
+package-lock.json

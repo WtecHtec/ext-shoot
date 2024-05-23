@@ -1,38 +1,89 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useUpdateIcon from '~hooks/useUpdateIcon';
+import "~tabs/welcome.css";
+import LogoWithUrl from 'react:~asset/logo-with-title.svg';
+import PuzzleIcon from 'react:~asset/helper/puzzle.svg';
+import PinIcon from 'react:~asset/helper/pin.svg';
+import pinVideo from 'url:../asset/helper/pin.mp4';
+import { ShootIcon } from '~component/icons';
+
+// 设置 headeing 标签的样式
+
 export default function WelcomeRender() {
 
-  useUpdateIcon();
+	useUpdateIcon();
 
-  return (
-      <div
-          style={ {
-              display: 'flex',
-              flexDirection: 'column',
-              padding: 16,
-          } }>
-          <h2>感谢使用 Ext shoot</h2>
-          <h2>🔍 快速搜索</h2>
-          关键词快速匹配插件
-          依据使用频次和打开时间自动排序
-          <h2>  ⚡️ 两步直达</h2>
+	const [setupComplete] = useState(false);
 
-          两步操作，即可直达任何插件的任何页面，无须繁琐跳转
-          一键启动/禁用/卸载插件，管理更便捷
-          设置别名，给每个扩展起一个你喜欢的名字。
-          <h2>  🗂️ 插件分组</h2>
+	// 修改 head 标签的内容
+	document.title = "MotionShot - First Steps";
 
-          基于组批量启用/禁用插件，管理更轻松
-          支持规则匹配，根据不同网站管理相关的扩展
-          <h2>  🛠️ 开发者模式</h2>
+	return (
 
-          只启动开发者模式下的插件，方便测试和开发
-          <h2> 🚀 丝滑交互</h2>
+		<div className="setupBackground">
+			{
+				!setupComplete && PinTutior()
+			}
 
-          简约设计，轻量运行，不占用过多资源
-          多浏览器兼容，扩展功能等你探索
-          导入规则，支持从其他拓展管理器无缝迁移
-          💌 Extenion Shoot，让你的浏览器插件管理更上一层楼！
-      </div>
-  );
+			<div className="setupLogo" >
+				<LogoWithUrl />
+			</div>
+		</div>
+
+
+	);
 }
+
+const PinTutior = () => {
+	return (
+		<div className="setupContainer">
+			<div className="setupImage">
+				<video src={pinVideo} autoPlay loop muted />
+			</div>
+			<div className="setupText">
+				<div className="setupEmoji">👋</div>
+				<div className="setupTitle">
+					Get started with MotionShot in three simple steps:
+				</div>
+				<div className="setupDescription">
+					<div className="setupStep">
+						1- Find the
+						{" "}
+						<span>
+							<PuzzleIcon className='icon' />
+						</span>
+						{" "}
+						extensions panel
+					</div>
+					<div className="setupStep">
+						2- Press the
+						{" "}
+						<span>
+							<PinIcon className='icon' />
+						</span>{" "}
+						pin icon
+					</div>
+					<div className="setupStep">
+						3- Click on the
+						{" "}
+						<span>
+							<ShootIcon className='w-2 icon' />
+						</span>
+						{" "}
+						MotionShot to start
+					</div>
+					<div className="setupStep">
+						4- Press shortcut
+						{" "}
+						<div className='shortcut'>
+							<kbd>⌘</kbd>
+							<kbd>I</kbd>
+						</div>
+						{" "}
+						to launch qucikly
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};

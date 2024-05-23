@@ -3,29 +3,40 @@ import {
     AC_CLEAR_RECENTLYS,
     AC_CREATE_TAB,
     AC_FAVORITE,
+    AC_GET_BROWSER,
     AC_GET_COMMANDS,
     AC_GET_RECENTLYS,
     AC_GET_SNAPSHOTS,
     AC_ICON_UPDATED,
     AC_RECENTLY_OPEN,
+    AC_SET_BROWSER,
     AC_SNAPSHOT_CREATE,
     AC_SOLO_RUN,
     ENABLE_ALL_EXTENSION,
     EXT_UPDATE_DONE,
+    AC_SET_SNAPSEEK,
+    AC_GET_SNAPSEEK,
 } from '~config/actions';
 import { ExtItem } from '~utils/ext.interface';
 import {
     clearRecentlyData,
+    getBrowserType,
     getExtendedInfo,
     getRecentlyData,
+    getSnapseek,
     getSnapshots,
     getStorageIcon,
+    setBrowserType,
     setExtendedInfo,
     setRecentlyData,
+    setSnapseek,
     setSnapshot,
 } from '~utils/local.storage';
 import { getId } from '~utils/util';
-
+// 用于存储上一次检查时的插件列表
+let previousExtensions = [];
+let jikeBlogDatas = [];
+let feishuTableTabId = -1;
 
 chrome.runtime.onInstalled.addListener((object) => {
     // Inject shoot on install
@@ -65,16 +76,34 @@ chrome.runtime.onInstalled.addListener((object) => {
 
                 for (let j = 0; j < t; j++) {
                     currentTab = currentWindow.tabs[j];
-                    if (!currentTab.url.includes("chrome://") && !currentTab.url.includes("chrome-extension://") && !currentTab.url.includes("chrome.google.com")) {
+                    if (!currentTab.url.includes('chrome://') && !currentTab.url.includes('chrome-extension://') && !currentTab.url.includes('chrome.google.com')) {
                         injectIntoTab(currentTab);
                     }
                 }
             }
-        }
+        },
     );
 
-    if (object.reason === "install") {
-        // chrome.tabs.create({ url: FIRST_URL });
+    if (object.reason === 'install') {
+        // Clear storage
+        chrome.storage.local.clear();
+
+        const locale = chrome.i18n.getUILanguage();
+
+        if (locale.includes("en")) {
+            chrome.runtime.setUninstallURL(
+                UNINSTALL_URL +
+                chrome.runtime.getManifest().version
+            );
+        } else {
+            chrome.runtime.setUninstallURL(
+                "http://translate.google.com/translate?js=n&sl=auto&tl=" +
+                locale +
+                `&u=${UNINSTALL_URL}?version=` +
+                chrome.runtime.getManifest().version
+            );
+        }
+
         chrome.tabs.create({
             url: chrome.runtime.getURL('/tabs/welcome.html'),
         });
@@ -82,7 +111,7 @@ chrome.runtime.onInstalled.addListener((object) => {
             // 确保至少有一个标签页是活动的
             if (tabs.length > 0) {
                 // 发送消息到content脚本
-                chrome.tabs.sendMessage(tabs[0].id, { action: "active_extention_launcher" }, (response) => {
+                chrome.tabs.sendMessage(tabs[0].id, { action: 'active_extention_launcher' }, (response) => {
                     console.log(response.result); // 接收并打印content脚本发送的响应
                 });
             }
@@ -98,7 +127,7 @@ chrome.action.onClicked.addListener(() => {
         // 确保至少有一个标签页是活动的
         if (tabs.length > 0) {
             // 发送消息到content脚本
-            chrome.tabs.sendMessage(tabs[0].id, { action: "active_extention_launcher" }, (response) => {
+            chrome.tabs.sendMessage(tabs[0].id, { action: 'active_extention_launcher' }, (response) => {
                 console.log(response.result); // 接收并打印content脚本发送的响应
             });
         }
@@ -114,6 +143,7 @@ const getExtensions = ({ sendResponse }) => {
         const result: ExtItem[] = [];
         const iconData = (await getStorageIcon()) || {};
         const extendInfo = (await getExtendedInfo()) || {};
+        console.log('extendInfo', extendInfo);
         for (let i = 0; i < extensions.length; i++) {
             const { id, name, description, installType, enabled } = extensions[i];
             result.push({
@@ -123,9 +153,32 @@ const getExtensions = ({ sendResponse }) => {
                 icon: iconData[id] || '',
                 installType,
                 enabled,
+                isSelf: id === chrome.runtime.id,
                 ...(extendInfo[id] || {}),
             });
         }
+        // 检查是否有新插件
+        const currentExtensions = extensions.map(extension => extension.id);
+        if (previousExtensions.length) {
+            const recentlyData: any = await getRecentlyData() || [];
+            const newExtensions = currentExtensions.filter(id => !previousExtensions.includes(id));
+            if (newExtensions.length > 0) {
+                for (let i = 0; i < newExtensions.length; i++) {
+                    const fdrecent = recentlyData.find(item => item && item.extIds && item.extIds.includes(newExtensions[i]));
+                    // 如果已经在最近使用，则跳过
+                    if (fdrecent) continue;
+                    const extensionId = newExtensions[i];
+                    const detailsUrl = `chrome://extensions/?id=${extensionId}`;
+                    await setRecentlyData({
+                        value: 'open_detail_page',
+                        extIds: [extensionId],
+                        name: `Open Detail Page`,
+                        pendingUrl: detailsUrl,
+                    });
+                }
+            }
+        }
+        previousExtensions = currentExtensions;
         sendResponse({ extensions: result });
     });
 };
@@ -137,6 +190,8 @@ const getExtensions = ({ sendResponse }) => {
 const handleEnableExtension = ({ request, sendResponse }) => {
     const { extensionId, status } = request;
     chrome.management.setEnabled(extensionId, status, () => {
+        // 跳过自己
+        if (extensionId === chrome.runtime.id) return;
         sendResponse({ status: 'Extension enabled' });
     });
 };
@@ -148,6 +203,8 @@ const handleEnableExtension = ({ request, sendResponse }) => {
 const handleUninstallExtension = ({ request, sendResponse }) => {
     const { extensionId } = request;
     try {
+        // 跳过自己
+        if (extensionId === chrome.runtime.id) return;
         chrome.management.uninstall(extensionId, {}, () => {
             console.log('取消卸载', chrome.runtime.lastError);
             sendResponse({ status: chrome.runtime.lastError ? 'error' : 'success' });
@@ -432,13 +489,48 @@ const handleSoloRunExt = async ({ request, sendResponse }) => {
 
 
 const handleCreateTabPage = ({ request, sendResponse }) => {
-	const { pageUrl, active } = request;
-	chrome.tabs.create({
-			url: pageUrl,
-			active: active,
-	});
-	sendResponse({ status: 'create tab page' });
+    const { pageUrl, active } = request;
+    chrome.tabs.create({
+        url: pageUrl,
+        active: active,
+    });
+    sendResponse({ status: 'create tab page' });
 };
+
+const handleSetBrowser = ({ request, sendResponse }) => {
+    const { browserType } = request;
+    setBrowserType(browserType);
+    sendResponse({ status: 'set browser' });
+};
+
+const handleGetBrowser = ({ sendResponse }) => {
+    sendResponse({ browserType: getBrowserType() ?? 'chrome' });
+};
+
+const handleSetSnapseek = async ({ request, sendResponse }) => {
+    console.log('request----', request);
+    await setSnapseek(request.data);
+    sendResponse({ statue: true });
+};
+
+const handleGetSnapseek = async ({ sendResponse }) => {
+    // 过滤过期数据
+    const MAX_TIME = 7 * 24 * 60 * 60 * 1000;
+    const snapData = await getSnapseek();
+    console.log('handleGetSnapseek--', snapData);
+    const result = {};
+    if (snapData && Object.keys(snapData).length) {
+        const keys = Object.keys(snapData).filter(item => {
+            return new Date(item).getTime() + MAX_TIME >= new Date().getTime();
+        });
+        keys.map(key => {
+            snapData[key] && snapData[key].sort((a, b) => b.time - a.time);
+            result[key] = snapData[key];
+        });
+    }
+    sendResponse({ data: result, statue: true });
+};
+
 
 const ACTICON_MAP = {
     get_extensions: getExtensions,
@@ -462,7 +554,12 @@ const ACTICON_MAP = {
     [AC_ADD_RECENTLYS]: handleAddRecently,
     [AC_CLEAR_RECENTLYS]: handleClearRecentlys,
     [AC_SOLO_RUN]: handleSoloRunExt,
-		[AC_CREATE_TAB]: handleCreateTabPage,
+    [AC_CREATE_TAB]: handleCreateTabPage,
+    [AC_SET_BROWSER]: handleSetBrowser,
+    [AC_GET_BROWSER]: handleGetBrowser,
+    [AC_SET_SNAPSEEK]: handleSetSnapseek,
+    [AC_GET_SNAPSEEK]: handleGetSnapseek,
+
 };
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // 获取插件列表
@@ -514,6 +611,34 @@ chrome.tabs.onCreated.addListener(function (tab) {
     });
 });
 
+/**
+ *  页面更新
+ */
+chrome.tabs.onUpdated.addListener(
+    function (tabId, changeInfo, tab) {
+        const { url } = changeInfo || {};
+        const createFeishuRegex = /https:\/\/([a-zA-Z0-9]+).feishu.cn\/drive\/create\//;
+        if (feishuTableTabId === -1 && url && createFeishuRegex.test(url)) {
+            feishuTableTabId = tabId;
+        } else if (feishuTableTabId !== -1 && feishuTableTabId === tabId) {
+            // 飞书多维表格
+            const pendingUrl = tab?.url || '';
+            const feishuRegex = /https:\/\/([a-zA-Z0-9]+).feishu.cn\/base\/([a-zA-Z0-9]+)\?table=([a-zA-Z0-9]+)/;
+            const matchs = pendingUrl?.match(feishuRegex);
+            if (matchs && matchs.length >= 3 && jikeBlogDatas && jikeBlogDatas.length) {
+                const datas = [...jikeBlogDatas];
+                jikeBlogDatas = [];
+                // 注入代码
+                chrome.scripting.executeScript({
+                    target: { tabId: tab.id, },
+                    func: executeExportFeishu,
+                    args: [datas, feishuTableTabId, matchs],
+                });
+                feishuTableTabId = -1;
+            }
+        }
+    }
+);
 
 /**
  *  监听快捷指令
@@ -526,3 +651,31 @@ chrome.commands.onCommand.addListener((command) => {
         });
     });
 });
+
+import { Atom } from './lib/atom';
+import tabManage from './lib/atoms/browser-tab-manager/';
+import extensionManage from './lib/atoms/browser-extension-manager';
+import windowManage from './lib/atoms/browser-window-manager';
+import BrowserDataManage from './lib/atoms/browser-cache-manager';
+import BrowserCookieManage from './lib/atoms/browser-cookie-manager';
+import { UNINSTALL_URL } from '~component/cmdk/core/constant';
+import executeExportFeishu from '~extension/feishubase/executes/execute.export.feishu';
+
+chrome.runtime.onMessage.addListener((request: any,) => {
+    if (request.type === 'simulateMouseEvent') {
+        chrome.debugger.attach({ tabId: request.tabId }, '1.3', () => {
+            chrome.debugger.sendCommand({ tabId: request.tabId }, 'Input.dispatchMouseEvent', request.params, () => {
+                chrome.debugger.detach({ tabId: request.tabId });
+            });
+        });
+    }
+});
+
+const atom = new Atom();
+atom.load(tabManage);
+atom.load(extensionManage);
+atom.load(windowManage);
+atom.load(BrowserDataManage);
+atom.load(BrowserDataManage);
+atom.load(BrowserCookieManage);
+atom.listen();

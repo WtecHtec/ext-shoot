@@ -46,31 +46,41 @@ const SearchComponent = ({ inputRef }: { inputRef: React.RefObject<HTMLInputElem
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (inApp) {
-            if (event.key === 'Backspace' && search === '') {
-                console.log("Backspace pressed with no content in in-app mode.");
-                exitAppMode();
-                event.stopPropagation();
-            } else if (event.key === 'Escape') {
-                console.log("Escape pressed in in-app mode.");
-                exitAppMode();
-                event.stopPropagation();
-            }
-        }
+        const key = event.key;
+        const isMetaK = event.metaKey && key.toUpperCase() === 'K';
+        const navigationKeys = ['ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown', 'Enter'];
 
-        if ([27, 37, 38, 39, 40, 13].includes(event.keyCode)
-            || (event.metaKey && event.key.toLocaleUpperCase() === 'K')) {
+        // 特殊键直接返回
+        if (isMetaK || navigationKeys.includes(key)) {
             return;
         }
 
-        if (event.metaKey) return;
+        // 在应用内的操作
+        if (inApp) {
+            if ((key === 'Backspace' && search === '') || key === 'Escape') {
+                console.log(`${key} pressed with no content in in-app mode.`);
+                exitAppMode();
+                event.stopPropagation();
+                return;
+            }
+        } else if (!inApp && key === 'Backspace' && search === '' && topicManager.hasActiveTopic) {
+            // 不在应用内且有活动主题时清除主题
+            topicManager.clearActiveTopics();
+            event.stopPropagation();
+            return;
+        }
 
+        // 如果使用了 meta 键，则不继续传播事件
+        if (event.metaKey || key === 'Escape') return;
+
+
+        // 对所有处理的键盘事件阻止冒泡 
         event.stopPropagation();
     };
     return (
         <div className='flex items-center justify-center'>
             {inApp && <BackIcon className='w-5 ml-4' />}
-            {
+            {!inApp &&
                 activeTopics.map((topic) => {
                     return (
                         <TopicLabel key={topic.id} topic={topic} />

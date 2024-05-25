@@ -16,7 +16,7 @@ export default function WelcomeRender() {
 	const [setupComplete] = useState(false);
 
 	// 修改 head 标签的内容
-	document.title = "MotionShot - First Steps";
+	document.title = "SuperMotion - First Steps";
 
 	return (
 
@@ -43,7 +43,7 @@ const PinTutior = () => {
 			<div className="setupText">
 				<div className="setupEmoji">👋</div>
 				<div className="setupTitle">
-					Get started with MotionShot in three simple steps:
+					Get started with SuperMotion in three simple steps:
 				</div>
 				<div className="setupDescription">
 					<div className="setupStep">
@@ -70,7 +70,7 @@ const PinTutior = () => {
 							<ShootIcon className='w-2 icon' />
 						</span>
 						{" "}
-						MotionShot to start
+						SuperMotion to start
 					</div>
 					<div className="setupStep">
 						4- Press shortcut

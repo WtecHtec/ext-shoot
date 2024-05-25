@@ -14,6 +14,9 @@ import { functionManager } from '~lib/function-manager';
 import { saveTextToFlomo } from '~extension/flomor/handle';
 import { createJikePost } from '~extension/jiker/api';
 import executeUseageTemp, { isLoggedInFeishu } from '~extension/feishubase/handle';
+import { topicManager } from '~component/cmdk/topic/topic-manager';
+import { jikeTopic } from '~topics/social';
+import { flomoTopic } from '~topics/note';
 
 // import FocusLock from 'react-focus-lock';
 export const config: PlasmoCSConfig = {
@@ -33,6 +36,10 @@ functionManager.registerFunction('saveTextToFlomo', saveTextToFlomo);
 functionManager.registerFunction('createJikePost', createJikePost);
 functionManager.registerFunction('isLoggedInFeishu', isLoggedInFeishu);
 functionManager.registerFunction('executeUseageTemp', executeUseageTemp);
+
+topicManager.registerTopics([jikeTopic, flomoTopic]);
+topicManager.checkAndActivateTopics();
+
 setTimeout(() => {
     // 先检测是否是arc环境
     const isArcEnv = isArc();

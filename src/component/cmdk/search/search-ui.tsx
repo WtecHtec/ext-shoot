@@ -3,12 +3,14 @@ import { searchManager } from './search-manager';
 import { BackIcon } from '~component/icons';
 import { Command } from 'cmdk';
 import { appManager } from '../app/app-manager';
+import { topicManager } from '../topic/topic-manager';
+import TopicLabel from '../topic/topic-ui';
 
 const SearchComponent = ({ inputRef }: { inputRef: React.RefObject<HTMLInputElement> }) => {
     const [search, setSearch] = useState(searchManager.content);
     const [placeholder] = useState(searchManager.placeholderText);
     const [inApp, setInApp] = useState<boolean>(appManager.ifInApp);
-
+    const [activeTopics, setActiveTopics] = useState(topicManager.activeTopics);
     useEffect(() => {
         // 使用新的接口调用方式
         const unsubscribe = searchManager.subscribe(({ search }) => {
@@ -26,12 +28,20 @@ const SearchComponent = ({ inputRef }: { inputRef: React.RefObject<HTMLInputElem
         return unsubscribe; // Cleanup on unmount
     }, []);
 
+    useEffect(() => {
+        // 使用新的接口调用方式
+        const unsubscribe = topicManager.subscribe(({ activeTopics }) => {
+            setActiveTopics(activeTopics);
+        });
+        return unsubscribe; // Cleanup on unmount
+    }, []);
+
 
     const handleSearchChange = (value: string) => {
         searchManager.setSearch(value);
     };
 
-    const exitAppMode = ()=>{
+    const exitAppMode = () => {
         appManager.exitApp();
     };
 
@@ -47,19 +57,26 @@ const SearchComponent = ({ inputRef }: { inputRef: React.RefObject<HTMLInputElem
                 event.stopPropagation();
             }
         }
-        
+
         if ([27, 37, 38, 39, 40, 13].includes(event.keyCode)
             || (event.metaKey && event.key.toLocaleUpperCase() === 'K')) {
             return;
         }
 
         if (event.metaKey) return;
-        
+
         event.stopPropagation();
     };
     return (
         <div className='flex items-center justify-center'>
             {inApp && <BackIcon className='w-5 ml-4' />}
+            {
+                activeTopics.map((topic) => {
+                    return (
+                        <TopicLabel key={topic.id} topic={topic} />
+                    );
+                })
+            }
             <Command.Input
                 value={search}
                 onValueChange={handleSearchChange}

@@ -8,7 +8,7 @@ interface TopicState {
 }
 
 class TopicManager extends StateManager<TopicState> {
-    private static instance: TopicManager | null = null;
+    private static instance: TopicManager = new TopicManager();
 
     private constructor() {
         super({
@@ -18,9 +18,6 @@ class TopicManager extends StateManager<TopicState> {
     }
 
     public static getInstance(): TopicManager {
-        if (!TopicManager.instance) {
-            TopicManager.instance = new TopicManager();
-        }
         return TopicManager.instance;
     }
 
@@ -33,6 +30,7 @@ class TopicManager extends StateManager<TopicState> {
     public registerTopics(topics: Topic[]): void {
         topics.forEach(topic => this.addTopic(topic));
     }
+
     // 通用的激活 topic 方法
     private activateTopic(condition: (topic: Topic) => boolean): void {
         const activatedTopics = this.state.topics.filter(condition);
@@ -43,10 +41,27 @@ class TopicManager extends StateManager<TopicState> {
         });
     }
 
-    // 根据域名触发 topic 激活状态
-    private activateByDomain(domain: string): void {
+    private matchCondition(condition: { type: string, value: string }, url: URL): boolean {
+        const matchers: { [key: string]: () => boolean } = {
+            hostContains: () => url.hostname.includes(condition.value),
+            hostEquals: () => url.hostname === condition.value,
+            hostPrefix: () => url.hostname.startsWith(condition.value),
+            hostSuffix: () => url.hostname.endsWith(condition.value),
+            originAndPathMatches: () => new RegExp(condition.value).test(`${url.origin}${url.pathname}`),
+            pathContains: () => url.pathname.includes(condition.value),
+            pathEquals: () => url.pathname === condition.value,
+            pathPrefix: () => url.pathname.startsWith(condition.value),
+            pathSuffix: () => url.pathname.endsWith(condition.value),
+            urlMatches: () => new RegExp(condition.value).test(url.href.split('#')[0]),
+            default: () => false,
+        };
+
+        return (matchers[condition.type] || matchers.default)();
+    }
+
+    private activateByDomain(url: URL): void {
         this.activateTopic(topic =>
-            topic.conditions.some(condition => condition.type === 'domain' && condition.value === domain)
+            topic.conditions.some(condition => this.matchCondition(condition, url))
         );
     }
 
@@ -57,15 +72,14 @@ class TopicManager extends StateManager<TopicState> {
         );
     }
 
-
     // 检测并激活符合条件的 topics
     public checkAndActivateTopics(): void {
-        const currentDomain = window.location.hostname;
-        this.activateByDomain(currentDomain);
+        const currentUrl = new URL(window.location.href);
+        this.activateByDomain(currentUrl);
     }
 
     // 获取当前激活的 topics
-    public get activeTopicsList(): Topic[] {
+    public get activeTopics(): ReadonlyArray<Topic> {
         return this.state.activeTopics;
     }
 
@@ -78,12 +92,8 @@ class TopicManager extends StateManager<TopicState> {
         this.state.activeTopics = [];
     }
 
-    public ifHasTopicActive(): boolean {
+    public hasActiveTopic(): boolean {
         return this.state.activeTopics.length > 0;
-    }
-
-    public get activeTopics(): Topic[] {
-        return this.state.activeTopics;
     }
 }
 

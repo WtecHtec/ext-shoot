@@ -8,7 +8,7 @@ interface TopicLabelProps {
 const TopicLabel: React.FC<TopicLabelProps> = ({ topic }) => {
     return (
         <div
-            className='px-3 py-[3px] min-w-14 rounded-xl ml-4 text-sm text-center'
+            className='py-[4px] px-3 min-w-16 rounded-full ml-4 text-[14px] text-center'
             style={{ backgroundColor: topic.appearance.backgroundColor, color: topic.appearance.textColor ?? '#fff' }}
         >
             #{topic.name}

@@ -1,7 +1,8 @@
 import { nanoid } from "nanoid";
 
 export interface TriggerCondition {
-    type: 'domain' | 'state';
+    type: 'hostEquals' | 'state' | 'hostContains' | 'hostEquals' | 'hostPrefix' | 'hostSuffix' |
+    'originAndPathMatches' | 'pathContains' | 'pathEquals' | 'pathPrefix' | 'pathSuffix' | 'urlMatches';
     value: string;
 }
 

@@ -7,7 +7,7 @@ export const bilibiliTopic = new Topic({
         textColor: '#FFFFFF' // 假设我们希望文本颜色为白色
     },
     conditions: [
-        { type: 'domain', value: 'bilibili.com' }
+        { type: 'hostEquals', value: 'bilibili.com' }
     ]
 });
 

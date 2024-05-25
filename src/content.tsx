@@ -16,7 +16,7 @@ import { createJikePost } from '~extension/jiker/api';
 import executeUseageTemp, { isLoggedInFeishu } from '~extension/feishubase/handle';
 import { topicManager } from '~component/cmdk/topic/topic-manager';
 import { jikeTopic } from '~topics/social';
-import { feishuTopic, flomoTopic } from '~topics/note';
+import { chatgptTopic, feishuTopic, flomoTopic } from '~topics';
 
 // import FocusLock from 'react-focus-lock';
 export const config: PlasmoCSConfig = {
@@ -37,7 +37,7 @@ functionManager.registerFunction('createJikePost', createJikePost);
 functionManager.registerFunction('isLoggedInFeishu', isLoggedInFeishu);
 functionManager.registerFunction('executeUseageTemp', executeUseageTemp);
 
-topicManager.registerTopics([jikeTopic, flomoTopic, feishuTopic]);
+topicManager.registerTopics([jikeTopic, flomoTopic, feishuTopic, chatgptTopic]);
 topicManager.checkAndActivateTopics();
 
 setTimeout(() => {

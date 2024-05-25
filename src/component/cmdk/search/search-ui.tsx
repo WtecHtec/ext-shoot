@@ -49,9 +49,15 @@ const SearchComponent = ({ inputRef }: { inputRef: React.RefObject<HTMLInputElem
         const key = event.key;
         const isMetaK = event.metaKey && key.toUpperCase() === 'K';
         const navigationKeys = ['ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown', 'Enter'];
-
+        const isCtrlK = event.ctrlKey && key.toUpperCase() === 'K'; // 上下
+        const isCtrlJ = event.ctrlKey && key.toUpperCase() === 'J';
         // 特殊键直接返回
         if (isMetaK || navigationKeys.includes(key)) {
+            return;
+        }
+
+        // 特殊键直接返回
+        if (isCtrlK || isCtrlJ || isMetaK || navigationKeys.includes(key)) {
             return;
         }
 

@@ -805,6 +805,7 @@ export function MotionShotCMDK() {
       <Command
         value={value}
         onValueChange={(v) => handleChangeSelectCmd(v)}
+        vimBindings={true}
         filter={onCommandFilter}>
         <div cmdk-motionshot-top-shine="" />
         <div className="flex items-center justify-start">

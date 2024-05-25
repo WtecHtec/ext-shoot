@@ -16,6 +16,7 @@ import Flomor from "~extension/flomor";
 import X from "~extension/x";
 import ChatGPT from "~extension/chatgpt";
 import DevTools from "~extension/devtools";
+import FeishuGroupTalk from "~extension/feishu-talk";
 
 import { Command } from "../common/Command";
 import { searchManager } from "../search/search-manager";
@@ -52,6 +53,7 @@ const ExtensionLoader = () => {
   return (
     <CommandCMDK.Group heading={"Results"}>
       <Command.PlaceholderCommand />
+      <FeishuGroupTalk />
       <Jiker />
       <X />
       <DevTools />

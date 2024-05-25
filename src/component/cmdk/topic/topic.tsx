@@ -1,23 +1,40 @@
 import { nanoid } from "nanoid";
 
-// topic.ts
 export interface TriggerCondition {
     type: 'domain' | 'state';
     value: string;
 }
 
-export class Topic {
-    name: string;
-    color: string;
+export interface TopicAppearance {
+    backgroundColor: string;
     textColor?: string;
-    conditions: TriggerCondition[];
-    id: string;
+}
 
-    constructor(name: string, color: string, textColor: string, conditions: TriggerCondition[]) {
+export interface TopicConfig {
+    name: string;
+    appearance: TopicAppearance;
+    conditions: TriggerCondition[];
+}
+
+export class Topic {
+    id: string;
+    name: string;
+    appearance: TopicAppearance;
+    conditions: TriggerCondition[];
+
+    constructor({ name, appearance, conditions }: TopicConfig) {
         this.id = nanoid();
         this.name = name;
-        this.color = color;
-        this.textColor = textColor;
+        this.appearance = appearance;
         this.conditions = conditions;
+    }
+
+    /**
+     * Checks if the topic matches a given condition.
+     * @param condition The condition to check.
+     * @returns True if the topic matches the condition, false otherwise.
+     */
+    public matchesCondition(condition: TriggerCondition): boolean {
+        return this.conditions.some(c => c.type === condition.type && c.value === condition.value);
     }
 }

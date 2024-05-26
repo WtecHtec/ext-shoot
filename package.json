@@ -16,6 +16,7 @@
     "build:chrome": "pnpm build --target=chrome-mv3",
     "zip:edge": "pnpm build:edge && node script/remove-log.js --path=edge-mv3-prod --zip",
     "zip:chrome": "pnpm build:chrome && node script/remove-log.js --path=chrome-mv3-prod --zip",
+    "check:permission": "node script/check-permission.js --path=chrome-mv3-prod",
     "fix": "eslint . --ext .ts,.tsx --fix",
     "re:log": "node script/remove-log.js"
   },

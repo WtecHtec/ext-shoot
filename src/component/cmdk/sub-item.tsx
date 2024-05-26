@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unknown-property */
-import { Command } from "cmdk";
+import { Command } from "motion-cmdk";
 
 import React from 'react';
 import { getPlatform } from "~utils/util";
@@ -29,7 +29,7 @@ export default function SubItem({
 				typeof commandHandle === 'function' && commandHandle(value);
 			}}>
 			{children}
-			<div  cmdk-motionshot-submenu-shortcuts="">
+			<div cmdk-motionshot-submenu-shortcuts="">
 				{shortcut
 					? shortcut.split(getPlatform() === 'mac' ? '' : ' ').map((key) => {
 						return <kbd key={key}>{key}</kbd>;

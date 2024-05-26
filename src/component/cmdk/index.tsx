@@ -6,7 +6,7 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 // import * as Select from '@radix-ui/react-select';
 import axios from "axios";
 import * as clipboard from "clipboard-polyfill";
-import { Command } from "cmdk";
+import { Command } from "motion-cmdk";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner/dist";
 
@@ -60,6 +60,7 @@ import SnapshotDialog from "./snapshot-dialog";
 import ExtensionWithSearch from "./search-group";
 import { CommandUI } from "./command/command-ui";
 import { initEscControl } from "./panel/esc-control";
+import { topicManager } from "./topic/topic-manager";
 
 
 const acMap = getAllActionMap();
@@ -757,26 +758,21 @@ export function MotionShotCMDK() {
     }
   };
 
-  /**
-   * 排除最近使用、dev、favorite
-   */
+
   const onCommandFilter = (value, search, keywords) => {
-    if (!search) return 1;
-    if (
-      value.includes("recently_") ||
-      value.includes("development@_") ||
-      value.includes("favorite@_")
-    )
-      return 0;
-    if (value.includes("search_")) {
-      return value.includes(`search_${search}`);
+    const topics = topicManager.activeKeywords;
+
+    if (!search && topics) {
+      const foundTopic = topics.some(topic => keywords.includes(topic));
+      return foundTopic ? 10 : 1;
     }
-    const fdn = keywords.find((item) =>
-      item.toLocaleLowerCase().includes(search?.toLocaleLowerCase())
-    );
-    // if (value.includes(search)) return 1;
-    return fdn ? 1 : 0;
+
+    if (!search) return 1;
+
+    const found = keywords.find(item => item.toLowerCase().includes(search.toLowerCase()));
+    return found ? 1 : 0;
   };
+
 
   /** 底部  Open Extension Page 按钮点击事件、 回车事件处理 */
   const onBottomOpenExtPage = (value) => {
@@ -805,6 +801,7 @@ export function MotionShotCMDK() {
       <Command
         value={value}
         onValueChange={(v) => handleChangeSelectCmd(v)}
+        vimBindings={true}
         filter={onCommandFilter}>
         <div cmdk-motionshot-top-shine="" />
         <div className="flex items-center justify-start">

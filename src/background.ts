@@ -35,8 +35,7 @@ import {
 import { getId } from '~utils/util';
 // 用于存储上一次检查时的插件列表
 let previousExtensions = [];
-let jikeBlogDatas = [];
-let feishuTableTabId = -1;
+
 
 chrome.runtime.onInstalled.addListener((object) => {
     // Inject shoot on install
@@ -614,31 +613,32 @@ chrome.tabs.onCreated.addListener(function (tab) {
 /**
  *  页面更新
  */
-chrome.tabs.onUpdated.addListener(
-    function (tabId, changeInfo, tab) {
-        const { url } = changeInfo || {};
-        const createFeishuRegex = /https:\/\/([a-zA-Z0-9]+).feishu.cn\/drive\/create\//;
-        if (feishuTableTabId === -1 && url && createFeishuRegex.test(url)) {
-            feishuTableTabId = tabId;
-        } else if (feishuTableTabId !== -1 && feishuTableTabId === tabId) {
-            // 飞书多维表格
-            const pendingUrl = tab?.url || '';
-            const feishuRegex = /https:\/\/([a-zA-Z0-9]+).feishu.cn\/base\/([a-zA-Z0-9]+)\?table=([a-zA-Z0-9]+)/;
-            const matchs = pendingUrl?.match(feishuRegex);
-            if (matchs && matchs.length >= 3 && jikeBlogDatas && jikeBlogDatas.length) {
-                const datas = [...jikeBlogDatas];
-                jikeBlogDatas = [];
-                // 注入代码
-                chrome.scripting.executeScript({
-                    target: { tabId: tab.id, },
-                    func: executeExportFeishu,
-                    args: [datas, feishuTableTabId, matchs],
-                });
-                feishuTableTabId = -1;
-            }
-        }
-    }
-);
+// chrome.tabs.onUpdated.addListener(
+//     function (tabId, changeInfo, tab) {
+//         const { url } = changeInfo || {};
+// 				console.log('tabId', changeInfo);
+//         const createFeishuRegex = /https:\/\/([a-zA-Z0-9]+).feishu.cn\/drive\/create\//;
+//         if (feishuTableTabId === -1 && url && createFeishuRegex.test(url)) {
+//             feishuTableTabId = tabId;
+//         } else if (feishuTableTabId !== -1 && feishuTableTabId === tabId) {
+//             // 飞书多维表格
+//             const pendingUrl = tab?.url || '';
+//             const feishuRegex = /https:\/\/([a-zA-Z0-9]+).feishu.cn\/base\/([a-zA-Z0-9]+)\?table=([a-zA-Z0-9]+)/;
+//             const matchs = pendingUrl?.match(feishuRegex);
+//             if (matchs && matchs.length >= 3 && jikeBlogDatas && jikeBlogDatas.length) {
+//                 const datas = [...jikeBlogDatas];
+//                 jikeBlogDatas = [];
+//                 // 注入代码
+//                 chrome.scripting.executeScript({
+//                     target: { tabId: tab.id, },
+//                     func: executeExportFeishu,
+//                     args: [datas, feishuTableTabId, matchs],
+//                 });
+//                 feishuTableTabId = -1;
+//             }
+//         }
+//     }
+// );
 
 /**
  *  监听快捷指令
@@ -658,8 +658,9 @@ import extensionManage from './lib/atoms/browser-extension-manager';
 import windowManage from './lib/atoms/browser-window-manager';
 import BrowserDataManage from './lib/atoms/browser-cache-manager';
 import BrowserCookieManage from './lib/atoms/browser-cookie-manager';
+import BrowserBookmarkManage from './lib/atoms/browser-bookmarks-manager';
 import { UNINSTALL_URL } from '~component/cmdk/core/constant';
-import executeExportFeishu from '~extension/feishubase/executes/execute.export.feishu';
+
 
 chrome.runtime.onMessage.addListener((request: any,) => {
     if (request.type === 'simulateMouseEvent') {
@@ -678,4 +679,5 @@ atom.load(windowManage);
 atom.load(BrowserDataManage);
 atom.load(BrowserDataManage);
 atom.load(BrowserCookieManage);
+atom.load(BrowserBookmarkManage);
 atom.listen();

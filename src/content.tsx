@@ -13,7 +13,10 @@ import ToasterComponent from '~component/cmdk/toast/toast-ui';
 import { functionManager } from '~lib/function-manager';
 import { saveTextToFlomo } from '~extension/flomor/handle';
 import { createJikePost } from '~extension/jiker/api';
-import executeUseageTemp, { isLoggedInFeishu } from '~extension/feishubase/handle';
+import { isLoggedInFeishu, executeUseageTemp, executeExportFeishu } from '~extension/feishubase/handle';
+import { topicManager } from '~component/cmdk/topic/topic-manager';
+import { jikeTopic } from '~topics/social';
+import { chatgptTopic, feishuTopic, flomoTopic } from '~topics';
 
 // import FocusLock from 'react-focus-lock';
 export const config: PlasmoCSConfig = {
@@ -33,6 +36,11 @@ functionManager.registerFunction('saveTextToFlomo', saveTextToFlomo);
 functionManager.registerFunction('createJikePost', createJikePost);
 functionManager.registerFunction('isLoggedInFeishu', isLoggedInFeishu);
 functionManager.registerFunction('executeUseageTemp', executeUseageTemp);
+functionManager.registerFunction('executeExportFeishu', executeExportFeishu);
+
+topicManager.registerTopics([jikeTopic, flomoTopic, feishuTopic, chatgptTopic]);
+topicManager.checkAndActivateTopics();
+
 setTimeout(() => {
     // 先检测是否是arc环境
     const isArcEnv = isArc();

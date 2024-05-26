@@ -1,4 +1,4 @@
-import { Command } from 'cmdk';
+import { Command } from 'motion-cmdk';
 import React, { useEffect } from 'react';
 import { actionManager } from '../action';
 

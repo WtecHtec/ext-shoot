@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 
 import React from 'react';
-import { Command } from 'cmdk';
+import { Command } from 'motion-cmdk';
 import { GoogleStoreIcon } from '~component/icons';
 
 const PREFIX = 'ChromeStoreWebSearch';

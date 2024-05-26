@@ -1,6 +1,5 @@
 import ExtensionLogo from "data-base64:./icon.jpg";
 import React from "react";
-
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
 
 import { gotoPageCollection, gotoPageHome, gotoPageMe, gotoPageRecommend, gotoProductLaunchEvent, showNotification, testHandle, toggleTranslateToCnMode } from "./handle";
@@ -11,12 +10,14 @@ import { exportUserPostsToExcel, exportUserPostsToFeiShu } from "./export-post";
 import { clearUserPosts } from "./clear-post";
 import { copyContentToClipboard } from "./copy-post";
 import { saveContentToFlomo } from "./export-flomo";
+import { jikeTopic } from "~topics";
 
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="Jiker" icon={ExtensionLogo}>
 
-      <Command.SimpleCommand
+    <CommandPanel title="Jiker" icon={ExtensionLogo} topics={[jikeTopic]}>
+
+      < Command.SimpleCommand
         name="test-handle"
         title="测试"
         keywords={["test handle", "测试"]}
@@ -177,7 +178,7 @@ const TabManagerComand = () => {
       />
 
 
-    </CommandPanel>
+    </CommandPanel >
   );
 };
 

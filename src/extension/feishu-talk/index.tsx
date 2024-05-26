@@ -2,8 +2,7 @@ import ExtensionLogo from "data-base64:./icon.png";
 import React, { useEffect } from "react";
 
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
-import { saveClipboardToFlomo, testIt } from "./handle";
-import { flomoTopic } from "~topics";
+import { initMessageProcessor } from "./handle";
 
 
 // export const loadFlomoAction = () => {
@@ -19,29 +18,18 @@ const TabManagerComand = () => {
     // loadFlomoAction();
   }, []);
   return (
-    <CommandPanel title="flomor" icon={ExtensionLogo} topics={[
-      flomoTopic
-    ]}>
+    <CommandPanel title="feishu talker" icon={ExtensionLogo}>
 
 
+      {/* /监听消息 */}
       <Command.SimpleCommand
-        name="test"
-        title="test"
-        keywords={["test"]}
-        description="test"
+        name="listenMsgFromFeishu"
+        title="监听群聊消息"
+        keywords={["listen", "msg", "feishu"]}
+        description="监听群聊消息"
         endAfterRun
         handle={async () => {
-          await testIt();
-        }}
-      />
-      <Command.SimpleCommand
-        name="saveClipboardToFlomo"
-        title="把剪贴板的内容保存为Memo"
-        keywords={["save", "clipboard", "flomo"]}
-        description="将剪贴板的内容保存到Flomo"
-        endAfterRun
-        handle={async () => {
-          await saveClipboardToFlomo();
+          await initMessageProcessor();
         }}
       />
     </CommandPanel>

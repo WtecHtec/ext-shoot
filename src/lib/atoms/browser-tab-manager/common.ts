@@ -274,6 +274,52 @@ const executeScriptInTab = async (tabId, script) => {
     }
 };
 
+const  TabLoadFilterMap = {
+	'jikeexportfeishu': ( tabid, changeInfo, tab) => {
+		const pendingUrl = tab?.url || '';
+		const feishuRegex = /https:\/\/([a-zA-Z0-9]+).feishu.cn\/base\/([a-zA-Z0-9]+)\?table=([a-zA-Z0-9]+)/;
+		const matchs = pendingUrl?.match(feishuRegex);
+		// console.log('测试---', matchs);
+		if (matchs && matchs.length >= 3) {
+			return true;
+		}
+		return false;
+	}
+};
+function waitForTabToLoadFinal(tabId, filter) {
+	return new Promise((resolve) => {
+			function onTabUpdated(updatedTabId, changeInfo, tabInfo) {
+				console.log(`Tab ${tabId} has loaded.`, updatedTabId, filter);
+				if (changeInfo.status === 'complete') {
+					if (typeof TabLoadFilterMap[filter] === 'function' && TabLoadFilterMap[filter](updatedTabId, changeInfo, tabInfo)) {
+						chrome.tabs.onUpdated.removeListener(onTabUpdated);  // 移除监听器避免重复调用
+						resolve(updatedTabId);  // 解决Promise
+					}
+				}
+			} 
+			chrome.tabs.onUpdated.addListener(onTabUpdated);
+	});
+}
+
+
+const invokeFunctionInTabFilter = async (tabId, functionName, filter , args) => {
+	try {
+			console.log('invokeFunctionInTabFilter---', tabId, 'functionName', functionName, 'filter', filter ,'args', args);
+			tabId = await waitForTabToLoadFinal(tabId, filter);  // 等待标签页加载完成
+			console.log('tabId', tabId, 'Sending message to tab.');
+			console.log('tabId', tabId, 'functionName', functionName, 'args', args);
+			const response = await chrome.tabs.sendMessage(tabId, {
+					type: 'invokeFunction',
+					functionName: functionName,
+					args: args,
+			});
+			console.log('Function invocation response:', response);
+			return response;  // 返回函数调用结果
+	} catch (error) {
+			console.error('Error invoking function:', error.message);
+			throw error;  // 抛出异常以便外部捕获
+	}
+};
 
 export const methods = {
     getCurrentTab,
@@ -298,5 +344,6 @@ export const methods = {
     createTabInactive,
     createTabAndCheckIn,
     executeScriptInTab,
-    invokeFunctionInTab
+    invokeFunctionInTab,
+		invokeFunctionInTabFilter,
 };

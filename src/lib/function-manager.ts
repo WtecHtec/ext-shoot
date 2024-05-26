@@ -66,6 +66,19 @@ class CrossTabProxy {
         });
     }
 
+		actionsFilter(filter) {
+			return new Proxy({}, {
+					get: (_, prop) => {
+							if (typeof prop !== "string") return undefined;
+
+							// 返回一个函数，这个函数会调用invokeFunctionInTab来在特定标签页执行对应的方法
+							return async (...args: any[]) => {
+									console.log(`Calling ${prop} on tab ${this.tabId} with args:`, args, filter);
+									return tabAction.invokeFunctionInTabFilter(this.tabId, prop, filter, args);
+							};
+					}
+			});
+		}
     async close() {
         return await tabAction.closeTab(this.tabId);
     }

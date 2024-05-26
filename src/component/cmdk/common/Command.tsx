@@ -5,59 +5,76 @@ import { ActionPanel } from "./ActionPanel";
 import List from "./List";
 import { searchManager } from "../search/search-manager";
 import { exitPanel } from "../panel";
+import { Topic } from "../topic/topic";
 
-// import { commandManager } from "../command/command-manager";
+// 声明 BaseCommand 接口
+export interface BaseCommand {
+    name: string;
+    title?: string;
+    keywords?: string[];
+    description?: string;
+    mode?: string;
+    icon?: string | React.ReactNode;
+    extension?: string;
+}
 
-
+// ExitAndClearSearch 函数
 export const ExitAndClearSearch = () => {
     searchManager.clearSearch();
     exitPanel();
 };
 
-// 扩展 BaseCommand 用于新属性
-interface CommandProps extends BaseCommand {
-    extension?: string;
+type CommandPanelProps = {
+    children: React.ReactNode;
+    title?: string;
     icon?: React.ReactNode;
-}
+    topics?: Topic[];
+};
 
-const CommandPanel: React.FC<{ children: React.ReactNode, title?: string, icon?: React.ReactNode }> = ({
+// CommandPanel 组件
+const CommandPanel: React.FC<CommandPanelProps> = ({
     children,
     title,
-    icon
+    icon,
+    topics
 }) => {
-    const enhancedChildren = React.Children.map(children, (child) => {
-        if (React.isValidElement<BaseCommand>(child)) {
-            const childProps = child.props;
-            // 使用展开操作符简化属性的合并和覆盖
-            const newProps: CommandProps = {
-                ...childProps,
-                extension: childProps.extension ?? title,
-                icon: childProps.icon ?? icon,
-                name: childProps.name ? `${title}-${childProps.name}` : childProps.name,
-                keywords: childProps.keywords ? childProps.keywords.map(keyword => `${title}-${keyword}`) : childProps.keywords
-            };
-            return React.cloneElement(child, newProps);
+    const enhanceChild = (child: React.ReactNode): React.ReactNode => {
+        if (!React.isValidElement<BaseCommand>(child)) {
+            return child;
         }
-        return child;
-    });
+
+        const { props: childProps } = child;
+        const { extension = title, icon: childIcon = icon, name: childName, keywords: childKeywords } = childProps;
+
+        const newProps = {
+            ...childProps,
+            extension,
+            icon: childIcon,
+            name: childName ? `${title}-${childName}` : childName,
+            keywords: childKeywords?.map(keyword => `${title}-${keyword}`) || []
+        };
+
+        if (topics) {
+            const topicKeywords = topics.map(topic => topic.keyword);
+            newProps.keywords = [...new Set([...newProps.keywords, ...topicKeywords])]; // Merge and remove duplicates
+        }
+
+        return React.cloneElement(child as React.ReactElement<BaseCommand>, newProps);
+    };
+
+    const enhancedChildren = React.Children.map(children, enhanceChild);
 
     return <>{enhancedChildren}</>;
 };
-export interface BaseCommand {
-    name: string
-    title?: string
-    keywords?: string[]
-    description?: string
-    mode?: string
-    icon?: string | React.ReactNode
-    extension?: string
+
+
+// SimpleCommand 组件
+interface SimpleCommandProps extends BaseCommand {
+    handle: () => void;
+    endAfterRun?: boolean;
 }
 
-interface SimpleCommandProps extends BaseCommand {
-    handle: () => void
-    endAfterRun?: boolean
-}
-const SimpleCommand = ({
+const SimpleCommand: React.FC<SimpleCommandProps> = ({
     name,
     title,
     keywords,
@@ -65,8 +82,7 @@ const SimpleCommand = ({
     icon,
     extension,
     endAfterRun,
-}: SimpleCommandProps) => {
-
+}) => {
     const finalHandle = endAfterRun ? () => {
         handle();
         ExitAndClearSearch();
@@ -92,8 +108,8 @@ const SimpleCommand = ({
     );
 };
 
-// placehold command on first render
-const PlaceholderCommand = () => {
+// PlaceholderCommand 组件
+const PlaceholderCommand: React.FC = () => {
     return (
         <List.Item
             cls="!hidden"
@@ -104,6 +120,7 @@ const PlaceholderCommand = () => {
     );
 };
 
+// 导出 CommandPanel 和 Command 组件
 const Command = {
     SimpleCommand,
     PlaceholderCommand

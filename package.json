@@ -16,6 +16,7 @@
     "build:chrome": "pnpm build --target=chrome-mv3",
     "zip:edge": "pnpm build:edge && node script/remove-log.js --path=edge-mv3-prod --zip",
     "zip:chrome": "pnpm build:chrome && node script/remove-log.js --path=chrome-mv3-prod --zip",
+    "check:permission": "node script/check-permission.js --path=chrome-mv3-prod",
     "fix": "eslint . --ext .ts,.tsx --fix",
     "re:log": "node script/remove-log.js"
   },
@@ -35,7 +36,7 @@
     "classnames": "^2.5.1",
     "clipboard-polyfill": "^4.0.2",
     "clsx": "^2.1.0",
-    "cmdk": "^1.0.0",
+    "motion-cmdk": "^1.0.0",
     "crypto-js": "^4.2.0",
     "esbuild": "^0.20.2",
     "framer-motion": "^11.0.8",

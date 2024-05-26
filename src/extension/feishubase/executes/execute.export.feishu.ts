@@ -1,6 +1,6 @@
 
 
-const executeExportFeishu = (datas, feishuTableTabId, matchs) => {
+const handleExportFeishu = (datas, feishuTableTabId, matchs) => {
 	
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 	class ExecuteHandle {
@@ -144,4 +144,4 @@ new ExecuteHandle()
 		console.log('失败', ...args);
 	});
 };
-export default executeExportFeishu;
+export default handleExportFeishu;

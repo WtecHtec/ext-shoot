@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import { ExecuteHandle } from "~lib/dom-exec";
+import handleExportFeishu from './executes/execute.export.feishu';
 
 /**
  * 判断是否登陆
@@ -40,5 +41,14 @@ export async function executeUseageTemp(): Promise<boolean> {
     return true;
 }
 
-
-export default executeUseageTemp;
+export  async function executeExportFeishu(...args): Promise<boolean> {
+	const isLogin = await isLoggedInFeishu();
+    if (!isLogin) {
+        return false;
+    }
+		const feishuRegex = /https:\/\/([a-zA-Z0-9]+).feishu.cn\/base\/([a-zA-Z0-9]+)\?table=([a-zA-Z0-9]+)/;
+		const matchs = window.location.href?.match(feishuRegex);
+		// console.log('executeExportFeishu----', args);
+    await handleExportFeishu(args[0], '', matchs);
+    return true;
+}

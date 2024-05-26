@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 
 import React from 'react';
-import { Command } from 'cmdk';
+import { Command } from 'motion-cmdk';
 import ChromeStoreWebSearch from '~extension/chrome-store-web-search';
 import InstantOpen from '~extension/instant-open';
 import ChromeStoreSearch from '~extension/chrome-store-search';

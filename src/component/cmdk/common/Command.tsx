@@ -5,6 +5,7 @@ import { ActionPanel } from "./ActionPanel";
 import List from "./List";
 import { searchManager } from "../search/search-manager";
 import { exitPanel } from "../panel";
+import { Topic } from "../topic/topic";
 
 // import { commandManager } from "../command/command-manager";
 
@@ -20,15 +21,15 @@ interface CommandProps extends BaseCommand {
     icon?: React.ReactNode;
 }
 
-const CommandPanel: React.FC<{ children: React.ReactNode, title?: string, icon?: React.ReactNode }> = ({
+const CommandPanel: React.FC<{ children: React.ReactNode, title?: string, icon?: React.ReactNode, topics?: Topic[] }> = ({
     children,
     title,
-    icon
+    icon,
+    topics
 }) => {
     const enhancedChildren = React.Children.map(children, (child) => {
         if (React.isValidElement<BaseCommand>(child)) {
             const childProps = child.props;
-            // 使用展开操作符简化属性的合并和覆盖
             const newProps: CommandProps = {
                 ...childProps,
                 extension: childProps.extension ?? title,
@@ -36,6 +37,10 @@ const CommandPanel: React.FC<{ children: React.ReactNode, title?: string, icon?:
                 name: childProps.name ? `${title}-${childProps.name}` : childProps.name,
                 keywords: childProps.keywords ? childProps.keywords.map(keyword => `${title}-${keyword}`) : childProps.keywords
             };
+            if (topics) {
+                const topicKeywords = topics.map(topic => topic.keyword);
+                newProps.keywords = newProps.keywords ? newProps.keywords.concat(topicKeywords) : topicKeywords;
+            }
             return React.cloneElement(child, newProps);
         }
         return child;

@@ -38,4 +38,8 @@ export class Topic {
     public matchesCondition(condition: TriggerCondition): boolean {
         return this.conditions.some(c => c.type === condition.type && c.value === condition.value);
     }
+
+    get keyword(): string {
+        return this.name;
+    }
 }

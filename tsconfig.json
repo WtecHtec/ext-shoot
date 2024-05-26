@@ -10,6 +10,7 @@
   ],
   "compilerOptions": {
     "verbatimModuleSyntax": false,
+    "esModuleInterop": true,
     "jsx": "react",
     "paths": {
       "~*": ["./src/*"]

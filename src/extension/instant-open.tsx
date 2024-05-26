@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 
 import React, { SVGProps } from 'react';
-import { Command } from 'cmdk';
+import { Command } from 'motion-cmdk';
 
 const PREFIX = 'InstantOpen';
 function LinkIcon(props: SVGProps<SVGSVGElement>) {

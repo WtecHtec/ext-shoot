@@ -1,5 +1,5 @@
 import * as Popover from '@radix-ui/react-popover';
-import { Command } from 'cmdk';
+import { Command } from 'motion-cmdk';
 
 import React from 'react';
 import SubItem from '../sub-item';

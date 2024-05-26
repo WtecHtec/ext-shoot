@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 
 import { Command, CommandPanel } from "~component/cmdk/common/Command";
 import { saveClipboardToFlomo, testIt } from "./handle";
+import { flomoTopic } from "~topics";
 
 
 // export const loadFlomoAction = () => {
@@ -18,7 +19,9 @@ const TabManagerComand = () => {
     // loadFlomoAction();
   }, []);
   return (
-    <CommandPanel title="flomor" icon={ExtensionLogo}>
+    <CommandPanel title="flomor" icon={ExtensionLogo} topics={[
+      flomoTopic
+    ]}>
 
 
       <Command.SimpleCommand

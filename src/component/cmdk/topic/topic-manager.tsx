@@ -95,6 +95,11 @@ class TopicManager extends StateManager<TopicState> {
     public hasActiveTopic(): boolean {
         return this.state.activeTopics.length > 0;
     }
+
+    public get activeKeywords(): string[] {
+        return this.state.activeTopics.map(topic => topic.keyword).flat();
+    }
+
 }
 
 // 实例化并导出 TopicManager

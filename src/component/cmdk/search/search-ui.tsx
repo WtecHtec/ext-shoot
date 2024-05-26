@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { searchManager } from './search-manager';
 import { BackIcon } from '~component/icons';
-import { Command } from 'cmdk';
+import { Command } from 'motion-cmdk';
 import { appManager } from '../app/app-manager';
 import { topicManager } from '../topic/topic-manager';
 import TopicLabel from '../topic/topic-ui';

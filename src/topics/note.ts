@@ -7,7 +7,7 @@ export const flomoTopic = new Topic({
         textColor: '#FFFFFF' // 假设我们希望文本颜色为白色
     },
     conditions: [
-        { type: 'hostEquals', value: 'v.flomoapp.com' }
+        { type: 'hostSuffix', value: 'flomoapp.com' }
     ]
 });
 

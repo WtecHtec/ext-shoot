@@ -1,4 +1,4 @@
-import { Command as CommandCMDK } from "cmdk";
+import { Command as CommandCMDK } from "motion-cmdk";
 import React, { useEffect, useState } from "react";
 
 // import { ExtensionManagerCommand } from "~extension";
@@ -54,9 +54,9 @@ const ExtensionLoader = () => {
     <CommandCMDK.Group heading={"Results"}>
       <Command.PlaceholderCommand />
       <FeishuGroupTalk />
-      <Jiker />
       <X />
       <DevTools />
+      <Jiker />
       <ChatGPT />
       <Flomor />
       <WebTraffic />

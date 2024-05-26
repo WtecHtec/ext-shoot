@@ -658,6 +658,7 @@ import extensionManage from './lib/atoms/browser-extension-manager';
 import windowManage from './lib/atoms/browser-window-manager';
 import BrowserDataManage from './lib/atoms/browser-cache-manager';
 import BrowserCookieManage from './lib/atoms/browser-cookie-manager';
+import BrowserBookmarkManage from './lib/atoms/browser-bookmarks-manager';
 import { UNINSTALL_URL } from '~component/cmdk/core/constant';
 
 
@@ -678,4 +679,5 @@ atom.load(windowManage);
 atom.load(BrowserDataManage);
 atom.load(BrowserDataManage);
 atom.load(BrowserCookieManage);
+atom.load(BrowserBookmarkManage);
 atom.listen();

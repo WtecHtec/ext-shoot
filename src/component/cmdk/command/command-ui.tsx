@@ -1,7 +1,6 @@
 import { Command as CommandCMDK } from "motion-cmdk";
 import React, { useEffect, useState } from "react";
 
-// import { ExtensionManagerCommand } from "~extension";
 import ChromeStoreSearch from "~extension/chrome-store-search";
 import ChromeStoreWebSearch from "~extension/chrome-store-web-search";
 import HistorySearch from "~extension/history-search";
@@ -20,8 +19,7 @@ import FeishuGroupTalk from "~extension/feishu-talk";
 
 import { Command } from "../common/Command";
 import { searchManager } from "../search/search-manager";
-import { ExtensionLauncher } from "~extension";
-// import { ExtensionLauncher, ExtensionManagerCommand } from "~extension";
+import { ExtensionLauncher, ExtensionManagerCommand } from "~extension";
 
 function ExtensionWithSearchLoader() {
   const [search, setSearch] = useState(searchManager.content);
@@ -61,7 +59,7 @@ const ExtensionLoader = () => {
       <Flomor />
       <WebTraffic />
       <ExtensionLauncher />
-      {/* <ExtensionManagerCommand /> */}
+      <ExtensionManagerCommand />
       <TableManager />
       <WindowsManager />
       <CacheAgent />

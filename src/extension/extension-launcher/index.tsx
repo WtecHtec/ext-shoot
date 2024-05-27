@@ -31,9 +31,9 @@ export default function App() {
     getExtensionDatas();
   }, []);
 
-  useEffect(() => {
-    console.log('extDatas updated', extDatas);
-  }, [extDatas]); // 这里的依赖项是extDatas
+  // useEffect(() => {
+  //   console.log('extDatas updated', extDatas);
+  // }, [extDatas]); // 这里的依赖项是extDatas
 
   return (
     <CommandPanel title="Extenison">

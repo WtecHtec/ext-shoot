@@ -27,11 +27,10 @@ export function MotionShotCMDK() {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const listRef = React.useRef(null);
   const [search, setSearch] = useState(searchManager.content);
-
-  const [container, setContainer] = React.useState(null);
   const extShootRef = React.useRef(null);
+  const [inAppMode, setInAppMode] = React.useState(searchManager.ifInApp);
 
-  const [inAppMode, setInAppMode] = React.useState(searchManager.ifInApp); // 是否进入应用
+
   useEffect(() => {
     const unsubscribe = searchManager.subscribe(
       ({ search }) => {
@@ -84,7 +83,7 @@ export function MotionShotCMDK() {
   })
 
   return (
-    <div className="ext-shoot" ref={extShootRef}>
+    <div className="super-motion" ref={extShootRef}>
       <Command
         value={value}
         onValueChange={(v) => handleChangeSelectCmd(v)}
@@ -125,7 +124,6 @@ export function MotionShotCMDK() {
           />
         </div>
       </Command>
-      <div className="container-root" ref={setContainer}></div>
     </div>
   );
 }

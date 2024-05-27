@@ -45,8 +45,6 @@ import AppUI from "./app/app-ui";
 import NotFound from "./common/NotFound";
 import { searchManager } from "./search/search-manager";
 import SearchComponent from "./search/search-ui";
-import SnapshotCommand from "./snapshot-command";
-import SnapshotDialog from "./snapshot-dialog";
 import { CommandUI } from "./command/command-ui";
 import { initEscControl } from "./panel/esc-control";
 import { topicManager } from "./topic/topic-manager";
@@ -495,8 +493,6 @@ export function MotionShotCMDK() {
     }
   };
 
-
-
   const getSubCnmandItem = (value) => {
     if (value.includes(RecentlyFix)) {
       const recentlys = getMutliLevelProperty(extDatas, "0.children", []);
@@ -518,21 +514,6 @@ export function MotionShotCMDK() {
     return [curenValue, isCommand];
   };
 
-
-
-  /** 兼容 回车事件、sub command action事件  */
-  const handelPatibleSubCommand = (subcommand, value) => {
-    if (
-      subcommand === "execute_recent_action" ||
-      subcommand === "execute_command"
-    ) {
-      onBottomOpenExtPage(value);
-    } else {
-      onClickSubItem(subcommand, value);
-    }
-  };
-
-
   const onCommandFilter = (value, search, keywords) => {
     const topics = topicManager.activeKeywords;
 
@@ -545,15 +526,6 @@ export function MotionShotCMDK() {
 
     const found = keywords.find(item => item.toLowerCase().includes(search.toLowerCase()));
     return found ? 1 : 0;
-  };
-
-
-  /** 底部  Open Extension Page 按钮点击事件、 回车事件处理 */
-  const onBottomOpenExtPage = (value) => {
-    const [curenValue, isCommand] = getItemByCommandList(value);
-    onCommandHandle(curenValue, isCommand);
-    // 只有不是命令时，关闭launcher
-    !isCommand && closeLauncher();
   };
 
   const handleChangeSelectCmd = (value) => {
@@ -575,34 +547,6 @@ export function MotionShotCMDK() {
         <div cmdk-motionshot-top-shine="" />
         <div className="flex items-center justify-start">
           <SearchComponent inputRef={inputRef} />
-          {
-            // 只有数量大于1时，才显示快照选择
-            snapshots.length > 0 && (
-              <div
-                style={{
-                  flexShrink: 0,
-                  marginLeft: "12px",
-                  position: "relative",
-                  zIndex: 999,
-                  display: "flex",
-                  alignItems: "center"
-                }}>
-                <SnapshotCommand
-                  value={selectSnapId}
-                  inputRef={inputRef}
-                  listRef={listRef}
-                  datas={[
-                    {
-                      id: "all",
-                      name: "All"
-                    },
-                    ...snapshots
-                  ]}
-                  onChange={setSelectSnapId}
-                  extShootRef={extShootRef}></SnapshotCommand>
-              </div>
-            )
-          }
         </div>
         <hr cmdk-motionshot-loader="" />
         <>
@@ -623,10 +567,8 @@ export function MotionShotCMDK() {
           <hr />
           <button
             cmdk-motionshot-open-trigger=""
-            onClick={() => {
-              onBottomOpenExtPage(value);
-            }}>
-            Execute Recent Action
+            onClick={() => { }}>
+            Execute Motion
             <kbd>↵</kbd>
           </button>
           <hr />
@@ -638,13 +580,6 @@ export function MotionShotCMDK() {
           />
         </div>
       </Command>
-      <SnapshotDialog
-        listRef={listRef}
-        snapOpen={snapshotOpen}
-        snapshots={snapshots}
-        onSnapChange={setSnapshotOpen}
-        container={container}
-        onSvaeSnap={onSvaeSnap}></SnapshotDialog>
       <div className="container-root" ref={setContainer}></div>
     </div>
   );

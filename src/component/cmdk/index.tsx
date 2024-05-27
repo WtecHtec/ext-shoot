@@ -32,10 +32,6 @@ export function MotionShotCMDK() {
   const extShootRef = React.useRef(null);
 
   const [inAppMode, setInAppMode] = React.useState(searchManager.ifInApp); // 是否进入应用
-
-  /**
-   * 获取input输入框的值
-   */
   useEffect(() => {
     const unsubscribe = searchManager.subscribe(
       ({ search }) => {

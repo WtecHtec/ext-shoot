@@ -52,7 +52,6 @@ setTimeout(() => {
 
   // 如果不是arc环境，就从navigator.userAgent中获取浏览器类型
   const detectFromNavigator = getBrowser();
-  console.log('detectFromNavigator', detectFromNavigator);
   handleSetBrowser(detectFromNavigator);
 }, 3000);
 
@@ -69,8 +68,6 @@ const PlasmoOverlay = () => {
       setOpen(!open);
       sendResponse({ result: 'Message processed in content.js' });
     }
-    // 发送响应
-    // 不要污染全局反馈
   };
   chrome.runtime.onMessage.addListener(handelMsgBybg);
 

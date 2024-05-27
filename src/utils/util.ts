@@ -76,18 +76,16 @@ function getId() {
 function getBrowser() {
   const browserType = navigator.userAgent.toLowerCase();
   let result = 'chrome';
-  console.log('browserType', browserType);
   if (browserType.indexOf('chrome') > -1) {
-    console.log('当前浏览器是 Chrome');
+    result = 'chrome';
   } else if (browserType.indexOf('firefox') > -1) {
-    console.log('当前浏览器是 Firefox');
+    result = 'firefox';
   } else if (browserType.indexOf('safari') > -1) {
-    console.log('当前浏览器是 Safari');
+    result = 'safari';
   } else if (browserType.indexOf('edge') > -1) {
-    console.log('当前浏览器是 Edge');
     result = 'edge';
   } else {
-    console.log('当前浏览器是其他浏览器');
+    result = 'other';
   }
   return result;
 }

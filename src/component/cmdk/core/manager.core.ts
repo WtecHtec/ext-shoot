@@ -1,58 +1,53 @@
-import debounce from "lodash.debounce";
+import debounce from 'lodash.debounce';
 
 type SubscriberConfig<T> = {
-    debounce?: number;
-    target?: Array<keyof T>;
-}
-
-class StateManager<T extends object>{
-    // protected subscribers: ((state: T) => void)[] = [];
-    protected subscribers: { callback: (state: T) => void, config: SubscriberConfig<T> }[] = [];
-
-    public state: T;
-
-    constructor(initialState: T) {
-        this.state = new Proxy(initialState, {
-            set: (target, property, value) => {
-                const key = property as keyof T; // Type assertion
-                const oldValue = target[property];
-                if (oldValue !== value) {
-                    target[property] = value;
-                    this.notify(key);
-                }
-                return true;
-            }
-        });
-    }
-
-    public subscribe(callback: (state: T) => void, config?: SubscriberConfig<T>): () => void {
-        const subscriberConfig = { ...config };
-        const subscriber = {
-            callback: subscriberConfig.debounce ? debounce(callback, subscriberConfig.debounce) : callback,
-            config: subscriberConfig
-        };
-        this.subscribers.push(subscriber);
-        callback(this.state);  // Immediately call the callback with the current state
-        return () => {
-            this.subscribers = this.subscribers.filter(sub => sub.callback !== callback);
-        };
-    }
-
-    protected notify(changedProperty: keyof T): void {
-        this.subscribers.forEach(({ callback, config }) => {
-            if (!config.target || config.target.includes(changedProperty)) {
-                callback(this.state);
-            }
-        });
-    }
-
-}
-
-export {
-    StateManager,
-
+  debounce?: number;
+  target?: Array<keyof T>;
 };
 
+class StateManager<T extends object> {
+  // protected subscribers: ((state: T) => void)[] = [];
+  protected subscribers: { callback: (state: T) => void; config: SubscriberConfig<T> }[] = [];
+
+  public state: T;
+
+  constructor(initialState: T) {
+    this.state = new Proxy(initialState, {
+      set: (target, property, value) => {
+        const key = property as keyof T; // Type assertion
+        const oldValue = target[property];
+        if (oldValue !== value) {
+          target[property] = value;
+          this.notify(key);
+        }
+        return true;
+      }
+    });
+  }
+
+  public subscribe(callback: (state: T) => void, config?: SubscriberConfig<T>): () => void {
+    const subscriberConfig = { ...config };
+    const subscriber = {
+      callback: subscriberConfig.debounce ? debounce(callback, subscriberConfig.debounce) : callback,
+      config: subscriberConfig
+    };
+    this.subscribers.push(subscriber);
+    callback(this.state); // Immediately call the callback with the current state
+    return () => {
+      this.subscribers = this.subscribers.filter((sub) => sub.callback !== callback);
+    };
+  }
+
+  protected notify(changedProperty: keyof T): void {
+    this.subscribers.forEach(({ callback, config }) => {
+      if (!config.target || config.target.includes(changedProperty)) {
+        callback(this.state);
+      }
+    });
+  }
+}
+
+export { StateManager };
 
 // // 订阅 username 和 email 的变化，不使用防抖
 // const unsubscribe = uiStateManager.subscribe((state) => {

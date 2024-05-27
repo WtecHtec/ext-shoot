@@ -1,3 +1,3 @@
-import { toast } from "sonner/dist";
+import { toast } from 'sonner/dist';
 
 export default toast;

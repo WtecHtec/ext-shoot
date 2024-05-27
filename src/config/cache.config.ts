@@ -5,4 +5,3 @@ export const EXT_RECENTLY_CACHE = 'ext_ecently_cache';
 // 浏览器类型
 export const BROWSER_TYPE = 'browser_type';
 export const SNAPSEEK_KEY = 'history_snapseek';
-

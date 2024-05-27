@@ -1,12 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
-@import "@radix-ui/colors/black-alpha.css";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+@import '@radix-ui/colors/black-alpha.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* 去掉所有元素focus outlin */
 *:focus {
-	outline: none;
+  outline: none;
 }
 
 .grayscale {
@@ -18,10 +18,10 @@ div[data-radix-popper-content-wrapper] {
 }
 
 .snap-picker {
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .snap-picker label {
-	margin-left: 4px;
+  margin-left: 4px;
 }

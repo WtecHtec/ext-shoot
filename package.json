@@ -18,7 +18,8 @@
     "zip:chrome": "pnpm build:chrome && node script/remove-log.js --path=chrome-mv3-prod --zip",
     "check:permission": "node script/check-permission.js --path=chrome-mv3-prod",
     "fix": "eslint . --ext .ts,.tsx --fix",
-    "re:log": "node script/remove-log.js"
+    "re:log": "node script/remove-log.js",
+    "format": "prettier '**/*.{js,jsx,ts,tsx,json,md,mdx,css,scss,yaml,yml}' --write"
   },
   "dependencies": {
     "@json2csv/plainjs": "^7.0.6",

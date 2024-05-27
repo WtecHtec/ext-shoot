@@ -1,13 +1,12 @@
-import * as Popover from "@radix-ui/react-popover";
-import { Command } from "motion-cmdk";
-import React from "react";
+import * as Popover from '@radix-ui/react-popover';
+import { Command } from 'motion-cmdk';
+import React from 'react';
 
-import { eventBus } from "~component/cmdk/panel/event-bus";
-import { getMutliLevelProperty } from "~utils/util";
+import { eventBus } from '~component/cmdk/panel/event-bus';
+import { getMutliLevelProperty } from '~utils/util';
 
-import { appManager } from "../app/app-manager";
-import { actionManager } from "./action-manager";
-
+import { appManager } from '../app/app-manager';
+import { actionManager } from './action-manager';
 
 export default function ActionUi({
   inputRef,
@@ -15,18 +14,16 @@ export default function ActionUi({
   extShootRef,
   value
 }: {
-  inputRef: React.RefObject<HTMLInputElement>
-  listRef: React.RefObject<HTMLElement>
-  extShootRef: React.RefObject<HTMLElement>
-  value?: any
+  inputRef: React.RefObject<HTMLInputElement>;
+  listRef: React.RefObject<HTMLElement>;
+  extShootRef: React.RefObject<HTMLElement>;
+  value?: any;
 }) {
   const [open, setOpen] = React.useState(false);
   const subCommandInputRef = React.useRef<HTMLInputElement>(null);
   const [refresh, setRefresh] = React.useState(0);
   const [title, setTitle] = React.useState(actionManager.title);
-  const [placeholder, setPlaceholder] = React.useState(
-    actionManager.placeholder
-  );
+  const [placeholder, setPlaceholder] = React.useState(actionManager.placeholder);
   const [selectCmd, setSelectCmd] = React.useState(appManager.selectCmd);
 
   const [SelectActions, setSelectActions] = React.useState(actionManager.getAction(title) as any);
@@ -50,14 +47,13 @@ export default function ActionUi({
     };
   }, []);
 
-
   React.useEffect(() => {
     const unsubscribe = appManager.subscribe(
       ({ selectCmd }) => {
         setSelectCmd(selectCmd);
       },
       {
-        target: ["selectCmd"]
+        target: ['selectCmd']
       }
     );
     return () => {
@@ -76,17 +72,14 @@ export default function ActionUi({
 
   React.useEffect(() => {
     if (!open) return;
-    const isCommand = getMutliLevelProperty(value, "isCommand", true);
-    const id = getMutliLevelProperty(value, "id", "");
+    const isCommand = getMutliLevelProperty(value, 'isCommand', true);
+    const id = getMutliLevelProperty(value, 'id', '');
     if ((!value && isCommand) || !id) return;
   }, [value, open]);
 
   React.useEffect(() => {
     function inputListener(event) {
-      if (
-        [27, 37, 38, 39, 40, 13].includes(event.keyCode) ||
-        (event.metaKey && event.key.toLocaleUpperCase() === "K")
-      )
+      if ([27, 37, 38, 39, 40, 13].includes(event.keyCode) || (event.metaKey && event.key.toLocaleUpperCase() === 'K'))
         return;
       if (event.metaKey) return;
       // 阻止事件冒泡
@@ -96,14 +89,11 @@ export default function ActionUi({
     if (subCommandInputRef.current && open) {
       subCommandInputRef.current.autofocus = true;
       subCommandInputRef.current.focus();
-      subCommandInputRef?.current?.addEventListener("keydown", inputListener);
+      subCommandInputRef?.current?.addEventListener('keydown', inputListener);
     }
     return () => {
       if (subCommandInputRef && subCommandInputRef.current) {
-        subCommandInputRef?.current?.removeEventListener(
-          "keydown",
-          inputListener
-        );
+        subCommandInputRef?.current?.removeEventListener('keydown', inputListener);
       }
     };
   }, [refresh, subCommandInputRef, open]);
@@ -112,7 +102,7 @@ export default function ActionUi({
     const el = extShootRef.current;
 
     function listener(e: KeyboardEvent) {
-      if (e.key.toLocaleUpperCase() === "K" && e.metaKey) {
+      if (e.key.toLocaleUpperCase() === 'K' && e.metaKey) {
         e.preventDefault();
         setOpen((o) => !o);
         e.stopPropagation();
@@ -120,19 +110,19 @@ export default function ActionUi({
     }
 
     function escClose(state) {
-      const dialogs = getMutliLevelProperty(state, "dialogs", []);
-      console.log("dialogs", dialogs);
-      if (dialogs.length && dialogs[dialogs.length - 1] === "sub_command") {
-        eventBus.dispath("closeSubCommand");
+      const dialogs = getMutliLevelProperty(state, 'dialogs', []);
+      console.log('dialogs', dialogs);
+      if (dialogs.length && dialogs[dialogs.length - 1] === 'sub_command') {
+        eventBus.dispath('closeSubCommand');
         setOpen(false);
       }
     }
 
-    el && el.addEventListener("keydown", listener);
-    eventBus.on("close", escClose);
+    el && el.addEventListener('keydown', listener);
+    eventBus.on('close', escClose);
     return () => {
-      el && el.removeEventListener("keydown", listener);
-      eventBus.off("close", escClose);
+      el && el.removeEventListener('keydown', listener);
+      eventBus.off('close', escClose);
     };
   }, [extShootRef]);
 
@@ -140,16 +130,15 @@ export default function ActionUi({
     const el = listRef.current;
     if (!el) return;
     if (open) {
-      eventBus.dispath("openSubCommand");
-      el.style.overflow = "hidden";
-      el.style.pointerEvents = "none";
+      eventBus.dispath('openSubCommand');
+      el.style.overflow = 'hidden';
+      el.style.pointerEvents = 'none';
     } else {
-      eventBus.dispath("closeSubCommand");
-      el.style.overflow = "";
-      el.style.pointerEvents = "all";
+      eventBus.dispath('closeSubCommand');
+      el.style.overflow = '';
+      el.style.pointerEvents = 'all';
     }
   }, [open, listRef]);
-
 
   // const renderActionTitle = (title: string) => {
   //   return (
@@ -157,13 +146,9 @@ export default function ActionUi({
   //   );
   // };
 
-
   return (
     <Popover.Root open={open} onOpenChange={setOpen}>
-      <Popover.Trigger
-        cmdk-motionshot-subcommand-trigger=""
-        onClick={() => setOpen(true)}
-        aria-expanded={open}>
+      <Popover.Trigger cmdk-motionshot-subcommand-trigger="" onClick={() => setOpen(true)} aria-expanded={open}>
         Actions
         <kbd>⌘</kbd>
         <kbd>K</kbd>
@@ -179,7 +164,7 @@ export default function ActionUi({
           inputRef?.current?.focus();
         }}>
         <Command>
-          <h1 className={"sub_command_title"}>{title ?? selectCmd}</h1>
+          <h1 className={'sub_command_title'}>{title ?? selectCmd}</h1>
           <Command.List>
             <Command.Empty>No Results</Command.Empty>
             {SelectActions && React.cloneElement(SelectActions, { title: 'Actions' })}

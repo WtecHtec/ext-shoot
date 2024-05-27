@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 /**
  * @type {import('postcss').ProcessOptions}
  */

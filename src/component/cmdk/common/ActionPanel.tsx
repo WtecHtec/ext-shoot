@@ -1,42 +1,33 @@
 import { Command } from 'motion-cmdk';
 import React, { useEffect } from 'react';
+
 import { actionManager } from '../action';
 
 interface ActionPanelProps {
-    head?: string;
-    children?: React.ReactNode;
+  head?: string;
+  children?: React.ReactNode;
 }
 
 const ActionPanel = ({ children, head }: ActionPanelProps) => {
-    const registeActionTitle = () => {
-        console.log('title', head);
-        actionManager.updateTitle(head);
-    };
+  const registeActionTitle = () => {
+    console.log('title', head);
+    actionManager.updateTitle(head);
+  };
 
-    useEffect(() => {
-        registeActionTitle();
-    }, []);
+  useEffect(() => {
+    registeActionTitle();
+  }, []);
 
-    return (
-        <div className='pt-2'>
-            {children}
-        </div>
-    );
+  return <div className="pt-2">{children}</div>;
 };
-
 
 interface SectionProps {
-    title?: string;
-    children?: React.ReactNode;
+  title?: string;
+  children?: React.ReactNode;
 }
 const Section = ({ title, children }: SectionProps) => {
-    return (
-        <Command.Group heading={title}>
-            {children}
-        </Command.Group>
-    );
+  return <Command.Group heading={title}>{children}</Command.Group>;
 };
-
 
 ActionPanel.Section = Section;
 

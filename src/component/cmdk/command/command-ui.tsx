@@ -1,25 +1,25 @@
-import { Command as CommandCMDK } from "motion-cmdk";
-import React, { useEffect, useState } from "react";
+import { Command as CommandCMDK } from 'motion-cmdk';
+import React, { useEffect, useState } from 'react';
 
-import ChromeStoreSearch from "~extension/chrome-store-search";
-import ChromeStoreWebSearch from "~extension/chrome-store-web-search";
-import HistorySearch from "~extension/history-search";
-import InstantOpen from "~extension/instant-open";
-import TableManager from "~extension/tab-manager";
-import WindowsManager from "~extension/window-agent";
-import CacheAgent from "~extension/cache-agent";
-import QuickOpen from "~extension/quick-open";
-import Jiker from "~extension/jiker";
-import WebTraffic from "~extension/web-traffic";
-import Flomor from "~extension/flomor";
-import X from "~extension/x";
-import ChatGPT from "~extension/chatgpt";
-import DevTools from "~extension/devtools";
-import FeishuGroupTalk from "~extension/feishu-talk";
+import { ExtensionLauncher, ExtensionManagerCommand } from '~extension';
+import CacheAgent from '~extension/cache-agent';
+import ChatGPT from '~extension/chatgpt';
+import ChromeStoreSearch from '~extension/chrome-store-search';
+import ChromeStoreWebSearch from '~extension/chrome-store-web-search';
+import DevTools from '~extension/devtools';
+import FeishuGroupTalk from '~extension/feishu-talk';
+import Flomor from '~extension/flomor';
+import HistorySearch from '~extension/history-search';
+import InstantOpen from '~extension/instant-open';
+import Jiker from '~extension/jiker';
+import QuickOpen from '~extension/quick-open';
+import TableManager from '~extension/tab-manager';
+import WebTraffic from '~extension/web-traffic';
+import WindowsManager from '~extension/window-agent';
+import X from '~extension/x';
 
-import { Command } from "../common/Command";
-import { searchManager } from "../search/search-manager";
-import { ExtensionLauncher, ExtensionManagerCommand } from "~extension";
+import { Command } from '../common/Command';
+import { searchManager } from '../search/search-manager';
 
 function ExtensionWithSearchLoader() {
   const [search, setSearch] = useState(searchManager.content);
@@ -29,7 +29,7 @@ function ExtensionWithSearchLoader() {
         setSearch(search);
       },
       {
-        target: ["search"]
+        target: ['search']
       }
     );
     return unsubscribe; // Cleanup on unmount
@@ -49,7 +49,7 @@ function ExtensionWithSearchLoader() {
 
 const ExtensionLoader = () => {
   return (
-    <CommandCMDK.Group heading={"Results"}>
+    <CommandCMDK.Group heading={'Results'}>
       <Command.PlaceholderCommand />
       <FeishuGroupTalk />
       <X />

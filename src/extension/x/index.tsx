@@ -1,9 +1,9 @@
-import ExtensionLogo from "data-base64:./icon.png";
-import React from "react";
+import ExtensionLogo from 'data-base64:./icon.png';
+import React from 'react';
 
-import { Command, CommandPanel } from "~component/cmdk/common/Command";
+import { Command, CommandPanel } from '~component/cmdk/common/Command';
 
-import { repostToJike } from "./handle";
+import { repostToJike } from './handle';
 
 const TabManagerComand = () => {
   return (
@@ -22,7 +22,7 @@ const TabManagerComand = () => {
       <Command.SimpleCommand
         name="repostToJike"
         title="把这篇帖子转发到即刻"
-        keywords={["repost", "jike"]}
+        keywords={['repost', 'jike']}
         description="转发到即刻"
         endAfterRun
         handle={async () => {

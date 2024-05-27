@@ -1,6 +1,6 @@
 .super-motion {
-  --font-sans: "Inter", --apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  --font-sans: 'Inter', --apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans,
+    Droid Sans, Helvetica Neue, sans-serif;
   --app-bg: var(--gray-bg);
   --blur: 12px;
   --cmdk-shadow: 0 16px 70px rgb(0 0 0 / 20%);
@@ -117,7 +117,7 @@
       border: 0;
 
       &:after {
-        content: "";
+        content: '';
         background: linear-gradient(
           to right,
           var(--gray6) 20%,
@@ -139,7 +139,7 @@
       }
 
       &:before {
-        content: "";
+        content: '';
         z-index: -1;
         position: absolute;
         border-radius: 12px;
@@ -219,16 +219,11 @@
     margin-bottom: 12px;
 
     &:after {
-      content: "";
+      content: '';
       width: 50%;
       height: 1px;
       position: absolute;
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        var(--loader-color) 50%,
-        transparent 100%
-      );
+      background: linear-gradient(90deg, transparent 0%, var(--loader-color) 50%, transparent 100%);
       top: -1px;
       opacity: 0;
       animation-duration: 1.5s;
@@ -255,12 +250,12 @@
     transition: all 150ms ease;
     transition-property: none;
 
-    &[data-selected="true"] {
+    &[data-selected='true'] {
       background: var(--gray-item-active);
       color: var(--gray12);
     }
 
-    &[data-disabled="true"] {
+    &[data-disabled='true'] {
       color: var(--gray8);
       cursor: not-allowed;
     }
@@ -375,7 +370,7 @@
       width: 1px;
     }
 
-    &[aria-expanded="true"],
+    &[aria-expanded='true'],
     &:hover {
       background: var(--gray-item-active);
 
@@ -452,7 +447,7 @@
       animation: dialogIn var(--transition-fast) forwards;
     }
 
-    &[data-state="closed"] [cmdk] {
+    &[data-state='closed'] [cmdk] {
       animation: dialogOut var(--transition-fast) forwards;
     }
   }
@@ -564,7 +559,7 @@
     transition: all 150ms ease;
     transition-property: none;
 
-    &[aria-selected="true"] {
+    &[aria-selected='true'] {
       background: var(--gray5);
       color: var(--gray12);
 
@@ -573,7 +568,7 @@
       }
     }
 
-    &[aria-disabled="true"] {
+    &[aria-disabled='true'] {
       color: var(--gray8);
       cursor: not-allowed;
     }
@@ -645,11 +640,11 @@
   animation-fill-mode: forwards;
   transform-origin: var(--radix-popover-content-transform-origin);
 
-  &[data-state="open"] {
+  &[data-state='open'] {
     animation-name: slideIn;
   }
 
-  &[data-state="closed"] {
+  &[data-state='closed'] {
     animation-name: slideOut;
   }
 

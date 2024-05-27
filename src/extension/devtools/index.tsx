@@ -1,9 +1,9 @@
-import ExtensionLogo from "data-base64:./icon.png";
-import React from "react";
+import ExtensionLogo from 'data-base64:./icon.png';
+import React from 'react';
 
-import { Command, CommandPanel } from "~component/cmdk/common/Command";
+import { Command, CommandPanel } from '~component/cmdk/common/Command';
 
-import { safeInjectJQuery } from "./handle";
+import { safeInjectJQuery } from './handle';
 
 const TabManagerComand = () => {
   return (
@@ -11,7 +11,7 @@ const TabManagerComand = () => {
       <Command.SimpleCommand
         name="inject-jquery"
         title="Inject JQuery Into Page"
-        keywords={["inject", "jquery"]}
+        keywords={['inject', 'jquery']}
         description="Inject JQuery"
         endAfterRun
         handle={async () => {

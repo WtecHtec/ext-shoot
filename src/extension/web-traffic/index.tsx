@@ -1,9 +1,9 @@
-import ExtensionLogo from "data-base64:./icon.png";
-import React from "react";
+import ExtensionLogo from 'data-base64:./icon.png';
+import React from 'react';
 
-import { Command, CommandPanel } from "~component/cmdk/common/Command";
-import { checkTraffic } from "./handle";
+import { Command, CommandPanel } from '~component/cmdk/common/Command';
 
+import { checkTraffic } from './handle';
 
 const TabManagerComand = () => {
   return (
@@ -11,7 +11,7 @@ const TabManagerComand = () => {
       <Command.SimpleCommand
         name="web-traffic"
         title="Go Similarweb"
-        keywords={["web traffic", "web"]}
+        keywords={['web traffic', 'web']}
         description="Open the browser's web traffic page"
         endAfterRun
         handle={async () => {

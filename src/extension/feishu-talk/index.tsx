@@ -1,9 +1,9 @@
-import ExtensionLogo from "data-base64:./icon.png";
-import React, { useEffect } from "react";
+import ExtensionLogo from 'data-base64:./icon.png';
+import React, { useEffect } from 'react';
 
-import { Command, CommandPanel } from "~component/cmdk/common/Command";
-import { initMessageProcessor } from "./handle";
+import { Command, CommandPanel } from '~component/cmdk/common/Command';
 
+import { initMessageProcessor } from './handle';
 
 // export const loadFlomoAction = () => {
 
@@ -19,13 +19,11 @@ const TabManagerComand = () => {
   }, []);
   return (
     <CommandPanel title="feishu talker" icon={ExtensionLogo}>
-
-
       {/* /监听消息 */}
       <Command.SimpleCommand
         name="listenMsgFromFeishu"
         title="监听群聊消息"
-        keywords={["listen", "msg", "feishu"]}
+        keywords={['listen', 'msg', 'feishu']}
         description="监听群聊消息"
         endAfterRun
         handle={async () => {
@@ -34,8 +32,6 @@ const TabManagerComand = () => {
       />
     </CommandPanel>
   );
-
-
 };
 
 export default TabManagerComand;

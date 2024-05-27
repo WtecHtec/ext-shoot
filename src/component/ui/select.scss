@@ -1,27 +1,27 @@
 /* reset */
 button {
-	all: unset;
+  all: unset;
 }
 
 .SelectTrigger {
-	width: 100%;
-	box-sizing: border-box;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 4px;
-	padding: 0 15px;
-	font-size: 13px;
-	line-height: 1;
-	height: 35px;
-	gap: 5px;
-	background-color: var(--gray1);
-	color: var(--gray12);
-	box-shadow: 0 0 0 1px var(--gray6);
+  width: 100%;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 0 15px;
+  font-size: 13px;
+  line-height: 1;
+  height: 35px;
+  gap: 5px;
+  background-color: var(--gray1);
+  color: var(--gray12);
+  box-shadow: 0 0 0 1px var(--gray6);
 }
 
 .SelectTrigger:hover {
-	background-color: var(--gray4);
+  background-color: var(--gray4);
 }
 
 // .SelectTrigger:focus {
@@ -29,40 +29,42 @@ button {
 // }
 
 .SelectTrigger[data-placeholder] {
-	color: var(--gray11);
+  color: var(--gray11);
 }
 
 .SelectIcon {
-	color: Var(--gray12);
+  color: Var(--gray12);
 }
 
 .SelectContent {
-	width: 100%;
-	overflow: hidden;
-	background-color: var(--gray1);
-	border-radius: 6px;
-	box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--gray1);
+  border-radius: 6px;
+  box-shadow:
+    0px 10px 38px -10px rgba(22, 23, 24, 0.35),
+    0px 10px 20px -15px rgba(22, 23, 24, 0.2);
 }
 
 .SelectViewport {
-	padding: 5px;
+  padding: 5px;
 }
 
 .SelectItem {
-	background-color: var(--gray1);
-	font-size: 13px;
-	line-height: 1;
-	color: var(--gray12);
-	border-radius: 3px;
-	display: flex;
-	align-items: center;
-	// height: 25px;
-	padding: 8px 35px 8px 25px;
-	position: relative;
-	user-select: none;
-	width: 360px;
-	box-sizing: border-box;
-	cursor: pointer;
+  background-color: var(--gray1);
+  font-size: 13px;
+  line-height: 1;
+  color: var(--gray12);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  // height: 25px;
+  padding: 8px 35px 8px 25px;
+  position: relative;
+  user-select: none;
+  width: 360px;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 
 .menu-main .SelectItem {
@@ -71,44 +73,44 @@ button {
 }
 
 .SelectItem[data-disabled] {
-	color: var(--mauve-8);
-	pointer-events: none;
+  color: var(--mauve-8);
+  pointer-events: none;
 }
 
 .SelectItem[data-highlighted] {
-	outline: none;
-	background-color: var(--gray6);
-	color: var(--gray12);
+  outline: none;
+  background-color: var(--gray6);
+  color: var(--gray12);
 }
 
 .SelectLabel {
-	padding: 0 25px;
-	font-size: 12px;
-	line-height: 25px;
-	color: var(--mauve-11);
+  padding: 0 25px;
+  font-size: 12px;
+  line-height: 25px;
+  color: var(--mauve-11);
 }
 
 .SelectSeparator {
-	height: 1px;
-	background-color: var(--violet-6);
-	margin: 5px;
+  height: 1px;
+  background-color: var(--violet-6);
+  margin: 5px;
 }
 
 .SelectItemIndicator {
-	position: absolute;
-	left: 0;
-	width: 16px;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
+  position: absolute;
+  left: 0;
+  width: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .SelectScrollButton {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 25px;
-	background-color: white;
-	color: var(--violet-11);
-	cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 25px;
+  background-color: white;
+  color: var(--violet-11);
+  cursor: default;
 }

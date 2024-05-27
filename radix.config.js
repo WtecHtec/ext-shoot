@@ -1,13 +1,13 @@
-const radix = require("@radix-ui/colors")
+import * as radix from '@radix-ui/colors';
 
 const getColorMap = (
-  /** @type {Array<keyof import('@radix-ui/colors')>} */
+  /** @type {Array<keyof typeof radix>} */
   colorList
 ) =>
   colorList.reduce((acc, color) => {
-    acc[color] = radix[color]
-    acc[`${color}Dark`] = radix[`${color}Dark`]
-    return acc
-  }, {})
+    acc[color] = radix[color];
+    acc[`${color}Dark`] = radix[`${color}Dark`];
+    return acc;
+  }, {});
 
-module.exports = getColorMap(["gray"])
+export default getColorMap(['gray']);

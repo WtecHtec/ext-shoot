@@ -1,26 +1,17 @@
-import { AnimatePresence, motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
 
-import {
-  ErrorIcon,
-  LineSpinnerIcon,
-  ShootIcon,
-  SuccessIcon
-} from "~component/icons";
+import { HOME_PAGE } from '~component/cmdk/core/constant';
+import { ErrorIcon, LineSpinnerIcon, ShootIcon, SuccessIcon } from '~component/icons';
 
-import { statusManager, StatusMessage } from "./tip-manager";
-import {HOME_PAGE} from '~component/cmdk/core/constant';
+import { statusManager, StatusMessage } from './tip-manager';
 
-export const footerTip = (
-  type: "success" | "error" | "loading" | "tip",
-  message: string,
-  duration?: number
-): void => {
+export const footerTip = (type: 'success' | 'error' | 'loading' | 'tip', message: string, duration?: number): void => {
   statusManager.updateStatus(type, message, duration);
 };
 
 interface TipProps {
-  msg: string
+  msg: string;
 }
 
 const LoadingTip: React.FC<TipProps> = ({ msg }) => {
@@ -34,13 +25,13 @@ const LoadingTip: React.FC<TipProps> = ({ msg }) => {
 
 const DefaultTip: React.FC<TipProps> = () => {
   function handleOpenGithub(): void {
-    window.open(HOME_PAGE, "_blank");
+    window.open(HOME_PAGE, '_blank');
   }
 
   return (
     <ShootIcon
       className="hover:bg-[var(--gray4)] hover:rounded-[10%] hover:cursor-pointer ml-1"
-      style={{ width: "18px", height: "18px" }}
+      style={{ width: '18px', height: '18px' }}
       onClick={handleOpenGithub}
     />
   );
@@ -81,8 +72,8 @@ const ComponentMap = {
 
 const StatusNotifications: React.FC = () => {
   const [currentStatus, setCurrentStatus] = useState<StatusMessage>({
-    type: "default",
-    message: ""
+    type: 'default',
+    message: ''
   });
 
   useEffect(() => {
@@ -94,8 +85,7 @@ const StatusNotifications: React.FC = () => {
   //     console.log(currentStatus);
   // }, [currentStatus]);
   //
-  const StatusComponent =
-    ComponentMap[currentStatus.type] || ComponentMap.default;
+  const StatusComponent = ComponentMap[currentStatus.type] || ComponentMap.default;
 
   return (
     <div className={`status-notifications `}>

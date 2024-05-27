@@ -1,22 +1,25 @@
-const { blackA } = require('@radix-ui/colors');
+import { blackA } from '@radix-ui/colors';
+import windyRadixPalette from 'windy-radix-palette';
+
+import palette from './radix.config';
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./src/**/*.{tsx,html}"],
-  darkMode: "media",
+export default {
+  content: ['./src/**/*.{tsx,html}'],
+  darkMode: 'media',
   corePlugins: {
-    preflight: true,
+    preflight: true
   },
   theme: {
     extend: {
       colors: {
-        ...blackA,
-      },
-    },
+        ...blackA
+      }
+    }
   },
   plugins: [
-    require("windy-radix-palette")({
-      colors: require("./radix.config")
+    windyRadixPalette({
+      colors: palette
     })
   ]
-}
+};

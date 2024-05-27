@@ -35,7 +35,7 @@ class EventBus {
   emit(eventName, ...arg) {
     const fns = this.listener[eventName];
     if (Array.isArray(fns)) {
-      fns.forEach(fn => {
+      fns.forEach((fn) => {
         fn(this.state, ...arg);
       });
     }
@@ -50,13 +50,10 @@ class EventBus {
         };
       }
     }
-
-
   }
   getState() {
     return this.state;
   }
-
 }
 
 const eventBus = EventBus.getInstace();

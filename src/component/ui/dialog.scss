@@ -1,60 +1,57 @@
 .container-root {
-	--black-a1: hsla(0, 0%, 0%, 0.012);
-	--black-a2: hsla(0, 0%, 0%, 0.024);
-	--black-a3: hsla(0, 0%, 0%, 0.055);
-	--black-a4: hsla(0, 0%, 0%, 0.078);
-	--black-a5: hsla(0, 0%, 0%, 0.106);
-	--black-a6: hsla(0, 0%, 0%, 0.133);
-	--black-a7: hsla(0, 0%, 0%, 0.169);
-	--black-a8: hsla(0, 0%, 0%, 0.267);
-	--black-a9: hsla(0, 0%, 0%, 0.447);
-	--black-a10: hsla(0, 0%, 0%, 0.498);
-	--black-a11: hsla(0, 0%, 0%, 0.608);
-	--black-a12: hsla(0, 0%, 0%, 0.875);
+  --black-a1: hsla(0, 0%, 0%, 0.012);
+  --black-a2: hsla(0, 0%, 0%, 0.024);
+  --black-a3: hsla(0, 0%, 0%, 0.055);
+  --black-a4: hsla(0, 0%, 0%, 0.078);
+  --black-a5: hsla(0, 0%, 0%, 0.106);
+  --black-a6: hsla(0, 0%, 0%, 0.133);
+  --black-a7: hsla(0, 0%, 0%, 0.169);
+  --black-a8: hsla(0, 0%, 0%, 0.267);
+  --black-a9: hsla(0, 0%, 0%, 0.447);
+  --black-a10: hsla(0, 0%, 0%, 0.498);
+  --black-a11: hsla(0, 0%, 0%, 0.608);
+  --black-a12: hsla(0, 0%, 0%, 0.875);
 
-	--green-1: hsl(136, 50.0%, 98.9%);
-	--green-2: hsl(138, 62.5%, 96.9%);
-	--green-3: hsl(139, 55.2%, 94.5%);
-	--green-4: hsl(140, 48.7%, 91.0%);
-	--green-5: hsl(141, 43.7%, 86.0%);
-	--green-6: hsl(143, 40.3%, 79.0%);
-	--green-7: hsl(146, 38.5%, 69.0%);
-	--green-8: hsl(151, 40.2%, 54.1%);
-	--green-9: hsl(151, 55.0%, 41.5%);
-	--green-10: hsl(152, 57.5%, 37.6%);
-	--green-11: hsl(153, 67.0%, 28.5%);
-	--green-12: hsl(155, 40.0%, 16.5%);
+  --green-1: hsl(136, 50%, 98.9%);
+  --green-2: hsl(138, 62.5%, 96.9%);
+  --green-3: hsl(139, 55.2%, 94.5%);
+  --green-4: hsl(140, 48.7%, 91%);
+  --green-5: hsl(141, 43.7%, 86%);
+  --green-6: hsl(143, 40.3%, 79%);
+  --green-7: hsl(146, 38.5%, 69%);
+  --green-8: hsl(151, 40.2%, 54.1%);
+  --green-9: hsl(151, 55%, 41.5%);
+  --green-10: hsl(152, 57.5%, 37.6%);
+  --green-11: hsl(153, 67%, 28.5%);
+  --green-12: hsl(155, 40%, 16.5%);
 
+  --mauve-1: hsl(300, 26%, 99%);
+  --mauve-2: hsl(270, 20%, 98%);
+  --mauve-3: hsl(267, 13.8%, 95.3%);
+  --mauve-4: hsl(265, 12.2%, 92.7%);
+  --mauve-5: hsl(263, 11.6%, 90.3%);
+  --mauve-6: hsl(261, 11.1%, 87.7%);
+  --mauve-7: hsl(257, 10.8%, 84.3%);
+  --mauve-8: hsl(249, 10.4%, 75.5%);
+  --mauve-9: hsl(252, 6%, 57.3%);
+  --mauve-10: hsl(250, 5%, 52.3%);
+  --mauve-11: hsl(252, 5%, 40.7%);
+  --mauve-12: hsl(260, 10%, 13.5%);
 
-	--mauve-1: hsl(300, 26.0%, 99.0%);
-	--mauve-2: hsl(270, 20.0%, 98.0%);
-	--mauve-3: hsl(267, 13.8%, 95.3%);
-	--mauve-4: hsl(265, 12.2%, 92.7%);
-	--mauve-5: hsl(263, 11.6%, 90.3%);
-	--mauve-6: hsl(261, 11.1%, 87.7%);
-	--mauve-7: hsl(257, 10.8%, 84.3%);
-	--mauve-8: hsl(249, 10.4%, 75.5%);
-	--mauve-9: hsl(252, 6.0%, 57.3%);
-	--mauve-10: hsl(250, 5.0%, 52.3%);
-	--mauve-11: hsl(252, 5.0%, 40.7%);
-	--mauve-12: hsl(260, 10.0%, 13.5%);
+  --violet-1: hsl(255, 65%, 99.4%);
+  --violet-2: hsl(252, 100%, 99%);
+  --violet-3: hsl(252, 96.9%, 97.4%);
+  --violet-4: hsl(252, 91.5%, 95.5%);
+  --violet-5: hsl(252, 85.1%, 93%);
+  --violet-6: hsl(252, 77.8%, 89.4%);
+  --violet-7: hsl(252, 71%, 83.7%);
+  --violet-8: hsl(252, 68.6%, 76.3%);
+  --violet-9: hsl(252, 56%, 57.5%);
+  --violet-10: hsl(251, 48.1%, 53.5%);
+  --violet-11: hsl(250, 43%, 48%);
+  --violet-12: hsl(250, 43%, 26%);
 
-
-	--violet-1: hsl(255, 65.0%, 99.4%);
-	--violet-2: hsl(252, 100%, 99.0%);
-	--violet-3: hsl(252, 96.9%, 97.4%);
-	--violet-4: hsl(252, 91.5%, 95.5%);
-	--violet-5: hsl(252, 85.1%, 93.0%);
-	--violet-6: hsl(252, 77.8%, 89.4%);
-	--violet-7: hsl(252, 71.0%, 83.7%);
-	--violet-8: hsl(252, 68.6%, 76.3%);
-	--violet-9: hsl(252, 56.0%, 57.5%);
-	--violet-10: hsl(251, 48.1%, 53.5%);
-	--violet-11: hsl(250, 43.0%, 48.0%);
-	--violet-12: hsl(250, 43.0%, 26.0%);
-
-
-	--gray1: hsl(0, 0%, 99%);
+  --gray1: hsl(0, 0%, 99%);
   --gray2: hsl(0, 0%, 97.3%);
   --gray3: hsl(0, 0%, 95.1%);
   --gray4: hsl(0, 0%, 93%);
@@ -72,137 +69,139 @@
 button,
 fieldset,
 input {
-	all: unset;
+  all: unset;
 }
 
 .DialogOverlay {
-	position: fixed;
-	inset: 0;
-	animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  position: fixed;
+  inset: 0;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .DialogContent {
-	background-color: var(--gray1);
-	border-radius: 6px;
-	box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 90vw;
-	max-width: 450px;
-	max-height: 85vh;
-	padding: 25px;
-	animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: var(--gray1);
+  border-radius: 6px;
+  box-shadow:
+    hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+    hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 450px;
+  max-height: 85vh;
+  padding: 25px;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .DialogContent:focus {
-	outline: none;
+  outline: none;
 }
 
 .DialogTitle {
-	margin: 0;
-	font-weight: 500;
-	color: var(--mauve-12);
-	font-size: 17px;
+  margin: 0;
+  font-weight: 500;
+  color: var(--mauve-12);
+  font-size: 17px;
 }
 
 .DialogDescription {
-	margin: 10px 0 20px;
-	color: var(--mauve-11);
-	font-size: 15px;
-	line-height: 1.5;
+  margin: 10px 0 20px;
+  color: var(--mauve-11);
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 .Button {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 4px;
-	padding: 8px 15px;
-	font-size: 15px;
-	line-height: 1;
-	font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 8px 15px;
+  font-size: 15px;
+  line-height: 1;
+  font-weight: 500;
 }
 
 .Button.violet {
-	background-color: white;
-	color: var(--violet-11);
-	box-shadow: 0 2px 10px var(--black-a7);
+  background-color: white;
+  color: var(--violet-11);
+  box-shadow: 0 2px 10px var(--black-a7);
 }
 
 .Button.violet:hover {
-	background-color: var(--mauve-3);
+  background-color: var(--mauve-3);
 }
 
 .Button.violet:focus {
-	box-shadow: 0 0 0 2px black;
+  box-shadow: 0 0 0 2px black;
 }
 
 .Button.green {
-	// background-color: var(--green-4);
-	color: var(--gray12);
-	box-shadow: 0 0 0 1px var(--gray6);
-	cursor: pointer;
+  // background-color: var(--green-4);
+  color: var(--gray12);
+  box-shadow: 0 0 0 1px var(--gray6);
+  cursor: pointer;
 }
 
 .Button.green:hover {
-	background-color: var(--gray4);
+  background-color: var(--gray4);
 }
 
 .Button.green:focus {
-	box-shadow: 0 0 0 1px var(--gray6);
+  box-shadow: 0 0 0 1px var(--gray6);
 }
 
 .IconButton {
-	font-family: inherit;
-	border-radius: 100%;
-	height: 25px;
-	width: 25px;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	color: var(--gray12);
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	cursor: pointer;
+  font-family: inherit;
+  border-radius: 100%;
+  height: 25px;
+  width: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray12);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
 }
 
 .IconButton:hover {
-	background-color: var(--gray6);
+  background-color: var(--gray6);
 }
 
 .IconButton:focus {
-	box-shadow: 0 0 0 2px var(--gray1);
+  box-shadow: 0 0 0 2px var(--gray1);
 }
 
 .Fieldset {
-	display: flex;
-	gap: 20px;
-	align-items: center;
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 
 .Label {
-	font-size: 15px;
-	color: var(--gray-11);
-	width: 90px;
-	text-align: right;
+  font-size: 15px;
+  color: var(--gray-11);
+  width: 90px;
+  text-align: right;
 }
 
 .Input {
-	width: 100%;
-	flex: 1;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 4px;
-	padding: 0 10px;
-	font-size: 15px;
-	line-height: 1;
-	color: var(--gray12);
-	box-shadow: 0 0 0 1px var(--gray6);
-	height: 35px;
+  width: 100%;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--gray12);
+  box-shadow: 0 0 0 1px var(--gray6);
+  height: 35px;
 }
 
 // .Input:focus {
@@ -210,23 +209,23 @@ input {
 // }
 
 @keyframes overlayShow {
-	from {
-		opacity: 0;
-	}
+  from {
+    opacity: 0;
+  }
 
-	to {
-		opacity: 1;
-	}
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes contentShow {
-	from {
-		opacity: 0;
-		transform: translate(-50%, -48%) scale(0.96);
-	}
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
 
-	to {
-		opacity: 1;
-		transform: translate(-50%, -50%) scale(1);
-	}
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }

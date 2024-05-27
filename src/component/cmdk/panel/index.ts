@@ -1,2 +1,2 @@
-export * from "./esc-control";
-export * from "./event-bus";
+export * from './esc-control';
+export * from './event-bus';

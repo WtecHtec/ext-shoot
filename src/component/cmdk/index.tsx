@@ -26,15 +26,8 @@ export function MotionShotCMDK() {
 
 
   useEffect(() => {
-    const unsubscribe = searchManager.subscribe(
-      ({ search }) => {
-        setSearch(search);
-      },
-      {
-        target: ["search"]
-      }
-    );
-    return unsubscribe;
+    const unsubscribe = searchManager.subscribe(({ search }) => { setSearch(search); }, { target: ["search"] })
+      ; return unsubscribe;
   }, []);
 
   useEffect(() => {

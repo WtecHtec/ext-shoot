@@ -1,14 +1,11 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable no-unused-vars */
 /* eslint-disable */
-
-// import * as Select from '@radix-ui/react-select';
 import { Command } from "motion-cmdk";
 import React, { useEffect, useState } from "react";
 
 import FooterTip from "~component/cmdk/tip/tip-ui";
 
-// import SubCommand from './action/action-ui';
 import Action from "./action/action-ui-refactor";
 import { appManager } from "./app/app-manager";
 import AppUI from "./app/app-ui";
@@ -18,9 +15,6 @@ import SearchComponent from "./search/search-ui";
 import { CommandUI } from "./command/command-ui";
 import { initEscControl } from "./panel/esc-control";
 import { topicManager } from "./topic/topic-manager";
-
-
-
 
 export function MotionShotCMDK() {
   const [value, setValue] = React.useState("");
@@ -40,23 +34,23 @@ export function MotionShotCMDK() {
         target: ["search"]
       }
     );
-    return unsubscribe; // Cleanup on unmount
+    return unsubscribe;
   }, []);
 
   useEffect(() => {
     const unsubscribe = appManager.subscribe(({ inAppMode }) => {
       setInAppMode(inAppMode);
     });
-    return unsubscribe; // Cleanup on unmount
+    return unsubscribe;
   }, []);
 
 
 
   useEffect(() => {
     if (listRef.current) {
-      listRef.current.scrollTop = 0; // 滚动到顶部
+      listRef.current.scrollTop = 0;
     }
-  }, [search]); // 依赖search，当search变化时，执行effect
+  }, [search]);
 
 
   const onCommandFilter = (value, search, keywords) => {

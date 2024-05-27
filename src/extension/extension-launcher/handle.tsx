@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ExtShootSeverHost } from "~config/config";
-import { handleOpenExtensionDetails, handlePluginStatus, handleUninstallPlugin } from "~utils/management";
+import { handleOpenExtensionDetails, handlePluginStatus, handleSoloRun, handleUninstallPlugin } from "~utils/management";
 import { toast } from "sonner/dist";
 import * as clipboard from "clipboard-polyfill";
 import { footerTip } from "~component/cmdk/tip/tip-ui";
@@ -164,4 +164,13 @@ export const onHanldeUninstallPulgin = async ({ id }) => {
  */
 export const handleDoExtDetail = async ({ id, name }) => {
     return handleOpenExtensionDetails(id, name);
+};
+
+
+/**
+ * solo run mode
+ */
+export const onHandleSoloRun = async ({ id }) => {
+    await handleSoloRun(id);
+    footerTip("success", "Check Solo Mode Successfully", 2000);
 };

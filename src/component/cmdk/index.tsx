@@ -295,16 +295,6 @@ export function MotionShotCMDK() {
   };
   /** 触发按键 */
   React.useEffect(() => {
-    // function listener(e: KeyboardEvent) {
-    //     const key = e.key?.toUpperCase();
-
-    //     if (e.metaKey && key === 'U') {
-    //         // 更新
-    //         e.preventDefault();
-    //         HandleIconUpdate();
-    //     }
-    // }
-
     const handelMsgBybg = (request, sender, sendResponse) => {
       const { action } = request;
       if (action === AC_ICON_UPDATED) {
@@ -461,8 +451,6 @@ export function MotionShotCMDK() {
       footerTip("success", "Reload Plugin Success", 1000);
     }, 1000);
   };
-
-
 
   /**
    * 卸载
@@ -652,71 +640,7 @@ export function MotionShotCMDK() {
     return [curenValue, isCommand];
   };
 
-  /**
-   *
-   * @param  处理历史记录
-   * @returns
-   */
-  const handleRecentEvent = (inValue) => {
-    const [curenValue, isCommand] = getItemByCommandList(inValue);
-    const { value, pendingUrl, extIds, name } = curenValue || {};
-    console.log("RecentlyFix---", inValue, curenValue, isCommand);
-    if (value.includes(SearchFix)) {
-      window.open(extIds[0]);
-      handleAddRecently({
-        ...curenValue,
-        name: curenValue?.name.split(":")[0]
-      });
-      return;
-    }
-    if (value === "add_snapshot") {
-      setSnapshotOpen((v) => !v);
-      handleAddRecently({
-        value,
-        extIds: [value],
-        isCommand: true,
-        name
-      });
-      return;
-    }
-    if (
-      commandMetaMap[value] &&
-      typeof commandMetaMap[value].handle === "function"
-    ) {
-      if (value !== "clear_recently") {
-        handleAddRecently({
-          ...curenValue,
-          value: value,
-          isCommand: true,
-          name: `${commandMetaMap[value].name}`
-        });
-      }
-      const snapType = extIds[1] || "";
-      const fsnap = snapshots.find(({ id }) => id === snapType);
-      const extDatas = getMutliLevelProperty(fsnap, "extIds", []);
-      commandMetaMap[value].handle({
-        extDatas,
-        snapType
-      });
-      commandMetaMap[value].refresh && getExtensionDatas();
-      return;
-    }
-    switch (value) {
-      case "open_ext_detail":
-      case "recently_used":
-        handleOpenRecently(pendingUrl);
-        handleAddRecently({
-          ...curenValue,
-          name: ["recently_used"].includes(value)
-            ? ""
-            : curenValue?.name.split(":")[0]
-        });
-        break;
-      default:
-        onClickSubItem(value, getMutliLevelProperty(extIds, "0", ""));
-        break;
-    }
-  };
+
 
   /** 兼容 回车事件、sub command action事件  */
   const handelPatibleSubCommand = (subcommand, value) => {
@@ -748,15 +672,10 @@ export function MotionShotCMDK() {
 
   /** 底部  Open Extension Page 按钮点击事件、 回车事件处理 */
   const onBottomOpenExtPage = (value) => {
-    if (value.includes(RecentlyFix)) {
-      // 处理记录数据
-      handleRecentEvent(value);
-    } else {
-      const [curenValue, isCommand] = getItemByCommandList(value);
-      onCommandHandle(curenValue, isCommand);
-      // 只有不是命令时，关闭launcher
-      !isCommand && closeLauncher();
-    }
+    const [curenValue, isCommand] = getItemByCommandList(value);
+    onCommandHandle(curenValue, isCommand);
+    // 只有不是命令时，关闭launcher
+    !isCommand && closeLauncher();
   };
 
   const handleChangeSelectCmd = (value) => {

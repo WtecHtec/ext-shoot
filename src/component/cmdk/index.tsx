@@ -332,21 +332,7 @@ export function MotionShotCMDK() {
     getExtensionDatas();
     getAllCommands();
 
-    // function inputListener(event) {
-    //     if ([27, 37, 38, 39, 40, 13].includes(event.keyCode)
-    //         || (event.metaKey && event.key.toLocaleUpperCase() === 'K')) return;
-    //     if (event.metaKey) return;
-    //     // 阻止事件冒泡
-    //     event.stopPropagation();
-    // }
-
-    // if (inputRef && inputRef.current) {
-    //     inputRef?.current.addEventListener('keydown', inputListener);
-    // }
     return () => {
-      // if (inputRef?.current) {
-      //     inputRef?.current.removeEventListener('keydown', inputListener);
-      // }
     };
   }, []);
 
@@ -572,22 +558,8 @@ export function MotionShotCMDK() {
       case "add_to_favorites":
         onHandelFavorite(extId_);
         break;
-      case "disable_plugin":
-        onHanldePulginStatus(extId_, false);
-        break;
-      case "enable_plugin":
-        onHanldePulginStatus(extId_, true);
-        break;
       case "reload_plugin":
         onHandleReloadPlugin(extId_);
-        break;
-      case "show_in_finder":
-        onHandleShowInFinder(extId_);
-        closeLauncher();
-        break;
-      case "active_plugin":
-        onHandleActiveExtension(extId_);
-        closeLauncher();
         break;
       case "uninstall_plugin":
         onHanldeUninstallPulgin(extId_);

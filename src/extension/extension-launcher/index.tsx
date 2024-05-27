@@ -1,11 +1,11 @@
 import { CommandPanel } from "~component/cmdk/common/Command";
 import React, { useEffect } from "react";
 import { getExtensionAll } from "~utils/management";
-import { onHandleActiveExtension, onHandleShowInFinder, onHanldePulginStatus } from "./handle";
+import { onHandleActiveExtension, onHandleCopyName, onHandleCopyPluginId, onHandleShowInFinder, onHanldePulginStatus } from "./handle";
 import { ExtensionCommand } from "./command-item";
 import { ActionPanel } from "~component/cmdk/common/ActionPanel";
 import { Action } from "~component/cmdk/common/Action";
-import { ActivatePluginIcon, EnableIcon, ShowInFinderIcon } from "~component/icons";
+import { ActivatePluginIcon, CopyNameIcon, EnableIcon, ShowInFinderIcon } from "~component/icons";
 
 export default function App() {
 
@@ -77,6 +77,27 @@ export default function App() {
                                                 id: item.id,
                                                 status: !item.enabled,
                                             })} />
+
+                                        <Action.BaseAction
+                                            value="Copy Name"
+                                            keywords={["copy", "name"]}
+                                            icon={<CopyNameIcon />}
+                                            onSelect={() => {
+                                                onHandleCopyName({
+                                                    name: item.name
+                                                });
+                                            }} />
+
+                                        <Action.BaseAction
+                                            value="Copy Extension Id"
+                                            keywords={["copy", "id"]}
+                                            icon={<CopyNameIcon />}
+                                            onSelect={() => {
+                                                onHandleCopyPluginId({
+                                                    id: item.id
+                                                });
+                                            }} />
+
                                     </ActionPanel.Section>
                                 </ActionPanel>
 

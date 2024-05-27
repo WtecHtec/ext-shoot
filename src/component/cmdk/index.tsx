@@ -4,16 +4,12 @@
 
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 // import * as Select from '@radix-ui/react-select';
-import axios from "axios";
-import * as clipboard from "clipboard-polyfill";
 import { Command } from "motion-cmdk";
 import React, { useEffect, useState } from "react";
-import { toast } from "sonner/dist";
 
 import FooterTip, { footerTip } from "~component/cmdk/tip/tip-ui";
 import { AC_ICON_UPDATED } from "~config/actions";
 import {
-  ExtShootSeverHost,
   MarkId,
   RecentlyFix,
   RecentSaveNumber,
@@ -37,27 +33,20 @@ import {
   handleExtFavoriteDone,
   handleGetAllCommands,
   handleGetRecentlys,
-  handleGetSnapshots,
-  handleOpenExtensionDetails,
-  handleOpenRecently,
-  handlePluginStatus,
-  handleSoloRun,
-  handleUninstallPlugin
+  handleGetSnapshots, handleSoloRun
 } from "~utils/management";
 import { deepCopyByJson, getMutliLevelProperty } from "~utils/util";
 
-import { ExtensionIcon, GlobeIcon, Logo, ShootIcon } from "../icons";
+import { GlobeIcon } from "../icons";
 // import SubCommand from './action/action-ui';
 import Action from "./action/action-ui-refactor";
 import { appManager } from "./app/app-manager";
 import AppUI from "./app/app-ui";
 import NotFound from "./common/NotFound";
-import Item from "./item";
 import { searchManager } from "./search/search-manager";
 import SearchComponent from "./search/search-ui";
 import SnapshotCommand from "./snapshot-command";
 import SnapshotDialog from "./snapshot-dialog";
-import ExtensionWithSearch from "./search-group";
 import { CommandUI } from "./command/command-ui";
 import { initEscControl } from "./panel/esc-control";
 import { topicManager } from "./topic/topic-manager";
@@ -395,86 +384,6 @@ export function MotionShotCMDK() {
     );
   };
 
-  /**
-   * 复制插件名字
-   */
-  const onHandleCopyName = (extId) => {
-    const extInfo = getExtensionDeatilById(extId);
-    try {
-      clipboard.writeText(extInfo.name);
-      toast("Copy Name Success", {
-        description: extInfo.name,
-        duration: 2000
-      });
-    } catch (error) {
-      toast.error("Copy Name Fail", {
-        duration: 2000
-      });
-    }
-  };
-
-  /**
-   * 复制插件名字
-   */
-  const onHandleCopyPluginId = (extId) => {
-    const extInfo = getExtensionDeatilById(extId);
-    try {
-      clipboard.writeText(extInfo.id);
-      toast("Copy Plugin ID Success", {
-        description: extInfo.id,
-        duration: 2000
-      });
-    } catch (error) {
-      toast.error("Copy Plugin ID Fail", {
-        duration: 2000
-      });
-    }
-  };
-
-
-  /**
-   * 执行一次禁用、启用插件模拟刷新插件(开发状态)
-   */
-  const onHandleReloadPlugin = async (extId) => {
-    const extInfo = getExtensionDeatilById(extId);
-    // if (extInfo.installType === 'development') {
-    //
-    // } else {
-    //     toast('It is not Development');
-    // }
-    // 先禁用 再启用
-    footerTip("loading", "Reloading Plugin", 3000);
-    await handlePluginStatus(extInfo.id, false);
-    setTimeout(async () => {
-      await handlePluginStatus(extInfo.id, true);
-      getExtensionDatas();
-      footerTip("success", "Reload Plugin Success", 1000);
-    }, 1000);
-  };
-
-  /**
-   * 卸载
-   */
-  const onHanldeUninstallPulgin = async (extId) => {
-    const extInfo = getExtensionDeatilById(extId);
-    const [, status] = await handleUninstallPlugin(extInfo.id);
-    status && (await getExtensionDatas());
-  };
-
-  /**
-   * 打开插件在 web store
-   */
-  const onHanldeOpenInWebStore = (extId) => {
-    const extInfo = getExtensionDeatilById(extId);
-    const { id } = extInfo;
-    const isDev = extId.match(/^(.*?)@_/);
-    if (isDev && isDev[1] === "development") {
-      // 一般不会进入这个逻辑，dev的插件不会有显示操作
-      footerTip("error", "Development mode: Store access disabled", 2000);
-    } else {
-      window.open(`https://chrome.google.com/webstore/detail/${id}`);
-    }
-  };
 
   /**
    * solo run mode
@@ -535,30 +444,8 @@ export function MotionShotCMDK() {
         onBottomOpenExtPage(extId_);
         closeLauncher();
         break;
-      case "copy_plugin_name":
-        onHandleCopyName(extId_);
-        closeLauncher();
-        break;
-      case "copy_plugin_id":
-        onHandleCopyPluginId(extId_);
-        closeLauncher();
-        break;
       case "add_to_favorites":
         onHandelFavorite(extId_);
-        break;
-      case "reload_plugin":
-        onHandleReloadPlugin(extId_);
-        break;
-      case "uninstall_plugin":
-        onHanldeUninstallPulgin(extId_);
-        break;
-      case "open_in_web_store":
-        onHanldeOpenInWebStore(extId);
-        closeLauncher();
-        break;
-      case "open_detail_page":
-        handleDoExtDetail(extInfo);
-        closeLauncher();
         break;
       case "solo_run_extension":
         onHandleSoloRun(extId);
@@ -604,20 +491,11 @@ export function MotionShotCMDK() {
       });
       refresh && getExtensionDatas();
     } else {
-      handleDoExtDetail(item);
+      // handleDoExtDetail(item);
     }
   };
 
-  /**
-   * 1.处理 item事件(打开插件详情页)
-   * @param extInfo
-   * @returns
-   */
-  const handleDoExtDetail = (extInfo) => {
-    const { id } = extInfo;
-    const extId = getExtId(id);
-    handleOpenExtensionDetails(extId, getExtensionDeatilById(extId)?.name);
-  };
+
 
   const getSubCnmandItem = (value) => {
     if (value.includes(RecentlyFix)) {

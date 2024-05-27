@@ -293,13 +293,9 @@ export function MotionShotCMDK() {
         onClickSubItem(action, value);
 
       }
-      // 发送响应
-      // sendResponse({ result: "Message processed in content.js" });
     };
     chrome.runtime.onMessage.addListener(handelMsgBybg);
-    // document.addEventListener('keydown', listener);
     return () => {
-      // document.removeEventListener('keydown', listener);
       chrome.runtime.onMessage.removeListener(handelMsgBybg);
     };
   }, [value, originDatas]);
@@ -313,7 +309,6 @@ export function MotionShotCMDK() {
     };
   }, []);
 
-  // 当快照选择变化时，可以不需要重新请求接口
   useEffect(() => {
     const [groups] = formatExtDatas(
       originDatas,
@@ -325,7 +320,6 @@ export function MotionShotCMDK() {
     setExtDatas(groups);
   }, [selectSnapId]);
 
-  // 当搜索内容变化时，滚动到列表顶部
   useEffect(() => {
     if (listRef.current) {
       listRef.current.scrollTop = 0; // 滚动到顶部

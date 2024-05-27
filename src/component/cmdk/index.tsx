@@ -335,23 +335,7 @@ export function MotionShotCMDK() {
   const getExtensionDeatilById = (id: string) => {
     return originDatas.find((ext) => ext.id === getExtId(id));
   };
-  /** 当前快照 启用的插件 */
-  const onSvaeSnap = async (tab, snapId, name) => {
-    try {
-      let extIds = extDatas[extDatas.length - 1].children.filter(
-        ({ enabled }) => enabled === true
-      );
-      extIds = extIds.map(({ id }) => id);
-      await handleCreateSnapshots(snapId, name, extIds);
-      if (tab === "add") {
-        await getSnapShotDatas();
-      } else if (tab === "replace") {
-        await getExtensionDatas();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
 
   const getSnapShotDatas = async () => {
     const [err, res] = await handleGetSnapshots();
@@ -408,9 +392,7 @@ export function MotionShotCMDK() {
     ].includes(command);
   };
 
-  const closeLauncher = () => {
-    eventBus.emit("closeLauncher");
-  };
+
   /**
    *  处理sub command 事件
    * @param subValue 事件名称
@@ -438,10 +420,6 @@ export function MotionShotCMDK() {
     }
 
     switch (subValue) {
-      case "execute_recent_action":
-        onBottomOpenExtPage(extId_);
-        closeLauncher();
-        break;
       case "add_to_favorites":
         onHandelFavorite(extId_);
         break;
@@ -450,46 +428,6 @@ export function MotionShotCMDK() {
         break;
       default:
         break;
-    }
-  };
-
-  /**
-   * command 分组的事件、 同时也是 单个item的选中、回车事件(正常事件)
-   * @param item
-   */
-  const onCommandHandle = async (item, isCommand = false) => {
-    const { handle, refresh, name, value } = item;
-    console.log("onCommandHandle---", item, typeof handle === "function");
-
-    if (value === "add_snapshot") {
-      setSnapshotOpen((v) => !v);
-      handleAddRecently({
-        value,
-        extIds: [value],
-        isCommand: true,
-        name
-      });
-      return;
-    }
-
-    if (typeof handle === "function") {
-      if (value !== "clear_recently") {
-        handleAddRecently({
-          value,
-          extIds: [value, selectSnapId],
-          isCommand: isCommand,
-          name
-        });
-      }
-      const fsnap = snapshots.find(({ id }) => id === selectSnapId);
-      const extDatas = getMutliLevelProperty(fsnap, "extIds", []);
-      await handle({
-        extDatas: extDatas,
-        snapType: selectSnapId
-      });
-      refresh && getExtensionDatas();
-    } else {
-      // handleDoExtDetail(item);
     }
   };
 

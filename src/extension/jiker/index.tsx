@@ -124,6 +124,16 @@ const TabManagerComand = () => {
         handle={gotoPageRecommend}
       />
       <Command.SimpleCommand
+        name="go-recommend-page"
+        title="去推荐页瞧瞧"
+        keywords={['recommend', '查看推荐页']}
+        description="查看即刻推荐内容"
+        endAfterRun
+        handle={gotoPageRecommend}
+      />
+
+
+      <Command.SimpleCommand
         name="go-collection-page"
         title="去我的收藏"
         keywords={['collection', '查看我的收藏']}

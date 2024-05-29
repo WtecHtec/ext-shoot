@@ -23,7 +23,7 @@ function formEvent(element: HTMLElement, eventType: string, inputType: string, v
     element.dispatchEvent(new Event('change', eventInit));
 }
 
-export async function inputTextField(element: HTMLInputElement | HTMLTextAreaElement, data: TextFieldData): Promise<void> {
+export async function typeText(element: HTMLInputElement | HTMLTextAreaElement, data: TextFieldData): Promise<void> {
     if (!(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) {
         throw new Error(`Unsupported element type: ${element}. Only HTMLInputElement and HTMLTextAreaElement are supported.`);
     }
@@ -43,7 +43,7 @@ export async function inputTextField(element: HTMLInputElement | HTMLTextAreaEle
     element.blur();
 }
 
-export function toggleCheckboxRadio(element: HTMLInputElement, data: CheckboxRadioData): void {
+export function toggleCheck(element: HTMLInputElement, data: CheckboxRadioData): void {
     if (element.type !== 'checkbox' && element.type !== 'radio') {
         throw new Error(`Element is not a checkbox or radio button: ${element.type}`);
     }
@@ -86,7 +86,7 @@ export function selectOption(element: HTMLSelectElement, data: SelectData): void
 }
 
 export const triggerFromElement = {
-    inputTextField,
-    toggleCheckboxRadio,
+    typeText,
+    toggleCheck,
     selectOption
 };

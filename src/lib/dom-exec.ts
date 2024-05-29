@@ -117,7 +117,6 @@ export async function useFeishuTemplate(): Promise<boolean> {
   // 使用模板
   await new ExecuteHandle()
     .waitPipe(async function () {
-      console.log('12312', 12312);
       const templateBtn = await this.getDomByQuery('.preview-footer__use-btn');
       templateBtn && templateBtn.click();
       console.log('templateBtn', templateBtn);

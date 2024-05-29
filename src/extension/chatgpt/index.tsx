@@ -5,7 +5,7 @@ import { Command, CommandPanel } from '~component/cmdk/common/Command';
 
 import { chatgptTopic } from '../../topics/ai';
 import { gotoJqueryGPTs } from './goto';
-import { checkNewChat, testIt } from './handle';
+import { checkNewChat, generateShareLink, testIt, toggleFullScreen } from './handle';
 
 const TabManagerComand = () => {
   return (
@@ -20,6 +20,28 @@ const TabManagerComand = () => {
           await testIt();
         }}
       />
+
+      <Command.SimpleCommand
+        name="generate-share-link"
+        title="Generate Share Link"
+        keywords={['generateShareLink']}
+        description="generateShareLink"
+        endAfterRun
+        handle={async () => {
+          await generateShareLink();
+        }}
+      />
+
+
+      <Command.SimpleCommand
+        name="toggle-full-screen"
+        title="Toggle Full Screen"
+        keywords={['toggleFullScreen']}
+        description="toggleFullScreen"
+        endAfterRun
+        handle={async () => {
+          await toggleFullScreen();
+        }} />
 
       <Command.SimpleCommand
         name="reverse-prompt"

@@ -1,4 +1,4 @@
-export function triggerClickOnElement(element) {
+export function clickElement(element) {
   if (!element) return false;
   const eventOpts = { bubbles: true, view: window };
   if (!element.click) {
@@ -12,6 +12,6 @@ export function triggerClickOnElement(element) {
   return true;
 }
 
-export const methods = {
-  triggerClickOnElement
+export const triggerFromCursor = {
+  clickElement
 };

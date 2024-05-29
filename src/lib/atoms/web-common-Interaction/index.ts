@@ -1,10 +1,12 @@
 import { RunEnv } from '../type';
 import { triggerClickOnElement } from './click';
+import { triggerFromElement } from './form';
 
 const moduleName = 'web-interaction';
 const description = 'common web interaction methods';
 const methods = {
-  triggerClickOnElement
+  triggerClickOnElement,
+  triggerFromElement
 };
 
 const runEnv: RunEnv = ['dom'];

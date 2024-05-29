@@ -20,7 +20,18 @@ const TabManagerComand = () => {
           await testIt();
         }}
       />
-      {/* // new Chat */}
+
+      <Command.SimpleCommand
+        name="reverse-prompt"
+        title="Reverse Prompt"
+        keywords={['reversePrompt']}
+        description="reversePrompt"
+        endAfterRun
+        handle={async () => {
+          await testIt();
+        }} />
+
+
       <Command.SimpleCommand
         name="new-chat"
         title="New Chat"

@@ -12,10 +12,11 @@ import { executeExportFeishu, executeUseageTemp, isLoggedInFeishu } from '~exten
 import { saveTextToFlomo } from '~extension/flomor/handle';
 import { listerSnapSeekData } from '~extension/history-search/content';
 import { createJikePost } from '~extension/jiker/api';
+import { execSignIn } from '~extension/juejin/executes';
 import { functionManager } from '~lib/function-manager';
 import { chatgptTopic, feishuTopic, flomoTopic } from '~topics';
 import { duoZhuaYuTopic } from '~topics/shopping';
-import { jikeTopic } from '~topics/social';
+import { jikeTopic, juejinTopic } from '~topics/social';
 import { handleSetBrowser } from '~utils/actions';
 import { getBrowser, getMutliLevelProperty, isArc } from '~utils/util';
 
@@ -37,8 +38,9 @@ functionManager.registerFunction('createJikePost', createJikePost);
 functionManager.registerFunction('isLoggedInFeishu', isLoggedInFeishu);
 functionManager.registerFunction('executeUseageTemp', executeUseageTemp);
 functionManager.registerFunction('executeExportFeishu', executeExportFeishu);
+functionManager.registerFunction('execSignIn', execSignIn);
 
-topicManager.registerTopics([jikeTopic, flomoTopic, feishuTopic, chatgptTopic, duoZhuaYuTopic]);
+topicManager.registerTopics([jikeTopic, flomoTopic, feishuTopic, chatgptTopic, duoZhuaYuTopic, juejinTopic]);
 topicManager.checkAndActivateTopics();
 
 setTimeout(() => {

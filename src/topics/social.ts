@@ -9,3 +9,14 @@ export const jikeTopic = new Topic({
   },
   conditions: [{ type: 'hostSuffix', value: 'okjike.com' }]
 });
+
+
+export const juejinTopic = new Topic({
+  name: '掘金',
+  language: 'zh',
+  appearance: {
+    backgroundColor: '#1e80ff',
+    textColor: '#ffffff' // 假设我们希望文本颜色为黑色
+  },
+  conditions: [{ type: 'hostSuffix', value: 'juejin.cn' }]
+});

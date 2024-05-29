@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Command, CommandPanel } from '~component/cmdk/common/Command';
 
-import { safeInjectJQuery } from './handle';
+import { safeInjectJQuery, setDarkMode } from './handle';
 
 const TabManagerComand = () => {
   return (
@@ -28,6 +28,17 @@ const TabManagerComand = () => {
           await saveClipboardToFlomo();
         }}
       /> */}
+
+		<Command.SimpleCommand
+        name="setDarkMode"
+        title="护眼模式"
+        keywords={["暗黑", "护眼", "保护眼睛", 'Dark']}
+        description="将剪贴板的内容保存到Flomo"
+        endAfterRun
+        handle={async () => {
+          await setDarkMode();
+        }}
+      /> 
     </CommandPanel>
   );
 };

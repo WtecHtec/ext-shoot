@@ -22,6 +22,22 @@ export async function safeInjectJQuery() {
   });
 }
 
+
+export  function setDarkMode() {
+	document.body.style.filter = 'invert(1) hue-rotate(180deg)';
+  const newStyleElement = document.createElement('style');
+  newStyleElement.type = 'text/css';
+  newStyleElement.innerHTML = `
+	html {
+		background-color: #333 !important;
+	}
+		body img, body video {
+			filter: invert(1) hue-rotate(180deg) !important;
+		}
+		`;
+  document.head.appendChild(newStyleElement);
+}
+
 export async function testIt() {
   await safeInjectJQuery();
 }

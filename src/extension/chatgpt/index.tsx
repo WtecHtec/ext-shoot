@@ -3,12 +3,13 @@ import React from 'react';
 
 import { Command, CommandPanel } from '~component/cmdk/common/Command';
 
+import { chatgptTopic } from '../../topics/ai';
 import { gotoJqueryGPTs } from './goto';
-import { testIt } from './handle';
+import { checkNewChat, testIt } from './handle';
 
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="GPTs" icon={ExtensionLogo}>
+    <CommandPanel title="GPTs" icon={ExtensionLogo} topics={[chatgptTopic]}>
       <Command.SimpleCommand
         name="test"
         title="test"
@@ -19,10 +20,21 @@ const TabManagerComand = () => {
           await testIt();
         }}
       />
-      {/* gotoJqueryGPTs */}
+      {/* // new Chat */}
       <Command.SimpleCommand
-        name="jquery-coding-boy"
-        title="Jquery Coding Boy"
+        name="new-chat"
+        title="New Chat"
+        keywords={['newChat']}
+        description="newChat"
+        endAfterRun
+        handle={async () => {
+          await checkNewChat();
+        }}
+      />
+
+      <Command.SimpleCommand
+        name="check-gpts-#1-jquery"
+        title="Check GPTs #1 JQuery"
         keywords={['gotoJqueryGPTs']}
         description="gotoJqueryGPTs"
         endAfterRun

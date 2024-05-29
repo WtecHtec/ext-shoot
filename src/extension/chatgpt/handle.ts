@@ -1,10 +1,11 @@
 import $ from 'jquery';
 
 import TabManager from '~lib/atoms/browser-tab-manager';
+import WebInteraction from '~lib/atoms/web-common-Interaction';
 import { postTask } from '~lib/exec-task-to-web';
 
 const tabAction = TabManager.action;
-
+const webAction = WebInteraction.action;
 /**
  *
  * @returns {
@@ -97,4 +98,12 @@ export async function triggerMouseEvent(selector: string): Promise<void> {
 export async function testIt() {
   const result = await triggerMouseEvent("div[id^='radix-'][aria-haspopup='menu']");
   console.log('result', result);
+}
+
+export async function checkNewChat() {
+  const newChatBtn = $('span:nth-of-type(2) > button > svg').get(0);
+  console.log('newChatBtn', newChatBtn);
+
+  const result = webAction.triggerClickOnElement(newChatBtn);
+  return result;
 }

@@ -2,18 +2,18 @@ import { nanoid } from 'nanoid';
 
 export interface TriggerCondition {
   type:
-  | 'hostEquals'
-  | 'state'
-  | 'hostContains'
-  | 'hostEquals'
-  | 'hostPrefix'
-  | 'hostSuffix'
-  | 'originAndPathMatches'
-  | 'pathContains'
-  | 'pathEquals'
-  | 'pathPrefix'
-  | 'pathSuffix'
-  | 'urlMatches';
+    | 'hostEquals'
+    | 'state'
+    | 'hostContains'
+    | 'hostEquals'
+    | 'hostPrefix'
+    | 'hostSuffix'
+    | 'originAndPathMatches'
+    | 'pathContains'
+    | 'pathEquals'
+    | 'pathPrefix'
+    | 'pathSuffix'
+    | 'urlMatches';
   value: string;
 }
 
@@ -21,7 +21,6 @@ export interface TopicAppearance {
   backgroundColor: string;
   textColor?: string;
 }
-
 
 export interface TopicConfig {
   name: string;

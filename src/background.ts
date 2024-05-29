@@ -47,13 +47,10 @@ import windowManage from './lib/atoms/browser-window-manager';
 let previousExtensions = [];
 
 chrome.runtime.onInstalled.addListener((object) => {
-  // Inject shoot on install
   const manifest = chrome.runtime.getManifest();
-
   const injectIntoTab = (tab) => {
     const scripts = manifest.content_scripts[0].js;
     const s = scripts.length;
-
     for (let i = 0; i < s; i++) {
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
@@ -68,40 +65,29 @@ chrome.runtime.onInstalled.addListener((object) => {
   };
 
   // Get all windows
-  chrome.windows.getAll(
-    {
-      populate: true
-    },
-    (windows) => {
-      let currentWindow;
-      const w = windows.length;
-
-      for (let i = 0; i < w; i++) {
-        currentWindow = windows[i];
-
-        let currentTab;
-        const t = currentWindow.tabs.length;
-
-        for (let j = 0; j < t; j++) {
-          currentTab = currentWindow.tabs[j];
-          if (
-            !currentTab.url.includes('chrome://') &&
-            !currentTab.url.includes('chrome-extension://') &&
-            !currentTab.url.includes('chrome.google.com')
-          ) {
-            injectIntoTab(currentTab);
-          }
+  chrome.windows.getAll({ populate: true }, (windows) => {
+    let currentWindow;
+    const w = windows.length;
+    for (let i = 0; i < w; i++) {
+      currentWindow = windows[i];
+      let currentTab;
+      const t = currentWindow.tabs.length;
+      for (let j = 0; j < t; j++) {
+        currentTab = currentWindow.tabs[j];
+        if (
+          !currentTab.url.includes('chrome://') &&
+          !currentTab.url.includes('chrome-extension://') &&
+          !currentTab.url.includes('chrome.google.com')
+        ) {
+          injectIntoTab(currentTab);
         }
       }
     }
-  );
+  });
 
   if (object.reason === 'install') {
-    // Clear storage
     chrome.storage.local.clear();
-
     const locale = chrome.i18n.getUILanguage();
-
     if (locale.includes('en')) {
       chrome.runtime.setUninstallURL(UNINSTALL_URL + chrome.runtime.getManifest().version);
     } else {
@@ -112,23 +98,18 @@ chrome.runtime.onInstalled.addListener((object) => {
           chrome.runtime.getManifest().version
       );
     }
-
-    chrome.tabs.create({
-      url: chrome.runtime.getURL('/tabs/welcome.html')
-    });
+    chrome.tabs.create({ url: chrome.runtime.getURL('/tabs/welcome.html') });
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      // 确保至少有一个标签页是活动的
       if (tabs.length > 0) {
-        // 发送消息到content脚本
         chrome.tabs.sendMessage(tabs[0].id, { action: 'active_extention_launcher' }, (response) => {
-          console.log(response.result); // 接收并打印content脚本发送的响应
+          console.log(response.result);
         });
       }
     });
   }
 });
 
-// // 点击icon的时候，打开插件主页
+// // 点击icon的时候，激活插件
 chrome.action.onClicked.addListener(() => {
   // 模拟发送Action的命令
   // 获取当前活动的标签页
@@ -612,41 +593,10 @@ chrome.tabs.onCreated.addListener(function (tab) {
 });
 
 /**
- *  页面更新
- */
-// chrome.tabs.onUpdated.addListener(
-//     function (tabId, changeInfo, tab) {
-//         const { url } = changeInfo || {};
-// 				console.log('tabId', changeInfo);
-//         const createFeishuRegex = /https:\/\/([a-zA-Z0-9]+).feishu.cn\/drive\/create\//;
-//         if (feishuTableTabId === -1 && url && createFeishuRegex.test(url)) {
-//             feishuTableTabId = tabId;
-//         } else if (feishuTableTabId !== -1 && feishuTableTabId === tabId) {
-//             // 飞书多维表格
-//             const pendingUrl = tab?.url || '';
-//             const feishuRegex = /https:\/\/([a-zA-Z0-9]+).feishu.cn\/base\/([a-zA-Z0-9]+)\?table=([a-zA-Z0-9]+)/;
-//             const matchs = pendingUrl?.match(feishuRegex);
-//             if (matchs && matchs.length >= 3 && jikeBlogDatas && jikeBlogDatas.length) {
-//                 const datas = [...jikeBlogDatas];
-//                 jikeBlogDatas = [];
-//                 // 注入代码
-//                 chrome.scripting.executeScript({
-//                     target: { tabId: tab.id, },
-//                     func: executeExportFeishu,
-//                     args: [datas, feishuTableTabId, matchs],
-//                 });
-//                 feishuTableTabId = -1;
-//             }
-//         }
-//     }
-// );
-
-/**
  *  监听快捷指令
  */
 chrome.commands.onCommand.addListener((command) => {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    // 向content.js发送消息
     chrome.tabs.sendMessage(tabs[0].id, { action: command }, function (response) {
       console.log(response?.result);
     });

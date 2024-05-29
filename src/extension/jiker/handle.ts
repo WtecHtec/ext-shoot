@@ -7,7 +7,7 @@ import cookieManager from '~lib/atoms/browser-cookie-manager';
 import TabManager from '~lib/atoms/browser-tab-manager';
 import { postTask } from '~lib/exec-task-to-web';
 
-import { cretatImagesPost } from './api';
+// import { cretatImagesPost } from './api';
 
 const cookieActions = cookieManager.action;
 // Function to perform translation
@@ -219,10 +219,10 @@ export function getCurrentPostMeta() {
 export async function testHandle() {
   // const re = uploadImageLinkToJike("https://pbs.twimg.com/media/GK52v0jWwAARsVx?format=jpg&name=large");
   // console.log('re', re);
-  await cretatImagesPost(
-    '外婆不知道什么是专科，她一直问食堂的饭菜怎么样',
-    ...['https://pbs.twimg.com/media/GK52v0jWwAARsVx?format=jpg&name=large']
-  );
+  // await cretatImagesPost(
+  //   '外婆不知道什么是专科，她一直问食堂的饭菜怎么样',
+  //   ...['https://pbs.twimg.com/media/GK52v0jWwAARsVx?format=jpg&name=large']
+  // );
 }
 
 export const generateOriginalPostUrlByPostId = (postId) => {

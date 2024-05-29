@@ -3,19 +3,20 @@ import React from 'react';
 
 import { Command, CommandPanel } from '~component/cmdk/common/Command';
 
-import { safeInjectJQuery, setDarkMode } from './handle';
+import { handleJuejinSign,  } from './handle';
+import { juejinTopic } from '~topics';
 
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="DevTools" icon={ExtensionLogo}>
+    <CommandPanel title="JueJin" icon={ExtensionLogo} topics={[juejinTopic]}>
       <Command.SimpleCommand
-        name="inject-jquery"
-        title="Inject JQuery Into Page"
-        keywords={['inject', 'jquery']}
-        description="Inject JQuery"
+        name="juejinsign"
+        title="帮我去签到"
+        keywords={['签到', '掘金签到']}
+        description="掘金签到"
         endAfterRun
         handle={async () => {
-          await safeInjectJQuery();
+          await handleJuejinSign();
         }}
       />
       {/* <Command.SimpleCommand
@@ -28,17 +29,6 @@ const TabManagerComand = () => {
           await saveClipboardToFlomo();
         }}
       /> */}
-
-		<Command.SimpleCommand
-        name="setDarkMode"
-        title="护眼模式"
-        keywords={["暗黑", "护眼", "保护眼睛", 'Dark']}
-        description="将剪贴板的内容保存到Flomo"
-        endAfterRun
-        handle={async () => {
-          await setDarkMode();
-        }}
-      /> 
     </CommandPanel>
   );
 };

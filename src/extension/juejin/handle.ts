@@ -5,14 +5,30 @@ import { buildCrossTab } from '~lib/function-manager';
 
 // const tabAction = TabManager.action;
 
+function isLogin () {
+	return document.querySelectorAll('button[class^=login-button]').length > 0;
+}
+
+function isSigned() {
+	return document.querySelectorAll('span[class*=signed-text]').length > 0;
+
+}
 export async function handleJuejinSign() {
+
+	if (isLogin()) {
+		toast('请先登陆！');
+		return;
+	}
+	if (isSigned()) {
+		toast('今天已经签到过了,明天再来！');
+		return;
+	}
 	const signUrl = 'https://juejin.cn/user/center/signin?from=main_page';
 	const newPage = await buildCrossTab(signUrl);
 	toast('好嘞,现在就去签到。');
-	await newPage.actions().execSignIn();
-	await newPage.close();
-	
-	toast('签到成功。');
+  const {result} =	await newPage.actions().execSignIn();
+	await newPage.close();	
+	toast( result ? '签到成功。' : '今天已经签到过了,明天再来！');
 }
 
 interface JueJinTheme {

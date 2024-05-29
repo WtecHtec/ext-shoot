@@ -28,5 +28,5 @@ jobs:
           chrome-file: build/chrome-mv3-prod.zip
           edge-file: build/edge-mv3-prod.zip
           #          firefox-file: build/firefox-mv2-prod.zip
-          # edge-notes: "Enhancements and bug fixes"
+          edge-notes: "Enhancements and bug fixes"
           verbose: true

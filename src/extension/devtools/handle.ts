@@ -32,7 +32,7 @@ export  function setDarkMode() {
 		background-color: #333 !important;
 	}
 		body img, body video {
-			filter: invert(1) hue-rotate(180deg);
+			filter: invert(1) hue-rotate(180deg) !important;
 		}
 		`;
   document.head.appendChild(newStyleElement);

@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Command, CommandPanel } from '~component/cmdk/common/Command';
 
-import { handleJuejinSign,  } from './handle';
+import { handleJuejinSign, switchThemeByJuejin  } from './handle';
 import { juejinTopic } from '~topics';
 
 const TabManagerComand = () => {
@@ -19,16 +19,16 @@ const TabManagerComand = () => {
           await handleJuejinSign();
         }}
       />
-      {/* <Command.SimpleCommand
-        name="saveClipboardToFlomo"
-        title="把剪贴板的内容保存为Memo"
-        keywords={["save", "clipboard", "flomo"]}
-        description="将剪贴板的内容保存到Flomo"
+      <Command.SimpleCommand
+        name="switch-juejin-theme"
+				title="换一个主题"
+				keywords={['switch theme', '切换主题']}
+        description="切换到另一个主题"
         endAfterRun
         handle={async () => {
-          await saveClipboardToFlomo();
+          await switchThemeByJuejin();
         }}
-      /> */}
+      />
     </CommandPanel>
   );
 };

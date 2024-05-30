@@ -23,6 +23,7 @@ export async function handleJuejinSign() {
   const signUrl = 'https://juejin.cn/user/center/signin?from=main_page';
   const newPage = await buildCrossTab(signUrl);
   toast('好嘞,现在就去签到。');
+
   const { result } = await newPage.actions().execSignIn();
   console.log('result', result);
   await newPage.close();

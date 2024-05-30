@@ -12,6 +12,11 @@ export function clickElement(element) {
   return true;
 }
 
+export function clickJQueryElement(element: JQuery<HTMLElement>) {
+  return clickElement(element.get(0));
+}
+
 export const triggerFromCursor = {
-  clickElement
+  clickElement,
+  clickJQueryElement
 };

@@ -1,16 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable */
-import {
-  AlwaysTask,
-  ConditionalTask,
-  DefaultTask,
-  RetryTask,
-  Task,
-  TaskOptions,
-  WaitTask
-} from '~lib/dom-exec-engine/task';
-
 import { DomFinder } from './dom-finder';
+import { AlwaysTask, ConditionalTask, DefaultTask, RetryTask, Task, TaskOptions, WaitTask } from './task';
 
 interface ExecutionContext {
   finder: DomFinder;
@@ -112,8 +103,12 @@ export class Job {
       await this.runTask();
     } catch (err) {
       console.error('任务执行失败，错误信息:', err);
+      console.log(this.errorHandler);
       if (this.errorHandler) {
         await this.errorHandler(this.ctx, err);
+      }
+      if (currentTask.continueOnError) {
+        await this.runTask();
       }
     }
   }

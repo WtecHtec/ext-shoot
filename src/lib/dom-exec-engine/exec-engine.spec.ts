@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { describe, expect, it, vi } from 'vitest';
 
 import { Job } from './exec-engine';
@@ -312,5 +313,97 @@ describe('Job Class - Context Passing', () => {
     expect(finishFn).toHaveBeenCalled();
     expect(finishFn.mock.calls[0][0].finishExecuted).toBe(true);
     expect(job['tasks'].length).toBe(0);
+  });
+});
+
+describe('Job Class - Error Handle', () => {
+  it('should execute tasks in order', async () => {
+    const task1 = vi.fn(async () => {});
+    const task2 = vi.fn(async () => {});
+
+    const job = new Job();
+    job.next(task1).next(task2);
+
+    await job.do();
+
+    expect(task1).toHaveBeenCalled();
+    expect(task2).toHaveBeenCalled();
+  });
+
+  it('should handle task-specific errors', async () => {
+    const task1 = vi.fn(async (ctx) => {
+      throw new Error('Task 1 Error');
+    });
+    const errorHandler = vi.fn(async (ctx, error) => {});
+
+    const job = new Job();
+    job.next(task1, { errorHandler });
+
+    await job.do();
+
+    expect(task1).toHaveBeenCalled();
+    expect(errorHandler).toHaveBeenCalledWith(expect.any(Object), new Error('Task 1 Error'));
+  });
+
+  it('should continue execution after a handled error if continueOnError is true', async () => {
+    const task1 = vi.fn(async (ctx) => {
+      throw new Error('Task 1 Error');
+    });
+    const task2 = vi.fn(async (ctx) => {});
+    const errorHandler = vi.fn(async (ctx, error) => {});
+
+    const job = new Job();
+    job.next(task1, { errorHandler, continueOnError: true }).next(task2);
+
+    await job.do();
+
+    expect(task1).toHaveBeenCalled();
+    expect(errorHandler).toHaveBeenCalledWith(expect.any(Object), new Error('Task 1 Error'));
+    expect(task2).toHaveBeenCalled();
+  });
+
+  it('should stop execution after an unhandled error if continueOnError is false', async () => {
+    const task1 = vi.fn(async (ctx) => {
+      throw new Error('Task 1 Error');
+    });
+    const task2 = vi.fn(async (ctx) => {});
+    const errorHandler = vi.fn(async (ctx, error) => {});
+
+    const job = new Job();
+    job.next(task1, { errorHandler }).next(task2);
+
+    await job.do();
+
+    expect(task1).toHaveBeenCalled();
+    expect(errorHandler).toHaveBeenCalledWith(expect.any(Object), new Error('Task 1 Error'));
+    expect(task2).not.toHaveBeenCalled();
+  });
+
+  it('should execute success handler on successful completion', async () => {
+    const task1 = vi.fn(async (ctx) => {});
+    const successHandler = vi.fn(async (ctx) => {});
+
+    const job = new Job();
+    job.next(task1).success(successHandler);
+
+    await job.do();
+
+    expect(task1).toHaveBeenCalled();
+    expect(successHandler).toHaveBeenCalled();
+  });
+
+  it('should execute global error handler on unhandled error', async () => {
+    const task1 = vi.fn(async (ctx) => {
+      throw new Error('Task 1 Error');
+    });
+    const errorHandler = vi.fn(async (ctx, error) => {});
+
+    const job = new Job();
+    job.next(task1).error(errorHandler);
+
+    await job.do();
+
+    expect(task1).toHaveBeenCalled();
+    expect(errorHandler).toHaveBeenCalledWith(expect.any(Object), new Error('Task 1 Error'));
   });
 });

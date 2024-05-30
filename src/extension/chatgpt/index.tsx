@@ -5,7 +5,7 @@ import { Command, CommandPanel } from '~component/cmdk/common/Command';
 
 import { chatgptTopic } from '../../topics/ai';
 import { gotoJqueryGPTs } from './goto';
-import { checkNewChat, generateShareLink, testIt, toggleFullScreen } from './handle';
+import { chatAndReversePrompt, checkNewChat, generateShareLink, testIt, toggleFullScreen } from './handle';
 
 const TabManagerComand = () => {
   return (
@@ -50,7 +50,7 @@ const TabManagerComand = () => {
         description="reversePrompt"
         endAfterRun
         handle={async () => {
-          await testIt();
+          await chatAndReversePrompt();
         }}
       />
 

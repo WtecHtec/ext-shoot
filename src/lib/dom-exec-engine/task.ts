@@ -5,6 +5,7 @@ export interface TaskOptions {
   continueOnError?: boolean;
   args?: any[];
   retry?: number;
+  errorHandler?: (ctx: any, error: any) => Promise<void>;
 }
 
 export interface Task {
@@ -20,6 +21,7 @@ abstract class BaseTask implements Task {
   delay: number;
   args: any[];
   continueOnError: boolean;
+  errorHandler?: (ctx: any, error: any) => Promise<void>;
 
   /**
    * 构造函数接收一个函数和可选的配置选项，并设置默认值。
@@ -40,6 +42,7 @@ abstract class BaseTask implements Task {
     this.delay = mergedOptions.delay!;
     this.args = mergedOptions.args!;
     this.continueOnError = mergedOptions.continueOnError!;
+    this.errorHandler = mergedOptions.errorHandler;
   }
 
   /**
@@ -55,7 +58,6 @@ export class DefaultTask extends BaseTask {
   }
 
   async execute(ctx: any): Promise<void> {
-    console.log('即将执行任务:', { fn: this.fn, delay: this.delay, args: this.args });
     return new Promise<void>((resolve, reject) => {
       setTimeout(async () => {
         try {
@@ -64,6 +66,9 @@ export class DefaultTask extends BaseTask {
           resolve();
         } catch (err) {
           console.error('任务执行失败，错误信息:', err);
+          if (this.errorHandler) {
+            await this.errorHandler(ctx, err);
+          }
           if (this.continueOnError) {
             resolve();
           } else {
@@ -90,7 +95,6 @@ export class RetryTask extends BaseTask {
         console.log('任务执行成功，结果为:', result);
         return result;
       } catch (err) {
-        console.error('任务执行失败，错误信息:', err);
         if (attemptsLeft > 0) {
           console.log(`重试剩余次数: ${attemptsLeft - 1}`);
           return executeWithRetry(attemptsLeft - 1);
@@ -106,6 +110,9 @@ export class RetryTask extends BaseTask {
           await executeWithRetry(this.retry);
           resolve();
         } catch (err) {
+          if (this.errorHandler) {
+            await this.errorHandler(ctx, err);
+          }
           if (this.continueOnError) {
             resolve();
           } else {
@@ -162,6 +169,9 @@ export class ConditionalTask extends BaseTask {
           }
         } catch (err) {
           console.error('条件任务执行失败，错误信息:', err);
+          if (this.errorHandler) {
+            await this.errorHandler(ctx, err);
+          }
           if (this.continueOnError) {
             resolve();
           } else {

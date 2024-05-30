@@ -26,8 +26,11 @@ export async function handleJuejinSign() {
 
   const { result } = await newPage.actions().execSignIn();
   console.log('result', result);
-  await newPage.close();
-  toast(result ? '签到成功。' : '今天已经签到过了,明天再来！');
+  // 延迟等待签到接口请求
+	setTimeout(async () => {
+		await newPage.close();
+		toast(result ? '签到成功。' : '今天已经签到过了,明天再来！');
+	}, 2 * 1000);
 }
 
 interface JueJinTheme {

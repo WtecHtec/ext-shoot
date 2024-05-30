@@ -93,7 +93,6 @@
   "simple-git-hooks": {
     "pre-commit": "npm run fix && npm run format:stage"
   },
-  
   "pre-commit": [
     "fix"
   ],

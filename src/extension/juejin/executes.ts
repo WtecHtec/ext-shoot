@@ -7,9 +7,13 @@ export async function execSignIn() {
     await new ExecuteHandle()
       .waitPipe(async (ctx) => {
         // 查看是否已经签到过
-        const templateBtn = await ctx.getDomByQuery('button[class^=signedin]', '', 300, 5);
-        if (templateBtn && templateBtn.length) {
-          throw error('已经签到过');
+        try {
+          const templateBtn = await ctx.getDomByQuery('button[class^=signedin]', '', 300, 5);
+          if (templateBtn && templateBtn.length) {
+            throw error('已经签到过');
+          }
+        } catch (e) {
+          console.log('没有找到---', e);
         }
       })
       .waitPipe(async (ctx) => {

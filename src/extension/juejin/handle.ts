@@ -24,6 +24,7 @@ export async function handleJuejinSign() {
   const newPage = await buildCrossTab(signUrl);
   toast('好嘞,现在就去签到。');
   const { result } = await newPage.actions().execSignIn();
+  console.log('result', result);
   await newPage.close();
   toast(result ? '签到成功。' : '今天已经签到过了,明天再来！');
 }

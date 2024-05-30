@@ -20,7 +20,8 @@
     "fix": "eslint . --ext .ts,.tsx --fix",
     "re:log": "node script/remove-log.js",
     "format": "prettier '**/*.{js,jsx,ts,tsx,json,md,mdx,css,scss,yaml,yml}' --write",
-    "test:format": "prettier '**/*.{js,jsx,ts,tsx,json,md,mdx,css,scss,yaml,yml}' --check"
+    "test:format": "prettier '**/*.{js,jsx,ts,tsx,json,md,mdx,css,scss,yaml,yml}' --check",
+    "format:stage": "lint-staged"
   },
   "dependencies": {
     "@json2csv/plainjs": "^7.0.6",
@@ -79,6 +80,7 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react": "^7.34.1",
+    "lint-staged": "^15.2.5",
     "postcss": "8.4.33",
     "pre-commit": "^1.2.2",
     "prettier": "^3.2.4",
@@ -89,11 +91,17 @@
     "windy-radix-palette": "0.6.1"
   },
   "simple-git-hooks": {
-    "pre-commit": "npm run fix"
+    "pre-commit": "npm run fix && npm run format:stage"
   },
+  
   "pre-commit": [
     "fix"
   ],
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,md,mdx,css,scss,yaml,yml}": [
+      "prettier --write"
+    ]
+  },
   "manifest": {
     "host_permissions": [
       "https://*/*",

@@ -1,32 +1,37 @@
+import $ from 'jquery';
+
 export interface FindStrategy {
-    find(): JQuery<HTMLElement> | null;
+  find(): JQuery<HTMLElement> | null;
 }
 
-export class XPathStrategy implements FindStrategy {
-    constructor(private xpath: string) { }
+export class XPathFindStrategy implements FindStrategy {
+  constructor(private xpath: string) {}
 
-    find(): JQuery<HTMLElement> | null {
-        const element = document.evaluate(this.xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null)
-            .singleNodeValue as HTMLElement | null;
-        return element ? $(element) : null;
-    }
+  find(): JQuery<HTMLElement> | null {
+    const element = document.evaluate(this.xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null)
+      .singleNodeValue as HTMLElement | null;
+    return element ? $(element) : null;
+  }
 }
 
-export class QuerySelectorStrategy implements FindStrategy {
-    constructor(private selector: string) { }
+export class QueryFirstFindStrategy implements FindStrategy {
+  constructor(private selector: string) {}
 
-    find(): JQuery<HTMLElement> | null {
-        const elements = $(this.selector);
-        return elements.length > 0 ? elements : null;
-    }
+  find(): JQuery<HTMLElement> | null {
+    const elements = $(this.selector);
+    return elements.length > 0 ? elements : null;
+  }
 }
 
-export class QuerySelectorWithContentStrategy implements FindStrategy {
-    constructor(private selector: string, private content: string) { }
+export class QueryContentFindStrategy implements FindStrategy {
+  constructor(
+    private selector: string,
+    private content: string
+  ) {}
 
-    find(): JQuery<HTMLElement> | null {
-        const elements = $(this.selector);
-        const matchedElement = elements.filter((_, el) => $(el).text() === this.content);
-        return matchedElement.length > 0 ? matchedElement : null;
-    }
+  find(): JQuery<HTMLElement> | null {
+    const elements = $(this.selector);
+    const matchedElement = elements.filter((_, el) => $(el).text() === this.content);
+    return matchedElement.length > 0 ? matchedElement : null;
+  }
 }

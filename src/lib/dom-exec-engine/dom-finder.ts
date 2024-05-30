@@ -1,58 +1,54 @@
-// import $ from 'jquery';
-
-import { FindStrategy, QuerySelectorStrategy, QuerySelectorWithContentStrategy, XPathStrategy } from "./find-strategy";
+import { FindStrategy, QueryContentFindStrategy, QueryFirstFindStrategy, XPathFindStrategy } from './find-strategy';
 
 interface FindDomOptions {
-    delay?: number;
-    maxAttempts?: number;
+  delay?: number;
+  maxAttempts?: number;
 }
 
+interface DomResult {
+  element: JQuery<HTMLElement> | null;
+  toDom(): HTMLElement | null;
+}
+
+const DEFAULT_OPTIONS: FindDomOptions = { delay: 10, maxAttempts: 3 };
+
 export class DomFinder {
-    async getDomByXPath(
-        xpath: string,
-        options: FindDomOptions = { delay: 300, maxAttempts: 10 }
-    ): Promise<JQuery<HTMLElement> | null> {
-        return this.getDom(new XPathStrategy(xpath), options);
-    }
+  async find(strategy: FindStrategy, options: FindDomOptions = DEFAULT_OPTIONS): Promise<DomResult> {
+    const element = await this.getDom(strategy, { ...DEFAULT_OPTIONS, ...options });
+    return {
+      element,
+      toDom: () => this.toElement(element)
+    };
+  }
 
-    async getDomByQuery(
-        selector: string,
-        options: FindDomOptions = { delay: 500, maxAttempts: 20 }
-    ): Promise<JQuery<HTMLElement> | null> {
-        return this.getDom(new QuerySelectorStrategy(selector), options);
-    }
+  async xpath(xpath: string, options: FindDomOptions = DEFAULT_OPTIONS): Promise<DomResult> {
+    return this.find(new XPathFindStrategy(xpath), options);
+  }
 
-    async getDomByQueryWithContent(
-        selector: string,
-        content: string,
-        options: FindDomOptions = { delay: 500, maxAttempts: 20 }
-    ): Promise<JQuery<HTMLElement> | null> {
-        return this.getDom(new QuerySelectorWithContentStrategy(selector, content), options);
-    }
+  async query(selector: string, options: FindDomOptions = DEFAULT_OPTIONS): Promise<DomResult> {
+    return this.find(new QueryFirstFindStrategy(selector), options);
+  }
 
-    private async getDom(
-        strategy: FindStrategy,
-        options: FindDomOptions = { delay: 300, maxAttempts: 10 }
-    ): Promise<JQuery<HTMLElement> | null> {
-        return this.findDom(strategy, options);
-    }
+  async queryWithContent(
+    selector: string,
+    content: string,
+    options: FindDomOptions = DEFAULT_OPTIONS
+  ): Promise<DomResult> {
+    return this.find(new QueryContentFindStrategy(selector, content), options);
+  }
 
-    private findDom(
-        strategy: FindStrategy,
-        { delay = 300, maxAttempts = 10 }: FindDomOptions
-    ): Promise<JQuery<HTMLElement> | null> {
-        return new Promise((resolve, reject) => {
-            const attempt = (currentAttempt: number) => {
-                const element = strategy.find();
-                if (element) {
-                    resolve(element);
-                } else if (currentAttempt < maxAttempts) {
-                    setTimeout(() => attempt(currentAttempt + 1), delay);
-                } else {
-                    reject(new Error('DOM element not found'));
-                }
-            };
-            attempt(0);
-        });
+  private async getDom(strategy: FindStrategy, options: FindDomOptions): Promise<JQuery<HTMLElement> | null> {
+    for (let attempt = 0; attempt < options.maxAttempts; attempt++) {
+      const element = strategy.find();
+      if (element) {
+        return element;
+      }
+      await new Promise((resolve) => setTimeout(resolve, options.delay));
     }
+    return null;
+  }
+
+  private toElement(element: JQuery<HTMLElement> | null): HTMLElement | null {
+    return element?.get(0) || null;
+  }
 }

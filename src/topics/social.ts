@@ -10,7 +10,6 @@ export const jikeTopic = new Topic({
   conditions: [{ type: 'hostSuffix', value: 'okjike.com' }]
 });
 
-
 export const juejinTopic = new Topic({
   name: '掘金',
   language: 'zh',

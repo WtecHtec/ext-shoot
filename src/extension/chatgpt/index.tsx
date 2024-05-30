@@ -32,7 +32,6 @@ const TabManagerComand = () => {
         }}
       />
 
-
       <Command.SimpleCommand
         name="toggle-full-screen"
         title="Toggle Full Screen"
@@ -41,7 +40,8 @@ const TabManagerComand = () => {
         endAfterRun
         handle={async () => {
           await toggleFullScreen();
-        }} />
+        }}
+      />
 
       <Command.SimpleCommand
         name="reverse-prompt"
@@ -51,8 +51,8 @@ const TabManagerComand = () => {
         endAfterRun
         handle={async () => {
           await testIt();
-        }} />
-
+        }}
+      />
 
       <Command.SimpleCommand
         name="new-chat"

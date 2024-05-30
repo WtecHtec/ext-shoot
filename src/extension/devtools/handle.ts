@@ -22,9 +22,8 @@ export async function safeInjectJQuery() {
   });
 }
 
-
-export  function setDarkMode() {
-	document.body.style.filter = 'invert(1) hue-rotate(180deg)';
+export function setDarkMode() {
+  document.body.style.filter = 'invert(1) hue-rotate(180deg)';
   const newStyleElement = document.createElement('style');
   newStyleElement.type = 'text/css';
   newStyleElement.innerHTML = `

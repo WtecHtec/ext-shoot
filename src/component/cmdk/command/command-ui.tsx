@@ -12,12 +12,12 @@ import Flomor from '~extension/flomor';
 import HistorySearch from '~extension/history-search';
 import InstantOpen from '~extension/instant-open';
 import Jiker from '~extension/jiker';
+import JueJin from '~extension/juejin';
 import QuickOpen from '~extension/quick-open';
 import TableManager from '~extension/tab-manager';
 import WebTraffic from '~extension/web-traffic';
 import WindowsManager from '~extension/window-agent';
 import X from '~extension/x';
-import JueJin from '~extension/juejin';
 
 import { Command } from '../common/Command';
 import { searchManager } from '../search/search-manager';
@@ -65,7 +65,7 @@ const ExtensionLoader = () => {
       <WindowsManager />
       <CacheAgent />
       <QuickOpen />
-			<JueJin />
+      <JueJin />
     </CommandCMDK.Group>
   );
 };

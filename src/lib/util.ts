@@ -11,5 +11,3 @@ export const getExtId = (id) => {
   const ids = id?.split(MarkId);
   return ids[ids.length - 1] ?? id;
 };
-
-

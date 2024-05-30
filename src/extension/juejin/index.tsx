@@ -2,9 +2,9 @@ import ExtensionLogo from 'data-base64:./icon.png';
 import React from 'react';
 
 import { Command, CommandPanel } from '~component/cmdk/common/Command';
-
-import { handleJuejinSign, switchThemeByJuejin  } from './handle';
 import { juejinTopic } from '~topics';
+
+import { handleJuejinSign, switchThemeByJuejin } from './handle';
 
 const TabManagerComand = () => {
   return (
@@ -21,8 +21,8 @@ const TabManagerComand = () => {
       />
       <Command.SimpleCommand
         name="switch-juejin-theme"
-				title="换一个主题"
-				keywords={['switch theme', '切换主题']}
+        title="换一个主题"
+        keywords={['switch theme', '切换主题']}
         description="切换到另一个主题"
         endAfterRun
         handle={async () => {

@@ -182,6 +182,15 @@ export const createTabAndCheckIn = (url) => {
   });
 };
 
+export const createTabNextToCurrent = (url) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    let currentTab = tabs[0];
+    chrome.tabs.create({ url, index: currentTab.index + 1 }, (tab) => {
+      chrome.tabs.update(tab.id, { active: true });
+    });
+  });
+};
+
 function waitForTabToLoad(tabId) {
   return new Promise((resolve) => {
     function onTabUpdated(updatedTabId, changeInfo) {
@@ -337,5 +346,6 @@ export const methods = {
   createTabAndCheckIn,
   executeScriptInTab,
   invokeFunctionInTab,
-  invokeFunctionInTabFilter
+  invokeFunctionInTabFilter,
+  createTabNextToCurrent
 };

@@ -5,3 +5,7 @@ const tabAction = TabManager.action;
 export function gotoJqueryGPTs() {
   tabAction.changeCurrentTabUrl('https://chatgpt.com/g/g-ziR7R3xl5-jquery-coding-boy');
 }
+
+export function newToGPT4() {
+  tabAction.createTabNextToCurrent('https://chatgpt.com/?model=gpt-4');
+}

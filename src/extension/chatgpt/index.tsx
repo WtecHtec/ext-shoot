@@ -4,7 +4,7 @@ import React from 'react';
 import { Command, CommandPanel } from '~component/cmdk/common/Command';
 
 import { chatgptTopic } from '../../topics/ai';
-import { gotoJqueryGPTs } from './goto';
+import { gotoJqueryGPTs, newToGPT4 } from './goto';
 import { chatAndReversePrompt, checkNewChat, generateShareLink, testIt, toggleFullScreen } from './handle';
 
 const TabManagerComand = () => {
@@ -18,6 +18,16 @@ const TabManagerComand = () => {
         endAfterRun
         handle={async () => {
           await testIt();
+        }}
+      />
+      <Command.SimpleCommand
+        name="new-to-gpt4"
+        title="New To GPT-4"
+        keywords={['newToGPT4']}
+        description="newToGPT4"
+        endAfterRun
+        handle={async () => {
+          newToGPT4();
         }}
       />
 

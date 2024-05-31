@@ -149,12 +149,9 @@ export async function toggleFullScreen() {
 
 export const generateShareLink = async () => {
   await new Job()
-    .next(async () => {
-      const chatBtn = shareBtn();
-      if (chatBtn.length === 0) {
-        throw new Error('没有找到分享按钮');
-      }
-      webAction.triggerFromCursor.clickElement(chatBtn.get(0));
+    .next(async (ctx) => {
+      const chatBtn = await ctx.finder.withFunc(shareBtn);
+      webAction.triggerFromCursor.clickElement(chatBtn.toDom());
     })
     .next(async (ctx) => {
       const updateLink = await ctx.finder.query('button.btn', {
@@ -185,6 +182,15 @@ export const generateShareLink = async () => {
     // })
     .success(async () => {
       toast.success('链接已复制到剪贴板');
+    })
+    .do();
+};
+
+export const clearCurrentGPTs = async () => {
+  await newJob()
+    .next(async (ctx) => {
+      const clearBtn = await ctx.finder.query('button[title="Clear all GPTs"]');
+      webAction.triggerFromCursor.clickElement(clearBtn.toDom());
     })
     .do();
 };

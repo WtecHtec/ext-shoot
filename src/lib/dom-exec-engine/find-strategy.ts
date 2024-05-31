@@ -35,3 +35,11 @@ export class QueryContentFindStrategy implements FindStrategy {
     return matchedElement.length > 0 ? matchedElement : null;
   }
 }
+
+export class FunctionFindStrategy implements FindStrategy {
+  constructor(private findFunction: () => JQuery<HTMLElement> | null) {}
+
+  find(): JQuery<HTMLElement> | null {
+    return this.findFunction();
+  }
+}

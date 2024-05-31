@@ -32,6 +32,18 @@ const TabManagerComand = () => {
       />
 
       <Command.SimpleCommand
+        name="clear-now-gpts"
+        title="Clear Now GPTs"
+        keywords={['clearNowGPTs']}
+        description="clearNowGPTs"
+        endAfterRun
+        handle={async () => {
+          // Add your function here
+          await clearCurrentGPTs();
+        }}
+      />
+
+      <Command.SimpleCommand
         name="generate-share-link"
         title="Generate Share Link"
         keywords={['generateShareLink']}

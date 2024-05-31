@@ -1,4 +1,10 @@
-import { FindStrategy, QueryContentFindStrategy, QueryFirstFindStrategy, XPathFindStrategy } from './find-strategy';
+import {
+  FindStrategy,
+  FunctionFindStrategy,
+  QueryContentFindStrategy,
+  QueryFirstFindStrategy,
+  XPathFindStrategy
+} from './find-strategy';
 
 interface FindDomOptions {
   delay?: number;
@@ -35,6 +41,13 @@ export class DomFinder {
     options: FindDomOptions = DEFAULT_OPTIONS
   ): Promise<DomResult> {
     return this.find(new QueryContentFindStrategy(selector, content), options);
+  }
+
+  async withFunc(
+    findFunction: () => JQuery<HTMLElement> | null,
+    options: FindDomOptions = DEFAULT_OPTIONS
+  ): Promise<DomResult> {
+    return this.find(new FunctionFindStrategy(findFunction), options);
   }
 
   private async getDom(strategy: FindStrategy, options: FindDomOptions): Promise<JQuery<HTMLElement> | null> {

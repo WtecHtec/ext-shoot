@@ -6,6 +6,8 @@ import WebInteraction from '~lib/atoms/web-common-Interaction';
 import { Job, newJob } from '~lib/dom-exec-engine/exec-engine';
 import { postTask } from '~lib/exec-task-to-web';
 
+import { shareBtn } from './atom-dom-find';
+
 const tabAction = TabManager.action;
 const webAction = WebInteraction.action;
 
@@ -147,9 +149,12 @@ export async function toggleFullScreen() {
 
 export const generateShareLink = async () => {
   await new Job()
-    .next(async (ctx) => {
-      const chatBtn = await ctx.finder.query('button.focus-visible\\:bg-token-main-surface-secondary:nth-child(1)');
-      webAction.triggerFromCursor.clickElement(chatBtn.toDom());
+    .next(async () => {
+      const chatBtn = shareBtn();
+      if (chatBtn.length === 0) {
+        throw new Error('没有找到分享按钮');
+      }
+      webAction.triggerFromCursor.clickElement(chatBtn.get(0));
     })
     .next(async (ctx) => {
       const updateLink = await ctx.finder.query('button.btn', {

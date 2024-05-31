@@ -315,7 +315,6 @@ describe('Job Class - Context Passing', () => {
     expect(job['tasks'].length).toBe(0);
   });
 });
-
 describe('Job Class - Error Handle', () => {
   it('should execute tasks in order', async () => {
     const task1 = vi.fn(async () => {});

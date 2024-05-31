@@ -5,7 +5,14 @@ import { Command, CommandPanel } from '~component/cmdk/common/Command';
 
 import { chatgptTopic } from '../../topics/ai';
 import { gotoJqueryGPTs, newToGPT4 } from './goto';
-import { chatAndReversePrompt, checkNewChat, generateShareLink, testIt, toggleFullScreen } from './handle';
+import {
+  chatAndReversePrompt,
+  checkNewChat,
+  clearCurrentGPTs,
+  generateShareLink,
+  testIt,
+  toggleFullScreen
+} from './handle';
 
 const TabManagerComand = () => {
   return (

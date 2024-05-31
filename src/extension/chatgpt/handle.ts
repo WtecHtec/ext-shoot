@@ -189,7 +189,24 @@ export const generateShareLink = async () => {
 export const clearCurrentGPTs = async () => {
   await newJob()
     .next(async (ctx) => {
-      const clearBtn = await ctx.finder.query('button[title="Clear all GPTs"]');
+      const GPTsBtn = await ctx.finder.query('div[id^="radix-"][aria-haspopup="menu"]');
+      GPTsBtn.element.focus();
+      ctx.GPTsBtn = GPTsBtn.toDom();
+    })
+    .next(async (ctx) => {
+      const keyDownEvent = new KeyboardEvent('keydown', {
+        bubbles: true,
+        cancelable: true,
+        key: 'Enter',
+        keyCode: 13,
+        view: window
+      });
+      ctx.GPTsBtn.dispatchEvent(keyDownEvent);
+    })
+    .next(async (ctx) => {
+      const clearBtn = await ctx.finder.withFunc(() => {
+        return $('div[data-radix-popper-content-wrapper] div[role="menuitem"]').first();
+      });
       webAction.triggerFromCursor.clickElement(clearBtn.toDom());
     })
     .do();

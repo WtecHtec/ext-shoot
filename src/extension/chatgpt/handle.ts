@@ -152,6 +152,10 @@ export const generateShareLink = async () => {
   await new Job()
     .next(async (ctx) => {
       const chatBtn = await ctx.finder.withFunc(shareBtn);
+      console.log('chatBtn', chatBtn);
+      if (chatBtn.element.length === 0) {
+        throw new Error('没有找到分享按钮');
+      }
       webAction.triggerFromCursor.clickElement(chatBtn.toDom());
     })
     .next(async (ctx) => {
@@ -178,9 +182,9 @@ export const generateShareLink = async () => {
         }
       }
     )
-    // .error(async () => {
-    //     toast('生成分享链接失败');
-    // })
+    .error(async () => {
+      toast('生成分享链接失败');
+    })
     .success(async () => {
       toast.success('链接已复制到剪贴板');
     })

@@ -29,7 +29,7 @@ const TabManagerComand = () => {
       />
       <Command.SimpleCommand
         name="new-to-gpt4"
-        title="New To GPT-4"
+        title="New GPT-4 Page"
         keywords={['newToGPT4']}
         description="newToGPT4"
         endAfterRun

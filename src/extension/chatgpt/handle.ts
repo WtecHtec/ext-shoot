@@ -7,6 +7,7 @@ import { Job, newJob } from '~lib/dom-exec-engine/exec-engine';
 import { postTask } from '~lib/exec-task-to-web';
 
 import { shareBtn } from './atom-dom-find';
+import { isGTPsPage, pageUrl } from './on-page';
 
 const tabAction = TabManager.action;
 const webAction = WebInteraction.action;
@@ -187,7 +188,12 @@ export const generateShareLink = async () => {
 };
 
 export const clearCurrentGPTs = async () => {
-  await newJob()
+  newJob()
+    .must(async () => isGTPsPage(pageUrl), {
+      errorHandler: async () => {
+        toast.error('当前页面不是 GPTs 页面');
+      }
+    })
     .next(async (ctx) => {
       const GPTsBtn = await ctx.finder.query('div[id^="radix-"][aria-haspopup="menu"]');
       GPTsBtn.element.focus();

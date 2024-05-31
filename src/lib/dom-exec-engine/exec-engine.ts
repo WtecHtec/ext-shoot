@@ -38,6 +38,16 @@ export class Job {
     return this.addTaskInstance(new RetryTask(fn, retry, options));
   }
 
+  must(condition: (ctx: ExecutionContext) => Promise<boolean>, options: TaskOptions = {}): this {
+    const mustTask = async (ctx: ExecutionContext) => {
+      const result = await condition(ctx);
+      if (!result) {
+        throw new Error('Not meet the must condition');
+      }
+    };
+    return this.addTaskInstance(new DefaultTask(mustTask, options));
+  }
+
   expect(
     condition: (ctx: ExecutionContext, ...args: any[]) => Promise<boolean>,
     fn: (ctx: ExecutionContext, ...args: any[]) => Promise<any>,

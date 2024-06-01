@@ -9,7 +9,10 @@ import {
   chatAndReversePrompt,
   checkNewChat,
   clearCurrentGPTs,
+  copyLastChat,
   generateShareLink,
+  readLastChat,
+  reGenerateLastChat,
   testIt,
   toggleFullScreen
 } from './handle';
@@ -27,6 +30,40 @@ const TabManagerComand = () => {
           await testIt();
         }}
       />
+
+      <Command.SimpleCommand
+        name="reGenerate-last-chat"
+        title="ReGenerate Last Chat"
+        keywords={['reGenerateLastChat']}
+        description="ReGenerate Last Chat"
+        endAfterRun
+        handle={async () => {
+          await reGenerateLastChat();
+        }}
+      />
+
+      <Command.SimpleCommand
+        name="copy-last-chat"
+        title="Copy Last Chat"
+        keywords={['copyLastChat']}
+        description="Copy Last Chat"
+        endAfterRun
+        handle={async () => {
+          await copyLastChat();
+        }}
+      />
+
+      <Command.SimpleCommand
+        name="read-last-chat"
+        title="Read Last Chat"
+        keywords={['readLastChat']}
+        description="Read Last Chat"
+        endAfterRun
+        handle={async () => {
+          await readLastChat();
+        }}
+      />
+
       <Command.SimpleCommand
         name="new-to-gpt4"
         title="New GPT-4 Page"

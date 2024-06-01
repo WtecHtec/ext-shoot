@@ -151,6 +151,7 @@ export const generatePostUrl = (postId, postType) => {
 
 /**
  * 重新编辑帖子
+ * @bug 带有链接的时候，编辑后的内容会丢失链接˚
  */
 export async function reEditPost() {
   makeContentEditable();

@@ -1,7 +1,8 @@
 import React from 'react';
 import ExtensionLogo from 'react:./icon.svg';
 
-import { Command, CommandPanel } from '~component/cmdk/common/Command';
+import { Command } from '~component/cmdk/extension/command';
+import { CommandPanel } from '~component/cmdk/extension/command-panel';
 
 import {
   handleDisableAllExtension,

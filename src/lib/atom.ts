@@ -1,4 +1,4 @@
-// atom-common.ts
+// atom-extension.ts
 type Methods = {
   [key: string]: (...args: any[]) => any;
 };

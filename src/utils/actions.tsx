@@ -145,7 +145,7 @@ export const SUB_EXTENSION_ACTIONS: Array<SubItemAction> = [
   //     desc: 'Execute Recent Action',
   //     value: 'execute_recent_action',
   //     keywords: ['execute', 'recent', 'action', 'Execute Recent Action'],
-  //     group: 'common',
+  //     group: 'extension',
   // },
   {
     shortcut: '',

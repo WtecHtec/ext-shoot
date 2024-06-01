@@ -1,6 +1,7 @@
 import { Command as CommandCMDK } from 'motion-cmdk';
 import React, { useEffect, useState } from 'react';
 
+import { Command } from '~component/cmdk/extension/command';
 import { ExtensionLauncher, ExtensionManagerCommand } from '~extension';
 import CacheAgent from '~extension/cache-agent';
 import ChatGPT from '~extension/chatgpt';
@@ -19,7 +20,6 @@ import WebTraffic from '~extension/web-traffic';
 import WindowsManager from '~extension/window-agent';
 import X from '~extension/x';
 
-import { Command } from '../common/Command';
 import { searchManager } from '../search/search-manager';
 
 function ExtensionWithSearchLoader() {

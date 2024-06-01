@@ -1,7 +1,8 @@
 import ExtensionLogo from 'data-base64:./icon.jpg';
 import React from 'react';
 
-import { Command, CommandPanel } from '~component/cmdk/common/Command';
+import { Command } from '~component/cmdk/extension/command';
+import { CommandPanel } from '~component/cmdk/extension/command-panel';
 import { jikeTopic } from '~topics';
 
 import { reEditPost } from './change-post';

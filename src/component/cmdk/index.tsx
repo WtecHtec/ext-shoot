@@ -4,13 +4,13 @@
 import { Command } from 'motion-cmdk';
 import React, { useEffect, useState } from 'react';
 
+import NotFound from '~component/cmdk/extension/NotFound';
 import FooterTip from '~component/cmdk/tip/tip-ui';
 
 import Action from './action/action-ui-refactor';
 import { appManager } from './app/app-manager';
 import AppUI from './app/app-ui';
 import { CommandUI } from './command/command-ui';
-import NotFound from './common/NotFound';
 import { initEscControl } from './panel/esc-control';
 import { searchManager } from './search/search-manager';
 import SearchComponent from './search/search-ui';

@@ -3,7 +3,7 @@ import { triggerFromCursor } from './cursor';
 import { triggerFromElement } from './form';
 
 const moduleName = 'web-interaction';
-const description = 'common web interaction methods';
+const description = 'extension web interaction methods';
 const methods = {
   triggerFromCursor,
   triggerFromElement

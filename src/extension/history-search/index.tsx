@@ -4,9 +4,9 @@ import React from 'react';
 import ExtensionLogo from 'react:./icon.svg';
 
 import { appManager } from '~component/cmdk/app/app-manager';
-import { Action } from '~component/cmdk/common/Action';
-import { ActionPanel } from '~component/cmdk/common/ActionPanel';
-import List from '~component/cmdk/common/List';
+import { Action } from '~component/cmdk/extension/Action';
+import { ActionPanel } from '~component/cmdk/extension/ActionPanel';
+import List from '~component/cmdk/extension/List';
 import { searchManager } from '~component/cmdk/search/search-manager';
 
 const PREFIX = 'HistorySearch';

@@ -18,6 +18,7 @@ import TableManager from '~extension/tab-manager';
 import WebTraffic from '~extension/web-traffic';
 import WindowsManager from '~extension/window-agent';
 import X from '~extension/x';
+import V2EX from '~extension/v2ex';
 
 import { Command } from '../common/Command';
 import { searchManager } from '../search/search-manager';
@@ -66,6 +67,7 @@ const ExtensionLoader = () => {
       <CacheAgent />
       <QuickOpen />
       <JueJin />
+			<V2EX />
     </CommandCMDK.Group>
   );
 };

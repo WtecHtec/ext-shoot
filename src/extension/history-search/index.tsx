@@ -28,7 +28,7 @@ const Search = ({ search }: { search: string }) => {
       title="History Search"
       icon={<ExtensionLogo />}
       onSelect={onSearch}
-      author="WtecHtec"
+      extension="WtecHtec"
       actions={
         <ActionPanel head="History Store">
           <ActionPanel.Section>

@@ -33,7 +33,7 @@ export const ExtensionCommand = ({
       subtitle={description}
       keywords={keywords}
       icon={<ExtensionIcon base64={iconUrl} />}
-      author={null}
+      extension={null}
       onSelect={() => {
         handle();
       }}

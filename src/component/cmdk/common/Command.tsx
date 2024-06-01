@@ -68,15 +68,7 @@ interface SimpleCommandProps extends BaseCommand {
   endAfterRun?: boolean;
 }
 
-const SimpleCommand: React.FC<SimpleCommandProps> = ({
-  name,
-  title,
-  keywords,
-  handle,
-  icon,
-  extension,
-  endAfterRun
-}) => {
+const SimpleCommand: React.FC<SimpleCommandProps> = ({ handle, endAfterRun, ...props }) => {
   const finalHandle = endAfterRun
     ? () => {
         handle();
@@ -86,15 +78,13 @@ const SimpleCommand: React.FC<SimpleCommandProps> = ({
 
   return (
     <List.Item
-      id={name}
-      key={name}
-      title={title}
-      keywords={keywords}
-      icon={icon}
-      author={extension}
+      id={props.name}
+      key={props.name}
+      title={props.title || props.name}
+      {...props}
       onSelect={finalHandle}
       actions={
-        <ActionPanel head={title}>
+        <ActionPanel head={props.title}>
           <ActionPanel.Section>
             <Action.ExecuteCommand handle={finalHandle} />
           </ActionPanel.Section>

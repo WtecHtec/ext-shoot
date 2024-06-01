@@ -62,21 +62,43 @@ const BaseAction = ({ value, keywords, onSelect, Shortcut, icon, cls = '' }: Act
   );
 };
 
-interface OpenInBrowserProps {
+interface OpenTabProps {
   url: string;
   title?: string;
 }
-const OpenInBrowser = ({ title, url }: OpenInBrowserProps) => {
+
+const OpenTab = ({ title, url }: OpenTabProps) => {
   if (!title) {
-    title = 'Open in Browser';
+    title = 'Open Tab';
   }
   return (
     <BaseAction
       value={title}
-      keywords={['open', 'browser']}
+      keywords={['open', 'tab']}
       icon={<StoreIcon />}
       onSelect={() => {
-        window.open(url);
+        window.open(url, '_blank');
+      }}
+    />
+  );
+};
+
+interface GoToProps {
+  url: string;
+  title?: string;
+}
+
+const GoTo = ({ title, url }: GoToProps) => {
+  if (!title) {
+    title = 'Go To';
+  }
+  return (
+    <BaseAction
+      value={title}
+      keywords={['go', 'to']}
+      icon={<StoreIcon />}
+      onSelect={() => {
+        window.location.href = url;
       }}
     />
   );
@@ -103,7 +125,6 @@ const CopyToClipboard = ({ content, title, shortcut }: CopyToClipboardProps) => 
     />
   );
 };
-
 interface ExecuteCommandProps {
   handle: () => void;
 }
@@ -125,7 +146,8 @@ const ExecuteCommand = ({ handle }: ExecuteCommandProps) => {
 
 const Action = {
   BaseAction,
-  OpenInBrowser,
+  OpenTab,
+  GoTo,
   CopyToClipboard,
   ExecuteCommand
 };

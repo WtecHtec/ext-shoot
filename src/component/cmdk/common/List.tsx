@@ -14,7 +14,7 @@ interface ListItemProps {
   subtitle?: string;
   keywords?: string[];
   type?: string;
-  author?: string | null;
+  extension?: string | null;
   actions?: React.ReactNode;
   icon?: string | React.ReactNode;
   children?: React.ReactNode;
@@ -26,7 +26,7 @@ interface ListItemProps {
 export function Item({
   id,
   title,
-  author,
+  extension,
   type,
   icon,
   actions,
@@ -45,10 +45,10 @@ export function Item({
     }
   };
 
-  const renderAuthor = () => {
-    if (author === null) return '';
-    if (!author) return DEFAULT_AUTHOR;
-    return author;
+  const renderExtensionName = () => {
+    if (extension === null) return '';
+    if (!extension) return DEFAULT_AUTHOR;
+    return extension;
   };
 
   const renderKind = () => {
@@ -83,7 +83,7 @@ export function Item({
       {children}
       <span cmdk-motionshot-sub="" style={{ flexShrink: 0 }}>
         {' '}
-        {renderAuthor()}
+        {renderExtensionName()}
       </span>
       <span cmdk-motionshot-meta="" style={{ flexShrink: 0 }}>
         {' '}

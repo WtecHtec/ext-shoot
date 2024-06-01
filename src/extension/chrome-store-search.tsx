@@ -94,7 +94,7 @@ const Search = ({ search }: { search: string }) => {
       actions={
         <ActionPanel head="Chrome Store">
           <ActionPanel.Section>
-            <Action.OpenInBrowser url={`https://chrome.google.com/webstore/search/${search}`} />
+            <Action.OpenTab url={`https://chrome.google.com/webstore/search/${search}`} />
             <Action.CopyToClipboard
               content={`https://chrome.google.com/webstore/search/${search}`}
               shortcut={{ modifiers: ['cmd'], key: 'c' }}

@@ -17,6 +17,7 @@ interface ListItemProps {
   extension?: string | null;
   actions?: React.ReactNode;
   icon?: string | React.ReactNode;
+  labels?: React.ReactNode[];
   children?: React.ReactNode;
   onSelect?: any;
   cls?: string;
@@ -29,6 +30,7 @@ export function Item({
   extension,
   type,
   icon,
+  labels,
   actions,
   children,
   keywords,
@@ -42,6 +44,17 @@ export function Item({
     }
     if (React.isValidElement(icon)) {
       return icon;
+    }
+  };
+
+  const renderLabel = () => {
+    if (!labels) return null;
+    if (Array.isArray(labels)) {
+      return labels.map((item, index) => (
+        <span key={index} className="cmdk-motionsho-label-item">
+          {item}
+        </span>
+      ));
     }
   };
 
@@ -86,7 +99,9 @@ export function Item({
         {renderExtensionName()}
       </span>
       <span cmdk-motionshot-meta="" style={{ flexShrink: 0 }}>
-        {' '}
+        <span cmdk-motionshot-label="" style={{ flexShrink: 0 }}>
+          {renderLabel()}
+        </span>{' '}
         {renderKind()}
       </span>
     </Command.Item>

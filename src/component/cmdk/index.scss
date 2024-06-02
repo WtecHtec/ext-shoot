@@ -286,10 +286,26 @@
   }
   [cmdk-motionshot-meta] {
     margin-left: auto;
+    line-height: 24px;
+    color: var(--gray11);
+    font-size: 14px;
+    display: flex;
+  }
+  [cmdk-motionshot-label] {
+    margin-right: 8px;
     color: var(--gray11);
     font-size: 13px;
-  }
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: start;
+    gap: 4px;
 
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
   [cmdk-list] {
     max-height: 350px;
     overflow: auto;

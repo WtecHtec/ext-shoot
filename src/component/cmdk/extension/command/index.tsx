@@ -1,4 +1,4 @@
-import { NavigatorCommand, PlaceholderCommand, SimpleCommand } from '~component/cmdk/extension/command/base';
+import { Navigator, PlaceholderCommand, SimpleCommand } from '~component/cmdk/extension/command/base';
 import { exitPanel } from '~component/cmdk/panel';
 import { searchManager } from '~component/cmdk/search/search-manager';
 
@@ -10,6 +10,6 @@ export const ExitAndClearSearch = () => {
 const Command = {
   SimpleCommand,
   PlaceholderCommand,
-  Navigator: NavigatorCommand
+  Navigator
 };
 export { Command };

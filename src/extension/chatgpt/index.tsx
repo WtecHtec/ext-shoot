@@ -5,7 +5,7 @@ import { Command } from '~component/cmdk/extension/command';
 import { CommandPanel } from '~component/cmdk/extension/command-panel';
 
 import { chatgptTopic } from '../../topics/ai';
-import { gotoJqueryGPTs, newToGPT4 } from './goto';
+import { GotoCommandList, gotoJqueryGPTs, newToGPT4 } from './goto';
 import {
   chatAndReversePrompt,
   checkNewChat,
@@ -14,14 +14,13 @@ import {
   generateShareLink,
   readLastChat,
   reGenerateLastChat,
-  testIt,
   toggleFullScreen
 } from './handle';
 
 const TabManagerComand = () => {
   return (
     <CommandPanel title="GPTs" icon={ExtensionLogo} topics={[chatgptTopic]}>
-      <Command.SimpleCommand
+      {/* <Command.SimpleCommand
         name="test"
         title="test"
         keywords={['test']}
@@ -30,9 +29,9 @@ const TabManagerComand = () => {
         handle={async () => {
           await testIt();
         }}
-      />
+      /> */}
 
-      {/* <Command.Navigator url="https://www.google.com" title="goto-google22" /> */}
+      {GotoCommandList()}
 
       <Command.SimpleCommand
         name="reGenerate-last-chat"

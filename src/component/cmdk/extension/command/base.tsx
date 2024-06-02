@@ -5,6 +5,7 @@ import { Action } from '~component/cmdk/extension/Action';
 import { ActionPanel } from '~component/cmdk/extension/ActionPanel';
 import { ExitAndClearSearch } from '~component/cmdk/extension/command/index';
 import List from '~component/cmdk/extension/List';
+import { NavigatorIcon } from '~component/icons';
 
 export interface BaseCommand {
   name: string;
@@ -58,7 +59,7 @@ export interface NavigatorCommandProps extends Omit<BaseCommand, 'name'> {
   newTab?: boolean; // 默认是否在新标签页中打开
 }
 
-export const NavigatorCommand: React.FC<NavigatorCommandProps> = ({ url, newTab = false, ...props }) => {
+export const Navigator: React.FC<NavigatorCommandProps> = ({ url, newTab = false, ...props }) => {
   const navigate = newTab ? () => Action.OpenTab.run({ url }) : () => Action.GoTo.run({ url });
   const name = props?.name || props.title;
   return (
@@ -67,6 +68,7 @@ export const NavigatorCommand: React.FC<NavigatorCommandProps> = ({ url, newTab 
       key={name}
       title={props.title}
       {...props}
+      labels={[<NavigatorIcon key="icon" />]}
       onSelect={navigate}
       actions={
         <ActionPanel head={props.title}>

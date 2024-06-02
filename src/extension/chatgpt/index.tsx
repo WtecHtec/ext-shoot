@@ -32,6 +32,8 @@ const TabManagerComand = () => {
         }}
       />
 
+      <Command.Navigator url="https://www.google.com" name="goto-google" />
+
       <Command.SimpleCommand
         name="reGenerate-last-chat"
         title="ReGenerate Last Chat"

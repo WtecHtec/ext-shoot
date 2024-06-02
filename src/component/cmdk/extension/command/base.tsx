@@ -51,3 +51,34 @@ export const SimpleCommand: React.FC<SimpleCommandProps> = ({ handle, endAfterRu
 export const PlaceholderCommand: React.FC = () => {
   return <List.Item cls="!hidden" id={'placeholder'} key={'placeholder'} title={'placeholder'} />;
 };
+
+export interface NavigatorCommandProps extends BaseCommand {
+  url: string;
+  openInNewTabByDefault?: boolean; // 默认是否在新标签页中打开
+}
+
+export const NavigatorCommand: React.FC<NavigatorCommandProps> = ({ url, ...props }) => {
+  const handleCurrentTab = () => {
+    Action.GoTo({ url: url, pure: true });
+  };
+  // 当前标签页打开
+  // const handleNewTab = () => Action.OpenTab({ url: url }); // 新标签页打开
+
+  return (
+    <List.Item
+      id={props.name}
+      key={props.name}
+      title={props.title || props.name}
+      {...props}
+      onSelect={handleCurrentTab}
+      actions={
+        <ActionPanel head={props.title}>
+          <ActionPanel.Section title="Navigate">
+            <Action.GoTo url={url} />
+            <Action.OpenTab url={url} />
+          </ActionPanel.Section>
+        </ActionPanel>
+      }
+    />
+  );
+};

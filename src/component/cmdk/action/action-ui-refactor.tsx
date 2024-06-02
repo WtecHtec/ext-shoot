@@ -140,12 +140,6 @@ export default function ActionUi({
     }
   }, [open, listRef]);
 
-  // const renderActionTitle = (title: string) => {
-  //   return (
-  //     <h1 className={"sub_command_title"}>{title}</h1>
-  //   );
-  // };
-
   return (
     <Popover.Root open={open} onOpenChange={setOpen}>
       <Popover.Trigger cmdk-motionshot-subcommand-trigger="" onClick={() => setOpen(true)} aria-expanded={open}>

@@ -4,6 +4,7 @@ import React from 'react';
 import { CopyNameIcon, ExecuteIcon, ExtensionIcon, StoreIcon } from '~component/icons';
 
 import { Shortcut, ShortCutKBD } from './ShortCut';
+import withPure, { PureProps } from './utils';
 
 interface ActionPanelProps {
   value: string;
@@ -83,24 +84,22 @@ const OpenTab = ({ title, url }: OpenTabProps) => {
   );
 };
 
+// 示例原有接口
 interface GoToProps {
   url: string;
   title?: string;
 }
 
-const GoTo = ({ title, url }: GoToProps) => {
-  if (!title) {
-    title = 'Go To';
-  }
+// 扩展 GoToProps 接口以包括 PureProps
+interface GoToExtendedProps extends GoToProps, PureProps {}
+
+const navigateToUrl = ({ url }) => {
+  window.location.href = url;
+};
+
+const GoTo: React.FC<GoToExtendedProps> = ({ title = 'Go To', url }) => {
   return (
-    <BaseAction
-      value={title}
-      keywords={['go', 'to']}
-      icon={<StoreIcon />}
-      onSelect={() => {
-        window.location.href = url;
-      }}
-    />
+    <BaseAction value={title} keywords={['go', 'to']} icon={<StoreIcon />} onSelect={() => navigateToUrl({ url })} />
   );
 };
 
@@ -147,7 +146,7 @@ const ExecuteCommand = ({ handle }: ExecuteCommandProps) => {
 const Action = {
   BaseAction,
   OpenTab,
-  GoTo,
+  GoTo: withPure(GoTo, navigateToUrl),
   CopyToClipboard,
   ExecuteCommand
 };

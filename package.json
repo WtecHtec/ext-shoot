@@ -1,7 +1,7 @@
 {
   "name": "super-motion",
   "displayName": "SuperMotion",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Ready to rule your favorite sites? Let's see how superplayer browse the web in the AI Era!",
   "author": "River.<laolei@forkway.cn>",
   "contributors": [
@@ -21,7 +21,8 @@
     "re:log": "node script/remove-log.js",
     "format": "prettier '**/*.{js,jsx,ts,tsx,json,md,mdx,css,scss,yaml,yml}' --write",
     "test:format": "prettier '**/*.{js,jsx,ts,tsx,json,md,mdx,css,scss,yaml,yml}' --check",
-    "format:stage": "lint-staged"
+    "format:stage": "lint-staged",
+    "release": "bumpp && zip:chrome"
   },
   "dependencies": {
     "@json2csv/plainjs": "^7.0.6",
@@ -74,6 +75,7 @@
     "@typescript-eslint/eslint-plugin": "^7.3.1",
     "@typescript-eslint/parser": "^7.3.1",
     "babel-eslint": "^10.1.0",
+    "bumpp": "^9.4.1",
     "crypto-browserify": "^3.12.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",

@@ -5,7 +5,7 @@ export interface PureProps {
   [key: string]: any;
 }
 
-type WithPureProps<P> = P & PureProps; // 将任何传入类型 P 与 PureProps 结合
+type WithPureProps<P> = P & PureProps;
 
 function withRun<T extends PureProps>(
   Component: React.ComponentType<T>,

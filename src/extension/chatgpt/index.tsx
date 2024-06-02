@@ -32,7 +32,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.Navigator url="https://www.google.com" title="goto-google22" />
+      {/* <Command.Navigator url="https://www.google.com" title="goto-google22" /> */}
 
       <Command.SimpleCommand
         name="reGenerate-last-chat"

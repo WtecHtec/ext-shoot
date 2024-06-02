@@ -236,7 +236,7 @@
   [cmdk-item] {
     content-visibility: auto;
 
-    // cursor: pointer;
+    cursor: pointer;
     height: 40px;
     border-radius: 8px;
     font-size: 14px;
@@ -299,6 +299,7 @@
     transition-property: height;
     padding: 0 8px 40px;
     scrollbar-width: none;
+    cursor: pointer;
   }
 
   [cmdk-motionshot-open-trigger],

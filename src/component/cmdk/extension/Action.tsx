@@ -4,7 +4,7 @@ import React from 'react';
 import { CopyNameIcon, ExecuteIcon, ExtensionIcon, StoreIcon } from '~component/icons';
 
 import { Shortcut, ShortCutKBD } from './ShortCut';
-import withPure, { PureProps } from './utils';
+import withRun from './utils';
 
 interface ActionPanelProps {
   value: string;
@@ -68,19 +68,15 @@ interface OpenTabProps {
   title?: string;
 }
 
+const openNewTab = ({ url }) => {
+  window.open(url, '_blank');
+};
 const OpenTab = ({ title, url }: OpenTabProps) => {
   if (!title) {
     title = 'Open Tab';
   }
   return (
-    <BaseAction
-      value={title}
-      keywords={['open', 'tab']}
-      icon={<StoreIcon />}
-      onSelect={() => {
-        window.open(url, '_blank');
-      }}
-    />
+    <BaseAction value={title} keywords={['open', 'tab']} icon={<StoreIcon />} onSelect={() => openNewTab({ url })} />
   );
 };
 
@@ -90,14 +86,11 @@ interface GoToProps {
   title?: string;
 }
 
-// 扩展 GoToProps 接口以包括 PureProps
-interface GoToExtendedProps extends GoToProps, PureProps {}
-
 const navigateToUrl = ({ url }) => {
   window.location.href = url;
 };
 
-const GoTo: React.FC<GoToExtendedProps> = ({ title = 'Go To', url }) => {
+const GoTo: React.FC<GoToProps> = ({ title = 'Go To', url }) => {
   return (
     <BaseAction value={title} keywords={['go', 'to']} icon={<StoreIcon />} onSelect={() => navigateToUrl({ url })} />
   );
@@ -145,8 +138,8 @@ const ExecuteCommand = ({ handle }: ExecuteCommandProps) => {
 
 const Action = {
   BaseAction,
-  OpenTab,
-  GoTo: withPure(GoTo, navigateToUrl),
+  OpenTab: withRun(OpenTab, openNewTab),
+  GoTo: withRun(GoTo, navigateToUrl),
   CopyToClipboard,
   ExecuteCommand
 };

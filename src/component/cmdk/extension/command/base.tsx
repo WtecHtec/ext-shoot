@@ -52,25 +52,22 @@ export const PlaceholderCommand: React.FC = () => {
   return <List.Item cls="!hidden" id={'placeholder'} key={'placeholder'} title={'placeholder'} />;
 };
 
-export interface NavigatorCommandProps extends BaseCommand {
+export interface NavigatorCommandProps extends Omit<BaseCommand, 'name'> {
   url: string;
-  openInNewTabByDefault?: boolean; // 默认是否在新标签页中打开
+  name?: string;
+  newTab?: boolean; // 默认是否在新标签页中打开
 }
 
-export const NavigatorCommand: React.FC<NavigatorCommandProps> = ({ url, ...props }) => {
-  const handleCurrentTab = () => {
-    Action.GoTo({ url: url, pure: true });
-  };
-  // 当前标签页打开
-  // const handleNewTab = () => Action.OpenTab({ url: url }); // 新标签页打开
-
+export const NavigatorCommand: React.FC<NavigatorCommandProps> = ({ url, newTab = false, ...props }) => {
+  const navigate = newTab ? () => Action.OpenTab.run({ url }) : () => Action.GoTo.run({ url });
+  const name = props?.name || props.title;
   return (
     <List.Item
-      id={props.name}
-      key={props.name}
-      title={props.title || props.name}
+      id={name}
+      key={name}
+      title={props.title}
       {...props}
-      onSelect={handleCurrentTab}
+      onSelect={navigate}
       actions={
         <ActionPanel head={props.title}>
           <ActionPanel.Section title="Navigate">

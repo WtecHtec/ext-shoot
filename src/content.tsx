@@ -13,10 +13,11 @@ import { saveTextToFlomo } from '~extension/flomor/handle';
 import { listerSnapSeekData } from '~extension/history-search/content';
 import { createJikePost } from '~extension/jiker/api';
 import { execSignIn } from '~extension/juejin/executes';
+import { execV2exSignIn } from '~extension/v2ex/executes';
 import { functionManager } from '~lib/function-manager';
 import { chatgptTopic, feishuTopic, flomoTopic } from '~topics';
 import { duoZhuaYuTopic } from '~topics/shopping';
-import { jikeTopic, juejinTopic } from '~topics/social';
+import { jikeTopic, juejinTopic, V2exTopic } from '~topics/social';
 import { handleSetBrowser } from '~utils/actions';
 import { getBrowser, getMutliLevelProperty, isArc } from '~utils/util';
 
@@ -39,8 +40,11 @@ functionManager.registerFunction('isLoggedInFeishu', isLoggedInFeishu);
 functionManager.registerFunction('executeUseageTemp', executeUseageTemp);
 functionManager.registerFunction('executeExportFeishu', executeExportFeishu);
 functionManager.registerFunction('execSignIn', execSignIn);
+functionManager.registerFunction('execV2exSignIn', execV2exSignIn);
 
-topicManager.registerTopics([jikeTopic, flomoTopic, feishuTopic, chatgptTopic, duoZhuaYuTopic, juejinTopic]);
+topicManager.registerTopics([jikeTopic, flomoTopic, 
+	feishuTopic, chatgptTopic, duoZhuaYuTopic, juejinTopic,
+	V2exTopic,]);
 topicManager.checkAndActivateTopics();
 
 setTimeout(() => {

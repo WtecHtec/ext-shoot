@@ -16,11 +16,11 @@ export function newToGPT4() {
 }
 
 export const urlList = {
-  mineGPTs: 'https://chatgpt.com/gpts/mine',
+  MineGPTs: 'https://chatgpt.com/gpts/mine',
   GPTsStore: 'https://chatgpt.com/gpts',
-  createNewGPTs: 'https://chatgpt.com/gpts/create',
-  chatWithGPT4: 'https://chatgpt.com/?model=gpt-4',
-  chatWithGPT4o: 'https://chatgpt.com/?model=gpt-4o'
+  CreateNewGPTs: 'https://chatgpt.com/gpts/create',
+  ChatWithGPT4: 'https://chatgpt.com/?model=gpt-4',
+  ChatWithGPT4o: 'https://chatgpt.com/?model=gpt-4o'
 };
 
 export function createNavigators(urlList) {

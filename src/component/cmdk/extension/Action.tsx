@@ -3,6 +3,7 @@ import React from 'react';
 
 import { CopyNameIcon, ExecuteIcon, ExtensionIcon, StoreIcon } from '~component/icons';
 
+import { ExitAndClearSearch } from './command';
 import { Shortcut, ShortCutKBD } from './ShortCut';
 import withRun from './utils';
 
@@ -70,6 +71,7 @@ interface OpenTabProps {
 
 const openNewTab = ({ url }) => {
   window.open(url, '_blank');
+  ExitAndClearSearch();
 };
 const OpenTab = ({ title, url }: OpenTabProps) => {
   if (!title) {

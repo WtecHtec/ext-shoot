@@ -16,10 +16,10 @@ import Jiker from '~extension/jiker';
 import JueJin from '~extension/juejin';
 import QuickOpen from '~extension/quick-open';
 import TableManager from '~extension/tab-manager';
+import V2EX from '~extension/v2ex';
 import WebTraffic from '~extension/web-traffic';
 import WindowsManager from '~extension/window-agent';
 import X from '~extension/x';
-import V2EX from '~extension/v2ex';
 
 import { searchManager } from '../search/search-manager';
 
@@ -53,9 +53,9 @@ const ExtensionLoader = () => {
   return (
     <CommandCMDK.Group heading={'Results'}>
       <Command.PlaceholderCommand />
+      <DevTools />
       <FeishuGroupTalk />
       <X />
-      <DevTools />
       <Jiker />
       <ChatGPT />
       <Flomor />
@@ -67,7 +67,7 @@ const ExtensionLoader = () => {
       <CacheAgent />
       <QuickOpen />
       <JueJin />
-			<V2EX />
+      <V2EX />
     </CommandCMDK.Group>
   );
 };

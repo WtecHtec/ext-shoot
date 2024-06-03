@@ -4,7 +4,7 @@ import React from 'react';
 import { Command } from '~component/cmdk/extension/command';
 import { CommandPanel } from '~component/cmdk/extension/command-panel';
 
-import { safeInjectJQuery, setDarkMode } from './handle';
+import { safeInjectJQuery, toggleEyeComfortMode } from './handle';
 
 const TabManagerComand = () => {
   return (
@@ -34,10 +34,10 @@ const TabManagerComand = () => {
         name="setDarkMode"
         title="护眼模式"
         keywords={['暗黑', '护眼', '保护眼睛', 'Dark']}
-        description="将剪贴板的内容保存到Flomo"
+        description="切换护眼模式"
         endAfterRun
         handle={async () => {
-          await setDarkMode();
+          await toggleEyeComfortMode();
         }}
       />
     </CommandPanel>

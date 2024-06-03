@@ -5,7 +5,7 @@ import { Command } from '~component/cmdk/extension/command';
 import { CommandPanel } from '~component/cmdk/extension/command-panel';
 
 import { chatgptTopic } from '../../topics/ai';
-import { GotoCommandList, gotoJqueryGPTs, newToGPT4 } from './goto';
+import { GotoCommandList } from './goto';
 import {
   chatAndReversePrompt,
   checkNewChat,
@@ -67,17 +67,6 @@ const TabManagerComand = () => {
       />
 
       <Command.SimpleCommand
-        name="new-to-gpt4"
-        title="New GPT-4 Page"
-        keywords={['newToGPT4']}
-        description="newToGPT4"
-        endAfterRun
-        handle={async () => {
-          newToGPT4();
-        }}
-      />
-
-      <Command.SimpleCommand
         name="clear-now-gpts"
         title="Clear Now GPTs"
         keywords={['clearNowGPTs']}
@@ -130,17 +119,6 @@ const TabManagerComand = () => {
         endAfterRun
         handle={async () => {
           await checkNewChat();
-        }}
-      />
-
-      <Command.SimpleCommand
-        name="check-gpts-#1-jquery"
-        title="Check GPTs #1 JQuery"
-        keywords={['gotoJqueryGPTs']}
-        description="gotoJqueryGPTs"
-        endAfterRun
-        handle={async () => {
-          await gotoJqueryGPTs();
         }}
       />
     </CommandPanel>

@@ -75,7 +75,7 @@ const openNewTab = ({ url }) => {
 };
 const OpenTab = ({ title, url }: OpenTabProps) => {
   if (!title) {
-    title = 'Open Tab';
+    title = 'Open In New Tab';
   }
   return (
     <BaseAction value={title} keywords={['open', 'tab']} icon={<StoreIcon />} onSelect={() => openNewTab({ url })} />
@@ -92,7 +92,7 @@ const navigateToUrl = ({ url }) => {
   window.location.href = url;
 };
 
-const GoTo: React.FC<GoToProps> = ({ title = 'Go To', url }) => {
+const GoTo: React.FC<GoToProps> = ({ title = 'Go To Page', url }) => {
   return (
     <BaseAction value={title} keywords={['go', 'to']} icon={<StoreIcon />} onSelect={() => navigateToUrl({ url })} />
   );

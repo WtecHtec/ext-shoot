@@ -6,33 +6,32 @@ import { Topic } from '~component/cmdk/topic/topic';
 type CommandPanelProps = {
   children: React.ReactNode;
   title?: string;
+  keywords?: string[];
   icon?: React.ReactNode;
   topics?: Topic[];
 };
-// CommandPanel 组件
-const CommandPanel: React.FC<CommandPanelProps> = ({ children, title, icon, topics }) => {
+
+const CommandPanel: React.FC<CommandPanelProps> = ({ children, title, icon, topics, keywords }) => {
   const enhanceChild = (child: React.ReactNode): React.ReactNode => {
     if (!React.isValidElement<BaseCommand>(child)) {
       return child;
     }
 
-    const { props: childProps } = child;
-    const { extension = title, icon: childIcon = icon, name: childName, keywords: childKeywords } = childProps;
+    const { extension = title, icon: childIcon = icon, name: childName, keywords: childKeywords = [] } = child.props;
+
+    const mergedKeywords = [
+      ...new Set([title, ...(keywords || []), ...childKeywords, ...(topics?.map((topic) => topic.keyword) || [])])
+    ];
 
     const newProps = {
-      ...childProps,
+      ...child.props,
       extension,
       icon: childIcon,
       name: childName ? `${title}-${childName}` : childName,
-      keywords: childKeywords?.map((keyword) => `${title}-${keyword}`) || []
+      keywords: mergedKeywords
     };
 
-    if (topics) {
-      const topicKeywords = topics.map((topic) => topic.keyword);
-      newProps.keywords = [...new Set([...newProps.keywords, ...topicKeywords])]; // Merge and remove duplicates
-    }
-
-    return React.cloneElement(child as React.ReactElement<BaseCommand>, newProps);
+    return React.cloneElement(child, newProps);
   };
 
   const enhancedChildren = React.Children.map(children, enhanceChild);

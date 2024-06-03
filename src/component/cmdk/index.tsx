@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 
 import NotFound from '~component/cmdk/extension/NotFound';
 import FooterTip from '~component/cmdk/tip/tip-ui';
+import { isProd } from '~config/config';
 
 import Action from './action/action-ui-refactor';
 import { appManager } from './app/app-manager';
@@ -48,8 +49,11 @@ export function MotionShotCMDK() {
   }, [search]);
 
   const onCommandFilter = (value, search, keywords) => {
-    const topics = topicManager.activeKeywords;
+    if (!isProd && keywords.includes('dev')) {
+      return 11;
+    }
 
+    const topics = topicManager.activeKeywords;
     if (!search && topics) {
       const foundTopic = topics.some((topic) => keywords.includes(topic));
       return foundTopic ? 10 : 1;

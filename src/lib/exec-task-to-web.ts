@@ -34,13 +34,11 @@ const execInjector = ScriptInjector.getInstance(chrome.runtime.getURL('exec.js')
 
 export async function postTask(expression: string): Promise<unknown> {
   const taskId = nanoid();
-
-  // Ensure the script is loaded before posting the task
   await new Promise<void>((resolve, reject) => {
     execInjector.inject({
       async: true,
       onLoad: () => {
-        console.log('Script loaded successfully!');
+        // console.log('Script loaded successfully!');
         resolve();
       },
       onError: (error) => {

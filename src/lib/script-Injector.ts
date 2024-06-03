@@ -44,7 +44,7 @@ class ScriptInjector {
       document.body.appendChild(script);
     } else {
       if (options.onLoad) options.onLoad(); // Trigger onLoad even if the script is already loaded
-      console.log('Script already loaded:', this.scriptSrc);
+      // console.log('Script already loaded:', this.scriptSrc);
     }
   }
 }

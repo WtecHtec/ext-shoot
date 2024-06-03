@@ -42,9 +42,7 @@ functionManager.registerFunction('executeExportFeishu', executeExportFeishu);
 functionManager.registerFunction('execSignIn', execSignIn);
 functionManager.registerFunction('execV2exSignIn', execV2exSignIn);
 
-topicManager.registerTopics([jikeTopic, flomoTopic, 
-	feishuTopic, chatgptTopic, duoZhuaYuTopic, juejinTopic,
-	V2exTopic,]);
+topicManager.registerTopics([jikeTopic, flomoTopic, feishuTopic, chatgptTopic, duoZhuaYuTopic, juejinTopic, V2exTopic]);
 topicManager.checkAndActivateTopics();
 
 setTimeout(() => {
@@ -83,7 +81,7 @@ const PlasmoOverlay = () => {
 
     const updateLauncherState = () => {
       const state = eventBus.getState();
-      console.log('state', state);
+      // console.log('state', state);
       setOpen(state.dialogs.includes('launcher'));
     };
 

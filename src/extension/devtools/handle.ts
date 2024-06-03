@@ -1,22 +1,22 @@
-// import TabManager from "~lib/atoms/browser-tab-manager";
 import toast from '~component/cmdk/toast';
 import { execFuncString } from '~lib/exec-task-to-web';
 import ScriptInjector from '~lib/script-Injector';
 
-// const tabAction = TabManager.action;
-
-export async function safeInjectJQuery() {
+export async function safeInjectJQuery(showToast = true) {
   const execInjector = ScriptInjector.getInstance(chrome.runtime.getURL('jquery.js'));
-  // Ensure the script is loaded before posting the task
   await new Promise<void>((resolve, reject) => {
     execInjector.inject({
       async: true,
       onLoad: () => {
-        toast('JQuery loaded successfully!');
+        if (showToast) {
+          toast('JQuery loaded successfully!');
+        }
         resolve();
       },
       onError: (error) => {
-        toast.error('Error loading JQuery ~');
+        if (showToast) {
+          toast.error('Error loading JQuery ~');
+        }
         reject(error);
       }
     });
@@ -55,20 +55,16 @@ export async function testIt() {
   await safeInjectJQuery();
 }
 
-function getTextContent() {
-  const text = $('.content_truncate__tFX8J').text();
-  return text;
-}
+// function getTextContent() {
+//   const text = $('.content_truncate__tFX8J').text();
+//   return text;
+// }
 
 export async function executeClipboardScript() {
-  // 获取剪贴板中的脚本
-  await safeInjectJQuery();
+  await safeInjectJQuery(false);
   const script = await navigator.clipboard.readText();
-  console.log('script', script);
-  const fakeScript = getTextContent.toString();
-  // 执行脚本
-  // console.log('fakeScript', fakeScript);
-  const re = await execFuncString(fakeScript);
-  console.log('re', re);
-  // executeScript(script);
+  // console.log('script', script);
+  // const fakeScript = getTextContent.toString();
+  const re = await execFuncString(script);
+  console.table(re);
 }

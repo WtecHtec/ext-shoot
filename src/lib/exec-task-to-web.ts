@@ -86,3 +86,16 @@ export async function postTask(expression: string): Promise<unknown> {
     });
   });
 }
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const execFuction = async (fn: Function, ...args: any[]) => {
+  const expression = `(${fn.toString()})(${args.map((arg) => JSON.stringify(arg)).join(',')})`;
+  return postTask(expression);
+};
+
+export const execFuncString = async (fnString: string, ...args: any[]) => {
+  const expression = `(${fnString})(${args.map((arg) => JSON.stringify(arg)).join(',')})`;
+  return postTask(expression);
+};
+
+export const execExpression = postTask;

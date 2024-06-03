@@ -1,5 +1,6 @@
 // import TabManager from "~lib/atoms/browser-tab-manager";
 import toast from '~component/cmdk/toast';
+import { execFuncString } from '~lib/exec-task-to-web';
 import ScriptInjector from '~lib/script-Injector';
 
 // const tabAction = TabManager.action;
@@ -52,4 +53,22 @@ export function toggleEyeComfortMode() {
 
 export async function testIt() {
   await safeInjectJQuery();
+}
+
+function getTextContent() {
+  const text = $('.content_truncate__tFX8J').text();
+  return text;
+}
+
+export async function executeClipboardScript() {
+  // 获取剪贴板中的脚本
+  await safeInjectJQuery();
+  const script = await navigator.clipboard.readText();
+  console.log('script', script);
+  const fakeScript = getTextContent.toString();
+  // 执行脚本
+  // console.log('fakeScript', fakeScript);
+  const re = await execFuncString(fakeScript);
+  console.log('re', re);
+  // executeScript(script);
 }

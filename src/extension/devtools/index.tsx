@@ -4,7 +4,7 @@ import React from 'react';
 import { Command } from '~component/cmdk/extension/command';
 import { CommandPanel } from '~component/cmdk/extension/command-panel';
 
-import { safeInjectJQuery, toggleEyeComfortMode } from './handle';
+import { executeClipboardScript, safeInjectJQuery, toggleEyeComfortMode } from './handle';
 
 const TabManagerComand = () => {
   return (
@@ -19,16 +19,16 @@ const TabManagerComand = () => {
           await safeInjectJQuery();
         }}
       />
-      {/* <Command.SimpleCommand
-        name="saveClipboardToFlomo"
-        title="把剪贴板的内容保存为Memo"
-        keywords={["save", "clipboard", "flomo"]}
-        description="将剪贴板的内容保存到Flomo"
+      <Command.SimpleCommand
+        name="execute-clipboard-script"
+        title="立刻执行剪贴板中脚本"
+        keywords={['exec', 'clipboard', 'script']}
+        description="立刻执行剪贴板中脚本"
         endAfterRun
         handle={async () => {
-          await saveClipboardToFlomo();
+          await executeClipboardScript();
         }}
-      /> */}
+      />
 
       <Command.SimpleCommand
         name="setDarkMode"

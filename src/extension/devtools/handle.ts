@@ -37,6 +37,19 @@ export async function executeClipboardScript() {
   const script = await navigator.clipboard.readText();
   // console.log('script', script);
   // const fakeScript = getTextContent.toString();
-  const re = await execFuncString(script);
-  console.table(re);
+  toast.message('Executing Script:', {
+    description: script
+  });
+
+  try {
+    const re = await execFuncString(script);
+    console.table(re);
+    toast.success('Script Result:', {
+      description: JSON.stringify(re)
+    });
+  } catch (error) {
+    toast.error('Script Error:', {
+      description: error.message
+    });
+  }
 }

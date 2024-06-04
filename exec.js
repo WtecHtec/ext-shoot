@@ -11,10 +11,15 @@ window.addEventListener('message', function (ev) {
                 const result = eval(task.expression);
                 const messageData = {
                     from: MessageFrom.Web,
-                    payload: { task: { id: task.id, result: result } },
+                    payload: { task: { id: task.id, result: result, success: true } },
                 };
                 window.postMessage(messageData, '*');
             } catch (error) {
+                const messageData = {
+                    from: MessageFrom.Web,
+                    payload: { task: { id: task.id, error: error.message, success: false } },
+                };
+                window.postMessage(messageData, '*');
                 console.error('Execution error:', error);
             }
         }

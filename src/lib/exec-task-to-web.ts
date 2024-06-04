@@ -26,6 +26,8 @@ export type MessageData =
         task?: {
           id: TaskId;
           result: unknown;
+          error?: string;
+          success: boolean;
         };
       };
     };
@@ -52,7 +54,12 @@ export async function postTask(expression: string): Promise<unknown> {
   const handleResponse = (event: MessageEvent<MessageData>) => {
     if (event.data.from === MessageFrom.Web && event.data.payload?.task?.id === taskId) {
       window.removeEventListener('message', handleResponse);
-      return event.data.payload.task.result;
+      const taskResult = event.data.payload.task;
+      if (taskResult.success) {
+        return taskResult.result;
+      } else {
+        throw new Error(taskResult.error);
+      }
     }
   };
 
@@ -78,7 +85,12 @@ export async function postTask(expression: string): Promise<unknown> {
     window.addEventListener('message', (event) => {
       if (event.data.from === MessageFrom.Web && event.data.payload?.task?.id === taskId) {
         clearTimeout(timeoutId);
-        resolve(event.data.payload.task.result);
+        const taskResult = event.data.payload.task;
+        if (taskResult.success) {
+          resolve(taskResult.result);
+        } else {
+          reject(new Error(taskResult.error));
+        }
         window.removeEventListener('message', handleResponse);
       }
     });

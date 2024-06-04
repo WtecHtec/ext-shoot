@@ -8,7 +8,7 @@ import { executeClipboardScript, safeInjectJQuery } from './handle';
 
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="DevTools" icon={ExtensionLogo} keywords={['']}>
+    <CommandPanel title="DevTools" icon={ExtensionLogo} keywords={['dev']}>
       <Command.Simple
         name="inject-jquery"
         title="Inject JQuery Into Page"

@@ -38,4 +38,6 @@ const CommandPanel: React.FC<CommandPanelProps> = ({ children, title, icon, topi
 
   return <>{enhancedChildren}</>;
 };
+
+export const MotionPack = CommandPanel;
 export { CommandPanel };

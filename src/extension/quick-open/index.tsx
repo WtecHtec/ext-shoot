@@ -10,7 +10,7 @@ const tabAction = TabManager.action;
 const TabManagerComand = () => {
   return (
     <CommandPanel title="Quick Link" icon={ExtensionLogo}>
-      <Command.SimpleCommand
+      <Command.Simple
         name="open-downloads-page"
         title="Downloads Page"
         keywords={['downloads', 'Open Downloads Page']}
@@ -21,7 +21,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="open-extensions-page"
         title="Extensions Page"
         keywords={['extensions', 'Open Extensions Page']}
@@ -32,7 +32,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="open-history-page"
         title="History Page"
         keywords={['history', 'Open History Page']}
@@ -43,7 +43,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="open-settings-page"
         title="Settings Page"
         keywords={['settings', 'Open Settings Page']}
@@ -54,7 +54,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="open-bookmarks-page"
         title="Bookmarks Page"
         keywords={['bookmarks', 'Open Bookmarks Page']}
@@ -65,7 +65,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="open-shortcuts-page"
         title="Shortcuts Page"
         keywords={['shortcuts', 'Open Shortcuts Page']}
@@ -75,7 +75,7 @@ const TabManagerComand = () => {
           await tabAction.createTab('chrome://extensions/shortcuts');
         }}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="open-password-manager"
         title="Password Manager Page"
         keywords={['password', 'Open Password Manager']}
@@ -85,7 +85,7 @@ const TabManagerComand = () => {
           await tabAction.createTab('chrome://password-manager');
         }}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="open-languages-settings"
         title="Languages Setting Page"
         keywords={['languages', 'Open Languages Settings']}

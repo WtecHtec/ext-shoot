@@ -5,7 +5,7 @@ import { buildCrossTab } from '~lib/function-manager';
 // const tabAction = TabManager.action;
 
 function isLogin() {
-	return document.querySelectorAll('a[href="/signup"]').length > 0;
+  return document.querySelectorAll('a[href="/signup"]').length > 0;
 }
 
 export async function handleVexSign() {
@@ -20,10 +20,8 @@ export async function handleVexSign() {
   const { result } = await newPage.actions().execV2exSignIn();
   console.log('result', result);
   // 延迟等待签到接口请求
-	setTimeout(async () => {
-		await newPage.close();
-		toast(result ? '签到成功。' : '签到异常');
-	}, 2 * 1000);
+  setTimeout(async () => {
+    await newPage.close();
+    toast(result ? '签到成功。' : '签到异常');
+  }, 2 * 1000);
 }
-
-

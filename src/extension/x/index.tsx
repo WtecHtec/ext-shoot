@@ -9,7 +9,7 @@ import { repostToJike } from './handle';
 const TabManagerComand = () => {
   return (
     <CommandPanel title="X" icon={ExtensionLogo}>
-      {/* <Command.SimpleCommand
+      {/* <Command.Simple
         name="test"
         title="test"
         keywords={["test"]}
@@ -20,7 +20,7 @@ const TabManagerComand = () => {
         }}
       /> */}
       {/* repostToJike */}
-      <Command.SimpleCommand
+      <Command.Simple
         name="repostToJike"
         title="把这篇帖子转发到即刻"
         keywords={['repost', 'jike']}
@@ -31,7 +31,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      {/* <Command.SimpleCommand
+      {/* <Command.Simple
         name="saveClipboardToFlomo"
         title="把剪贴板的内容保存为Memo"
         keywords={["save", "clipboard", "flomo"]}

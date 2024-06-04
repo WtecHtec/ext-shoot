@@ -20,7 +20,7 @@ import {
 const TabManagerComand = () => {
   return (
     <CommandPanel title="GPTs" icon={ExtensionLogo} topics={[chatgptTopic]}>
-      {/* <Command.SimpleCommand
+      {/* <Command.Simple
         name="test"
         title="test"
         keywords={['test']}
@@ -33,7 +33,7 @@ const TabManagerComand = () => {
 
       {GotoCommandList()}
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="reGenerate-last-chat"
         title="ReGenerate Last Chat"
         keywords={['reGenerateLastChat']}
@@ -44,7 +44,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="copy-last-chat"
         title="Copy Last Chat"
         keywords={['copyLastChat']}
@@ -55,7 +55,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="read-last-chat"
         title="Read Last Chat"
         keywords={['readLastChat']}
@@ -66,7 +66,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="clear-now-gpts"
         title="Clear Now GPTs"
         keywords={['clearNowGPTs']}
@@ -78,7 +78,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="generate-share-link"
         title="Generate Share Link"
         keywords={['generateShareLink']}
@@ -89,7 +89,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="toggle-full-screen"
         title="Toggle Full Screen"
         keywords={['toggleFullScreen']}
@@ -100,7 +100,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="reverse-prompt"
         title="Reverse Prompt"
         keywords={['reversePrompt']}
@@ -111,7 +111,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="new-chat"
         title="New Chat"
         keywords={['newChat']}

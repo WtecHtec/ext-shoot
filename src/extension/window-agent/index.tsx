@@ -9,7 +9,7 @@ const windowAction = WindowManage.action;
 const TabManagerComand = () => {
   return (
     <CommandPanel title="Windows Agent" icon={ExtensionLogo}>
-      <Command.SimpleCommand
+      <Command.Simple
         name="new-incognito-window"
         title="New Incognito Window"
         keywords={['incognito', 'New Incognito Window']}
@@ -20,7 +20,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="close-current-window"
         title="Close Current Window"
         keywords={['close', 'Close Current Window']}

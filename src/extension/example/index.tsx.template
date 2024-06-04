@@ -1,0 +1,25 @@
+import ExtensionLogo from 'data-base64:./icon.png';
+import React from 'react';
+
+import { Motion } from '~component/cmdk/extension/command';
+import { MotionPack } from '~component/cmdk/extension/command-panel';
+import { testIt } from './handle';
+
+const __MOTION_PACK_NAME__ = () => {
+  return (
+    <MotionPack title="__MOTION_PACK_NAME__" icon={ExtensionLogo} keywords={['dev']}>
+      <Motion.Simple
+        name="__MOTION_NAME__"
+        title="__MOTION_NAME__ Title"
+        keywords={['__MOTION_NAME__']}
+        description="__MOTION_NAME__ Description"
+        endAfterRun
+        handle={async () => {
+          await testIt();
+        }}
+      />
+    </MotionPack>
+  );
+};
+
+export default __MOTION_PACK_NAME__;

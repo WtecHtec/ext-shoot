@@ -9,7 +9,7 @@ const TabAction = tabManage.action;
 const TabManagerComand = () => {
   return (
     <CommandPanel title="Tab Agent" icon={ExtensionLogo}>
-      <Command.SimpleCommand
+      <Command.Simple
         name="reload-page"
         title="Refresh the Page"
         endAfterRun
@@ -18,7 +18,7 @@ const TabManagerComand = () => {
           TabAction.reloadTab();
         }}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="duplicate-tab"
         title="Duplicate Current Tab"
         keywords={['duplicate', 'Duplicate Tab']}
@@ -29,7 +29,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="go-back-tab"
         title="Go Back"
         keywords={['go back', 'Go Back Tab']}
@@ -40,7 +40,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="go-forward-tab"
         title="Go Forward"
         keywords={['go forward', 'Go Forward Tab']}
@@ -51,7 +51,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="pin-tab"
         title="Pin ths Page"
         keywords={['pin', 'Pin Tab']}
@@ -61,7 +61,7 @@ const TabManagerComand = () => {
           TabAction.togglePinTab();
         }}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="close-current-page"
         title="Close Current Tab"
         keywords={['close', 'Close Current Page']}
@@ -71,7 +71,7 @@ const TabManagerComand = () => {
           TabAction.closeCurrentTab();
         }}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="restore-last-page"
         title="Restore Last Close Page"
         keywords={['restore', 'Restore Last Page']}
@@ -81,7 +81,7 @@ const TabManagerComand = () => {
           TabAction.openLastClosedTab();
         }}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="mute-current-tab"
         title="Mute Current Tab"
         keywords={['mute', 'Mute Current Tab']}

@@ -9,7 +9,7 @@ import { executeClipboardScript, safeInjectJQuery, toggleEyeComfortMode } from '
 const TabManagerComand = () => {
   return (
     <CommandPanel title="DevTools" icon={ExtensionLogo} keywords={['dev']}>
-      <Command.SimpleCommand
+      <Command.Simple
         name="inject-jquery"
         title="Inject JQuery Into Page"
         keywords={['inject', 'jquery']}
@@ -19,7 +19,7 @@ const TabManagerComand = () => {
           await safeInjectJQuery();
         }}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="execute-clipboard-script"
         title="立刻执行剪贴板中脚本"
         keywords={['exec', 'clipboard', 'script']}
@@ -30,7 +30,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="setDarkMode"
         title="护眼模式"
         keywords={['暗黑', '护眼', '保护眼睛', 'Dark']}

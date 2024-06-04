@@ -9,7 +9,7 @@ import { checkTraffic } from './handle';
 const TabManagerComand = () => {
   return (
     <CommandPanel title="Web Traffic" icon={ExtensionLogo}>
-      <Command.SimpleCommand
+      <Command.Simple
         name="web-traffic"
         title="Go Similarweb"
         keywords={['web traffic', 'web']}

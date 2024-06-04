@@ -11,7 +11,7 @@ const tabAction = TabManager.action;
 const TabManagerComand = () => {
   return (
     <CommandPanel title="Cache Agent" icon={ExtensionLogo}>
-      <Command.SimpleCommand
+      <Command.Simple
         name="clear-current-url-cache"
         title="Clear Current Url Cache"
         keywords={['clear', 'Clear Current URL Cache']}

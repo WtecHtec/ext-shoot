@@ -15,13 +15,13 @@ import {
 const ExtensionManagerCommand = () => {
   return (
     <CommandPanel title="Extenison Agent" icon={<ExtensionLogo />}>
-      <Command.SimpleCommand
+      <Command.Simple
         name="update-extension-info"
         title="Update Information"
         keywords={['update', 'extension', 'info', 'Update Extension Information']}
         handle={HandleIconUpdate}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="disable-all-extension"
         title="Disable All Extensions"
         keywords={['disable', 'all', 'extensions', 'Disable All Extensions']}
@@ -29,7 +29,7 @@ const ExtensionManagerCommand = () => {
           handleDisableAllExtension();
         }}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="enable_all_extension"
         title="Enable All Extensions"
         keywords={['enable', 'Enable all Extension']}
@@ -38,7 +38,7 @@ const ExtensionManagerCommand = () => {
           handleEnableAllExtension();
         }}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="open_extension_home_page"
         title="Open Extension Page"
         keywords={['open', 'extension', 'home', 'Open Extension HomePage']}
@@ -47,7 +47,7 @@ const ExtensionManagerCommand = () => {
           handleOpenExtensionPage();
         }}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="change_extension_shortcuts"
         title="Open Extension Shortcuts Page"
         keywords={['shortcuts', 'Change Extenion Shortcuts', 'key', 'keymap', 'keybindings', 'keyboard']}

@@ -21,7 +21,7 @@ const TabManagerComand = () => {
   return (
     <CommandPanel title="feishu talker" icon={ExtensionLogo}>
       {/* /监听消息 */}
-      <Command.SimpleCommand
+      <Command.Simple
         name="listenMsgFromFeishu"
         title="监听群聊消息"
         keywords={['listen', 'msg', 'feishu']}

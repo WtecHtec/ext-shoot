@@ -17,13 +17,13 @@ export interface BaseCommand {
   extension?: string;
 }
 
-// SimpleCommand 组件
-interface SimpleCommandProps extends BaseCommand {
+// Simple 组件
+interface SimpleProps extends BaseCommand {
   handle: () => void;
   endAfterRun?: boolean;
 }
 
-export const SimpleCommand: React.FC<SimpleCommandProps> = ({ handle, endAfterRun, ...props }) => {
+export const Simple: React.FC<SimpleProps> = ({ handle, endAfterRun, ...props }) => {
   const finalHandle = endAfterRun
     ? () => {
         handle();

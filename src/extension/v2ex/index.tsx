@@ -10,7 +10,7 @@ import { handleVexSign } from './handle';
 const TabManagerComand = () => {
   return (
     <CommandPanel title="V2ex" icon={ExtensionLogo} topics={[V2exTopic]}>
-      <Command.SimpleCommand
+      <Command.Simple
         name="v2ex-sign"
         title="帮我去签到"
         keywords={['sign', '签到', 'v2ex签到']}

@@ -119,7 +119,7 @@ export default function App() {
           />
         );
       })}
-      {/* <Command.SimpleCommand
+      {/* <Command.Simple
                 name="222-extension-info"
                 title="222 Information"
                 keywords={[

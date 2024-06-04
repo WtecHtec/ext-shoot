@@ -26,7 +26,7 @@ import { switchTheme } from './switch-theme';
 const TabManagerComand = () => {
   return (
     <CommandPanel title="Jiker" icon={ExtensionLogo} topics={[jikeTopic]}>
-      <Command.SimpleCommand
+      <Command.Simple
         name="test-handle"
         title="测试"
         keywords={['test handle', '测试']}
@@ -35,7 +35,7 @@ const TabManagerComand = () => {
         handle={testHandle}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="export-person-blog-feishu"
         title="把这个同志的所有博客导出到飞书多维表格"
         keywords={['export blog', '导出博客', '多维表格']}
@@ -46,7 +46,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="save-flomo"
         title="保存帖子到 Flomo"
         keywords={['flomo', '保存flomo']}
@@ -57,7 +57,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="copy-content"
         title="复制帖子内容到剪贴板"
         keywords={['copy content', '复制内容']}
@@ -67,7 +67,7 @@ const TabManagerComand = () => {
           copyContentToClipboard();
         }}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="clear-posts"
         title="清空我的历史博客"
         keywords={['clear posts', '清除博客']}
@@ -78,7 +78,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="export-person-blog"
         title="把这个同志的所有博客导出一份表格给我"
         keywords={['export blog', '导出博客']}
@@ -89,7 +89,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="go-home-page"
         title="去首页逛逛"
         keywords={['home', '回到首页']}
@@ -97,7 +97,7 @@ const TabManagerComand = () => {
         endAfterRun
         handle={gotoPageHome}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="go-me-page"
         title="去我的个人页面"
         keywords={['me', '进入我的主页']}
@@ -105,7 +105,7 @@ const TabManagerComand = () => {
         endAfterRun
         handle={gotoPageMe}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="go-recommend-page"
         title="去推荐页瞧瞧"
         keywords={['recommend', '查看推荐页']}
@@ -113,7 +113,7 @@ const TabManagerComand = () => {
         endAfterRun
         handle={gotoPageRecommend}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="go-collection-page"
         title="去我的收藏"
         keywords={['collection', '查看我的收藏']}
@@ -121,7 +121,7 @@ const TabManagerComand = () => {
         endAfterRun
         handle={gotoPageCollection}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="trigger-notification"
         title="看看通知"
         keywords={['notification', '触发通知']}
@@ -129,7 +129,7 @@ const TabManagerComand = () => {
         endAfterRun
         handle={showNotification}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="goto-product-launch-event"
         title="看看产品发布会"
         keywords={['product launch', '发布会']}
@@ -137,7 +137,7 @@ const TabManagerComand = () => {
         endAfterRun
         handle={gotoProductLaunchEvent}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="re-edit-post"
         title="这文案真不行，重新编辑再发布"
         keywords={['edit post', '编辑帖子']}
@@ -145,7 +145,7 @@ const TabManagerComand = () => {
         endAfterRun
         handle={reEditPost}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="switch-account"
         title="换一个账户登陆"
         keywords={['switch account', '切换账户']}
@@ -153,7 +153,7 @@ const TabManagerComand = () => {
         endAfterRun
         handle={switchAccount}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="switch-theme"
         title="换一个主题"
         keywords={['switch theme', '切换主题']}
@@ -162,7 +162,7 @@ const TabManagerComand = () => {
         handle={switchTheme}
       />
 
-      <Command.SimpleCommand
+      <Command.Simple
         name="test"
         title="沉浸式翻译"
         keywords={['沉浸式翻译', '翻译']}

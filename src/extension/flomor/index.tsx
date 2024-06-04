@@ -21,7 +21,7 @@ const TabManagerComand = () => {
   }, []);
   return (
     <CommandPanel title="flomor" icon={ExtensionLogo} topics={[flomoTopic]}>
-      <Command.SimpleCommand
+      <Command.Simple
         name="test"
         title="test"
         keywords={['test']}
@@ -31,7 +31,7 @@ const TabManagerComand = () => {
           await testIt();
         }}
       />
-      <Command.SimpleCommand
+      <Command.Simple
         name="saveClipboardToFlomo"
         title="把剪贴板的内容保存为Memo"
         keywords={['save', 'clipboard', 'flomo']}

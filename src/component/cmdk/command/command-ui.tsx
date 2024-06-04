@@ -36,7 +36,6 @@ function ExtensionWithSearchLoader() {
     );
     return unsubscribe; // Cleanup on unmount
   }, []);
-
   return (
     search && (
       <CommandCMDK.Group heading={`Use "${search}" with ... `}>
@@ -48,14 +47,13 @@ function ExtensionWithSearchLoader() {
     )
   );
 }
-
 const ExtensionLoader = () => {
   return (
     <CommandCMDK.Group heading={'Results'}>
       <Command.PlaceholderCommand />
-      <DevTools />
       <FeishuGroupTalk />
       <X />
+      <DevTools />
       <Jiker />
       <ChatGPT />
       <Flomor />
@@ -71,7 +69,6 @@ const ExtensionLoader = () => {
     </CommandCMDK.Group>
   );
 };
-
 const CommandUI = () => {
   return (
     <>
@@ -80,5 +77,4 @@ const CommandUI = () => {
     </>
   );
 };
-
 export { CommandUI };

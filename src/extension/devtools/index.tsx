@@ -4,7 +4,7 @@ import React from 'react';
 import { Command } from '~component/cmdk/extension/command';
 import { CommandPanel } from '~component/cmdk/extension/command-panel';
 
-import { executeClipboardScript, safeInjectJQuery, toggleEyeComfortMode } from './handle';
+import { executeClipboardScript, safeInjectJQuery } from './handle';
 
 const TabManagerComand = () => {
   return (
@@ -27,17 +27,6 @@ const TabManagerComand = () => {
         endAfterRun
         handle={async () => {
           await executeClipboardScript();
-        }}
-      />
-
-      <Command.Simple
-        name="setDarkMode"
-        title="护眼模式"
-        keywords={['暗黑', '护眼', '保护眼睛', 'Dark']}
-        description="切换护眼模式"
-        endAfterRun
-        handle={async () => {
-          await toggleEyeComfortMode();
         }}
       />
     </CommandPanel>

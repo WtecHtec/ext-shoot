@@ -1,7 +1,6 @@
 import { Command as CommandCMDK } from 'motion-cmdk';
 import React, { useEffect, useState } from 'react';
 
-import { Command } from '~component/cmdk/extension/command';
 import { ExtensionLauncher, ExtensionManagerCommand } from '~extension';
 import CacheAgent from '~extension/cache-agent';
 import ChatGPT from '~extension/chatgpt';
@@ -16,6 +15,7 @@ import Jiker from '~extension/jiker';
 import JueJin from '~extension/juejin';
 import QuickOpen from '~extension/quick-open';
 import TableManager from '~extension/tab-manager';
+import ThemeLover from '~extension/theme-lover';
 import V2EX from '~extension/v2ex';
 import WebTraffic from '~extension/web-traffic';
 import WindowsManager from '~extension/window-agent';
@@ -50,7 +50,7 @@ function ExtensionWithSearchLoader() {
 const ExtensionLoader = () => {
   return (
     <CommandCMDK.Group heading={'Results'}>
-      <Command.PlaceholderCommand />
+      {/* <Command.PlaceholderCommand /> */}
       <FeishuGroupTalk />
       <X />
       <DevTools />
@@ -66,6 +66,7 @@ const ExtensionLoader = () => {
       <QuickOpen />
       <JueJin />
       <V2EX />
+      <ThemeLover />
     </CommandCMDK.Group>
   );
 };

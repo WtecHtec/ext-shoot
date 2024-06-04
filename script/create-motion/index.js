@@ -9,7 +9,7 @@ const createPackage = require('./create-package');
 const injectComponent = require('./import-package');
 const { toCamelCase, toKebabCase } = require('./util');
 
-const createAndInject = (motionPackName, motionName) => {
+const createAndInject = (motionPackName, motionName = 'test') => {
   const kebabCaseMotionPackName = toKebabCase(motionPackName);
   const camelCaseMotionPackName = toCamelCase(motionPackName);
 
@@ -25,11 +25,11 @@ module.exports = {
 
 // 如果从命令行直接运行
 if (require.main === module) {
-  const [motionPackName, motionName] = process.argv.slice(2);
+  const [motionPackName, motionName = 'test'] = process.argv.slice(2);
 
   // 输入参数有效性检查
-  if (!motionPackName || !motionName) {
-    console.error('Usage: node script/create-motion/index.js <motionPackName> <motionName>');
+  if (!motionPackName) {
+    console.error('Usage: node script/create-motion/index.js <motionPackName> [motionName]');
     process.exit(1);
   }
 

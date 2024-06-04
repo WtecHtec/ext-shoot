@@ -1,4 +1,5 @@
 import ExtensionLogo from 'data-base64:./icon.png';
+import OpenAIStatusLogo from 'data-base64:./icons/status.png';
 import React from 'react';
 
 import { Command } from '~component/cmdk/extension/command';
@@ -30,9 +31,13 @@ const TabManagerComand = () => {
           await testIt();
         }}
       /> */}
-
+      <Command.Navigator
+        icon={OpenAIStatusLogo}
+        url={'https://status.openai.com/'}
+        title={'Check OpenAI Satus'}
+        newTab={true}
+      />
       {GotoCommandList()}
-
       <Command.Simple
         name="reGenerate-last-chat"
         title="ReGenerate Last Chat"

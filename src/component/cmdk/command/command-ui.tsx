@@ -14,6 +14,7 @@ import InstantOpen from '~extension/instant-open';
 import Jiker from '~extension/jiker';
 import JueJin from '~extension/juejin';
 import QuickOpen from '~extension/quick-open';
+import SuperGoogle from '~extension/super-google';
 import TableManager from '~extension/tab-manager';
 import ThemeLover from '~extension/theme-lover';
 import V2EX from '~extension/v2ex';
@@ -67,6 +68,7 @@ const ExtensionLoader = () => {
       <JueJin />
       <V2EX />
       <ThemeLover />
+      <SuperGoogle />
     </CommandCMDK.Group>
   );
 };

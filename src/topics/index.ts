@@ -3,3 +3,4 @@ export * from './note';
 export * from './social';
 export * from './video';
 export * from './ai';
+export * from './search';

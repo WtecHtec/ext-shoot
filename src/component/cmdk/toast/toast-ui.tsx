@@ -8,7 +8,7 @@ interface ToasterComponentProps {
   position?: 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
 }
 
-const ToasterComponent: FC<ToasterComponentProps> = ({ richColors = false, position = 'bottom-center' }) => {
+const ToasterComponent: FC<ToasterComponentProps> = ({ richColors = false, position = 'top-right' }) => {
   useEffect(() => {
     let div = document.getElementById('bjf-toaster') as HTMLDivElement;
     if (!div) {

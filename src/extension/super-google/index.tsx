@@ -6,7 +6,7 @@ import { Motion } from '~component/cmdk/extension/command';
 import { MotionPack } from '~component/cmdk/extension/command-panel';
 import { GoogleSearchTopic } from '~topics';
 
-import { testIt } from './handle';
+import { searchClipboardImage, searchClipboardText, testIt, translateSearchKeywords } from './handle';
 
 const superGoogle = () => {
   return (
@@ -22,14 +22,35 @@ const superGoogle = () => {
         }}
       /> */}
       <Motion.Simple
+        name="translate-search-keywords"
+        title="将搜索关键词翻译为英文"
+        keywords={['translate', 'search', 'keywords']}
+        description="Translate the search keywords into English"
+        endAfterRun
+        handle={async () => {
+          await translateSearchKeywords();
+        }}
+      />
+
+      <Motion.Simple
+        name="search-clipboard-image"
+        title="搜索剪贴板图片"
+        keywords={['search', 'clipboard', 'image']}
+        description="搜索剪贴板图片"
+        endAfterRun
+        handle={async () => {
+          await searchClipboardImage();
+        }}
+      />
+
+      <Motion.Simple
         name="search-clipboard"
         title="搜索剪贴板内容"
         keywords={['search', 'clipboard']}
         description="搜索剪贴板内容"
         endAfterRun
         handle={async () => {
-          const clipboardData = await navigator.clipboard.readText();
-          window.location.href = `https://www.google.com/search?q=${clipboardData}`;
+          searchClipboardText();
         }}
       />
 

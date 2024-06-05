@@ -87,8 +87,25 @@ export function selectOption(element: HTMLSelectElement, data: SelectData): void
   }
 }
 
+export const uploadFile = async (element: HTMLInputElement, files: File[]): Promise<void> => {
+  if (element.tagName !== 'INPUT' || element.type !== 'file') {
+    throw new Error('Element is not a file input');
+  }
+  const dataTransfer = new DataTransfer();
+  if (!element.multiple && files.length > 1) {
+    dataTransfer.items.add(files[0]);
+  } else {
+    files.forEach((file) => {
+      dataTransfer.items.add(file);
+    });
+  }
+  element.files = dataTransfer.files;
+  element.dispatchEvent(new Event('change', { bubbles: true }));
+};
+
 export const triggerFromElement = {
   typeText,
   toggleCheck,
-  selectOption
+  selectOption,
+  uploadFile
 };

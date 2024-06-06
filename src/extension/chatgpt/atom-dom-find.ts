@@ -30,11 +30,17 @@ export function readLastBtn() {
   return btnActionsLastChatBlock().find('button').eq(0);
 }
 
+export function chatContainer() {
+  return $('div[class*="react-scroll-to-bottom--css"]').first();
+}
+
 export const atom = {
   chatgpt: {
     findShareBtn: shareBtn,
     findChatReloadBtn: regenerateBtn,
     findCopyBtn: copyLastBtn,
-    findReadBtn: readLastBtn
+    findReadBtn: readLastBtn,
+    findBtnContainer: btnActionsLastChatBlock,
+    findChatContainer: chatContainer
   }
 };

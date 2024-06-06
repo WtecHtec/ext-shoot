@@ -10,7 +10,11 @@ import { searchClipboardImage, searchClipboardText, testIt, translateSearchKeywo
 
 const superGoogle = () => {
   return (
-    <MotionPack title="SuperGoogle" icon={ExtensionLogo} keywords={['dev']} topics={[GoogleSearchTopic]}>
+    <MotionPack
+      title="SuperGoogle"
+      icon={ExtensionLogo}
+      // keywords={['']}
+      topics={[GoogleSearchTopic]}>
       {/* <Motion.Simple
         name="test"
         title="test Title"

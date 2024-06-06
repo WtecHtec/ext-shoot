@@ -7,7 +7,8 @@ import { Job, newJob } from '~lib/dom-exec-engine/exec-engine';
 import { postTask } from '~lib/exec-task-to-web';
 
 import { atom } from './atom-dom-find';
-import { isGTPsPage, pageUrl } from './link';
+import { getLastChatCodeCopyBtn } from './handle/chat';
+import { buildGPTsEditorUrl, extractGPTsId, isGTPsPage, pageUrl } from './link';
 import { promptList } from './prompt';
 
 const tabAction = TabManager.action;
@@ -241,6 +242,38 @@ export const readLastChat = async () => {
     .next(async (ctx) => {
       const readBtn = await ctx.finder.withFunc(atom.chatgpt.findReadBtn);
       webAction.triggerFromCursor.clickElement(readBtn.toDom());
+    })
+    .do();
+};
+
+export const editCurrentGPTs = async () => {
+  await newJob()
+    .must(async () => isGTPsPage(pageUrl()), {
+      errorHandler: async () => {
+        toast.error('当前页面不是 GPTs 页面');
+      }
+    })
+    .next(async (ctx) => {
+      const nowGPTsId = extractGPTsId();
+      // todo: 有没有编辑权限？
+      const editGPTsURL = buildGPTsEditorUrl(nowGPTsId);
+      toast.success('编辑当前 GPTs', {
+        description: editGPTsURL
+      });
+      ctx.newUrl = editGPTsURL;
+    })
+
+    .next(async (ctx) => {
+      await tabAction.createTabNextToCurrent(ctx.newUrl);
+    })
+    .do();
+};
+
+export const copyLastCodeBlock = async () => {
+  await newJob()
+    .next(async (ctx) => {
+      const lastCopy = await ctx.finder.withFunc(getLastChatCodeCopyBtn);
+      webAction.triggerFromCursor.clickElement(lastCopy.toDom());
     })
     .do();
 };

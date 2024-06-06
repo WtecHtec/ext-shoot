@@ -2,18 +2,18 @@
 
 export const pageUrl = () => window.location.href;
 
-export function isGTPsPage(url) {
+export function isGTPsPage(url = pageUrl()) {
   const regex = /^https:\/\/chatgpt\.com\/g\/[a-zA-Z0-9-]+/;
   return regex.test(url);
 }
 
-export function isEditorPage(url) {
+export function isEditorPage(url = pageUrl()) {
   const regex = /^https:\/\/chatgpt\.com\/gpts\/editor\/[a-zA-Z0-9-]+/;
   return regex.test(url);
 }
 
-export const extractGPTsId = (url) => {
-  const regex = /g\/([a-zA-Z0-9-]+)/;
+export const extractGPTsId = (url = pageUrl()) => {
+  const regex = /(g-[a-zA-Z0-9]+?)(?:-|$)/;
   const result = regex.exec(url);
   return result && result[1];
 };

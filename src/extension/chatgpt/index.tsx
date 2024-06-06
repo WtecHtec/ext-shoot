@@ -12,6 +12,8 @@ import {
   checkNewChat,
   clearCurrentGPTs,
   copyLastChat,
+  copyLastCodeBlock,
+  editCurrentGPTs,
   generateShareLink,
   readLastChat,
   reGenerateLastChat,
@@ -31,6 +33,29 @@ const TabManagerComand = () => {
           await testIt();
         }}
       /> */}
+
+      <Command.Simple
+        name="copy-last-code-block"
+        title="Copy Last Code Block"
+        keywords={['copyLastCodeBlock']}
+        description="Copy Last Code Block"
+        endAfterRun
+        handle={async () => {
+          await copyLastCodeBlock();
+        }}
+      />
+
+      <Command.Simple
+        name="edit-current-gpts"
+        title="Edit Current GPTs"
+        keywords={['editCurrentGPTs']}
+        description="Edit Current GPTs"
+        endAfterRun
+        handle={async () => {
+          await editCurrentGPTs();
+        }}
+      />
+
       <Command.Navigator
         icon={OpenAIStatusLogo}
         url={'https://status.openai.com/'}

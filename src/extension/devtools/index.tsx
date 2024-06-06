@@ -4,7 +4,7 @@ import React from 'react';
 import { Command } from '~component/cmdk/extension/command';
 import { CommandPanel } from '~component/cmdk/extension/command-panel';
 
-import { executeClipboardScript, safeInjectJQuery } from './handle';
+import { executeClipboardFunc, executeClipboardScript, safeInjectJQuery } from './handle';
 
 const TabManagerComand = () => {
   return (
@@ -17,6 +17,16 @@ const TabManagerComand = () => {
         endAfterRun
         handle={async () => {
           await safeInjectJQuery();
+        }}
+      />
+      <Command.Simple
+        name="execute-clipboard-func"
+        title="立刻执行剪贴板中函数"
+        keywords={['exec', 'clipboard', 'func']}
+        description="立刻执行剪贴板中函数"
+        endAfterRun
+        handle={async () => {
+          await executeClipboardFunc();
         }}
       />
       <Command.Simple

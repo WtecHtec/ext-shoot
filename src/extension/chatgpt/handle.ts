@@ -273,6 +273,7 @@ export const copyLastCodeBlock = async () => {
   await newJob()
     .next(async (ctx) => {
       const lastCopy = await ctx.finder.withFunc(getLastChatCodeCopyBtn);
+      lastCopy.element.focus();
       webAction.triggerFromCursor.clickElement(lastCopy.toDom());
     })
     .do();

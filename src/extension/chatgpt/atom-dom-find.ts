@@ -31,7 +31,9 @@ export function readLastBtn() {
 }
 
 export function chatContainer() {
-  return $('div[class*="react-scroll-to-bottom--css"]').first();
+  // return $('div[class*="react-scroll-to-bottom--css"]').first();
+  // role = "presentation"
+  return $('div[role="presentation"] .flex-1').first();
 }
 
 export const atom = {
@@ -41,6 +43,7 @@ export const atom = {
     findCopyBtn: copyLastBtn,
     findReadBtn: readLastBtn,
     findBtnContainer: btnActionsLastChatBlock,
-    findChatContainer: chatContainer
+    findChatContainer: chatContainer,
+    findLastChatBlock: lastChatBlock
   }
 };

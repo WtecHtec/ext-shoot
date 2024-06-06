@@ -1,38 +1,78 @@
+import toast from '~component/cmdk/toast';
+import { executeClipboardScript } from '~extension/devtools/handle';
+
 import { atom } from '../atom-dom-find';
+import { copyLastCodeBlock } from '../handle';
 
 // 初始化消息通知函数
-function displayNotification(content: string): void {
-  console.log(`新消息通知: ${content}`);
+function displayNotification(): void {
+  toast.info('检测到新消息，正在执行最后一个代码块。');
+  execLastChatBlock();
 }
 
 let debounceTimer: number | undefined;
 
 function setupInnerObserver(element: Element): void {
-  const observer = new MutationObserver(() => {
-    clearTimeout(debounceTimer);
-    debounceTimer = window.setTimeout(() => {
-      // 直接获取并显示最终的元素内容
-      const content = element.textContent?.trim() ?? '';
-      displayNotification(content);
-    }, 1000);
-  });
+  let attempts = 0;
+  const maxAttempts = 5;
+  let markdownElement = element.querySelector('.markdown');
 
-  observer.observe(element, {
-    childList: true,
-    subtree: true,
-    characterData: true
-  });
+  // 定义一个函数来尝试找到markdown元素，并在找到后设置观察器
+  function attemptToFindMarkdown() {
+    if (markdownElement) {
+      startObserving(markdownElement);
+    } else if (attempts < maxAttempts) {
+      setTimeout(() => {
+        markdownElement = element.querySelector('.markdown');
+        attempts++;
+        attemptToFindMarkdown();
+      }, 1000); // 每秒重试一次
+    } else {
+      console.error('Markdown element not found after multiple attempts.');
+    }
+  }
 
-  // 定时器自动断开观察器，防止无限期观察
-  setTimeout(() => {
-    observer.disconnect();
-  }, 10000); // 10秒后自动停止，根据情况调整
+  // 用于开始观察Markdown元素的函数
+  function startObserving(markdownElement: Element) {
+    let lastContent = markdownElement.textContent?.trim(); // 初始内容
+    const observer = new MutationObserver(() => {
+      const currentContent = markdownElement.textContent?.trim();
+      if (currentContent !== lastContent) {
+        lastContent = currentContent; // 更新最后记录的内容
+        clearTimeout(debounceTimer);
+        debounceTimer = window.setTimeout(() => {
+          observer.disconnect(); // 断开观察器
+          displayNotification(); // 显示当前内容
+        }, 2000); // 延迟2秒以确认内容稳定
+      }
+    });
+
+    observer.observe(markdownElement, {
+      childList: true,
+      subtree: true,
+      characterData: true // 观察文本变化
+    });
+  }
+
+  attemptToFindMarkdown(); // 开始尝试找到Markdown元素并设置观察器
 }
 
-// 创建并初始化一个 MutationObserver 实例来监听 DOM 变化
+function setupLastOddNodeObserver(): void {
+  const lastOddNode = atom.chatgpt.findLastChatBlock().get(0);
+  if (lastOddNode) {
+    console.log('lastOddNode', lastOddNode);
+    setupInnerObserver(lastOddNode);
+  } else {
+    console.error('没有找到任何奇数元素。');
+  }
+}
+
 export function initConversationObserver(): void {
   const targetNode = atom.chatgpt.findChatContainer(); // 获取目标节点
   console.log('targetNode', targetNode);
+
+  // 初始化时立即对最后一个奇数元素设置观察器
+  setupLastOddNodeObserver();
 
   const config: MutationObserverInit = {
     childList: true,
@@ -60,4 +100,15 @@ export function initConversationObserver(): void {
   } else {
     console.error('无法找到目标元素。');
   }
+}
+
+export async function execLastChatBlock() {
+  await copyLastCodeBlock();
+  // 复制到剪贴板， 读取剪贴板内容
+  // const script = await navigator.clipboard.readText();
+  // 跨 motion 调用？
+
+  await executeClipboardScript();
+
+  // console.log('script', script);
 }

@@ -19,12 +19,25 @@ import {
   reGenerateLastChat,
   toggleFullScreen
 } from './handle';
-import { initConversationObserver } from './handle/self-exec';
+import { execLastChatBlock, initConversationObserver } from './handle/self-exec';
 
 const TabManagerComand = () => {
   return (
     <CommandPanel title="GPTs" icon={ExtensionLogo} topics={[chatgptTopic]}>
       {/* ConversationObserver */}
+
+      {/* execLastChatBlock */}
+      <Command.Simple
+        name="exec-last-chat-block"
+        title="Exec Last Chat Block"
+        keywords={['execLastChatBlock']}
+        description="Exec Last Chat Block"
+        endAfterRun
+        handle={async () => {
+          await execLastChatBlock();
+        }}
+      />
+
       <Command.Simple
         name="start-conversation-observer"
         title="Start GPTs Self-Manage Mode"

@@ -8,7 +8,7 @@ import { searchClipboardText } from './handle';
 
 const metasoQuick = () => {
   return (
-    <MotionPack title="metaso-quick" icon={ExtensionLogo} keywords={['dev']}>
+    <MotionPack title="metaso-quick" icon={ExtensionLogo}>
       <Motion.Simple
         name="search-clipboard-text"
         title="搜索剪贴板内容"

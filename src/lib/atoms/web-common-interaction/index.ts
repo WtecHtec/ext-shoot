@@ -1,12 +1,14 @@
 import { RunEnv } from '../type';
 import { triggerFromCursor } from './cursor';
 import { triggerFromElement } from './form';
+import { keyPress } from './key-press';
 
 const moduleName = 'web-interaction';
 const description = 'extension web interaction methods';
 const methods = {
   triggerFromCursor,
-  triggerFromElement
+  triggerFromElement,
+  keyPress
 };
 
 const runEnv: RunEnv = ['dom'];

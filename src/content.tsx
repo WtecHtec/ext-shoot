@@ -1,5 +1,6 @@
 import componentStyles from 'data-text:~style.all.scss';
 import cssText from 'data-text:~style.css';
+import $ from 'jquery';
 import type { PlasmoCSConfig } from 'plasmo';
 import React, { useEffect, useRef } from 'react';
 
@@ -13,6 +14,7 @@ import { saveTextToFlomo } from '~extension/flomor/handle';
 import { listerSnapSeekData } from '~extension/history-search/content';
 import { createJikePost } from '~extension/jiker/api';
 import { execSignIn } from '~extension/juejin/executes';
+import { searchMetasoKeyword } from '~extension/metaso-quick/handle';
 import { execV2exSignIn } from '~extension/v2ex/executes';
 import { functionManager } from '~lib/function-manager';
 import { chatgptTopic, feishuTopic, flomoTopic, GoogleSearchTopic, MetasoTopic } from '~topics';
@@ -20,7 +22,7 @@ import { duoZhuaYuTopic } from '~topics/shopping';
 import { jikeTopic, juejinTopic, V2exTopic } from '~topics/social';
 import { handleSetBrowser } from '~utils/actions';
 import { getBrowser, getElementXPath, getMutliLevelProperty, isArc } from '~utils/util';
-import $ from 'jquery';
+
 // import FocusLock from 'react-focus-lock';
 export const config: PlasmoCSConfig = {
   matches: ['<all_urls>'],
@@ -41,6 +43,7 @@ functionManager.registerFunction('executeUseageTemp', executeUseageTemp);
 functionManager.registerFunction('executeExportFeishu', executeExportFeishu);
 functionManager.registerFunction('execSignIn', execSignIn);
 functionManager.registerFunction('execV2exSignIn', execV2exSignIn);
+functionManager.registerFunction('searchKeywordInMetaso', searchMetasoKeyword);
 
 topicManager.registerTopics([
   jikeTopic,
@@ -77,26 +80,25 @@ const PlasmoOverlay = () => {
   const [open, setOpen] = React.useState(false);
   const focusRef = useRef(null);
 
-	/** 设置上一次 active_input xptah */
-	const setActiveInputElXpath = () => {
-		try {
-			const activeEl = $(document.activeElement);
-			if (!activeEl || (!activeEl.is('input') && !activeEl.is('textarea'))) {
-				window.sessionStorage.setItem('active_input_xpath', '');
-				return;
-			}
-			const xpath = getElementXPath(document.activeElement);
-			window.sessionStorage.setItem('active_input_xpath', xpath);
-		} catch (error) {
-			console.error('active_input_xpath set value  err:', error);
-		}
-	};
-
+  /** 设置上一次 active_input xptah */
+  const setActiveInputElXpath = () => {
+    try {
+      const activeEl = $(document.activeElement);
+      if (!activeEl || (!activeEl.is('input') && !activeEl.is('textarea'))) {
+        window.sessionStorage.setItem('active_input_xpath', '');
+        return;
+      }
+      const xpath = getElementXPath(document.activeElement);
+      window.sessionStorage.setItem('active_input_xpath', xpath);
+    } catch (error) {
+      console.error('active_input_xpath set value  err:', error);
+    }
+  };
 
   const handelMsgBybg = (request, sender, sendResponse) => {
     const { action } = request;
     if (action === 'active_extention_launcher') {
-			setActiveInputElXpath();
+      setActiveInputElXpath();
       setOpen(!open);
       sendResponse({ result: 'Message processed in content.js' });
     }

@@ -19,23 +19,34 @@ export const searchClipboardText = async () => {
     })
     .next(async (ctx) => {
       toast(ctx.clipboardData);
-      searchKeyword(ctx.clipboardData);
+      searchMetasoKeyword(ctx.clipboardData);
     })
     .do();
 };
 
-export const searchKeyword = async (keyword: string) => {
+export const searchMetasoKeyword = async (keyword: string) => {
   await newJob()
     .next(async (ctx) => {
       ctx.keyword = keyword;
     })
     .next(async (ctx) => {
-      const textarea = await ctx.finder.withFunc(AtomDomMetaso.finder.selectTextArea);
+      const textarea = await ctx.finder.withFunc(AtomDomMetaso.finder.searchTextArea);
       textarea.element.focus();
-      AtomWebInteraction.action.triggerFromElement.typeText(textarea.toDom() as any, {
+      await AtomWebInteraction.action.triggerFromElement.typeText(textarea.toDom() as any, {
         value: ctx.keyword,
         clearValue: true
       });
+      ctx.textarea = textarea;
     })
+    .pause(200)
+    .next(async (ctx) => {
+      await AtomWebInteraction.action.keyPress.simulateByKeyCombo(ctx.textarea.toDom() as any, {
+        keys: ['Enter']
+      });
+    })
+    // .next(async (ctx) => {
+    //   // const searchBtn = await ctx.finder.withFunc(AtomDomMetaso.finder.sendBtn);
+    //   // AtomWebInteraction.action.triggerFromCursor.clickElement(searchBtn.toDom());
+    // })
     .do();
 };

@@ -177,16 +177,30 @@ export const createTabInactive = (url) => {
 };
 
 export const createTabAndCheckIn = (url) => {
-  chrome.tabs.create({ url }, (tab) => {
-    chrome.tabs.update(tab.id, { active: true });
+  return new Promise((resolve, reject) => {
+    chrome.tabs.create({ url }, (tab) => {
+      chrome.tabs.update(tab.id, { active: true });
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve(tab.id);
+      }
+    });
   });
 };
 
 export const createTabNextToCurrent = (url) => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const currentTab = tabs[0];
-    chrome.tabs.create({ url, index: currentTab.index + 1 }, (tab) => {
-      chrome.tabs.update(tab.id, { active: true });
+  return new Promise((resolve, reject) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const currentTab = tabs[0];
+      chrome.tabs.create({ url, index: currentTab.index + 1 }, (tab) => {
+        chrome.tabs.update(tab.id, { active: true });
+        if (chrome.runtime.lastError) {
+          reject(chrome.runtime.lastError);
+        } else {
+          resolve(tab.id);
+        }
+      });
     });
   });
 };
@@ -344,8 +358,8 @@ export const methods = {
   injectCurrentTabJQuery,
   createTabInactive,
   createTabAndCheckIn,
+  createTabNextToCurrent,
   executeScriptInTab,
   invokeFunctionInTab,
-  invokeFunctionInTabFilter,
-  createTabNextToCurrent
+  invokeFunctionInTabFilter
 };

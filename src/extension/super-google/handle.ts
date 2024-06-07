@@ -2,6 +2,7 @@ import toast from '~component/cmdk/toast';
 import BingApi from '~lib/atoms/api-bing-transalte';
 import WebInteraction from '~lib/atoms/web-common-Interaction';
 import { newJob } from '~lib/dom-exec-engine/exec-engine';
+import { buildCrossTabAndCheckIn } from '~lib/function-manager';
 
 import { atom } from './atom';
 import { getFirstImageFromClipboard } from './util';
@@ -93,4 +94,26 @@ export const translateSearchKeywords = async () => {
     .finish();
 
   await job.do();
+};
+
+export const searchInMetaso = async () => {
+  newJob()
+    .next(async (ctx) => {
+      const searchArea = await ctx.finder.withFunc(atom.superGoogle.findSearchTextarea);
+      const keyWords = await searchArea.element.val();
+      // toast.success('搜索关键词:', {
+      //   description: keyWords
+      // });
+      ctx.keywords = keyWords;
+    })
+    .next(async (ctx) => {
+      toast.success('搜索关键词:', {
+        description: ctx.keywords
+      });
+    })
+    .next(async (ctx) => {
+      const metaSoPage = await buildCrossTabAndCheckIn('https://metaso.cn');
+      await metaSoPage.actions().searchKeywordInMetaso(ctx.keywords);
+    })
+    .do();
 };

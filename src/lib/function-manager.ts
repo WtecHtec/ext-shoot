@@ -94,3 +94,9 @@ export async function buildCrossTab(url: string): Promise<CrossTabProxy> {
   const tabId = (await tabAction.createTabInactive(url)) as number;
   return new CrossTabProxy(tabId);
 }
+
+export async function buildCrossTabAndCheckIn(url: string): Promise<CrossTabProxy> {
+  // 模拟创建新标签页并获取 tabId
+  const tabId = (await tabAction.createTabNextToCurrent(url)) as number;
+  return new CrossTabProxy(tabId);
+}

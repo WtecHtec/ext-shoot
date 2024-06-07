@@ -6,7 +6,7 @@ import { Motion } from '~component/cmdk/extension/command';
 import { MotionPack } from '~component/cmdk/extension/command-panel';
 import { GoogleSearchTopic } from '~topics';
 
-import { searchClipboardImage, searchClipboardText, testIt, translateSearchKeywords } from './handle';
+import { searchClipboardImage, searchClipboardText, searchInMetaso, translateSearchKeywords } from './handle';
 
 const superGoogle = () => {
   return (
@@ -66,7 +66,7 @@ const superGoogle = () => {
         description="在秘塔AI中搜索"
         endAfterRun
         handle={async () => {
-          await testIt();
+          await searchInMetaso();
         }}
       />
     </MotionPack>

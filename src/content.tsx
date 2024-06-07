@@ -19,8 +19,8 @@ import { chatgptTopic, feishuTopic, flomoTopic, GoogleSearchTopic } from '~topic
 import { duoZhuaYuTopic } from '~topics/shopping';
 import { jikeTopic, juejinTopic, V2exTopic } from '~topics/social';
 import { handleSetBrowser } from '~utils/actions';
-import { getBrowser, getMutliLevelProperty, isArc } from '~utils/util';
-
+import { getBrowser, getElementXPath, getMutliLevelProperty, isArc } from '~utils/util';
+import $ from 'jquery';
 // import FocusLock from 'react-focus-lock';
 export const config: PlasmoCSConfig = {
   matches: ['<all_urls>'],
@@ -76,9 +76,26 @@ const PlasmoOverlay = () => {
   const [open, setOpen] = React.useState(false);
   const focusRef = useRef(null);
 
+	/** 设置上一次 active_input xptah */
+	const setActiveInputElXpath = () => {
+		try {
+			const activeEl = $(document.activeElement);
+			if (!activeEl || (!activeEl.is('input') && !activeEl.is('textarea'))) {
+				window.sessionStorage.setItem('active_input_xpath', '');
+				return;
+			}
+			const xpath = getElementXPath(document.activeElement);
+			window.sessionStorage.setItem('active_input_xpath', xpath);
+		} catch (error) {
+			console.error('active_input_xpath set value  err:', error);
+		}
+	};
+
+
   const handelMsgBybg = (request, sender, sendResponse) => {
     const { action } = request;
     if (action === 'active_extention_launcher') {
+			setActiveInputElXpath();
       setOpen(!open);
       sendResponse({ result: 'Message processed in content.js' });
     }

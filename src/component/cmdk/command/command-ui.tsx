@@ -21,6 +21,7 @@ import V2EX from '~extension/v2ex';
 import WebTraffic from '~extension/web-traffic';
 import WindowsManager from '~extension/window-agent';
 import X from '~extension/x';
+import SuperInput from '~extension/super-input';
 
 import { searchManager } from '../search/search-manager';
 
@@ -52,6 +53,7 @@ const ExtensionLoader = () => {
   return (
     <CommandCMDK.Group heading={'Results'}>
       {/* <Command.PlaceholderCommand /> */}
+			<SuperInput />
       <FeishuGroupTalk />
       <X />
       <DevTools />

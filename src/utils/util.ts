@@ -158,6 +158,37 @@ function debounce(func: Function, delay: number) {
   };
 }
 
+/** 获取元素的XPath */
+function getElementXPath(element) {
+	// 当元素是BODY元素时，直接返回绝对路径
+	if (element.tagName === 'BODY') {
+			return '/HTML/' + element.tagName;
+	}
+
+	// 获取该元素是其父元素中的第几个同类型子元素
+	let position = 0;
+	const siblings = element.parentNode.childNodes;
+	for (let i = 0; i < siblings.length; i++) {
+			const sibling = siblings[i];
+			// 跳过不是同类型的元素
+			if (sibling.nodeType === 1 && sibling.tagName === element.tagName) {
+					position++;
+			}
+			if (sibling === element) {
+					break;
+			}
+	}
+
+	// 递归获取父元素的XPath
+	const parentPath = getElementXPath(element.parentNode);
+	// 构建当前元素的XPath片段
+	const segment = element.tagName + '[' + position + ']';
+
+	// 合并XPath片段
+	return parentPath + '/' + segment;
+}
+
+
 export {
   getMutliLevelProperty,
   getIcon,
@@ -168,5 +199,6 @@ export {
   getPlatform,
   formatDate,
   getPageInfo,
-  debounce
+  debounce,
+	getElementXPath
 };

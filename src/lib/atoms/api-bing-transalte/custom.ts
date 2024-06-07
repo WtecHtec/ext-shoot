@@ -4,8 +4,9 @@ import { LRUCache } from 'lru-cache';
 export function mightBeChinese(text) {
   // 移除所有空白字符
   const cleanedText = text.replace(/\s+/g, '');
+	console.log('cleanedText---', cleanedText);
   // 取处理后文本的前五个字符
-  const sample = cleanedText.slice(0, 5);
+  const sample = cleanedText && cleanedText.slice(0, 5);
   // 使用正则表达式检查是否含有中文字符
   return /[\u4e00-\u9fa5]/.test(sample);
 }

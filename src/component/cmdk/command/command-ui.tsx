@@ -13,6 +13,7 @@ import HistorySearch from '~extension/history-search';
 import InstantOpen from '~extension/instant-open';
 import Jiker from '~extension/jiker';
 import JueJin from '~extension/juejin';
+import MetasoQuick from '~extension/metaso-quick';
 import QuickOpen from '~extension/quick-open';
 import SuperGoogle from '~extension/super-google';
 import TableManager from '~extension/tab-manager';
@@ -69,6 +70,7 @@ const ExtensionLoader = () => {
       <V2EX />
       <ThemeLover />
       <SuperGoogle />
+      <MetasoQuick />
     </CommandCMDK.Group>
   );
 };

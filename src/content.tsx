@@ -15,7 +15,7 @@ import { createJikePost } from '~extension/jiker/api';
 import { execSignIn } from '~extension/juejin/executes';
 import { execV2exSignIn } from '~extension/v2ex/executes';
 import { functionManager } from '~lib/function-manager';
-import { chatgptTopic, feishuTopic, flomoTopic, GoogleSearchTopic } from '~topics';
+import { chatgptTopic, feishuTopic, flomoTopic, GoogleSearchTopic, MetasoTopic } from '~topics';
 import { duoZhuaYuTopic } from '~topics/shopping';
 import { jikeTopic, juejinTopic, V2exTopic } from '~topics/social';
 import { handleSetBrowser } from '~utils/actions';
@@ -50,7 +50,8 @@ topicManager.registerTopics([
   duoZhuaYuTopic,
   juejinTopic,
   V2exTopic,
-  GoogleSearchTopic
+  GoogleSearchTopic,
+  MetasoTopic
 ]);
 topicManager.checkAndActivateTopics();
 

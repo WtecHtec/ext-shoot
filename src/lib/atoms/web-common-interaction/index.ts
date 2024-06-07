@@ -11,7 +11,7 @@ const methods = {
 
 const runEnv: RunEnv = ['dom'];
 
-export default {
+export const AtomWebInteraction = {
   name: moduleName,
   description,
   runEnv,
@@ -20,3 +20,5 @@ export default {
   },
   methods
 };
+
+export default AtomWebInteraction;

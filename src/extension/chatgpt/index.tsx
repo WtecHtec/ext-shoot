@@ -25,7 +25,7 @@ const TabManagerComand = () => {
   return (
     <CommandPanel title="GPTs" icon={ExtensionLogo} topics={[chatgptTopic]}>
       {/* ConversationObserver */}
-
+      {GotoCommandList()}
       {/* execLastChatBlock */}
       <Command.Simple
         name="exec-last-chat-block"
@@ -76,7 +76,6 @@ const TabManagerComand = () => {
         title={'Check OpenAI Satus'}
         newTab={true}
       />
-      {GotoCommandList()}
       <Command.Simple
         name="reGenerate-last-chat"
         title="ReGenerate Last Chat"

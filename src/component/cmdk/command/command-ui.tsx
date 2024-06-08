@@ -16,15 +16,17 @@ import JueJin from '~extension/juejin';
 import MetasoQuick from '~extension/metaso-quick';
 import QuickOpen from '~extension/quick-open';
 import SuperGoogle from '~extension/super-google';
+import SuperInput from '~extension/super-input';
 import TableManager from '~extension/tab-manager';
 import ThemeLover from '~extension/theme-lover';
 import V2EX from '~extension/v2ex';
 import WebTraffic from '~extension/web-traffic';
 import WindowsManager from '~extension/window-agent';
 import X from '~extension/x';
-import SuperInput from '~extension/super-input';
 
 import { searchManager } from '../search/search-manager';
+
+// import { actionManager } from '../action';
 
 function ExtensionWithSearchLoader() {
   const [search, setSearch] = useState(searchManager.content);
@@ -51,10 +53,19 @@ function ExtensionWithSearchLoader() {
   );
 }
 const ExtensionLoader = () => {
+  // useEffect(() => {
+  //   actionManager.logAllActions();
+  //   const testaction = actionManager.getAction('Go To GPTs Store') as React.ReactElement;
+  //   const actionOne = testaction.props.children.props.children[1];
+  //   console.log('testaction', actionOne.type.run);
+  //   // actionOne.type.run({
+  //   //   url: 'https://baidu.com'
+  //   // });
+  // }, []);
   return (
     <CommandCMDK.Group heading={'Results'}>
       {/* <Command.PlaceholderCommand /> */}
-			<SuperInput />
+      <SuperInput />
       <FeishuGroupTalk />
       <X />
       <DevTools />

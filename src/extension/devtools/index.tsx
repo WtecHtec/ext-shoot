@@ -1,7 +1,7 @@
 import ExtensionLogo from 'data-base64:./icon.png';
 import React from 'react';
 
-import { Command } from '~component/cmdk/extension/command';
+import { Motion } from '~component/cmdk/extension/command';
 import { MotionPack } from '~component/cmdk/extension/command-panel';
 
 import { executeClipboardFunc, executeClipboardScript, safeInjectJQuery } from './handle';
@@ -9,7 +9,7 @@ import { executeClipboardFunc, executeClipboardScript, safeInjectJQuery } from '
 const TabManagerComand = () => {
   return (
     <MotionPack title="DevTools" icon={ExtensionLogo}>
-      <Command.Simple
+      <Motion.Simple
         name="inject-jquery"
         title="Inject JQuery Into Page"
         keywords={['inject', 'jquery']}
@@ -19,7 +19,7 @@ const TabManagerComand = () => {
           await safeInjectJQuery();
         }}
       />
-      <Command.Simple
+      <Motion.Simple
         name="execute-clipboard-func"
         title="立刻执行剪贴板中函数"
         keywords={['exec', 'clipboard', 'func']}
@@ -29,7 +29,7 @@ const TabManagerComand = () => {
           await executeClipboardFunc();
         }}
       />
-      <Command.Simple
+      <Motion.Simple
         name="execute-clipboard-script"
         title="立刻执行剪贴板中脚本"
         keywords={['exec', 'clipboard', 'script']}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Command } from '~component/cmdk/extension/command';
+import { Motion } from '~component/cmdk/extension/command';
 
 import { splitCamelCase } from './util';
 
@@ -15,7 +15,7 @@ export const urlList = {
 
 export function createNavigators(urlList) {
   return Object.entries(urlList).map(([key, url]) => {
-    return <Command.Navigator key={key} url={url as any} title={'Go To ' + splitCamelCase(key).join(' ')} />;
+    return <Motion.Navigator key={key} url={url as any} title={'Go To ' + splitCamelCase(key).join(' ')} />;
   });
 }
 

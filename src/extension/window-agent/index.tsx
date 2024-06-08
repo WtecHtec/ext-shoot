@@ -1,7 +1,7 @@
 import ExtensionLogo from 'data-base64:./icon.png';
 import React from 'react';
 
-import { Command } from '~component/cmdk/extension/command';
+import { Motion } from '~component/cmdk/extension/command';
 import { MotionPack } from '~component/cmdk/extension/command-panel';
 import WindowManage from '~lib/atoms/browser-window-manager';
 
@@ -9,7 +9,7 @@ const windowAction = WindowManage.action;
 const TabManagerComand = () => {
   return (
     <MotionPack title="Windows Agent" icon={ExtensionLogo}>
-      <Command.Simple
+      <Motion.Simple
         name="new-incognito-window"
         title="New Incognito Window"
         keywords={['incognito', 'New Incognito Window']}
@@ -20,7 +20,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.Simple
+      <Motion.Simple
         name="close-current-window"
         title="Close Current Window"
         keywords={['close', 'Close Current Window']}

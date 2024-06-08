@@ -1,7 +1,7 @@
 import ExtensionLogo from 'data-base64:./icon.png';
 import React, { useEffect } from 'react';
 
-import { Command } from '~component/cmdk/extension/command';
+import { Motion } from '~component/cmdk/extension/command';
 import { MotionPack } from '~component/cmdk/extension/command-panel';
 
 import { initMessageProcessor } from './handle';
@@ -21,7 +21,7 @@ const TabManagerComand = () => {
   return (
     <MotionPack title="feishu talker" icon={ExtensionLogo}>
       {/* /监听消息 */}
-      <Command.Simple
+      <Motion.Simple
         name="listenMsgFromFeishu"
         title="监听群聊消息"
         keywords={['listen', 'msg', 'feishu']}

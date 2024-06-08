@@ -7,11 +7,8 @@ export const ExitAndClearSearch = () => {
   exitPanel();
 };
 
-const Command = {
+export const Motion = {
   Simple,
   PlaceholderCommand,
   Navigator
 };
-export { Command };
-
-export const Motion = Command;

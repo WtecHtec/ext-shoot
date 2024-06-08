@@ -1,7 +1,7 @@
 import ExtensionLogo from 'data-base64:./icon.png';
 import React from 'react';
 
-import { Command } from '~component/cmdk/extension/command';
+import { Motion } from '~component/cmdk/extension/command';
 import { MotionPack } from '~component/cmdk/extension/command-panel';
 
 import { repostToJike } from './handle';
@@ -20,7 +20,7 @@ const TabManagerComand = () => {
         }}
       /> */}
       {/* repostToJike */}
-      <Command.Simple
+      <Motion.Simple
         name="repostToJike"
         title="把这篇帖子转发到即刻"
         keywords={['repost', 'jike']}

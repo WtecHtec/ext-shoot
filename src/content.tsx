@@ -15,8 +15,10 @@ import { listerSnapSeekData } from '~extension/history-search/content';
 import { createJikePost } from '~extension/jiker/api';
 import { execSignIn } from '~extension/juejin/executes';
 import { searchMetasoKeyword } from '~extension/metaso-quick/handle';
+import SuperInput from '~extension/super-input';
 import { execV2exSignIn } from '~extension/v2ex/executes';
 import { functionManager } from '~lib/function-manager';
+import { serialize } from '~lib/motion-serialize';
 import { chatgptTopic, feishuTopic, flomoTopic, GoogleSearchTopic, MetasoTopic } from '~topics';
 import { duoZhuaYuTopic } from '~topics/shopping';
 import { jikeTopic, juejinTopic, V2exTopic } from '~topics/social';
@@ -106,11 +108,8 @@ const PlasmoOverlay = () => {
   chrome.runtime.onMessage.addListener(handelMsgBybg);
 
   React.useEffect(() => {
-    // 初始化组件或功能
-
     const updateLauncherState = () => {
       const state = eventBus.getState();
-      // console.log('state', state);
       setOpen(state.dialogs.includes('launcher'));
     };
 
@@ -125,7 +124,6 @@ const PlasmoOverlay = () => {
   }, []);
 
   React.useEffect(() => {
-    // <Escape> to close
     function listener(e: KeyboardEvent) {
       if (e.key === 'Escape') {
         e.preventDefault();
@@ -143,6 +141,11 @@ const PlasmoOverlay = () => {
     return () => document.removeEventListener('keydown', listener);
   }, []);
 
+  useEffect(() => {
+    const serialized = serialize(<SuperInput />);
+    console.log('serialized', serialized);
+    console.log('21321', 21321);
+  }, []);
   useEffect(() => {
     if (open && focusRef.current) {
       focusRef.current.focus();

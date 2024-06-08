@@ -2,7 +2,7 @@ import ExtensionLogo from 'data-base64:./icon.png';
 import React from 'react';
 
 import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { MotionPack } from '~component/cmdk/extension/command-panel';
 import DataManager from '~lib/atoms/browser-cache-manager';
 import TabManager from '~lib/atoms/browser-tab-manager';
 
@@ -10,7 +10,7 @@ const dataAction = DataManager.action;
 const tabAction = TabManager.action;
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="Cache Agent" icon={ExtensionLogo}>
+    <MotionPack title="Cache Agent" icon={ExtensionLogo}>
       <Command.Simple
         name="clear-current-url-cache"
         title="Clear Current Url Cache"
@@ -23,7 +23,7 @@ const TabManagerComand = () => {
           await tabAction.reloadTab();
         }}
       />
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

@@ -2,7 +2,7 @@ import ExtensionLogo from 'data-base64:./icon.jpg';
 import React from 'react';
 
 import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { MotionPack } from '~component/cmdk/extension/command-panel';
 import { jikeTopic } from '~topics';
 
 import { reEditPost } from './change-post';
@@ -25,7 +25,7 @@ import { switchTheme } from './switch-theme';
 
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="Jiker" icon={ExtensionLogo} topics={[jikeTopic]}>
+    <MotionPack title="Jiker" icon={ExtensionLogo} topics={[jikeTopic]}>
       <Command.Simple
         name="test-handle"
         title="测试"
@@ -170,7 +170,7 @@ const TabManagerComand = () => {
         endAfterRun
         handle={toggleTranslateToCnMode}
       />
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

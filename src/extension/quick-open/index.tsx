@@ -2,14 +2,14 @@ import ExtensionLogo from 'data-base64:./icon.png';
 import React from 'react';
 
 import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { MotionPack } from '~component/cmdk/extension/command-panel';
 import TabManager from '~lib/atoms/browser-tab-manager';
 
 const tabAction = TabManager.action;
 
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="Quick Link" icon={ExtensionLogo}>
+    <MotionPack title="Quick Link" icon={ExtensionLogo}>
       <Command.Simple
         name="open-downloads-page"
         title="Downloads Page"
@@ -95,7 +95,7 @@ const TabManagerComand = () => {
           await tabAction.createTab('chrome://settings/languages');
         }}
       />
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

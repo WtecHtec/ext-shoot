@@ -2,7 +2,7 @@ import ExtensionLogo from 'data-base64:./icon.png';
 import React, { useEffect } from 'react';
 
 import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { MotionPack } from '~component/cmdk/extension/command-panel';
 
 import { initMessageProcessor } from './handle';
 
@@ -19,7 +19,7 @@ const TabManagerComand = () => {
     // loadFlomoAction();
   }, []);
   return (
-    <CommandPanel title="feishu talker" icon={ExtensionLogo}>
+    <MotionPack title="feishu talker" icon={ExtensionLogo}>
       {/* /监听消息 */}
       <Command.Simple
         name="listenMsgFromFeishu"
@@ -31,7 +31,7 @@ const TabManagerComand = () => {
           await initMessageProcessor();
         }}
       />
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

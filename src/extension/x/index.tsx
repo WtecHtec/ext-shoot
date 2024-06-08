@@ -2,13 +2,13 @@ import ExtensionLogo from 'data-base64:./icon.png';
 import React from 'react';
 
 import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { MotionPack } from '~component/cmdk/extension/command-panel';
 
 import { repostToJike } from './handle';
 
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="X" icon={ExtensionLogo}>
+    <MotionPack title="X" icon={ExtensionLogo}>
       {/* <Command.Simple
         name="test"
         title="test"
@@ -41,7 +41,7 @@ const TabManagerComand = () => {
           await saveClipboardToFlomo();
         }}
       /> */}
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

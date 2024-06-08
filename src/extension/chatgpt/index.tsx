@@ -3,7 +3,7 @@ import OpenAIStatusLogo from 'data-base64:./icons/status.png';
 import React from 'react';
 
 import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { MotionPack } from '~component/cmdk/extension/command-panel';
 
 import { chatgptTopic } from '../../topics/ai';
 import { GotoCommandList } from './goto';
@@ -23,7 +23,7 @@ import { execLastChatBlock, initConversationObserver } from './handle/self-exec'
 
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="GPTs" icon={ExtensionLogo} topics={[chatgptTopic]}>
+    <MotionPack title="GPTs" icon={ExtensionLogo} topics={[chatgptTopic]}>
       {/* ConversationObserver */}
       {GotoCommandList()}
       {/* execLastChatBlock */}
@@ -164,7 +164,7 @@ const TabManagerComand = () => {
           await checkNewChat();
         }}
       />
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

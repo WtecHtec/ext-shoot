@@ -2,7 +2,7 @@ import ExtensionLogo from 'data-base64:./icon.png';
 import React, { useEffect } from 'react';
 
 import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { MotionPack } from '~component/cmdk/extension/command-panel';
 import { flomoTopic } from '~topics';
 
 import { saveClipboardToFlomo, testIt } from './handle';
@@ -20,7 +20,7 @@ const TabManagerComand = () => {
     // loadFlomoAction();
   }, []);
   return (
-    <CommandPanel title="flomor" icon={ExtensionLogo} topics={[flomoTopic]}>
+    <MotionPack title="flomor" icon={ExtensionLogo} topics={[flomoTopic]}>
       <Command.Simple
         name="test"
         title="test"
@@ -41,7 +41,7 @@ const TabManagerComand = () => {
           await saveClipboardToFlomo();
         }}
       />
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

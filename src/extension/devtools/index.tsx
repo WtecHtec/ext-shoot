@@ -2,13 +2,13 @@ import ExtensionLogo from 'data-base64:./icon.png';
 import React from 'react';
 
 import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { MotionPack } from '~component/cmdk/extension/command-panel';
 
 import { executeClipboardFunc, executeClipboardScript, safeInjectJQuery } from './handle';
 
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="DevTools" icon={ExtensionLogo}>
+    <MotionPack title="DevTools" icon={ExtensionLogo}>
       <Command.Simple
         name="inject-jquery"
         title="Inject JQuery Into Page"
@@ -39,7 +39,7 @@ const TabManagerComand = () => {
           await executeClipboardScript();
         }}
       />
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

@@ -2,7 +2,7 @@ import React from 'react';
 import ExtensionLogo from 'react:./icon.svg';
 
 import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { MotionPack } from '~component/cmdk/extension/command-panel';
 
 import {
   handleDisableAllExtension,
@@ -14,7 +14,7 @@ import {
 
 const ExtensionManagerCommand = () => {
   return (
-    <CommandPanel title="Extenison Agent" icon={<ExtensionLogo />}>
+    <MotionPack title="Extenison Agent" icon={<ExtensionLogo />}>
       <Command.Simple
         name="update-extension-info"
         title="Update Information"
@@ -56,7 +56,7 @@ const ExtensionManagerCommand = () => {
           handleOpenExtensionShortcutsPage();
         }}
       />
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

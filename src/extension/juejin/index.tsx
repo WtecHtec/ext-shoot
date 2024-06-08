@@ -2,14 +2,14 @@ import ExtensionLogo from 'data-base64:./icon.png';
 import React from 'react';
 
 import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { MotionPack } from '~component/cmdk/extension/command-panel';
 import { juejinTopic } from '~topics';
 
 import { handleJuejinSign, switchThemeByJuejin } from './handle';
 
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="JueJin" icon={ExtensionLogo} topics={[juejinTopic]}>
+    <MotionPack title="JueJin" icon={ExtensionLogo} topics={[juejinTopic]}>
       <Command.Simple
         name="juejinsign"
         title="帮我去签到"
@@ -30,7 +30,7 @@ const TabManagerComand = () => {
           await switchThemeByJuejin();
         }}
       />
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

@@ -1,8 +1,7 @@
 import ExtensionLogo from 'data-base64:./icon.jpg';
 import React from 'react';
 
-import { Motion } from '~component/cmdk/extension/command';
-import { MotionPack } from '~component/cmdk/extension/command-panel';
+import { Motion, MotionPack } from '~component/cmdk/extension';
 import { jikeTopic } from '~topics';
 
 import { reEditPost } from './change-post';

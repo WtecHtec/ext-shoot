@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 
+import { MotionPack } from '~component/cmdk/extension';
 import { Action } from '~component/cmdk/extension/Action';
 import { ActionPanel } from '~component/cmdk/extension/ActionPanel';
-import { MotionPack } from '~component/cmdk/extension/command-panel';
 import { ActivatePluginIcon, CopyNameIcon, EnableIcon, ShowInFinderIcon } from '~component/icons';
 import { getExtensionAll } from '~utils/management';
 

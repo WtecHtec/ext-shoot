@@ -10,7 +10,7 @@ const generate = require('@babel/generator').default;
 const t = require('@babel/types');
 
 const injectComponent = (motionPackName, camelCaseMotionPackName) => {
-  const filePath = path.join(__dirname, '../../src/component/cmdk/command/command-ui.tsx');
+  const filePath = path.join(__dirname, '../../src/component/cmdk/motion/motion-ui.tsx');
   const fileContent = fs.readFileSync(filePath, 'utf8');
 
   const ast = parser.parse(fileContent, {

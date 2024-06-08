@@ -1,8 +1,7 @@
 import ExtensionLogo from 'data-base64:./icon.png';
 import React, { useEffect } from 'react';
 
-import { Motion } from '~component/cmdk/extension/command';
-import { MotionPack } from '~component/cmdk/extension/command-panel';
+import { Motion, MotionPack } from '~component/cmdk/extension';
 import { flomoTopic } from '~topics';
 
 import { saveClipboardToFlomo, testIt } from './handle';

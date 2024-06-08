@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Motion } from '~component/cmdk/extension/command';
+import { Motion } from '~component/cmdk/extension/motion';
 
 import { splitCamelCase } from './util';
 

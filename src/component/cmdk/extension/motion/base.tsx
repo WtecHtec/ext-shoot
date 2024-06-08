@@ -3,8 +3,8 @@ import React from 'react';
 
 import { Action } from '~component/cmdk/extension/Action';
 import { ActionPanel } from '~component/cmdk/extension/ActionPanel';
-import { ExitAndClearSearch } from '~component/cmdk/extension/command/index';
 import List from '~component/cmdk/extension/List';
+import { ExitAndClearSearch } from '~component/cmdk/extension/motion/index';
 import { NavigatorIcon } from '~component/icons';
 
 export interface BaseCommand {

@@ -2,8 +2,7 @@ import ExtensionLogo from 'data-base64:./icon.png';
 import MiTaSoLogo from 'data-base64:./icons/mitaso.png';
 import React from 'react';
 
-import { Motion } from '~component/cmdk/extension/command';
-import { MotionPack } from '~component/cmdk/extension/command-panel';
+import { Motion, MotionPack } from '~component/cmdk/extension';
 import { GoogleSearchTopic } from '~topics';
 
 import { searchClipboardImage, searchClipboardText, searchInMetaso, translateSearchKeywords } from './handle';

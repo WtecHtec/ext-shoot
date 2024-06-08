@@ -304,7 +304,7 @@ export const getAllActionMap = () => {
 export const getCommandMetaMap = () => {
   const mapping = {};
   CommandMeta.forEach((item) => {
-    // 给所有的command加一个label command 用于搜索
+    // 给所有的command加一个label motion 用于搜索
     item.keywords.push('command');
     mapping[item.value] = item;
   });

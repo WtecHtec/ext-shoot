@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BaseCommand } from '~component/cmdk/extension/command/base';
+import { BaseCommand } from '~component/cmdk/extension/motion/base';
 import { Topic } from '~component/cmdk/topic/topic';
 
 type CommandPanelProps = {

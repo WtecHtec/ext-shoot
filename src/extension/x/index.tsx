@@ -1,14 +1,13 @@
 import ExtensionLogo from 'data-base64:./icon.png';
 import React from 'react';
 
-import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { Motion, MotionPack } from '~component/cmdk/extension';
 
 import { repostToJike } from './handle';
 
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="X" icon={ExtensionLogo}>
+    <MotionPack title="X" icon={ExtensionLogo}>
       {/* <Command.Simple
         name="test"
         title="test"
@@ -20,7 +19,7 @@ const TabManagerComand = () => {
         }}
       /> */}
       {/* repostToJike */}
-      <Command.Simple
+      <Motion.Simple
         name="repostToJike"
         title="把这篇帖子转发到即刻"
         keywords={['repost', 'jike']}
@@ -41,7 +40,7 @@ const TabManagerComand = () => {
           await saveClipboardToFlomo();
         }}
       /> */}
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

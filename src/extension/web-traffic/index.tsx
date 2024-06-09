@@ -1,15 +1,14 @@
 import ExtensionLogo from 'data-base64:./icon.png';
 import React from 'react';
 
-import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { Motion, MotionPack } from '~component/cmdk/extension';
 
 import { checkTraffic } from './handle';
 
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="Web Traffic" icon={ExtensionLogo}>
-      <Command.Simple
+    <MotionPack title="Web Traffic" icon={ExtensionLogo}>
+      <Motion.Simple
         name="web-traffic"
         title="Go Similarweb"
         keywords={['web traffic', 'web']}
@@ -19,7 +18,7 @@ const TabManagerComand = () => {
           await checkTraffic();
         }}
       />
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

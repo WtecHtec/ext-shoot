@@ -1,15 +1,14 @@
 import ExtensionLogo from 'data-base64:./icon.png';
 import React from 'react';
 
-import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { Motion, MotionPack } from '~component/cmdk/extension';
 import tabManage from '~lib/atoms/browser-tab-manager';
 
 const TabAction = tabManage.action;
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="Tab Agent" icon={ExtensionLogo}>
-      <Command.Simple
+    <MotionPack title="Tab Agent" icon={ExtensionLogo}>
+      <Motion.Simple
         name="reload-page"
         title="Refresh the Page"
         endAfterRun
@@ -18,7 +17,7 @@ const TabManagerComand = () => {
           TabAction.reloadTab();
         }}
       />
-      <Command.Simple
+      <Motion.Simple
         name="duplicate-tab"
         title="Duplicate Current Tab"
         keywords={['duplicate', 'Duplicate Tab']}
@@ -29,7 +28,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.Simple
+      <Motion.Simple
         name="go-back-tab"
         title="Go Back"
         keywords={['go back', 'Go Back Tab']}
@@ -40,7 +39,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.Simple
+      <Motion.Simple
         name="go-forward-tab"
         title="Go Forward"
         keywords={['go forward', 'Go Forward Tab']}
@@ -51,7 +50,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.Simple
+      <Motion.Simple
         name="pin-tab"
         title="Pin ths Page"
         keywords={['pin', 'Pin Tab']}
@@ -61,7 +60,7 @@ const TabManagerComand = () => {
           TabAction.togglePinTab();
         }}
       />
-      <Command.Simple
+      <Motion.Simple
         name="close-current-page"
         title="Close Current Tab"
         keywords={['close', 'Close Current Page']}
@@ -71,7 +70,7 @@ const TabManagerComand = () => {
           TabAction.closeCurrentTab();
         }}
       />
-      <Command.Simple
+      <Motion.Simple
         name="restore-last-page"
         title="Restore Last Close Page"
         keywords={['restore', 'Restore Last Page']}
@@ -81,7 +80,7 @@ const TabManagerComand = () => {
           TabAction.openLastClosedTab();
         }}
       />
-      <Command.Simple
+      <Motion.Simple
         name="mute-current-tab"
         title="Mute Current Tab"
         keywords={['mute', 'Mute Current Tab']}
@@ -91,7 +90,7 @@ const TabManagerComand = () => {
           TabAction.toggleMuteTab();
         }}
       />
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

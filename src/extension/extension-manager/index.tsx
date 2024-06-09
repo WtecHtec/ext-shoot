@@ -1,8 +1,7 @@
 import React from 'react';
 import ExtensionLogo from 'react:./icon.svg';
 
-import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { Motion, MotionPack } from '~component/cmdk/extension';
 
 import {
   handleDisableAllExtension,
@@ -14,14 +13,14 @@ import {
 
 const ExtensionManagerCommand = () => {
   return (
-    <CommandPanel title="Extenison Agent" icon={<ExtensionLogo />}>
-      <Command.Simple
+    <MotionPack title="Extenison Agent" icon={<ExtensionLogo />}>
+      <Motion.Simple
         name="update-extension-info"
         title="Update Information"
         keywords={['update', 'extension', 'info', 'Update Extension Information']}
         handle={HandleIconUpdate}
       />
-      <Command.Simple
+      <Motion.Simple
         name="disable-all-extension"
         title="Disable All Extensions"
         keywords={['disable', 'all', 'extensions', 'Disable All Extensions']}
@@ -29,7 +28,7 @@ const ExtensionManagerCommand = () => {
           handleDisableAllExtension();
         }}
       />
-      <Command.Simple
+      <Motion.Simple
         name="enable_all_extension"
         title="Enable All Extensions"
         keywords={['enable', 'Enable all Extension']}
@@ -38,7 +37,7 @@ const ExtensionManagerCommand = () => {
           handleEnableAllExtension();
         }}
       />
-      <Command.Simple
+      <Motion.Simple
         name="open_extension_home_page"
         title="Open Extension Page"
         keywords={['open', 'extension', 'home', 'Open Extension HomePage']}
@@ -47,7 +46,7 @@ const ExtensionManagerCommand = () => {
           handleOpenExtensionPage();
         }}
       />
-      <Command.Simple
+      <Motion.Simple
         name="change_extension_shortcuts"
         title="Open Extension Shortcuts Page"
         keywords={['shortcuts', 'Change Extenion Shortcuts', 'key', 'keymap', 'keybindings', 'keyboard']}
@@ -56,7 +55,7 @@ const ExtensionManagerCommand = () => {
           handleOpenExtensionShortcutsPage();
         }}
       />
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

@@ -2,8 +2,7 @@ import ExtensionLogo from 'data-base64:./icon.png';
 import OpenAIStatusLogo from 'data-base64:./icons/status.png';
 import React from 'react';
 
-import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { Motion, MotionPack } from '~component/cmdk/extension';
 
 import { chatgptTopic } from '../../topics/ai';
 import { GotoCommandList } from './goto';
@@ -23,11 +22,11 @@ import { execLastChatBlock, initConversationObserver } from './handle/self-exec'
 
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="GPTs" icon={ExtensionLogo} topics={[chatgptTopic]}>
+    <MotionPack title="GPTs" icon={ExtensionLogo} topics={[chatgptTopic]}>
       {/* ConversationObserver */}
       {GotoCommandList()}
       {/* execLastChatBlock */}
-      <Command.Simple
+      <Motion.Simple
         name="exec-last-chat-block"
         title="Exec Last Chat Block"
         keywords={['execLastChatBlock']}
@@ -38,7 +37,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.Simple
+      <Motion.Simple
         name="start-conversation-observer"
         title="Start GPTs Self-Manage Mode"
         keywords={['js', 'exec']}
@@ -48,7 +47,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.Simple
+      <Motion.Simple
         name="copy-last-code-block"
         title="Copy Last Code Block"
         keywords={['copyLastCodeBlock']}
@@ -59,7 +58,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.Simple
+      <Motion.Simple
         name="edit-current-gpts"
         title="Edit Current GPTs"
         keywords={['editCurrentGPTs']}
@@ -70,13 +69,13 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.Navigator
+      <Motion.Navigator
         icon={OpenAIStatusLogo}
         url={'https://status.openai.com/'}
         title={'Check OpenAI Satus'}
         newTab={true}
       />
-      <Command.Simple
+      <Motion.Simple
         name="reGenerate-last-chat"
         title="ReGenerate Last Chat"
         keywords={['reGenerateLastChat']}
@@ -87,7 +86,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.Simple
+      <Motion.Simple
         name="copy-last-chat"
         title="Copy Last Chat"
         keywords={['copyLastChat']}
@@ -98,7 +97,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.Simple
+      <Motion.Simple
         name="read-last-chat"
         title="Read Last Chat"
         keywords={['readLastChat']}
@@ -109,7 +108,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.Simple
+      <Motion.Simple
         name="clear-now-gpts"
         title="Clear Now GPTs"
         keywords={['clearNowGPTs']}
@@ -121,7 +120,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.Simple
+      <Motion.Simple
         name="generate-share-link"
         title="Generate Share Link"
         keywords={['generateShareLink']}
@@ -132,7 +131,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.Simple
+      <Motion.Simple
         name="toggle-full-screen"
         title="Toggle Full Screen"
         keywords={['toggleFullScreen']}
@@ -143,7 +142,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.Simple
+      <Motion.Simple
         name="reverse-prompt"
         title="Reverse Prompt"
         keywords={['reversePrompt']}
@@ -154,7 +153,7 @@ const TabManagerComand = () => {
         }}
       />
 
-      <Command.Simple
+      <Motion.Simple
         name="new-chat"
         title="New Chat"
         keywords={['newChat']}
@@ -164,7 +163,7 @@ const TabManagerComand = () => {
           await checkNewChat();
         }}
       />
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

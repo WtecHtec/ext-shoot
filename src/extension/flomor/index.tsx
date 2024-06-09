@@ -1,8 +1,7 @@
 import ExtensionLogo from 'data-base64:./icon.png';
 import React, { useEffect } from 'react';
 
-import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { Motion, MotionPack } from '~component/cmdk/extension';
 import { flomoTopic } from '~topics';
 
 import { saveClipboardToFlomo, testIt } from './handle';
@@ -20,8 +19,8 @@ const TabManagerComand = () => {
     // loadFlomoAction();
   }, []);
   return (
-    <CommandPanel title="flomor" icon={ExtensionLogo} topics={[flomoTopic]}>
-      <Command.Simple
+    <MotionPack title="flomor" icon={ExtensionLogo} topics={[flomoTopic]}>
+      <Motion.Simple
         name="test"
         title="test"
         keywords={['test']}
@@ -31,7 +30,7 @@ const TabManagerComand = () => {
           await testIt();
         }}
       />
-      <Command.Simple
+      <Motion.Simple
         name="saveClipboardToFlomo"
         title="把剪贴板的内容保存为Memo"
         keywords={['save', 'clipboard', 'flomo']}
@@ -41,7 +40,7 @@ const TabManagerComand = () => {
           await saveClipboardToFlomo();
         }}
       />
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

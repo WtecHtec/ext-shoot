@@ -3,7 +3,7 @@ import React from 'react';
 
 import { CopyNameIcon, ExecuteIcon, ExtensionIcon, StoreIcon } from '~component/icons';
 
-import { ExitAndClearSearch } from './command';
+import { ExitAndClearSearch } from './motion';
 import { Shortcut, ShortCutKBD } from './ShortCut';
 import withRun from './utils';
 

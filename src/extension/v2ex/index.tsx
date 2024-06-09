@@ -1,16 +1,15 @@
 import ExtensionLogo from 'data-base64:./icon.png';
 import React from 'react';
 
-import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { Motion, MotionPack } from '~component/cmdk/extension';
 import { V2exTopic } from '~topics';
 
 import { handleVexSign } from './handle';
 
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="V2ex" icon={ExtensionLogo} topics={[V2exTopic]}>
-      <Command.Simple
+    <MotionPack title="V2ex" icon={ExtensionLogo} topics={[V2exTopic]}>
+      <Motion.Simple
         name="v2ex-sign"
         title="帮我去签到"
         keywords={['sign', '签到', 'v2ex签到']}
@@ -20,7 +19,7 @@ const TabManagerComand = () => {
           await handleVexSign();
         }}
       />
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

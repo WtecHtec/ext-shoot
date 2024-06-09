@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 
+import { MotionPack } from '~component/cmdk/extension';
 import { Action } from '~component/cmdk/extension/Action';
 import { ActionPanel } from '~component/cmdk/extension/ActionPanel';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
 import { ActivatePluginIcon, CopyNameIcon, EnableIcon, ShowInFinderIcon } from '~component/icons';
 import { getExtensionAll } from '~utils/management';
 
@@ -36,7 +36,7 @@ export default function App() {
   // }, [extDatas]); // 这里的依赖项是extDatas
 
   return (
-    <CommandPanel title="Extenison">
+    <MotionPack title="Extenison">
       {extDatas.map((item, index) => {
         return (
           <ExtensionCommand
@@ -132,7 +132,7 @@ export default function App() {
                     console.log('update-extension-info');
                 }}
             /> */}
-    </CommandPanel>
+    </MotionPack>
   );
 }
 

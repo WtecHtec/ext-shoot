@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Action } from '~component/cmdk/extension/Action';
 import { ActionPanel } from '~component/cmdk/extension/ActionPanel';
-import { BaseCommand } from '~component/cmdk/extension/command/base';
 import List from '~component/cmdk/extension/List';
+import { BaseCommand } from '~component/cmdk/extension/motion/base';
 import { ActivatePluginIcon, ExtensionIcon } from '~component/icons';
 
 interface ExtensionCommandProps extends BaseCommand {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BaseCommand } from '~component/cmdk/extension/command/base';
+import { BaseCommand } from '~component/cmdk/extension/motion/base';
 import { Topic } from '~component/cmdk/topic/topic';
 
 type CommandPanelProps = {
@@ -11,7 +11,7 @@ type CommandPanelProps = {
   topics?: Topic[];
 };
 
-const CommandPanel: React.FC<CommandPanelProps> = ({ children, title, icon, topics, keywords }) => {
+const MotionPack: React.FC<CommandPanelProps> = ({ children, title, icon, topics, keywords }) => {
   const enhanceChild = (child: React.ReactNode): React.ReactNode => {
     if (!React.isValidElement<BaseCommand>(child)) {
       return child;
@@ -39,5 +39,5 @@ const CommandPanel: React.FC<CommandPanelProps> = ({ children, title, icon, topi
   return <>{enhancedChildren}</>;
 };
 
-export const MotionPack = CommandPanel;
-export { CommandPanel };
+// export const MotionPack = MotionPack;
+export { MotionPack };

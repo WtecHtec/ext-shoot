@@ -1,16 +1,15 @@
 import ExtensionLogo from 'data-base64:./icon.png';
 import React from 'react';
 
-import { Command } from '~component/cmdk/extension/command';
-import { CommandPanel } from '~component/cmdk/extension/command-panel';
+import { Motion, MotionPack } from '~component/cmdk/extension';
 import { juejinTopic } from '~topics';
 
 import { handleJuejinSign, switchThemeByJuejin } from './handle';
 
 const TabManagerComand = () => {
   return (
-    <CommandPanel title="JueJin" icon={ExtensionLogo} topics={[juejinTopic]}>
-      <Command.Simple
+    <MotionPack title="JueJin" icon={ExtensionLogo} topics={[juejinTopic]}>
+      <Motion.Simple
         name="juejinsign"
         title="帮我去签到"
         keywords={['签到', '掘金签到']}
@@ -20,7 +19,7 @@ const TabManagerComand = () => {
           await handleJuejinSign();
         }}
       />
-      <Command.Simple
+      <Motion.Simple
         name="switch-juejin-theme"
         title="换一个主题"
         keywords={['switch theme', '切换主题']}
@@ -30,7 +29,7 @@ const TabManagerComand = () => {
           await switchThemeByJuejin();
         }}
       />
-    </CommandPanel>
+    </MotionPack>
   );
 };
 

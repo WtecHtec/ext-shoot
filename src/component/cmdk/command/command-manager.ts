@@ -23,7 +23,7 @@ class CommandManager extends StateManager<CommandState> {
     return CommandManager.instance;
   }
 
-  // Method to register a new command
+  // Method to register a new motion
   public registerCommand(commandName: string, command: React.ComponentType<any>): void {
     this.state.registeredCommandMaps.set(commandName, command);
     this.state.commands.push(commandName);
@@ -31,7 +31,7 @@ class CommandManager extends StateManager<CommandState> {
     this.state.commands = Array.from(new Set(this.state.commands));
   }
 
-  // Method to get a command
+  // Method to get a motion
   public getCommand(commandName: string): any {
     return this.state.registeredCommandMaps.get(commandName);
   }

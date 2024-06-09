@@ -58,9 +58,9 @@ const ExtensionLoader = () => {
   //   const testaction = actionManager.getAction('Go To GPTs Store') as React.ReactElement;
   //   const actionOne = testaction.props.children.props.children[1];
   //   console.log('testaction', actionOne.type.run);
-  //   // actionOne.type.run({
-  //   //   url: 'https://baidu.com'
-  //   // });
+  //   actionOne.type.run({
+  //     url: 'https://baidu.com'
+  //   });
   // }, []);
   return (
     <CommandCMDK.Group heading={'Results'}>

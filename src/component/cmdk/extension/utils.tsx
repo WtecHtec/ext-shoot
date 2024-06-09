@@ -17,7 +17,7 @@ function withRun<T extends PureProps>(
       executeFunction(restProps as Omit<T, 'pure'>);
       return null;
     }
-    return <Component {...(props as WithPureProps<T>)} />;
+    return <Component {...(props as WithPureProps<T>)} execute={executeFunction} />;
   };
   WrapperComponent.run = (props: Omit<T, 'pure'>) => executeFunction(props);
   return WrapperComponent;

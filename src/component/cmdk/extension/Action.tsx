@@ -67,35 +67,33 @@ const BaseAction = ({ value, keywords, onSelect, Shortcut, icon, cls = '' }: Act
 interface OpenTabProps {
   url: string;
   title?: string;
+  execute?: (props: { url: string }) => void;
 }
 
 const openNewTab = ({ url }) => {
   window.open(url, '_blank');
   ExitAndClearSearch();
 };
-const OpenTab = ({ title, url }: OpenTabProps) => {
+const OpenTab = ({ title, url, execute }: OpenTabProps) => {
   if (!title) {
     title = 'Open In New Tab';
   }
-  return (
-    <BaseAction value={title} keywords={['open', 'tab']} icon={<StoreIcon />} onSelect={() => openNewTab({ url })} />
-  );
+  return <BaseAction value={title} keywords={['open', 'tab']} icon={<StoreIcon />} onSelect={() => execute({ url })} />;
+};
+
+const navigateToUrl = ({ url }) => {
+  window.location.href = url;
 };
 
 // 示例原有接口
 interface GoToProps {
   url: string;
   title?: string;
+  execute?: (props: { url: string }) => void;
 }
 
-const navigateToUrl = ({ url }) => {
-  window.location.href = url;
-};
-
-const GoTo: React.FC<GoToProps> = ({ title = 'Go To Page', url }) => {
-  return (
-    <BaseAction value={title} keywords={['go', 'to']} icon={<StoreIcon />} onSelect={() => navigateToUrl({ url })} />
-  );
+const GoTo: React.FC<GoToProps> = ({ title = 'Go To Page', url, execute = navigateToUrl }) => {
+  return <BaseAction value={title} keywords={['go', 'to']} icon={<StoreIcon />} onSelect={() => execute({ url })} />;
 };
 
 interface CopyToClipboardProps {

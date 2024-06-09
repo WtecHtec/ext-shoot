@@ -22,8 +22,9 @@
     "build:chrome": "pnpm build --target=chrome-mv3",
     "zip:edge": "pnpm build:edge && node script/remove-log.js --path=edge-mv3-prod --zip",
     "zip:chrome": "pnpm build:chrome && node script/remove-log.js --path=chrome-mv3-prod --zip",
-    "release": "bumpp && npm run zip:chrome",
-    "create:motion": "node script/create-motion/index.js"
+    "publish": "web-ext-deploy --env --verbose",
+    "create:motion": "node script/create-motion/index.js",
+    "release": "bumpp && npm run zip:chrome && npm run publish"
   },
   "dependencies": {
     "@babel/generator": "^7.24.6",
@@ -94,6 +95,7 @@
     "simple-git-hooks": "^2.11.1",
     "typescript": "5.3.3",
     "vitest": "^1.6.0",
+    "web-ext-deploy": "^0.12.13",
     "webextension-polyfill": "^0.10.0",
     "windy-radix-palette": "0.6.1"
   },

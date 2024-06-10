@@ -15,7 +15,8 @@ import { listerSnapSeekData } from '~extension/history-search/content';
 import { createJikePost } from '~extension/jiker/api';
 import { execSignIn } from '~extension/juejin/executes';
 import { searchMetasoKeyword } from '~extension/metaso-quick/handle';
-import SuperInput from '~extension/super-input';
+// import SuperInput from '~extension/super-input';
+import { SuperInputTest } from '~extension/super-input-test';
 import { execV2exSignIn } from '~extension/v2ex/executes';
 import { functionManager } from '~lib/function-manager';
 import { serialize } from '~lib/motion-serialize';
@@ -142,10 +143,15 @@ const PlasmoOverlay = () => {
   }, []);
 
   useEffect(() => {
-    const serialized = serialize(<SuperInput />);
-    console.log('serialized', serialized);
-    console.log('21321', 21321);
+    const fetchSerializedData = async () => {
+      const serialized = await serialize(<SuperInputTest />);
+      console.log('21321', 21321);
+      console.log('serialized', serialized);
+    };
+
+    fetchSerializedData();
   }, []);
+
   useEffect(() => {
     if (open && focusRef.current) {
       focusRef.current.focus();

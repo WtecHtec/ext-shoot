@@ -1,12 +1,6 @@
-/* eslint-disable react/display-name */
-
-import { Command } from 'motion-cmdk';
 import React, { SVGProps } from 'react';
 
-import tabManage from '~lib/atoms/browser-tab-manager';
-
-const PREFIX = 'test-action';
-function LinkIcon(props: SVGProps<SVGSVGElement>) {
+export function InstantLinkIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       width={512}
@@ -80,36 +74,3 @@ function LinkIcon(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-
-const Search = React.forwardRef(({ search }: { search: string }, ref) => {
-  React.useImperativeHandle(ref, () => ({
-    onSearch
-  }));
-
-  const onSearch = () => {
-    const tabAction = tabManage.action;
-    tabAction.duplicateTab();
-  };
-
-  return (
-    <Command.Item
-      key={`${PREFIX}${search}`}
-      value={`${PREFIX}${search}`}
-      keywords={['open', search]}
-      onSelect={() => {
-        onSearch();
-      }}>
-      <LinkIcon></LinkIcon>
-      {`Test Action`}
-      <span cmdk-motionshot-sub="" style={{ flexShrink: 0 }}>
-        {' '}
-        GPTsMotion
-      </span>
-      <span cmdk-motionshot-meta="" style={{ flexShrink: 0 }}>
-        {' '}
-        Command
-      </span>
-    </Command.Item>
-  );
-});
-export default Search;

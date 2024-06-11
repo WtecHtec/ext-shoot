@@ -4,10 +4,10 @@ import useUpdateIcon from '~utils/hooks/useUpdateIcon';
 
 import '~tabs/welcome.css';
 
-import PinIcon from 'react:~asset/helper/pin.svg';
-import PuzzleIcon from 'react:~asset/helper/puzzle.svg';
-import LogoWithUrl from 'react:~asset/logo-with-title.svg';
-import pinVideo from 'url:../asset/helper/pin.mp4';
+import PinIcon from 'react:~resources/helper/pin.svg';
+import PuzzleIcon from 'react:~resources/helper/puzzle.svg';
+import LogoWithUrl from 'react:~resources/logo-with-title.svg';
+import pinVideo from 'url:../resources/helper/pin.mp4';
 
 import { ShootIcon } from '~component/icons';
 

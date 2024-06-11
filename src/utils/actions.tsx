@@ -1,11 +1,11 @@
 import React from 'react';
-import ExtensionClearRecentIcon from 'react:~asset/clear-recent.svg';
-import DisableAllIcon from 'react:~asset/disable-all-extension.svg';
-import EnableAllIcon from 'react:~asset/enable-all-extension.svg';
-import ExtensionHomePageIcon from 'react:~asset/extension-homepage.svg';
-import ExtensionShortcutIcon from 'react:~asset/extension-shortcut.svg';
-import RefreshExtensionInfo from 'react:~asset/refresh_entension_infomation.svg';
-import ExtensionAddSnapShot from 'react:~asset/snapshoot.svg';
+import ExtensionClearRecentIcon from 'react:~resources/clear-recent.svg';
+import DisableAllIcon from 'react:~resources/disable-all-extension.svg';
+import EnableAllIcon from 'react:~resources/enable-all-extension.svg';
+import ExtensionHomePageIcon from 'react:~resources/extension-homepage.svg';
+import ExtensionShortcutIcon from 'react:~resources/extension-shortcut.svg';
+import RefreshExtensionInfo from 'react:~resources/refresh_entension_infomation.svg';
+import ExtensionAddSnapShot from 'react:~resources/snapshoot.svg';
 
 import { footerTip } from '~component/cmdk/tip/tip-ui';
 import {

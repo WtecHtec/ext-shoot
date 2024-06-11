@@ -5,7 +5,6 @@ import { ExtensionLauncher, ExtensionManagerCommand } from '~extension';
 import CacheAgent from '~extension/cache-agent';
 import ChatGPT from '~extension/chatgpt';
 import ChromeStoreSearch from '~extension/chrome-store';
-import ChromeStoreWebSearch from '~extension/chrome-store-web-search';
 import DevTools from '~extension/devtools';
 import FeishuGroupTalk from '~extension/feishu-talk';
 import Flomor from '~extension/flomor';
@@ -46,7 +45,6 @@ function ExtensionWithSearchLoader() {
       <CommandCMDK.Group heading={`Use "${search}" with ... `}>
         <HistorySearch search={search}></HistorySearch>
         <ChromeStoreSearch search={search}></ChromeStoreSearch>
-        <ChromeStoreWebSearch search={search}></ChromeStoreWebSearch>
         <InstantOpen search={search}></InstantOpen>
       </CommandCMDK.Group>
     )

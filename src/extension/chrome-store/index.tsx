@@ -1,16 +1,22 @@
 /* eslint-disable react/display-name */
 
+/* eslint-disable react/display-name */
 import React from 'react';
 
 import { appManager } from '~component/cmdk/app/app-manager';
-import { Action } from '~component/cmdk/extension/Action';
-import { ActionPanel } from '~component/cmdk/extension/ActionPanel';
-import List from '~component/cmdk/extension/List';
+import { Motion, MotionPack } from '~component/cmdk/extension';
 import { searchManager } from '~component/cmdk/search/search-manager';
+import { GoogleStoreIcon } from '~component/icons';
+import { splitCamelCase } from '~extension/chatgpt/goto/util';
 
 import { AppIcon } from './icon';
 
 const PREFIX = 'ChromeStoreSearch2222';
+
+function chromeStoreLink(word: string): string {
+  const link = `https://chromewebstore.google.com/search/${word}`;
+  return link;
+}
 
 const Search = ({ search }: { search: string }) => {
   const onSearch = () => {
@@ -21,25 +27,23 @@ const Search = ({ search }: { search: string }) => {
   };
 
   return (
-    <List.Item
-      key={`${PREFIX}${search}`}
-      id={`${PREFIX}${search}`}
-      keywords={['chrome', search]}
-      title="Chrome Store"
-      icon={<AppIcon></AppIcon>}
-      onSelect={onSearch}
-      actions={
-        <ActionPanel head="Chrome Store">
-          <ActionPanel.Section>
-            <Action.OpenTab url={`https://chrome.google.com/webstore/search/${search}`} />
-            <Action.CopyToClipboard
-              content={`https://chrome.google.com/webstore/search/${search}`}
-              shortcut={{ modifiers: ['cmd'], key: 'c' }}
-            />
-          </ActionPanel.Section>
-        </ActionPanel>
-      }
-    />
+    <MotionPack title="Chrome Store">
+      <Motion.Simple
+        icon={<AppIcon />}
+        key={`${PREFIX}${search}`}
+        name="chrome-store-search"
+        title="Chrome Store Search"
+        keywords={['chrome', search]}
+        description="Chrome Store Search"
+        handle={onSearch}></Motion.Simple>
+
+      <Motion.Navigator
+        icon={<GoogleStoreIcon />}
+        keywords={['chrome', 'store', search]}
+        url={chromeStoreLink(search) as any}
+        title={'Search ' + splitCamelCase(search as string) + ' in Chrome Store'}
+      />
+    </MotionPack>
   );
 };
 export default Search;

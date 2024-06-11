@@ -23,7 +23,6 @@ import { jikeTopic, juejinTopic, V2exTopic } from '~topics/social';
 import { handleSetBrowser } from '~utils/actions';
 import { getBrowser, getElementXPath, getMutliLevelProperty, isArc } from '~utils/util';
 
-// import FocusLock from 'react-focus-lock';
 export const config: PlasmoCSConfig = {
   matches: ['<all_urls>'],
   exclude_matches: ['https://gemini.google.com/*'],
@@ -152,7 +151,6 @@ const PlasmoOverlay = () => {
     <>
       <div
         ref={focusRef}
-        // style={ { display: open ? 'block' : 'none' } }
         className="fixed z-50 flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
         {open ? (
           <CMDKWrapper>

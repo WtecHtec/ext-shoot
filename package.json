@@ -60,7 +60,6 @@
     "plasmo": "^0.74.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-focus-lock": "^2.11.2",
     "react-locky": "^1.5.7",
     "sonner": "^1.4.3",
     "tailwind-merge": "^2.2.2",

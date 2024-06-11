@@ -1,6 +1,7 @@
 import componentStyles from 'data-text:~style.all.scss';
 import cssText from 'data-text:~style.css';
 import $ from 'jquery';
+import { Command } from 'motion-cmdk';
 import type { PlasmoCSConfig } from 'plasmo';
 import React, { useEffect, useRef } from 'react';
 
@@ -19,7 +20,7 @@ import { searchMetasoKeyword } from '~extension/metaso-quick/handle';
 import { SuperInputTest } from '~extension/super-input-test';
 import { execV2exSignIn } from '~extension/v2ex/executes';
 import { functionManager } from '~lib/function-manager';
-import { serialize } from '~lib/motion-serialize';
+import { serialize2 } from '~lib/motion-serialize';
 import { chatgptTopic, feishuTopic, flomoTopic, GoogleSearchTopic, MetasoTopic } from '~topics';
 import { duoZhuaYuTopic } from '~topics/shopping';
 import { jikeTopic, juejinTopic, V2exTopic } from '~topics/social';
@@ -144,9 +145,19 @@ const PlasmoOverlay = () => {
 
   useEffect(() => {
     const fetchSerializedData = async () => {
-      const serialized = await serialize(<SuperInputTest />);
-      console.log('21321', 21321);
-      console.log('serialized', serialized);
+      // 为什么这里写？
+      // 我希望无头浏览器也可以执行这个代码
+      const serialized = await serialize2(
+        <Command>
+          <SuperInputTest />
+          {/* <superGoogle /> */}
+        </Command>
+      );
+      console.warn('serialized', serialized);
+      // const firstMotion = serialized[0];
+      // const func = firstMotion.props.onSelect;
+      // console.log('func', func());
+      // console.warn('serialized', JSON.stringify(serialized));
     };
 
     fetchSerializedData();

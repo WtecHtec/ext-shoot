@@ -64,7 +64,6 @@ const ExtensionLoader = () => {
   // }, []);
   return (
     <CommandCMDK.Group heading={'Results'}>
-      {/* <Command.PlaceholderCommand /> */}
       <SuperInput />
       <FeishuGroupTalk />
       <X />

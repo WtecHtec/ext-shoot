@@ -32,8 +32,8 @@ export const Simple: React.FC<SimpleProps> = ({ handle, endAfterRun, ...props })
     : handle;
 
   return (
-    <List.Item
-      id={props.name}
+    <List.CMDItem
+      // id={props.name}
       key={props.name}
       title={props.title || props.name}
       {...props}
@@ -56,14 +56,14 @@ export const PlaceholderCommand: React.FC = () => {
 export interface NavigatorCommandProps extends Omit<BaseCommand, 'name'> {
   url: string;
   name?: string;
-  newTab?: boolean; // 默认是否在新标签页中打开
+  newTab?: boolean;
 }
 
 export const Navigator: React.FC<NavigatorCommandProps> = ({ url, newTab = false, ...props }) => {
   const navigate = newTab ? () => Action.OpenTab.run({ url }) : () => Action.GoTo.run({ url });
   const name = props?.name || props.title;
   return (
-    <List.Item
+    <List.CMDItem
       id={name}
       key={name}
       title={props.title}

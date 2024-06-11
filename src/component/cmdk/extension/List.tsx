@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 
 import { Command } from 'motion-cmdk';
-import React, { useEffect } from 'react';
+import React, { useEffect, useId } from 'react';
 
 import { ExtensionIcon } from '~component/icons';
 
@@ -9,10 +9,10 @@ import { actionManager } from '../action';
 import { DEFAULT_AUTHOR } from '../core/constant';
 
 interface ListItemProps {
-  id: string;
   title: string;
   subtitle?: string;
   keywords?: string[];
+  id?: string;
   type?: string;
   extension?: string | null;
   actions?: React.ReactNode;
@@ -24,19 +24,9 @@ interface ListItemProps {
   right?: string | React.ReactNode;
 }
 
-export function Item({
-  id,
-  title,
-  extension,
-  type,
-  icon,
-  labels,
-  actions,
-  children,
-  keywords,
-  onSelect,
-  cls = ''
-}: ListItemProps) {
+export function Item(props: ListItemProps) {
+  const { title, extension, type, icon, labels, actions, children, onSelect, cls = '', ...etc } = props;
+
   const renderIcon = () => {
     if (!icon) return null;
     if (typeof icon === 'string') {
@@ -81,11 +71,89 @@ export function Item({
     registerActionPanel();
   }, []);
 
+  const id = useId();
+
+  return (
+    <div
+      className={cls ? cls : ''}
+      {...etc}
+      id={id}
+      onSelect={() => {
+        handleSelect();
+      }}>
+      {renderIcon()}
+      <div>
+        <h3>{title}</h3>
+      </div>
+      {children}
+      <span cmdk-motionshot-sub="" style={{ flexShrink: 0 }}>
+        {' '}
+        {renderExtensionName()}
+      </span>
+      <span cmdk-motionshot-meta="" style={{ flexShrink: 0 }}>
+        <span cmdk-motionshot-label="" style={{ flexShrink: 0 }}>
+          {renderLabel()}
+        </span>{' '}
+        {renderKind()}
+      </span>
+    </div>
+  );
+}
+
+export function CMDItem(props: ListItemProps) {
+  const { title, extension, type, icon, labels, actions, children, onSelect, cls = '', ...etc } = props;
+
+  const renderIcon = () => {
+    if (!icon) return null;
+    if (typeof icon === 'string') {
+      return <ExtensionIcon base64={icon} />;
+    }
+    if (React.isValidElement(icon)) {
+      return icon;
+    }
+  };
+
+  const renderLabel = () => {
+    if (!labels) return null;
+    if (Array.isArray(labels)) {
+      return labels.map((item, index) => (
+        <span key={index} className="cmdk-motionsho-label-item">
+          {item}
+        </span>
+      ));
+    }
+  };
+
+  const renderExtensionName = () => {
+    if (extension === null) return '';
+    if (!extension) return DEFAULT_AUTHOR;
+    return extension;
+  };
+
+  const renderKind = () => {
+    if (!type) return 'Command';
+    return type;
+  };
+
+  const handleSelect = () => {
+    typeof onSelect === 'function' && onSelect();
+  };
+
+  const registerActionPanel = () => {
+    actionManager.registerAction(id, actions);
+    // actionManager.logAllActions();
+  };
+  useEffect(() => {
+    registerActionPanel();
+  }, []);
+
+  const id = useId();
+
   return (
     <Command.Item
       className={cls ? cls : ''}
-      value={id}
-      keywords={keywords}
+      {...etc}
+      id={id}
       onSelect={() => {
         handleSelect();
       }}>
@@ -163,6 +231,6 @@ const Tag = ({ content }: { content: string | React.ReactNode }) => {
   return <div className="snap-seek-item-search-tag"> {content}</div>;
 };
 
-const List = { Item, InfoItem, Tag };
+const List = { Item, InfoItem, Tag, CMDItem };
 
 export default List;

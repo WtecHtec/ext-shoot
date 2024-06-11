@@ -253,9 +253,9 @@ function StoreSearch() {
   );
 }
 
-const meta = {
+const ChromeStoreSearchApp = {
   name: 'Store Search',
   App: StoreSearch
 };
 
-export default meta;
+export { ChromeStoreSearchApp };

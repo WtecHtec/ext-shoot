@@ -29,10 +29,6 @@ function getBase64FromIconUrl(iconUrl: string): Promise<string> {
   });
 }
 
-// 接收来自bg的消息
-
-// Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'get_extension_icon_blob') {
     console.log(request);
@@ -47,6 +43,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;
   }
 });
+
 export default function iconRender() {
   return (
     <div

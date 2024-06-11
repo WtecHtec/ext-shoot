@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import useUpdateIcon from '~hooks/useUpdateIcon';
+import useUpdateIcon from '~utils/hooks/useUpdateIcon';
 
 import '~tabs/welcome.css';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { AC_ICON_UPDATED } from '~config/actions';
-import useUpdateIcon from '~hooks/useUpdateIcon';
+import useUpdateIcon from '~utils/hooks/useUpdateIcon';
 
 import '~tabs/update.css';
 
@@ -14,7 +14,6 @@ export default function UpdateRender() {
       timer = setTimeout(() => {
         setUpdated(true);
         chrome.runtime.sendMessage({ action: AC_ICON_UPDATED }, function () {
-          // console.log(response);
           window.close();
         });
       }, 1000 * 2);

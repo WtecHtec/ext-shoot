@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { ExtensionLauncher, ExtensionManagerCommand } from '~extension';
 import CacheAgent from '~extension/cache-agent';
 import ChatGPT from '~extension/chatgpt';
-import ChromeStoreSearch from '~extension/chrome-store-search';
+import ChromeStoreSearch from '~extension/chrome-store';
 import ChromeStoreWebSearch from '~extension/chrome-store-web-search';
 import DevTools from '~extension/devtools';
 import FeishuGroupTalk from '~extension/feishu-talk';

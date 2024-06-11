@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
-// Simulated plugin imports
-import storeSearch from '~app/store-search';
-import HistorySearch from '~extension/history-search/app';
+import { ChromeStoreSearchApp } from '~extension/chrome-store/app';
+import { HistorySearchApp } from '~extension/history-search/app';
 
 import { appManager } from './app-manager';
 
-// Define a plugin interface
 interface Plugin {
   name: string;
   App: React.ComponentType<any>;
 }
 
 // Example plugin objects, assuming imports are objects with 'name' and 'component'
-const plugins: Plugin[] = [storeSearch, HistorySearch];
+const plugins: Plugin[] = [ChromeStoreSearchApp, HistorySearchApp];
 
 // Create a mapping from plugin names to their React components
 const pluginComponents: { [key: string]: React.ComponentType<any> } = plugins.reduce(

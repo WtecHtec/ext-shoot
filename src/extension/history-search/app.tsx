@@ -111,9 +111,9 @@ function HistorySearch() {
   );
 }
 
-const meta = {
+const HistorySearchApp = {
   name: 'History Search',
   App: HistorySearch
 };
 
-export default meta;
+export { HistorySearchApp };

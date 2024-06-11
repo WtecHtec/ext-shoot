@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-const useDebounce = (fn, delay, deep = []) => {
+export const useDebounce = (fn, delay, deep = []) => {
   const ref = useRef({
     fn,
     time: null
@@ -21,5 +21,3 @@ const useDebounce = (fn, delay, deep = []) => {
     [deep]
   );
 };
-
-export default useDebounce;

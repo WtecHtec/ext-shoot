@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import List from '~component/cmdk/extension/List';
 import { searchManager } from '~component/cmdk/search/search-manager';
 import { GlobeIcon } from '~component/icons';
-import useDebounce from '~hooks/useDebounce';
+import { useDebounce } from '~extension/history-search/hooks';
 import { getSnapSeekData } from '~utils/management';
 
 function HistorySearch() {

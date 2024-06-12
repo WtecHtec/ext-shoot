@@ -97,7 +97,7 @@ export const translateSearchKeywords = async () => {
 };
 
 export const searchInMetaso = async () => {
-  newJob()
+  await newJob()
     .next(async (ctx) => {
       const searchArea = await ctx.finder.withFunc(atom.superGoogle.findSearchTextarea);
       const keyWords = await searchArea.element.val();

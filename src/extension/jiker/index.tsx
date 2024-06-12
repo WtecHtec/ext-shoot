@@ -16,7 +16,6 @@ import {
   gotoPageRecommend,
   gotoProductLaunchEvent,
   showNotification,
-  testHandle,
   toggleTranslateToCnMode
 } from './handle';
 import { switchAccount } from './switch-account';
@@ -25,23 +24,23 @@ import { switchTheme } from './switch-theme';
 const TabManagerComand = () => {
   return (
     <MotionPack title="Jiker" icon={ExtensionLogo} topics={[jikeTopic]}>
-      <Motion.Simple
-        name="test-handle"
-        title="测试"
-        keywords={['test handle', '测试']}
-        description="测试"
-        endAfterRun
-        handle={testHandle}
-      />
+      {/*<Motion.Simple*/}
+      {/*  name="test-handle"*/}
+      {/*  title="测试"*/}
+      {/*  keywords={['test handle', '测试']}*/}
+      {/*  description="测试"*/}
+      {/*  endAfterRun*/}
+      {/*  handle={testHandle}*/}
+      {/*/>*/}
 
       <Motion.Simple
         name="export-person-blog-feishu"
-        title="把这个同志的所有博客导出到飞书多维表格"
+        title="导出当前用户的博客到飞书多维表格"
         keywords={['export blog', '导出博客', '多维表格']}
         description="导出当前用户的博客到飞书多维表格"
         endAfterRun
-        handle={() => {
-          exportUserPostsToFeiShu();
+        handle={async () => {
+          await exportUserPostsToFeiShu();
         }}
       />
 

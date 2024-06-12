@@ -216,26 +216,29 @@ export const exportUserPostsToExcel = async () => {
 //     return true;
 // }
 
+export const exportUserPostsToFeiShu = async () => {
+  if (!(await startExportProcess())) return;
+  const result = await getProcessedUserPosts();
+  toast(`一共发现 ${result.length} 篇博客，正在导出中...`);
+  // todo: 这里有问题，不能全部导出
+  // console.log('result', result);
+  if (!(await exportFeishu(result))) return;
+};
+
 async function exportFeishu(datas) {
+  // 复制模板链接
   const copyUrl =
     'https://fi0xqe16ql1.feishu.cn/drive/create/?_tid=d19e4a50-18af-11ef-8e9e-8589b3bde5cf&_type=BEAR_CREATE_BY_TEMPLATE_NEW&extraInfo=%257B%257D&from=create_suite_template&searchParams=%257B%257D&teaExtraParams=%257B%257D&teaOption=%257B%2522template_token%2522%253A%25221fad8fa243aa39cb607623bf29eda9275028b841%2522%252C%2522template_name%2522%253A%2522542dc0c48d577f06f53c1a22e9662fb5c316111b%2522%252C%2522template_type%2522%253A%2522ugc%2522%252C%2522module%2522%253A%2522bitable%2522%252C%2522file_type%2522%253A%2522bitable%2522%252C%2522custom_open_source_backup%2522%253A%2522%2522%257D&teaSourceEvent=template_mark_banner&token=TnXEbolXga6ne0s6VjJcszcBntd&type=8&previous_navigation_time=1716432888694';
   const newPage = await buildCrossTab(copyUrl);
-  const { result: ifUseTemplate } = await newPage.actionsFilter('jikeexportfeishu').executeExportFeishu(datas);
+  await newPage.waitForLoad({
+    regex: /https:\/\/([a-zA-Z0-9-]+).feishu.cn\/base\/([a-zA-Z0-9]+)\?table=([a-zA-Z0-9]+)/.toString().slice(1, -1)
+  });
+  await newPage.checkIfLoaded();
+  console.log('newPage has load');
+  const { result: ifUseTemplate } = await newPage.actions().executeExportFeishu(datas);
   if (!ifUseTemplate) {
     toast('请先使用模板哦');
     return false;
   }
   return true;
 }
-
-export const exportUserPostsToFeiShu = async () => {
-  if (!(await startExportProcess())) return;
-  const result = await getProcessedUserPosts();
-  toast(`一共发现 ${result.length} 篇博客，正在导出中...`);
-  console.log('result', result);
-  if (!(await exportFeishu(result))) return;
-  // chrome.runtime.sendMessage({
-  //     action: 'ac_create_feishu',
-  //     data: [...result]
-  // });
-};

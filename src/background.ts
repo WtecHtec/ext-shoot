@@ -50,28 +50,27 @@ chrome.runtime.onInstalled.addListener((object) => {
   const manifest = chrome.runtime.getManifest();
   const injectIntoTab = (tab) => {
     const scripts = manifest.content_scripts[0].js;
-		console.log('scripts---', scripts, manifest);
     const s = scripts.length;
     for (let i = 0; i < s; i++) {
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
         files: [scripts[i]]
       });
-		}
-		const cssFiles = [...(manifest.content_scripts[0].css)];
-		try {
-			manifest.web_accessible_resources.forEach((item) =>  {
-				cssFiles.push(...(item.resources.filter( p => /^content.*\.css$/.test(p))));
-			});
-		} catch (error) {
-			console.log(error);
-		}
-		if (cssFiles && cssFiles.length) {
-			chrome.scripting.insertCSS({
-				target: { tabId: tab.id },
-				files: [...cssFiles]
-			});
-		}
+    }
+    const cssFiles = [...manifest.content_scripts[0].css];
+    try {
+      manifest.web_accessible_resources.forEach((item) => {
+        cssFiles.push(...item.resources.filter((p) => /^content.*\.css$/.test(p)));
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    if (cssFiles && cssFiles.length) {
+      chrome.scripting.insertCSS({
+        target: { tabId: tab.id },
+        files: [...cssFiles]
+      });
+    }
   };
 
   // Get all windows

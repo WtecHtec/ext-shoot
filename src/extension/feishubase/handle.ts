@@ -48,9 +48,36 @@ export async function executeExportFeishu(...args): Promise<boolean> {
   if (!isLogin) {
     return false;
   }
-  const feishuRegex = /https:\/\/([a-zA-Z0-9]+).feishu.cn\/base\/([a-zA-Z0-9]+)\?table=([a-zA-Z0-9]+)/;
+  const feishuRegex = /https:\/\/([a-zA-Z0-9-]+).feishu.cn\/base\/([a-zA-Z0-9]+)\?table=([a-zA-Z0-9]+)/;
   const matchs = window.location.href?.match(feishuRegex);
   // console.log('executeExportFeishu----', args);
   await handleExportFeishu(args[0], '', matchs);
   return true;
 }
+//
+// export async function executeExportFeishu(...args): Promise<boolean> {
+//     alert('123123');
+//     await newJob()
+//         .next(async () => {
+//             const feishuRegex = /https:\/\/([a-zA-Z0-9]+).feishu.cn\/base\/([a-zA-Z0-9]+)\?table=([a-zA-Z0-9]+)/;
+//             const matchs = window.location.href?.match(feishuRegex);
+//             if (matchs && matchs.length >= 3) {
+//                 return true;
+//             }
+//             else
+//                 throw new Error('当前不是飞书表格页面');
+//         }, {
+//             retry: 3,
+//             delay: 1000
+//         })
+//         .next(async () => {
+//             console.log('123123', 123123);
+//             console.log('args', args);
+//             alert('123123');
+//         })
+//         .do();
+//
+//     return true;
+//
+//
+// }

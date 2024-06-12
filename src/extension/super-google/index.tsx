@@ -9,21 +9,7 @@ import { searchClipboardImage, searchClipboardText, searchInMetaso, translateSea
 
 const superGoogle = () => {
   return (
-    <MotionPack
-      title="SuperGoogle"
-      icon={ExtensionLogo}
-      // keywords={['']}
-      topics={[GoogleSearchTopic]}>
-      {/* <Motion.Simple
-        name="test"
-        title="test Title"
-        keywords={['test']}
-        description="test Description"
-        endAfterRun
-        handle={async () => {
-          await testIt();
-        }}
-      /> */}
+    <MotionPack title="SuperGoogle" icon={ExtensionLogo} topics={[GoogleSearchTopic]}>
       <Motion.Simple
         name="translate-search-keywords"
         title="将搜索关键词翻译为英文"

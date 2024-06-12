@@ -1,4 +1,5 @@
 import TabManager from '~lib/atoms/browser-tab-manager';
+import { WaitForTabOptions } from '~lib/atoms/browser-tab-manager/tab-load';
 
 class FunctionManager {
   private functions: { [key: string]: (...args: any[]) => Promise<any> } = {};
@@ -28,37 +29,31 @@ class FunctionManager {
         sendResponse({ success: false, error: error.message });
       }
     } else {
-      sendResponse({ success: false, error: `Function ${functionName} is not registered.` });
+      sendResponse({
+        success: false,
+        error: `Function ${functionName} is not registered.`
+      });
     }
   }
 }
 
-// 实例化 FunctionManager 并注册需要的函数
 export const functionManager = new FunctionManager();
 
 const tabAction = TabManager.action;
 
 class CrossTabProxy {
-  private tabId: number;
+  public tabId: number;
 
   constructor(tabId: number) {
     this.tabId = tabId;
   }
 
-  // 添加一个actions方法返回一个新的Proxy，用于实现特定的操作
-  actions() {
+  actions(): any {
     return new Proxy(
       {},
       {
         get: (_, prop) => {
           if (typeof prop !== 'string') return undefined;
-
-          // if (['then', 'catch', 'finally'].includes(prop)) {
-          //     // 处理Promise特有的方法
-          //     return undefined; // 这会让Promise认为这不是一个thenable对象
-          // }
-
-          // 返回一个函数，这个函数会调用invokeFunctionInTab来在特定标签页执行对应的方法
           return async (...args: any[]) => {
             console.log(`Calling ${prop} on tab ${this.tabId} with args:`, args);
             return tabAction.invokeFunctionInTab(this.tabId, prop, args);
@@ -68,22 +63,19 @@ class CrossTabProxy {
     );
   }
 
-  actionsFilter(filter) {
-    return new Proxy(
-      {},
-      {
-        get: (_, prop) => {
-          if (typeof prop !== 'string') return undefined;
-
-          // 返回一个函数，这个函数会调用invokeFunctionInTab来在特定标签页执行对应的方法
-          return async (...args: any[]) => {
-            console.log(`Calling ${prop} on tab ${this.tabId} with args:`, args, filter);
-            return tabAction.invokeFunctionInTabFilter(this.tabId, prop, filter, args);
-          };
-        }
-      }
-    );
+  get id() {
+    return this.tabId;
   }
+
+  async waitForLoad(options: WaitForTabOptions = {}) {
+    console.log('options', options);
+    return await tabAction.waitForTabToLoad(this.tabId, options);
+  }
+
+  async checkIfLoaded() {
+    return await tabAction.isTabLoaded(this.tabId);
+  }
+
   async close() {
     return await tabAction.closeTab(this.tabId);
   }

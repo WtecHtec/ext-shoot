@@ -1,4 +1,6 @@
-# Ext Shoot
+# SuperMotion
+
+AI-Ready Automate Atoms to Boost Web Browsing Experience
 
 <samp>
 
@@ -6,40 +8,20 @@
 
 </samp>
 
-面向开发者的下一代扩展管理平台
-![HomePage222](https://github.com/WtecHtec/ext-shoot/assets/50035229/75767009-131c-4a43-8cfa-312853bfc8f2)
+![HomePage222](https://lh3.googleusercontent.com/17dHhnJD_EvfdCeqyqBUr3XP2tKtOie6IUcM3ZyKrgK0wPwIY5-h6UQZV4cIK7nVpBLIZ45UbOO2CqeEzK8J1Gla0Q=s1280-w1280-h800)
 
-🔍 **搜索即触达**
+## 🚀 SuperMotion 开发者共识
 
-- 关键词匹配高效搜索插件 `默认快捷键 Command+I`
-- 自动根据使用习惯和时间排序，常用扩展优先显示
-- 在一个界面内完成搜索、安装，无需离开控制台
+1. 不要浪费时间在UI上，直接给你最好的
+2. 不要维护超过三个以上的网站，你的精力有限
+3. 突破共识大胆想象，AI 多少都不为过
+4. 保持你的责任心，be a nice man
 
-⚡️ **快速直达**
+## 👓 Motion Hub 不完全列表
 
-- 一步激活和启动扩展
-- 显示所有自定义扩展页面，实现快速跳转
-- 扩展管理一键完成，包括启动、禁用和卸载
-
-🗂️ **扩展管理**
-
-- 支持扩展运行快照，批量操作启用或禁用
-- 灵活的规则匹配，为每个网站配备最佳扩展
-
-🛠️ **开发者专属**
-
-- 一键访问插件源代码，同时支持本地和网络下载
-- 独立的Solo运行模式，确保测试环境的纯净
-- 轻松复制扩展标题和ID，提高开发效率
-
-🚀 **流畅体验**
-
-- 简约设计，轻盈运行，减轻资源负担
-- 兼容多种浏览器，包括Chrome、Edge和Arc
-- 规则导入功能，便于从其他扩展管理器无缝迁移
-
-💁 **Show in Finder**
-
-- 需要启动服务.[extss](https://www.npmjs.com/package/extss)
-
-💌 **Extenion Shoot，重塑你的扩展管理体验！**
+- #即刻 相关 motion
+- #ChatGPT 相关 motion
+- #浮墨笔记 相关 motion
+- #GoogleSearch 相关 motion
+- 插件管理：提供对其他浏览器插件的启动、源代码查看、状态管理等功能
+- 输入框翻译
